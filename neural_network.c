@@ -1,6 +1,6 @@
 #include "neural_network.h"
 #include "adc_collector.h"
-#include  "neural_network_params.h"
+#include "neural_network_params.h"
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -24,13 +24,12 @@ void fwd_conv1D(struct Conv1D L, float ***W, float *b,  uint16_t ** window){
         for (int j=0; j<L.filters; j++){
             L.h[i][j]= b[j];
             for (int x=0; x<L.kernel_size; x++){
-                for (int y=0; y<1; y++){
+                for (int y=0; y<NUM_ADC; y++){
                     L.h[i][j] += W[x][y][j] * window[i+x][y];
                 }    
             }
         }
     }
-
 }
 
 void set_maxpool1D(struct MaxPooling1D L, int input_shape, int pool_size, int strides){
@@ -69,6 +68,9 @@ void fwd_dense(struct Dense L, float ** W, float * b, uint16_t * window){
         for (int j=0; j<L.input_shape; j++){
             L.h[i]+= W[j][i] * window[j]; 
         }
+        if (L.activation=='r'){
+            L.h[i]= max(L.h[i], 0.0);
+        } 
     } 
 }
 
@@ -91,6 +93,7 @@ void neural_network_forward()
     // This will feed forward the neural newtork. 
     // First, we need to declare the structures 
     // for each layer. 
+    
     struct Conv1D L1;
     set_conv1D(L1, WINDOW_SIZE, 20, 12);
     fwd_conv1D(L1, W_0, b_0, window)

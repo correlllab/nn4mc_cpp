@@ -36,7 +36,6 @@ struct Flatten2D1D {
     static float *h;
 };
 
-void set_neural_net_arch();
 void neural_network_forward();
 
 #endif
