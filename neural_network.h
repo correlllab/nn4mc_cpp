@@ -27,7 +27,13 @@ struct Dense {
     int input_size;
     int output_size;
     char activation;
-    static float **h;
+    static float *h;
+};
+
+struct Flatten2D1D {
+    int in_shape_0;
+    int in_shape_1;
+    static float *h;
 };
 
 void set_neural_net_arch();
