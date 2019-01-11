@@ -88,6 +88,7 @@ void flatten2D1D(struct Flatten2D1D FLAT, struct MaxPooling1D PREV){
             FLAT.h[idx] = PREV.h[i][j];
         }
     }
+    FLAT.output_size= FLAT.in_shape_0*FLAT.in_shape_1;
 }
 
 void neural_network_forward()
@@ -97,27 +98,27 @@ void neural_network_forward()
     // for each layer. 
     
     struct Conv1D L1;
-    set_conv1D(L1, WINDOW_SIZE, 20, 12);
+    set_conv1D(L1, WINDOW_SIZE, 2, 2);
     fwd_conv1D(L1, W_0, b_0, window);
     struct MaxPooling1D MP1;
-    set_maxpool1D(MP1, L1.output_shape, 12, 1);
+    set_maxpool1D(MP1, L1.output_shape, 2, 1);
     fwd_maxpool1D(MP1, W_1, b_1, L1.h);
     struct Conv1D L2;
-    set_conv1D(L2, MP1.output_shape, 20, 12);
+    set_conv1D(L2, MP1.output_shape, 2, 2);
     fwd_conv1D(L2, W_2, b_2, MP1.h);
     struct MaxPooling1D MP2;
-    set_maxpool1D(MP2, L2.output_shape, 12, 1);
+    set_maxpool1D(MP2, L2.output_shape, 2, 1);
     fwd_maxpool1D(MP2, W_3, b_3, L2.h);
     struct Flatten2D1D FL;
     flatten2D1D(FL, MP2);
     struct Dense D1;
-    set_dense(D1, FL.output_shape, 1000,  'r');
+    set_dense(D1, FL.output_size, 5,  'r');
     fwd_dense(D1, W_4, b_4, FL.h);
     struct Dense D2;
-    set_dense(D2, D1.output_shape, 500, 'r');
+    set_dense(D2, D1.output_size, 3, 'r');
     fwd_dense(D2, W_5, b_5, D1.h);
     struct Dense D3;
-    set_dense(D3, D2.output_shape, 3, 'n');
+    set_dense(D3, D2.output_size, 1, 'n');
     fwd_dense(D3, W_6, b_6, D2.h);
 }
 

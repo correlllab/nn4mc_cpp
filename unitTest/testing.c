@@ -8,6 +8,6 @@ int main(){
     struct Conv1D L1;
     printf("here\n"); 
     set_conv1D(L1, 6, 2, 2);
-    printf("here1\n");
+    
     return 0;
 }

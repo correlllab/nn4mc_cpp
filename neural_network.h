@@ -34,9 +34,9 @@ struct Flatten2D1D {
     int in_shape_0;
     int in_shape_1;
     float *h;
+    int output_size;
 };
 
-void set_conv1D(struct Conv1D L, int input_shape, int kernel_size, int filters);
 
 #endif
 
