@@ -1,6 +1,8 @@
 #include "neural_network.h"
-#include "adc_collector.h"
+//#include "adc_collector.h"
 #include "neural_network_params.h"
+#include <stdlib.h>
+
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -10,9 +12,9 @@ void set_conv1D(struct Conv1D L, int input_shape, int kernel_size, int filters){
     L.input_shape= input_shape;
     L.kernel_size = kernel_size;
     L.filters= filters;
-    L.h = malloc((input_shape-kernel_size+1) * sizeof(float*));
+    L.h = (float **)malloc((input_shape-kernel_size+1) * sizeof(float*));
     for (int i=0; i< (input_shape- kernel_size+1); i++){
-        L.h[i] = malloc(filters * sizeof(float));
+        L.h[i] = (float*)malloc(filters * sizeof(float));
     }
     num_layers++;
     L.output_shape= (int)((input_shape-kernel_size+1)/2.0);
@@ -46,7 +48,7 @@ void set_maxpool1D(struct MaxPooling1D L, int input_shape, int pool_size, int st
 }
 
 void fwd_maxpool1D(struct MaxPooling1D L, float ***W, float *b, uint16_t ** window){
-    for (int i=0; i< L.input_size){
+    for (int i=0; i< L.input_size; i++){
         for (int j=0; j<L.pool_size; j++){
             L.h[i][j] = max(window[2*i][j], window[2*i+1][j]);
         }
