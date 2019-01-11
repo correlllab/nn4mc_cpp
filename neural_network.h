@@ -36,7 +36,7 @@ struct Flatten2D1D {
     float *h;
 };
 
-//void neural_network_forward();
+void set_conv1D(struct Conv1D L, int input_shape, int kernel_size, int filters);
 
 #endif
 
