@@ -2,7 +2,7 @@
 #define __NEURAL_NETWORK_H__
 
 
-#define WINDOW_SIZE     6
+#define WINDOW_SIZE     50
 #define NUM_ADC         2
 
 volatile int num_layers= 0;
