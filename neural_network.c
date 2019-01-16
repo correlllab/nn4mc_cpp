@@ -100,20 +100,14 @@ void neural_network_forward()
     float window[2][50]= {{1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1},
                           {1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1}}; 
     struct Conv1D L1;
-    set_conv1D(L1, WINDOW_SIZE, 2, 2);
+    set_conv1D(L1, WINDOW_SIZE, 4, 8);
     fwd_conv1D(L1, 50, 2, 8, W_0, b_0, window);
     // struct for given layer, first, second, third dim of W, W_0 tensor, b_0 vector, window;
-    struct MaxPooling1D MP1;
-    set_maxpool1D(MP1, L1.output_shape, 2, 1);
-    fwd_maxpool1D(MP1, W_1, b_1, L1.h);
     struct Conv1D L2;
-    set_conv1D(L2, MP1.output_shape, 2, 2);
-    fwd_conv1D(L2, W_2, b_2, MP1.h);
-    struct MaxPooling1D MP2;
-    set_maxpool1D(MP2, L2.output_shape, 2, 1);
-    fwd_maxpool1D(MP2, W_3, b_3, L2.h);
+    set_conv1D(L2, L1.output_shape, 4, 8);
+    fwd_conv1D(L2, 4, 8, 8, W_1, b_1, L1.h);
     struct Flatten2D1D FL;
-    flatten2D1D(FL, MP2);
+    flatten2D1D(FL, L2);
     struct Dense D1;
     set_dense(D1, FL.output_size, 5,  'r');
     fwd_dense(D1, W_4, b_4, FL.h);
