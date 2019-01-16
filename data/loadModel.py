@@ -11,10 +11,11 @@ textFile= open("we.txt", "w")
 
 layer= int(sys.argv[1])
 print(model.summary())
-
+input_size= model.layers[layer].input_shape
 weights= model.layers[layer].get_weights()[0] #weights
 biases= model.layers[layer].get_weights()[1] #biases
-
+print("input_shape:")
+print(input_size)
 print("Shape Weights:")
 print(weights.shape)
 print("Shape biases:")
