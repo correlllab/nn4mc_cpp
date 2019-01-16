@@ -2,6 +2,7 @@
 //#include "adc_collector.h"
 #include "neural_network_params.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -23,14 +24,16 @@ void set_conv1D(struct Conv1D L, int input_sh1, int input_sh2, int kernel_size, 
 }
 
 void fwd_conv1D(struct Conv1D L, int a, int bb, int c, const float W[a][bb][c], const float * b, float window[L.input_sh1][L.input_sh2]){
-
+    
     for (int i=0; i<L.input_sh1-L.kernel_size+1; i++){
         for (int j=0; j<L.filters; j++){
             L.h[i][j]= b[j];
             for (int x=0; x<L.kernel_size; x++){
                 for (int y=0; y<NUM_ADC; y++){
                     L.h[i][j] += W[x][y][j] * window[i+x][y];
+                    printf("%.6f", L.h[i][j]);
                 }    
+                printf("\n");
             }
         }
     }
