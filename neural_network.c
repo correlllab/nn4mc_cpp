@@ -101,21 +101,26 @@ void neural_network_forward()
                           {1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1}}; 
     struct Conv1D L1;
     set_conv1D(L1, WINDOW_SIZE, 4, 8);
-    fwd_conv1D(L1, 50, 2, 8, W_0, b_0, window);
-    // struct for given layer, first, second, third dim of W, W_0 tensor, b_0 vector, window;
+    fwd_conv1D(L1, 4, 2, 8, W_0, b_0, window);
     struct Conv1D L2;
     set_conv1D(L2, L1.output_shape, 4, 8);
     fwd_conv1D(L2, 4, 8, 8, W_1, b_1, L1.h);
     struct Flatten2D1D FL;
     flatten2D1D(FL, L2);
     struct Dense D1;
-    set_dense(D1, FL.output_size, 5,  'r');
-    fwd_dense(D1, W_4, b_4, FL.h);
+    set_dense(D1, FL.output_size, 64,  'r');
+    fwd_dense(D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);
     struct Dense D2;
-    set_dense(D2, D1.output_size, 3, 'r');
-    fwd_dense(D2, W_5, b_5, D1.h);
+    set_dense(D2,  D1.output_size, 32, 'r');
+    fwd_dense(D2, D2.input_size, D2.output_size, 32, W_3, b_3, D1.h);
     struct Dense D3;
-    set_dense(D3, D2.output_size, 1, 'n');
-    fwd_dense(D3, W_6, b_6, D2.h);
+    set_dense(D3, D2.output_size, 16, 'n');
+    fwd_dense(D3, D3.input_size, D3.output_size, W_4, b_4, D2.h);
+    struct Dense D4;
+    set_dense(D4, D3.output_size, 8, 'n');
+    fwd_dense(D4, D4.input_size, D4.output_size, W_5, b_5, D3.h);
+    struct Dense D5;
+    set_dense(D5, D4.output_size, 3, 'n');
+    fwd_dense(D5, D5.input_size, D5.output_size, W_6, b_6, D4.h);
 }
 
