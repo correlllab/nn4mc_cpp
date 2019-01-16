@@ -9,9 +9,8 @@ model= load_model('weights.best.hdf5')
 
 print(model.summary())
 
-
 weights= model.layers[0].get_weights()[0] #weights
-biases= model.layers[0].get_weights()[1]#biases
+biases= model.layers[0].get_weights()[1] #biases
 
 strWeights= str(weights)
 strBiases= str(biases)
@@ -25,7 +24,7 @@ print(strWeights)
 strBiases= strBiases.replace('[', '{')
 strBiases= strBiases.replace(']', '}')
 strBiases= strBiases.replace(' ', ',')
-
+print()
 print(strBiases)
 
 print(model.layers[0])

@@ -8,6 +8,7 @@
 
 void set_conv1D(struct Conv1D L, int input_shape, int kernel_size, int filters){
     // These will emulate the constructors
+
     L.input_shape= input_shape;
     L.kernel_size = kernel_size;
     L.filters= filters;
@@ -19,7 +20,7 @@ void set_conv1D(struct Conv1D L, int input_shape, int kernel_size, int filters){
     L.output_shape= (int)((input_shape-kernel_size+1)/2.0);
 }
 
-void fwd_conv1D(struct Conv1D L, float ***W, float *b,  float ** window){
+void fwd_conv1D(struct Conv1D L, int a, int bb, int c, const float W[a][bb][c], const float * b,  float ** window){
 
     for (int i=0; i<L.input_shape-L.kernel_size+1; i++){
         for (int j=0; j<L.filters; j++){
@@ -46,7 +47,7 @@ void set_maxpool1D(struct MaxPooling1D L, int input_shape, int pool_size, int st
     L.output_shape= pool_size;
 }
 
-void fwd_maxpool1D(struct MaxPooling1D L, float ***W, float *b, float ** window){
+void fwd_maxpool1D(struct MaxPooling1D L, int a, int bb, int c, float W[a][bb][c], float *b, float ** window){
     for (int i=0; i< L.input_shape; i++){
         for (int j=0; j<L.pool_size; j++){
             L.h[i][j] = max(window[2*i][j], window[2*i+1][j]);
@@ -64,7 +65,7 @@ void set_dense(struct Dense L, int input_size, int output_size, char activation)
    L.h= malloc(output_size * sizeof (float));
 }
 
-void fwd_dense(struct Dense L, float ** W, float * b, float * window){
+void fwd_dense(struct Dense L, int a, int bb, float W[a][bb], float * b, float * window){
     for (int i=0; i<L.output_size; i++){
         L.h[i] = b[i];
         for (int j=0; j<L.input_size; j++){
@@ -96,10 +97,12 @@ void neural_network_forward()
     // This will feed forward the neural newtork. 
     // First, we need to declare the structures 
     // for each layer. 
-    
+    float window[2][50]= {{1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1},
+                          {1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1}}; 
     struct Conv1D L1;
     set_conv1D(L1, WINDOW_SIZE, 2, 2);
-    fwd_conv1D(L1, W_0, b_0, window);
+    fwd_conv1D(L1, 50, 2, 8, W_0, b_0, window);
+    // struct for given layer, first, second, third dim of W, W_0 tensor, b_0 vector, window;
     struct MaxPooling1D MP1;
     set_maxpool1D(MP1, L1.output_shape, 2, 1);
     fwd_maxpool1D(MP1, W_1, b_1, L1.h);
