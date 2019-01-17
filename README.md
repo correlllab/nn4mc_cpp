@@ -1,6 +1,7 @@
 # nn4mp
 ### Started by Sarah Aguasvivas (January 2019)
 
+
 In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we want to be able to flash a microcontroller with our trained neural network model (which we trained offline, in another computer) with a code that is easy to use and reusable.  
 
 
@@ -15,4 +16,6 @@ gcc -g testing.c
 ```
 
 That will allow you to compile and even print partial results by typing `a.out` for debugging purposes. 
+
+This repo is a generalization of the repository created by Dana Hughes https://github.com/danathughes/esp32_neural_net 
 
