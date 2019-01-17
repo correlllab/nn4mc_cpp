@@ -16,7 +16,24 @@ If you are interested in running that example case, you can use the following
 gcc -g testing.c
 ```
 
-That will allow you to compile and even print partial results by typing `a.out` for debugging purposes. 
+That will allow you to compile and even print partial results by typing `a.out` for debugging purposes.
 
 
+#### REPO TREE:
+
+.
+|-- neural_network.c
+|-- neural_network_params.h
+|-- neural_network.h
+|-- data
+    |-- loadModel.py
+    |-- nn_file.hdf5
+|-- example_usage
+    |-- testing.c
+
+`neural_network.c`: Here the functions and operations with the neural network objects are performed. 
+`neural_network.h`: Here the structures and main characteristics of the neural network are defined.
+`neural_network_params.h`: Here the parameters learned in a desktop machine are declared.
+`data/`: This file contains functions and scripts to help generate  `neural_network_params.h`.
+`example_usage/`: This file contains a test case, which is currently a neural network that Radhen wrote in Keras.
 

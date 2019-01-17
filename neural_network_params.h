@@ -5,6 +5,13 @@
 extern "C" {
 #endif
 
+/*
+                        Neural Network Parameters
+
+ These are supposed to be parameters that were learned in a desktop computer using data from whatever sensor(s) it needs. 
+    Cooper is working on automatizing the process of creating this file from the .hdf5 file.
+*/
+
 const float W_0[4][2][8] = {{{ 0.15247995,  0.44903588, -0.07470523, -0.35327554,  0.01951236,
                     0.11827913, -0.3727434 ,  0.17265542},
                     {-0.42381167, -0.00849618,  0.00329162, -0.05617338,  0.02514647,

@@ -1,5 +1,4 @@
 #include "neural_network.h"
-//#include "adc_collector.h"
 #include "neural_network_params.h"
 #include <stdlib.h>
 
@@ -10,9 +9,10 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     // These will emulate the constructors
     struct Conv1D L; 
     L= *LL;
-
+    
     L.input_sh1= input_sh1;
     L.input_sh2= input_sh2;
+
     L.kernel_size = kernel_size;
 
     L.filters= filters;
@@ -22,22 +22,24 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     }
     num_layers++;
     L.output_shape= (int)((input_sh1-kernel_size+1)/2.0);
-
+    
     *LL = L;
 }
 
 void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, int w1, int w2, float window[w1][w2]){
    struct Conv1D L;
    L= *LL;
+    printf("%d", L.input_sh1);   
     for (int i=0; i<L.input_sh1-L.kernel_size+1; i++){
         for (int j=0; j<L.filters; j++){
             L.h[i][j]= b[j];
             for (int x=0; x<L.kernel_size; x++){
                 for (int y=0; y<NUM_ADC; y++){
                     L.h[i][j] += W[x][y][j] * window[i+x][y];
-                }    
+                }
             }
         }
+        
     }
     *LL = L;
 }
