@@ -21,6 +21,7 @@ That will allow you to compile and even print partial results by typing `a.out` 
 
 #### REPO TREE:
 
+$ tree
 .
 |-- neural_network.c
 |-- neural_network_params.h
