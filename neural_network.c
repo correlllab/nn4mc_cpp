@@ -136,7 +136,7 @@ void neural_network_forward()
     fwd_dense(D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);
     struct Dense D2;
     set_dense(D2,  D1.output_size, 32, 'r');
-    fwd_dense(D2, D2.input_size, D2.output_size, 32, W_3, b_3, D1.h);
+    fwd_dense(D2, D2.input_size, D2.output_size, W_3, b_3, D1.h);
     struct Dense D3;
     set_dense(D3, D2.output_size, 16, 'r');
     fwd_dense(D3, D3.input_size, D3.output_size, W_4, b_4, D2.h);
