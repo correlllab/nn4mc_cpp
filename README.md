@@ -1,6 +1,5 @@
-# nn4mp
+# nn4mp: Neural Networks for Microcontrollers
 ### Started by Sarah Aguasvivas (January 2019)
-
 
 In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we want to be able to flash a microcontroller with our trained neural network model (which we trained offline, in another computer) with a code that is easy to use and reusable.  
 
