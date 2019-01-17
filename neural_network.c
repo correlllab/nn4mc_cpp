@@ -124,7 +124,7 @@ void flatten2D1DfromConv(struct Flatten2D1D * FLATFLAT, struct Conv1D PREV){
 void flatten2D1D(struct Flatten2D1D * FLATFLAT, struct MaxPooling1D PREV){
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;
-    FLAT.in_shape_0 = sizeof(PREV.h)/ sizeof(PREV.h[0]);
+    FLAT.in_shape_0 = sizeof(PREV.h)/sizeof(PREV.h[0]);
     FLAT.in_shape_1 = sizeof(PREV.h[0])/FLAT.in_shape_0;
 
     FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1 * sizeof(float));
@@ -150,9 +150,10 @@ void neural_network_forward()
     struct Conv1D L1;
     set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8);
     fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, L1.input_sh1, L1.input_sh2, window);
+    printf("%.6f", L1.h[0][0]);
     struct Conv1D L2;
-    set_conv1D(&L2, L1.output_shape, 8, 4, 8);
-    fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L2.input_sh1, L2.input_sh2, L1.h);
+    set_conv1D(&L2, 47, 8, 4, 8);
+    fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L2.input_sh1, L2.input_sh2, *L1.h);
     struct Flatten2D1D FL;
     flatten2D1DfromConv(&FL, L2);
     struct Dense D1;
