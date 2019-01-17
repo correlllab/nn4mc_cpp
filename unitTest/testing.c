@@ -3,6 +3,5 @@
 #include "../neural_network.c"
 
 int main(){
-    
     return 0;
 }
