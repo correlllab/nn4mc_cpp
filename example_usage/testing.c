@@ -13,7 +13,6 @@ float window[50][2]= {{1, 1}, {1, 1}, {1,1}, {1, 1}, {1, 1},{1, 1}, {1, 1}, {1,1
 struct Conv1D L1; 
 set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
 fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, L1.input_sh1, L1.input_sh2, window);
-
 struct Conv1D L2; 
 set_conv1D(&L2, 47, 8, 4, 8); 
 fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L2.input_sh1, L2.input_sh2, L1.h);
