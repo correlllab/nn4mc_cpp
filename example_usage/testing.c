@@ -33,8 +33,14 @@ fwd_dense(&D4, D4.input_size, D4.output_size, W_5, b_5, D3.h);
 struct Dense D5; 
 set_dense(&D5, D4.output_size, 3, 'n');
 fwd_dense(&D5, D5.input_size, D5.output_size, W_6, b_6, D4.h);
-printf("%.6f ", D5.h[0]);
-printf("%.6f ", D5.h[1]);
-printf("%.6f ", D5.h[2]);
+
+
+printf("Prediction:");
+for (int i=0; i<D5.output_size; i++){
+    printf("%.6f  ", D5.h[i]);
+}
+// should be [[ 0.01106095  0.02823588 -1.213638   ]] from python implementation
+// is -0.081070  0.161499  0.147813
+
 return 0;
 }
