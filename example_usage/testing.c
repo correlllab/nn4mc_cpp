@@ -20,7 +20,12 @@ set_conv1D(&L2, 47, 8, 4, 8);
 fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, 47, 8, L1.h);
 
 struct Flatten2D1D FL; 
-flatten2D1D(&FL, 44, 8, L1.h);
+flatten2D1D(&FL, 44, 8, L2.h);
+
+for (int i=0; i<44*8; i++){
+    printf("%f ", FL.h[i]);
+}
+printf("\n\n");
 
 struct Dense D1; 
 set_dense(&D1, FL.output_size, 64, 'r');
@@ -47,6 +52,7 @@ printf("Prediction:");
 for (int i=0; i<D5.output_size; i++){
     printf("%.6f  ", D5.h[i]);
 }
+printf("\n");
 // should be [[ 0.01106095  0.02823588 -1.213638   ]] from python implementation
 // is -0.081070  0.161499  0.147813
 
