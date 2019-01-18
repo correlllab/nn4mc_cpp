@@ -99,15 +99,15 @@ void fwd_dense(struct Dense * LL, int a, int bb, const float W[a][bb], const flo
     *LL = L;
 }
 
-void flatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b,  float window[a][b]){
+void flatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b,float window[a][b]){
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;
-    FLAT.in_shape_0 = ROWS(window); 
-    FLAT.in_shape_1 = COLS(window);
+    FLAT.in_shape_0 = a; 
+    FLAT.in_shape_1 = b;
     FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1 * sizeof(float));
     for (int i=0; i<FLAT.in_shape_0; i++){
         for (int j=0; j<FLAT.in_shape_1; j++){
-            int idx= FLAT.in_shape_0*i+j;
+            int idx= FLAT.in_shape_1*i+j;
             FLAT.h[idx] = window[i][j];
         }
     }

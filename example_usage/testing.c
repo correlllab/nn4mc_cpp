@@ -54,7 +54,6 @@ for (int i=0; i<D5.output_size; i++){
 }
 printf("\n");
 // should be [[ 0.01106095  0.02823588 -1.213638   ]] from python implementation
-// is -0.081070  0.161499  0.147813
 
 return 0;
 }
