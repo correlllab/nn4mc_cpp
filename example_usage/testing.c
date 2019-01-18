@@ -22,11 +22,6 @@ fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, 47, 8, L1.h);
 struct Flatten2D1D FL; 
 flatten2D1D(&FL, 44, 8, L2.h);
 
-for (int i=0; i<44*8; i++){
-    printf("%f ", FL.h[i]);
-}
-printf("\n\n");
-
 struct Dense D1; 
 set_dense(&D1, FL.output_size, 64, 'r');
 fwd_dense(&D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);

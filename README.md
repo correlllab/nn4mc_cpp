@@ -35,10 +35,10 @@ That will allow you to compile and even print partial results by typing `a.out` 
 ```
 
 
-`neural_network.c`: Here the functions and operations with the neural network objects are performed. 
-`neural_network.h`: Here the structures and main characteristics of the neural network are defined.
-`neural_network_params.h`: Here the parameters learned in a desktop machine are declared.
-`data/`: This file contains functions and scripts to help generate  `neural_network_params.h`.
+`neural_network.c`: Here the functions and operations with the neural network objects are performed. <br/>
+`neural_network.h`: Here the structures and main characteristics of the neural network are defined.<br/>
+`neural_network_params.h`: Here the parameters learned in a desktop machine are declared.<br/>
+`data/`: This file contains functions and scripts to help generate  `neural_network_params.h`.<br/>
 `example_usage/`: This file contains a test case, which is currently a neural network that Radhen wrote in Keras.
 
 
