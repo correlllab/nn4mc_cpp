@@ -4,32 +4,28 @@
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
+#define COLS(arr) ((int)sizeof(arr[0]))
+#define ROWS(arr) ((int)(sizeof(arr)/sizeof(arr[0])))
 
 void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_size, int filters){
     // These will emulate the constructors
     struct Conv1D L; 
     L= *LL;
-    
     L.input_sh1= input_sh1;
     L.input_sh2= input_sh2;
-
     L.kernel_size = kernel_size;
-
     L.filters= filters;
-    L.h = (float **)malloc((input_sh1-L.kernel_size+1) * sizeof(float*));
-    for (int i=0; i< (input_sh1- kernel_size+1); i++){
-        L.h[i] = (float*)malloc(filters * sizeof(float));
+    L.h = (float **)malloc((L.input_sh1-L.kernel_size+1) * sizeof(float*));
+    for (int i=0; i< (L.input_sh1- L.kernel_size+1); i++){
+        L.h[i] = (float*)malloc(L.filters * sizeof(float));
     }
-    num_layers++;
-    L.output_shape= (int)((input_sh1-kernel_size+1)/2.0);
-    
+    L.output_shape= (int)(L.input_sh1-L.kernel_size+1);
     *LL = L;
 }
 
 void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, int w1, int w2, float window[w1][w2]){
-   struct Conv1D L;
-   L= *LL;
-    printf("%d", L.input_sh1);   
+    struct Conv1D L;
+    L= *LL;
     for (int i=0; i<L.input_sh1-L.kernel_size+1; i++){
         for (int j=0; j<L.filters; j++){
             L.h[i][j]= b[j];
@@ -39,15 +35,15 @@ void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c
                 }
             }
         }
-        
     }
     *LL = L;
 }
 
 void set_maxpool1D(struct MaxPooling1D * LL, int input_sh1,int input_sh2, int pool_size, int strides){
+   // These will emulate the constructors
+    
     struct MaxPooling1D L;
     L= *LL;
-    // These will emulate the constructors
     L.pool_size = pool_size;
     L.strides= strides;
     L.input_sh1 = input_sh1;
@@ -55,16 +51,16 @@ void set_maxpool1D(struct MaxPooling1D * LL, int input_sh1,int input_sh2, int po
     num_layers++;
     L.h= malloc((int)(L.input_sh1 * sizeof(float*)));
     for (int i=0; i<(int)L.input_sh1; i++){
-        L.h[i]= malloc(pool_size * sizeof(float));
+        L.h[i]= malloc(L.pool_size * sizeof(float));
     }
-    L.output_shape= pool_size;
+    L.output_shape= L.pool_size;
     L.input_sh1= L.input_sh1;
-    L.input_sh2= pool_size;
+    L.input_sh2= L.pool_size;
+    num_layers++;
     *LL = L;
 }
 
 void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W[a][bb][c], const float *b, int w1, int w2, float window[w1][w2]){
-    
     struct MaxPooling1D L;
     L= *LL;
     for (int i=0; i< L.input_sh1; i++){
@@ -77,13 +73,14 @@ void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W
 
 void set_dense(struct Dense * LL, int input_size, int output_size, char activation){
     // These will emulate the constructor
-    struct Dense L;
+   
+   struct Dense L;
    L= *LL;
    L.input_size= input_size;
    L.output_size= output_size;
    L.activation = activation;
    num_layers++;
-   L.h= malloc(output_size * sizeof (float));
+   L.h= malloc(L.output_size * sizeof (float));
    *LL = L;
 }
 
@@ -102,37 +99,16 @@ void fwd_dense(struct Dense * LL, int a, int bb, const float W[a][bb], const flo
     *LL = L;
 }
 
-void flatten2D1DfromConv(struct Flatten2D1D * FLATFLAT, struct Conv1D PREV){
-    struct Flatten2D1D FLAT;
-    FLAT = *FLATFLAT;
-    FLAT.in_shape_0 = sizeof(PREV.h)/ sizeof(PREV.h[0]);
-    FLAT.in_shape_1 = sizeof(PREV.h[0])/FLAT.in_shape_0;
-
-    FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1 * sizeof(float));
-
-    for (int i=0; i<FLAT.in_shape_0; i++){
-        for (int j=0; j<FLAT.in_shape_1; j++){
-            int idx= FLAT.in_shape_0*i+j;
-            FLAT.h[idx] = PREV.h[i][j];
-        }
-    }
-    FLAT.output_size= FLAT.in_shape_0*FLAT.in_shape_1;
-
-    *FLATFLAT= FLAT;
-}
-
-void flatten2D1D(struct Flatten2D1D * FLATFLAT, struct MaxPooling1D PREV){
+void flatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b,  float window[a][b]){
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;
-    FLAT.in_shape_0 = sizeof(PREV.h)/sizeof(PREV.h[0]);
-    FLAT.in_shape_1 = sizeof(PREV.h[0])/FLAT.in_shape_0;
-
+    FLAT.in_shape_0 = ROWS(window); 
+    FLAT.in_shape_1 = COLS(window);
     FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1 * sizeof(float));
-
     for (int i=0; i<FLAT.in_shape_0; i++){
         for (int j=0; j<FLAT.in_shape_1; j++){
             int idx= FLAT.in_shape_0*i+j;
-            FLAT.h[idx] = PREV.h[i][j];
+            FLAT.h[idx] = window[i][j];
         }
     }
     FLAT.output_size= FLAT.in_shape_0*FLAT.in_shape_1;
