@@ -6,9 +6,9 @@ import numpy as np
 
 sample= np.ones((50, 2))
 sample= np.reshape(sample, (1, 50, 2))
-model= load_model('../data/weights.best.hdf5')
+model = load_model('../data/weights.best.hdf5')
 
-model.compile(optimizer='rmsprop', loss= 'mse')
+model.compile(optimizer='adam', loss= 'mse')
 
 prediction = model.predict(sample)
 print(prediction)

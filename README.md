@@ -16,13 +16,11 @@ If you are interested in running that example case, you can use the following
 gcc -g testing.c
 ```
 
-That will allow you to compile and even print partial results by typing `a.out` for debugging purposes.
+That will allow you to compile and even print partial results by typing `./a.out` for debugging purposes.
 
 
 #### REPO TREE:
-
-``` bash
-.
+``` bash .
 |-- neural_network.c
 |-- neural_network_params.h
 |-- neural_network.h

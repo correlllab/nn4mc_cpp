@@ -2,12 +2,16 @@
 import sys
 import h5py
 import numpy as np
+from keras import backend as K
 from keras.models import load_model
 np.set_printoptions(threshold=np.nan)
 
 f= h5py.File('weights.best.hdf5', 'r')
 model= load_model('weights.best.hdf5')
 textFile= open("we.txt", "w")
+
+outputs = [layer.output for layer in model.layers]          # all layer outputs
+functor = K.function([inp, K.learning_phase()], outputs )   # evaluation function
 
 layer= int(sys.argv[1])
 print(model.summary())
@@ -44,6 +48,11 @@ print(strBiases)
 print(model.layers[0])
 print("Keys: %s" % f.keys())
 a_group_key= list(f.keys())[0]
+
+test= np.ones((1, 50, 2))
+layer_outs=functor([test, layer])
+print(layer_outs)
+
 
 data= list(f[a_group_key])
 print(data)
