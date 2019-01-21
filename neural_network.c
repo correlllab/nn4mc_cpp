@@ -17,37 +17,36 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     L.kernel_size = kernel_size;
     L.filters= filters;
     num_layers++;
-    
-    L.h = (float **)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(float*));
+    L.h = (float**)calloc((int)(L.input_sh1-L.kernel_size+1) , sizeof(float*));
     for (int i=0; i< (int)(L.input_sh1- L.kernel_size+1); i++){
-        L.h[i] = (float*)malloc((int)L.filters * sizeof(float));
-    }
+        L.h[i] = (float*)calloc(L.filters , sizeof(float));
+    } 
     L.output_shape= (int)(L.input_sh1-L.kernel_size+1);
     *LL = L;
 }
 
-void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, int w1, int w2, float window[][w2]){
+void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float window[][bb]){
     struct Conv1D L;
     L= *LL;
+    
     printf("input_to_conv1d:\n");
-    for(int i=0; i<w1; i++){
-        for(int j=0; j<w2; j++){
+    for (int i=0; i<L.input_sh1; i++){
+        for (int j=0; j<bb; j++){
             printf("%f  ", window[i][j]);
         }
         printf("\n");
-    } 
-    printf("\n\n");
+    }
 
-    for (int i=0; i<(int)(L.input_sh1-L.kernel_size+1); i++){
+     for (int i=0; i<(int)(L.input_sh1-L.kernel_size+1); i++){
         for (int j=0; j<(int)L.filters; j++){
             L.h[i][j]= b[j];
             for (int x=0; x<(int)L.kernel_size; x++){
-                for (int y=0; y<w2; y++){
+                for (int y=0; y<bb; y++){
                     L.h[i][j] += W[x][y][j] * window[i+x][y];
                 }
             }
-        }
-    }
+         }
+      }
 
     *LL = L;
 }
