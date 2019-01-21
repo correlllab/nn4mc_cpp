@@ -14,7 +14,7 @@ struct Conv1D L1;
 set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
 fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, 50, 2, window);
 
-printf("L1.h:\n");
+/*printf("L1.h:\n");
 for (int i=0; i<47; i++){
     for (int j=0; j<8; j++){
         printf("%.6f  ", L1.h[i][j]);
@@ -22,10 +22,10 @@ for (int i=0; i<47; i++){
     printf("\n");
 }
 printf("\n\n");
-
+*/
 struct Conv1D L2; 
 set_conv1D(&L2, 47, 8, 4, 8); 
-fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, 47, 8, *L1.h);
+fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, 47, 8, L1.h);
 
 struct Flatten2D1D FL; 
 flatten2D1D(&FL, 44, 8, L2.h);
