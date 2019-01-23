@@ -72,7 +72,7 @@ void set_maxpool1D(struct MaxPooling1D * LL, int input_sh1,int input_sh2, int po
     *LL = L;
 }
 
-void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W[a][bb][c], const float *b, int w1, int w2, float ** window){
+void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W[a][bb][c], const float *b, float ** window){
     struct MaxPooling1D L;
     L= *LL;
     for (int i=0; i< L.input_sh1; i++){
