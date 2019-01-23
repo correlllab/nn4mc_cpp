@@ -17,19 +17,19 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     L.kernel_size = kernel_size;
     L.filters= filters;
     num_layers++;
-    L.h = (float**)calloc((int)(L.input_sh1-L.kernel_size+1) , sizeof(float*));
+    L.h = (float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(float*));
     for (int i=0; i< (int)(L.input_sh1- L.kernel_size+1); i++){
-        L.h[i] = (float*)calloc(L.filters , sizeof(float));
+        L.h[i] = (float*)malloc(L.filters * sizeof(float));
     } 
     L.output_shape= (int)(L.input_sh1-L.kernel_size+1);
     *LL = L;
 }
 
-void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float window[][bb]){
+void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float ** window){
     struct Conv1D L;
     L= *LL;
     
-    printf("input_to_conv1d:\n");
+    printf("What the function receives:\n");
     for (int i=0; i<L.input_sh1; i++){
         for (int j=0; j<bb; j++){
             printf("%f  ", window[i][j]);
@@ -72,7 +72,7 @@ void set_maxpool1D(struct MaxPooling1D * LL, int input_sh1,int input_sh2, int po
     *LL = L;
 }
 
-void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W[a][bb][c], const float *b, int w1, int w2, float window[w1][w2]){
+void fwd_maxpool1D(struct MaxPooling1D * LL, int a, int bb, int c, const float W[a][bb][c], const float *b, int w1, int w2, float window[][bb]){
     struct MaxPooling1D L;
     L= *LL;
     for (int i=0; i< L.input_sh1; i++){
@@ -112,7 +112,7 @@ void fwd_dense(struct Dense * LL, int a, int bb, const float W[a][bb], const flo
     *LL = L;
 }
 
-void flatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b,float window[a][b]){
+void flatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b,float ** window){
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;
     FLAT.in_shape_0 = a; 

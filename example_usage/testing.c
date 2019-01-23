@@ -8,25 +8,28 @@ int main(){
 // First, we need to declare the structures 
 // for each layer. 
 
-float window[50][2]= {{1., 1.}, {1., 1.}, {1.,1.}, {1., 1.}, {1., 1.},{1., 1.}, {1., 1.}, {1.,1.}, {1., 1.},{ 1., 1 },{1., 1.}, {1.,1.}, {1.,1.}, {1., 1.}, {1., 1.},{1., 1.},{ 1., 1 }, {1.,1.}, {1., 1.},{ 1., 1 },{1., 1.}, {1., 1.}, {1.,1.},{ 1., 1 }, {1., 1.}, {1., 1.}, {1., 1.}, {1.,1.}, {1., 1.}, {1., 1.},{1., 1.}, {1., 1.}, {1.,1.}, {1., 1.},{ 1., 1 },{1., 1.}, {1., 1.},   {1.,1.}, {1., 1.}, {1., 1.},{1., 1.},{ 1., 1 }, {1.,1.}, {1., 1.},{ 1., 1 },{1., 1.}, {1., 1.}, {1.,1.},{ 1., 1 }, {1., 1.}};
+
+float ** window= (float**)malloc(50*sizeof(float*));
+for (int i=0; i<50; i++){
+    window[i]= (float*)malloc(2*sizeof(float));
+}
+
+for (int i=0; i<50; i++){
+    for (int j=0; j<2; j++){
+        window[i][j]= 1.0;
+    }
+}
 
 struct Conv1D L1; 
 set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
 fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, window);
 
-float wn[47][8];
-for(int i=0; i<47; i++) for (int j=0; j<8; j++) wn[i][j]= L1.h[i][j];
-
-
 struct Conv1D L2; 
 set_conv1D(&L2, 47, 8, 4, 8); 
-fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, wn);
-
-float wn1[47][8];
-for(int i=0; i<44; i++) for (int j=0; j<8; j++) wn1[i][j]= L2.h[i][j];
+fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L1.h);
 
 struct Flatten2D1D FL; 
-flatten2D1D(&FL, 44, 8, wn1);
+flatten2D1D(&FL, 44, 8, L2.h);
 
 struct Dense D1;
 set_dense(&D1, FL.output_size, 64, 'r');
@@ -57,7 +60,6 @@ printf("\n");
 printf("num_layers= %d\n", num_layers);
 
 // should be [[ 0.01106095  0.02823588 -1.213638   ]] from python implementation
-// currently is 0.011061  0.028236  -1.213638  
-//
+
 return 0;
 }
