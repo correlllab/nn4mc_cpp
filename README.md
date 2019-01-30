@@ -1,4 +1,4 @@
-# nn4mp: Neural Networks for Microcontrollers
+﻿# nn4mp: Neural Networks for Microcontrollers
 ### Started by Sarah Aguasvivas (January 2019)
 
 This repo is a generalization of the neural network created by Dana Hughes https://github.com/danathughes/esp32_neural_net 
@@ -13,7 +13,7 @@ This package is intended to be used in any microcontroller programmed in C after
 If you are interested in running that example case, you can use the following
 
 ```
-gcc -g testing.c
+gcc testing.c
 ```
 
 That will allow you to compile and even print partial results by typing `./a.out` for debugging purposes.
@@ -39,4 +39,111 @@ That will allow you to compile and even print partial results by typing `./a.out
 `data/`: This file contains functions and scripts to help generate  `neural_network_params.h`.<br/>
 `example_usage/`: This file contains a test case, which is currently a neural network that Radhen wrote in Keras.
 
+### Usage:
 
+
+
+At the moment, we have to declare the structures and the input sizes of the data coming in the layer. To declare a new layer, you can use the following format:
+
+```
+struct LayerType Layer;
+```
+Currently, this package has support for layer types of the following classes:
+
+`Conv1D`: 1D convolution 
+
+`MaxPooling1D`: 1D max pooling layer
+
+`Flatten2D1D`: It is not a layer per se, but prepares data coming out of a convolution or maxpooling to be used by a dense layer. 
+
+`Dense`: dense or MLP layer
+
+#### Conv1D:
+
+Contains the following attributes: `kernel_size`, `filters`, `input_sh1`, `input_sh2`. Some hidden attributes that will be modified automatically are `output_shape` and `**h`, which do not have to be introduced by the user. 
+
+To setup these layer objects, we call:
+```
+set_conv1D(
+struct Conv1D * Layer, //on call, send a reference to the layer i.e. &L1
+int input_sh1, // specify the size of the input data (first dimension)
+int input_sh2,  // specify the size of the input data (second dimension)
+int kernel_size, // size of the kernel
+int filters); // number of filters
+
+```
+To feed forward this layer one has to call the following function:
+
+```
+fwd_conv1D(
+struct Conv1D * Layer, //on call, send a reference to the layer struct i.e. &L1
+float **window); //the array from input layer or past layers and not the reference
+
+```
+
+Something important to keep in mind, on the conceptual sense is that this layer will not be performing 2D convolutions on 2D data, if your input array is 2D, it will apply the convolution row- or column wise without having any 2D extension. It is to be noted at the moment one designs the neural network on another computer (e.g. Keras, Tensorflow, etc).
+
+#### MaxPooling1D:
+
+Contains the following attributes: `pool_size`, `input_shape`, `strides`, `input_sh1`, `input_sh2`. Two hidden attributes are `output_shape` and `**h`.
+
+To setup these layer objects, we call:
+
+```
+set_maxpool1D(
+struct MaxPooling1D * Layer, // again, send the reference to the layer 
+int input_sh1,
+int input_sh2,
+int pool_size,
+int strides
+);
+
+```
+
+To feed forward this layer, we call the following function:
+
+```
+fwd_maxpool1D(
+struct MaxPooling1D * Layer,
+float **window
+);
+
+```
+
+#### Dense:
+
+Contains the following attributes: `input_size`, `output_size`, `activation`. It also contains a hidden attribute `*h`. 
+
+To setup a dense layer, we call:
+
+```
+set_dense(
+struct Dense * L, //send a reference to the corresponding layer
+int input_size, 
+int output_size,
+char activation,
+);
+```
+
+For `activation`, we currently have support for ReLU and linear actication. Therefore, if you would like to declare this layer as a ReLu layer, set `activation=r`, if you would like to use a linear activation, set `activation=n`, if you would like to use the sigmoid function use `activation=’s’`, for inverse tangent, set `activation=’t’`. We are currently working on a custom activation function support. 
+
+To feed forward your layer set:
+
+```
+fwd_dense(
+struct Dense * Layer,
+float *window // make sure this window is already flattened, meaning a 1D array
+);
+
+```
+
+#### Flatten2D1D:
+
+This is not a layer on its own, however, it is very handy at the moment we would like data to go from a 2D array to a 1D array. This layer only has the following function:
+
+```
+flatten2D1D(
+struct Flatten2D1D * Layer, 
+float ** window // 2D array that we are interested in flattening
+);
+```
