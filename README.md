@@ -70,7 +70,6 @@ int input_sh1, // specify the size of the input data (first dimension)
 int input_sh2,  // specify the size of the input data (second dimension)
 int kernel_size, // size of the kernel
 int filters); // number of filters
-
 ```
 To feed forward this layer one has to call the following function:
 
@@ -78,7 +77,6 @@ To feed forward this layer one has to call the following function:
 fwd_conv1D(
 struct Conv1D * Layer, //on call, send a reference to the layer struct i.e. &L1
 float **window); //the array from input layer or past layers and not the reference
-
 ```
 
 Something important to keep in mind, on the conceptual sense is that this layer will not be performing 2D convolutions on 2D data, if your input array is 2D, it will apply the convolution row- or column wise without having any 2D extension. It is to be noted at the moment one designs the neural network on another computer (e.g. Keras, Tensorflow, etc).
@@ -97,7 +95,6 @@ int input_sh2,
 int pool_size,
 int strides
 );
-
 ```
 
 To feed forward this layer, we call the following function:
@@ -107,7 +104,6 @@ fwd_maxpool1D(
 struct MaxPooling1D * Layer,
 float **window
 );
-
 ```
 
 #### Dense:
@@ -134,7 +130,6 @@ fwd_dense(
 struct Dense * Layer,
 float *window // make sure this window is already flattened, meaning a 1D array
 );
-
 ```
 
 #### Flatten2D1D:
@@ -146,4 +141,65 @@ flatten2D1D(
 struct Flatten2D1D * Layer, 
 float ** window // 2D array that we are interested in flattening
 );
+```
+
+### Example Usage Case
+
+Let us say we have trained the following neural network architecture on another platform and learned the weights and biases:
+
+```
+Input: An array of ADC signals of size (50, 2)
+1D Convolution with kernel size of 4, and 8 filters
+1D Convolution with kernel size of 4 and 8 filters
+Dense layer with output of 64 neurons and ReLU activation
+Dense layer with output of 32 neurons and ReLU activation
+Dense layer with output of 16 neurons and ReLU activation
+Dense layer with output of 8 neurons and ReLU activation
+Dense layer with output of 3 neurons and linear activation
+```
+
+The corresponding code that will feed forward your input, which is assumed to be a preallocated array of size 50x2 is:
+
+
+```
+struct Conv1D L1; 
+ set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
+ fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, window);
+ 
+ struct Conv1D L2; 
+ set_conv1D(&L2, 47, 8, 4, 8); 
+ fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L1.h);
+ 
+ struct Flatten2D1D FL; 
+ flatten2D1D(&FL, 44, 8, L2.h);
+ 
+ struct Dense D1; 
+ set_dense(&D1, FL.output_size, 64, 'r');
+ fwd_dense(&D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);
+ 
+ struct Dense D2; 
+ set_dense(&D2, D1.output_size, 32, 'r');
+ fwd_dense(&D2, D2.input_size, D2.output_size, W_3, b_3, D1.h);
+ 
+ struct Dense D3; 
+ set_dense(&D3, D2.output_size, 16, 'r');
+ fwd_dense(&D3, D3.input_size, D3.output_size, W_4, b_4, D2.h);
+ 
+ struct Dense D4; 
+ set_dense(&D4, D3.output_size, 8, 'r');
+ fwd_dense(&D4, D4.input_size, D4.output_size, W_5, b_5, D3.h);
+ 
+ struct Dense D5; 
+ set_dense(&D5, D4.output_size, 3, 'l');
+ fwd_dense(&D5, D5.input_size, D5.output_size, W_6, b_6, D4.h);
+```
+
+If you would like to access the results from this neural network, just refer to the `h` array in the last layer of the neural network. For example:
+
+```
+ printf("Prediction:");
+ for (int i=0; i<D5.output_size; i++){
+     printf("%.6f  ", D5.h[i]);
+ }
+ printf("\n");
 ```
