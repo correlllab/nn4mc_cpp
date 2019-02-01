@@ -28,14 +28,6 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
 void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float ** window){
     struct Conv1D L;
     L= *LL;
-    
-    printf("What the function receives:\n");
-    for (int i=0; i<L.input_sh1; i++){
-        for (int j=0; j<bb; j++){
-            printf("%f  ", window[i][j]);
-        }
-        printf("\n");
-    }
 
      for (int i=0; i<(int)(L.input_sh1-L.kernel_size+1); i++){
         for (int j=0; j<(int)L.filters; j++){
