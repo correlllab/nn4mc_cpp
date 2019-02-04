@@ -2,9 +2,11 @@
 #include "neural_network_params.h"
 #include <stdlib.h>
 
+
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
-
+#define exp(x) 1.0 + x + x*x/2.0 + x*x*x/6.0 + x*x*x*x/24.0+ x*x*x*x*x/120.0 + x*x*x*x*x*x/720.0 + x*x*x*x*x*x*x/5040.0
+#define sigmoid(x) 1.0/(1.0 + exp(-1.0*x)) 
 #define COLS(arr) (int)sizeof((arr)[0])
 #define ROWS(arr) (int)(sizeof(arr)/sizeof(arr[0])) 
 
@@ -100,6 +102,9 @@ void fwd_dense(struct Dense * LL, int a, int bb, const float W[a][bb], const flo
         if (L.activation=='r'){
             L.h[i]= max(L.h[i], 0.0);
         } 
+        if (L.activation=='s'){
+            L.h[i]= sigmoid(L.h[i]);
+        }
     }
     *LL = L;
 }
