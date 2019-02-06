@@ -4,11 +4,11 @@ import h5py
 import numpy as np
 from keras import backend as K
 from keras.models import load_model
-np.set_printoptions(threshold=np.nan)
+#np.set_printoptions(threshold=np.nan)
 
 f= h5py.File('weights.best.hdf5', 'r')
 model= load_model('weights.best.hdf5')
-textFile= open("we.txt", "w")
+textFile= open("wr.txt", "w")
 
 
 layer= int(sys.argv[1])
