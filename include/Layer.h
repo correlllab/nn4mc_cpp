@@ -8,8 +8,7 @@ class Layer{
             std::string identifier;
 
         public:
-            virtual void FeedForward() = 0;
-        
+
             Layer(std::string id){
                 this.identifier = id;
             }
@@ -29,9 +28,6 @@ class Conv1D : public Layer{
 
         // no need for training-specific variables
     public:
-        virtual void FeedForward(){
-        // My TODO
-        }
 };
 
 
@@ -49,9 +45,6 @@ class Conv2D : public Layer{
         // no need for training-specific variables. 
         
     public:
-        virtual void FeedForward(){
-            //My TODO
-        }
 };
 
 class Dense : public Layer{
@@ -62,9 +55,6 @@ class Dense : public Layer{
         //no training-specific parameters
         Weight2D Wb;
     public:
-        virtual void FeedForward(){
-            //My TODO
-        }
 
 };
 
@@ -81,9 +71,6 @@ class MaxPooling1D : public Layer{
         std::string padding;
         std::string data_format;
     public:
-        virtual void FeedForward(){
-            // My TODO
-        }
 } ;
 
 class MaxPooling2D: public Layer{
@@ -93,9 +80,6 @@ class MaxPooling2D: public Layer{
         std::string padding;
         std::string data_format;
     public:
-        virtual void FeedForward(){
-            //My TODO
-        }
 
 };
 
@@ -105,9 +89,6 @@ class SimpleRNN : public Layer{
         std::string activation;
         bool use_bias;
     public:
-        virtual void FeedForward(){
-            //My TODO
-        }
 
 };
 
@@ -124,9 +105,6 @@ class GRU: public Layer{
         bool unrool;
         bool reset_after;
     public:
-        virtual void FeedForward(){
-            // My TODO
-        }
 };
 
 
@@ -143,7 +121,4 @@ class LSTM: public Layer{
         bool stateful;
         bool unroll;
     public:
-        virtual void FeedForward(){
-            // My TODO
-        }
 };
