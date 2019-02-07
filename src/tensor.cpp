@@ -6,9 +6,39 @@
 */
 
 #include "tensor.h"
-#include <stdarg.h>
+#include <cstdarg>
+#include <cstdlib>
+#include <string>
 #include <iostream>
 
+
+BadIndexBoundsException::BadIndexBoundsException(unsigned int dim_num, unsigned int idx_bound, unsigned int idx)
+{
+	dimension_number = dim_num;
+	index_bound = idx_bound;
+	index = idx;
+}
+
+BadIndexBoundsException::~BadIndexBoundsException()
+{
+
+}
+
+const char* BadIndexBoundsException::what() const throw()
+{
+	// Create the message, indicating which dimension, and bounds
+	std::string errorMessage("Bad Index: Index Out of Bounds\n");
+	errorMessage += "  Out of Bounds in Dimension ";
+	errorMessage += std::to_string(dimension_number);
+	errorMessage += "\n";
+	errorMessage += "  Index Bound is ";
+	errorMessage += std::to_string(index_bound);
+	errorMessage += "\n";
+	errorMessage += "  Index given is ";
+	errorMessage += std::to_string(index);
+
+	return errorMessage.c_str();
+}
 
 /*******************
 * Tensor(int n, ...)
@@ -75,7 +105,7 @@ Tensor<DataType, NumDims>::~Tensor()
 	// Delete the allocated memory and free up the memory, and set it
 	// to NULL so it won't be de-allocated again by accident (somehow)
 	delete[] data;
-//	data = NULL;
+	data = NULL;
 }
 
 
@@ -85,21 +115,23 @@ Tensor<DataType, NumDims>::~Tensor()
 * Converts from the tensor indexing to the 1D index used by the actual data
 */
 template <class DataType, unsigned int NumDims>
-unsigned int Tensor<DataType, NumDims>::array_index(unsigned int idx_0, ...)
+unsigned int Tensor<DataType, NumDims>::array_index(unsigned int idx_0, va_list arguments)
 {
+	unsigned int arg;
+
 	// Start with the first index multiplied by the appropriate offset
-	unsigned int index = idx_0 * offsets[0];
+	// Is the first index out of bounds?
+	if(idx_0 >= dimensions[0])		throw BadIndexBoundsException(0, dimensions[0], idx_0);
+	unsigned int index = offsets[0] * idx_0;
 
 	// Iterate through the remaining index values
-	va_list arguments;
-	va_start(arguments, idx_0);
-
 	for(int idx = 1; idx < NumDims; idx++)
 	{
-		index += offsets[idx] * va_arg(arguments, unsigned int);
+		arg = va_arg(arguments, unsigned int);
+		// Is the index out of bounds?
+		if(arg >= dimensions[idx])		throw BadIndexBoundsException(idx, dimensions[idx], arg);
+		index += offsets[idx] * arg;//va_arg(arguments, unsigned int);
 	}
-
-	va_end(arguments);
 
 	return index;
 }
@@ -114,20 +146,9 @@ template <class DataType, unsigned int NumDims>
 DataType& Tensor<DataType, NumDims>::operator()(unsigned int idx_0, ...)
 {
 	// What is the array index to access?
-
-	// Start with the first index multiplied by the appropriate offset
-	unsigned int index = idx_0 * offsets[0];
-
-	// Iterate through the remaining index values
 	va_list arguments;
 	va_start(arguments, idx_0);
-
-	for(int idx = 1; idx < NumDims; idx++)
-	{
-		index += offsets[idx] * va_arg(arguments, unsigned int);
-
-	}
-
+	unsigned int index = array_index(idx_0, arguments);
 	va_end(arguments);
 
 	return data[index];
@@ -143,19 +164,9 @@ template <class DataType, unsigned int NumDims>
 DataType Tensor<DataType, NumDims>::operator()(unsigned int idx_0, ...) const
 {
 	// What is the array index to access?
-
-	// Start with the first index multiplied by the appropriate offset
-	unsigned int index = idx_0 * offsets[0];
-
-	// Iterate through the remaining index values
 	va_list arguments;
 	va_start(arguments, idx_0);
-
-	for(int idx = 1; idx < NumDims; idx++)
-	{
-		index += offsets[idx] * va_arg(arguments, unsigned int);
-	}
-
+	unsigned int index = array_index(idx_0, arguments);
 	va_end(arguments);
 
 	return data[index];
@@ -215,6 +226,9 @@ int main(int argc, char** argv)
 		std::cout << std::endl;
 	}
 
+
+	// Uncomment this to try accessing a bad index
+//	std::cout << matrix(1,6);
 
 	std::cout << "Example 2:  A 2x3x4x5 Tensor" << std::endl;
 

@@ -1,4 +1,7 @@
 /**
+* \file tensor.h
+* Header file defining the Tensor class and associated Exceptions 
+*
 * \class Tensor
 *
 * \brief Light wrapper for tensors
@@ -35,7 +38,7 @@ class Tensor
 		unsigned int num_elements;
 		DataType* data;
 
-		unsigned int array_index(unsigned int, ...);
+		unsigned int array_index(unsigned int, va_list);
 
 	public:
 		Tensor(unsigned int, ...);
@@ -45,14 +48,18 @@ class Tensor
 		DataType operator() (unsigned int, ...) const;
 };
 
-class InvalidDimensionException : public std::exception
-{
-
-};
-
 class BadIndexBoundsException : public std::exception
 {
-
+	public:
+		BadIndexBoundsException(unsigned int, unsigned int, unsigned int);
+		~BadIndexBoundsException();
+		unsigned int dimension_number;
+		unsigned int index_bound;
+		unsigned int index;
+		virtual const char* what() const throw();
+//		{
+//			return "Bad Index: Index Out of Bounds";
+//		};
 };
 
 #endif
