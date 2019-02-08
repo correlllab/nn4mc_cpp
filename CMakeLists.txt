@@ -1,6 +1,6 @@
 # The name of the project
 PROJECT (nn4mp)
-
+find_package(h5cpp REQUIRED)
 # Minimum version of cmake required
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
@@ -12,7 +12,7 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Add other flags to the compiler
 
-# Use C++11 
+# Use C++11
 SET (CMAKE_CXX_STANDARD 11)
 
 # Version Number
@@ -30,3 +30,5 @@ INCLUDE_DIRECTORIES (include)
 # Link the output files, and GTK+ libraries
 
 # add the install targets
+add_executable(src HDF5Parser.cpp)
+target_link_libraries(src h5cpp)

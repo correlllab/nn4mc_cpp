@@ -1,9 +1,0 @@
-============================
- reserved  Test Log
-============================
- -SKIP-
-0.00user 0.00system 0:00.01elapsed 42%CPU (0avgtext+0avgdata 8008maxresident)k
-0inputs+16outputs (0major+3978minor)pagefaults 0swaps
-
-Finished testing reserved 
-============================

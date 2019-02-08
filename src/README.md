@@ -2,4 +2,8 @@
 
 I went like:
 
->sudo apt-get install libhdf5-serial-dev
+> https://github.com/ess-dmsc/h5cpp
+
+On Mac:
+> brew install hdf5
+> brew install boost

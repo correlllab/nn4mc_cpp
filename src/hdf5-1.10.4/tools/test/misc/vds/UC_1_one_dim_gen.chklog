@@ -1,8 +1,0 @@
-============================
- UC_1_one_dim_gen  Test Log
-============================
-0.02user 0.00system 0:00.03elapsed 58%CPU (0avgtext+0avgdata 9308maxresident)k
-0inputs+144outputs (0major+5028minor)pagefaults 0swaps
-
-Finished testing UC_1_one_dim_gen 
-============================
