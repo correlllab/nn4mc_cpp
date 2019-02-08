@@ -1,0 +1,8 @@
+============================
+ UC_5_stride_gen  Test Log
+============================
+0.01user 0.00system 0:00.02elapsed 55%CPU (0avgtext+0avgdata 9256maxresident)k
+0inputs+96outputs (0major+5060minor)pagefaults 0swaps
+
+Finished testing UC_5_stride_gen 
+============================

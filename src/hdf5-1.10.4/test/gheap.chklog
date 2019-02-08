@@ -1,0 +1,14 @@
+============================
+ gheap  Test Log
+============================
+Testing monotonically increasing lengths                               PASSED
+Testing monotonically decreasing lengths                               PASSED
+Testing complete object removal                                        PASSED
+Testing partial object removal                                         PASSED
+Testing out of order indices                                           PASSED
+All global heap tests passed.
+1.71user 0.00system 0:01.72elapsed 99%CPU (0avgtext+0avgdata 10952maxresident)k
+0inputs+2616outputs (0major+7228minor)pagefaults 0swaps
+
+Finished testing gheap 
+============================

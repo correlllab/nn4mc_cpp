@@ -1,0 +1,82 @@
+============================
+ mf  Test Log
+============================
+Testing H5MM_alloc() of file allocation                                PASSED
+Testing H5MF_try_shrink() of file allocation: test 1                   PASSED
+Testing H5MF_try_shrink() of file allocation: test 2                   PASSED
+Testing H5MF_try_shrink() of file allocation: test 3                   PASSED
+Testing H5MF_try_shrink() of file allocation: test 4                   PASSED
+Testing H5MF_try_extend() of file allocation: test 1                   PASSED
+Testing H5MF_try_extend() of file allocation: test 2                   PASSED
+Testing Allocation from raw or metadata free-space manager             PASSED
+Testing H5MF_create_fstype()/H5MF__open_fstype() of free-space manager PASSED
+Testing H5MF_alloc()/H5MF_xfree() of free-space manager:test 1         PASSED
+Testing H5MF_alloc()/H5MF_xfree() of free-space manager:test 2         PASSED
+Testing H5MF_alloc()/H5MF_xfree() of free-space manager:test 3         PASSED
+Testing H5MF_try_extend() of free-space manager:test 1                 PASSED
+Testing H5MF_try_extend() of free-space manager:test 2                 PASSED
+Testing H5MF_try_extend() of free-space manager:test 3                 PASSED
+Testing H5MF_try_extend() of free-space manager:test 4                 PASSED
+Testing A free-space section absorbs an aggregator: test 1             PASSED
+Testing A free-space section absorbs an aggregator: test 2             PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 1                   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 2                   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator: test 3                  PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 4                   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 5                   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 6                   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator:test 7                   PASSED
+Testing H5MF_try_extend() of meta/sdata aggregator: test 1             PASSED
+Testing H5MF_try_extend() of meta/sdata aggregator: test 2             PASSED
+Testing H5MF_try_extend() of meta/sdata aggregator: test 3             PASSED
+Testing H5MF_try_shrink() of meta/sdata aggregator: test 1             PASSED
+Testing H5MF_try_shrink() of meta/sdata aggregator: test 2             PASSED
+Testing H5MF_try_shrink() of meta/sdata aggregator: test 3             PASSED
+Testing H5MM_alloc() of file allocation with alignment: test 1         PASSED
+Testing H5MF_try_shrink() of file allocation with alignment: test 2    PASSED
+Testing H5MF_try_extend() of file allocation with alignment: test 3    PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 1      PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 2      PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 3      PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 1   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 2   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 3   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 4   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 5   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 6   PASSED
+Testing H5MM_alloc() of file allocation with alignment: test 1         PASSED
+Testing H5MF_try_shrink() of file allocation with alignment: test 2    PASSED
+Testing H5MF_try_extend() of file allocation with alignment: test 3    PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 1      PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 2      PASSED
+Testing H5MF_alloc() of free-space manager with alignment: test 3      PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 1   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 2   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 3   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 4   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 5   PASSED
+Testing H5MF_alloc() of meta/sdata aggregator with alignment: test 6   PASSED
+Testing 'temporary' file space allocation with old library format      PASSED
+Testing 'temporary' file space allocation with new library format      PASSED
+Testing File's free-space is going away with old library format        PASSED
+Testing File's free-space is going away with new library format        PASSED
+Testing File space merge/shrink for section size < threshold with old library format PASSED
+Testing File space merge/shrink for section size < threshold with new library format PASSED
+Testing File's free-space is persistent with old library format        PASSED
+Testing File's free-space is persistent with new library format        PASSED
+Testing File space strategy/persisting/threshold with old library format PASSED
+Testing File space strategy/persisting/threshold with new library format PASSED
+Testing Paged aggregation for file space: small allocations and de-allocations PASSED
+Testing Paged aggregation for file space: large allocations and de-allocations PASSED
+Testing Paged aggregation for file space: H5MF_try_extend() a large block PASSED
+Testing Paged aggregation for file space: H5MF_try_extend() a small block PASSED
+Testing Paged aggregation for file space: H5MF_try_shrink()            PASSED
+Testing Paged aggregation for file space: H5MF_alloc/H5MF_xfree        PASSED
+Testing Paged aggregation and H5Pset_alignment: verify proper alignment is used PASSED
+Testing H5MF_alloc() bug 1                                             PASSED
+All free-space manager tests for file memory passed.
+0.05user 0.00system 0:00.06elapsed 75%CPU (0avgtext+0avgdata 9576maxresident)k
+0inputs+3384outputs (0major+5206minor)pagefaults 0swaps
+
+Finished testing mf 
+============================

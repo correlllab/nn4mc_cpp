@@ -1,0 +1,14 @@
+============================
+testlinks_env.sh  Test Log
+============================
+Testing external link with HDF5_EXT_PREFIX
+env HDF5_EXT_PREFIX=.:tmp  /home/sarahaguasvivas/neural_networks_for_microprocessors/src/hdf5-1.10.4/test/links_env
+Testing external links via environment variable                        PASSED
+Testing external links via environment variable (w/new group format)   PASSED
+All external Link (HDF5_EXT_PREFIX) tests passed.
+Test for HDF5_EXT_PREFIX PASSED
+0.01user 0.00system 0:00.03elapsed 53%CPU (0avgtext+0avgdata 9324maxresident)k
+8inputs+104outputs (0major+5552minor)pagefaults 0swaps
+
+Finished testing testlinks_env.sh 
+============================

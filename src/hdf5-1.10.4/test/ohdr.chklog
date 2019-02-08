@@ -1,0 +1,141 @@
+============================
+ ohdr  Test Log
+============================
+Using file format version: (earliest, v18)
+Testing object header continuation block                               PASSED
+Testing object header creation                                         PASSED
+Testing message creation                                               PASSED
+Testing message modification                                           PASSED
+Testing object header overflow in memory                               PASSED
+Testing close & re-open object header                                  PASSED
+Testing object header overflow on disk                                 PASSED
+Testing message deletion                                               PASSED
+Testing constant message handling                                      PASSED
+Testing object header closing                                          PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object header creation in cache                                PASSED
+Using file format version: (earliest, latest)
+Testing object header continuation block                               PASSED
+Testing object header creation                                         PASSED
+Testing message creation                                               PASSED
+Testing message modification                                           PASSED
+Testing object header overflow in memory                               PASSED
+Testing close & re-open object header                                  PASSED
+Testing object header overflow on disk                                 PASSED
+Testing message deletion                                               PASSED
+Testing constant message handling                                      PASSED
+Testing object header closing                                          PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object header creation in cache                                PASSED
+Using file format version: (v18, v18)
+Testing object header continuation block                               PASSED
+Testing object header creation                                         PASSED
+Testing message creation                                               PASSED
+Testing message modification                                           PASSED
+Testing object header overflow in memory                               PASSED
+Testing close & re-open object header                                  PASSED
+Testing object header overflow on disk                                 PASSED
+Testing message deletion                                               PASSED
+Testing constant message handling                                      PASSED
+Testing object header closing                                          PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object header creation in cache                                PASSED
+Using file format version: (v18, latest)
+Testing object header continuation block                               PASSED
+Testing object header creation                                         PASSED
+Testing message creation                                               PASSED
+Testing message modification                                           PASSED
+Testing object header overflow in memory                               PASSED
+Testing close & re-open object header                                  PASSED
+Testing object header overflow on disk                                 PASSED
+Testing message deletion                                               PASSED
+Testing constant message handling                                      PASSED
+Testing object header closing                                          PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object header creation in cache                                PASSED
+Using file format version: (latest, latest)
+Testing object header continuation block                               PASSED
+Testing object header creation                                         PASSED
+Testing message creation                                               PASSED
+Testing message modification                                           PASSED
+Testing object header overflow in memory                               PASSED
+Testing close & re-open object header                                  PASSED
+Testing object header overflow on disk                                 PASSED
+Testing message deletion                                               PASSED
+Testing constant message handling                                      PASSED
+Testing object header closing                                          PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID
+Testing object with unknown header message and no flags set            PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/o file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object with unknown header message & 'mark if unknown' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown and open for write' flag set PASSED
+Testing object in r/w file with unknown header message & 'fail if unknown always' flag set PASSED
+Testing object header creation in cache                                PASSED
+Testing exercise the coding for the re-read of the object header for SWMR access: latest-format PASSED
+Testing exercise the coding for the re-read of the object header for SWMR access: non-latest-format PASSED
+All object header tests passed.
+0.02user 0.00system 0:00.04elapsed 58%CPU (0avgtext+0avgdata 9348maxresident)k
+16inputs+1464outputs (0major+5241minor)pagefaults 0swaps
+
+Finished testing ohdr 
+============================

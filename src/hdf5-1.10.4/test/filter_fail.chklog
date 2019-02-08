@@ -1,0 +1,12 @@
+============================
+ filter_fail  Test Log
+============================
+Testing data writing when a mandatory filter fails and chunk cache is enabled PASSED
+Testing data reading when a mandatory filter fails                     PASSED
+Testing data writing when a mandatory filter fails and chunk cache is disabled PASSED
+Testing data reading when a mandatory filter fails                     PASSED
+0.01user 0.00system 0:00.03elapsed 51%CPU (0avgtext+0avgdata 9384maxresident)k
+0inputs+88outputs (0major+4986minor)pagefaults 0swaps
+
+Finished testing filter_fail 
+============================

@@ -1,0 +1,8 @@
+============================
+ UC_3_gaps_gen  Test Log
+============================
+0.02user 0.00system 0:00.03elapsed 64%CPU (0avgtext+0avgdata 9396maxresident)k
+0inputs+56outputs (0major+4981minor)pagefaults 0swaps
+
+Finished testing UC_3_gaps_gen 
+============================

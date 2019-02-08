@@ -1,0 +1,20 @@
+============================
+ ttsafe  Test Log
+============================
+Most thread-safety tests skipped because THREADSAFE not enabled
+
+For help use: /home/sarahaguasvivas/neural_networks_for_microprocessors/src/hdf5-1.10.4/test/.libs/lt-ttsafe -help
+Linked with hdf5 version 1.10 release 4
+Testing  -- library threadsafe status (is_threadsafe) 
+
+
+All tests were successful. 
+
+
+Cleaning Up temp files...
+
+0.00user 0.00system 0:00.02elapsed 46%CPU (0avgtext+0avgdata 9376maxresident)k
+0inputs+64outputs (0major+4688minor)pagefaults 0swaps
+
+Finished testing ttsafe 
+============================

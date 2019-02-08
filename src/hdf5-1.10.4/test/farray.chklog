@@ -1,0 +1,67 @@
+============================
+ farray  Test Log
+============================
+Testing with NORMAL PARAMETERS
+Testing invalid fixed array creation parameters                        -SKIP-
+    Not tested when assertions are disabled
+Testing fixed array creation                                           PASSED
+Testing verify array creation parameters                               PASSED
+Testing create, close & reopen fixed array                             PASSED
+Testing open fixed array twice                                         PASSED
+Testing open fixed array twice, through different file handles         PASSED
+Testing deleting open fixed array                                      PASSED
+Testing with forward iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with reverse iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with random iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with cyclic iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing skipping to first element                                      PASSED
+Testing skipping to first element in data block page                   PASSED
+Testing skipping to last element                                       PASSED
+Testing skipping to last element                                       PASSED
+Testing with reopen array flag set
+Testing invalid fixed array creation parameters                        -SKIP-
+    Not tested when assertions are disabled
+Testing fixed array creation                                           PASSED
+Testing verify array creation parameters                               PASSED
+Testing create, close & reopen fixed array                             PASSED
+Testing open fixed array twice                                         PASSED
+Testing open fixed array twice, through different file handles         PASSED
+Testing deleting open fixed array                                      PASSED
+Testing with forward iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with reverse iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with random iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing with cyclic iteration
+Testing setting 1 element of the array                                 PASSED
+Testing setting half of the array's elements                           PASSED
+Testing setting all the array elements                                 PASSED
+Testing skipping to first element                                      PASSED
+Testing skipping to first element in data block page                   PASSED
+Testing skipping to last element                                       PASSED
+Testing skipping to last element                                       PASSED
+All fixed array tests passed.
+0.10user 0.00system 0:00.12elapsed 83%CPU (0avgtext+0avgdata 9368maxresident)k
+0inputs+632outputs (0major+5225minor)pagefaults 0swaps
+
+Finished testing farray 
+============================

@@ -1,0 +1,48 @@
+============================
+ cache_tagging  Test Log
+============================
+Testing standard tag application cases w/ default fcpl:
+Testing tag application during file creation                           PASSED
+Testing tag application during file open                               PASSED
+Testing tag application during attribute creation                      PASSED
+Testing tag application during attribute open                          PASSED
+Testing tag application during attribute write                         PASSED
+Testing tag application during attribute delete                        PASSED
+Testing tag application during attribute renaming                      PASSED
+Testing tag application during dataset creation                        PASSED
+Testing tag application during dataset creation with early allocation  PASSED
+Testing tag application during link removal                            PASSED
+Testing standard tag application cases w/ shared messages:
+Testing tag application during file creation                           PASSED
+Testing tag application during file open                               PASSED
+Testing tag application during attribute creation                      PASSED
+Testing tag application during attribute open                          PASSED
+Testing tag application during attribute write                         PASSED
+Testing tag application during attribute delete                        PASSED
+Testing tag application during attribute renaming                      PASSED
+Testing tag application during dataset creation                        PASSED
+Testing tag application during dataset creation with early allocation  PASSED
+Testing tag application during link removal                            PASSED
+Testing other specific tag application cases:
+Testing tag application during group creation                          PASSED
+Testing tag application during multiple group creation                 PASSED
+Testing tag application during group open                              PASSED
+Testing tag application during dataset open                            PASSED
+Testing tag application during dataset write                           PASSED
+Testing tag application during dataset read                            PASSED
+Testing tag application during dataset storage size retrieval          PASSED
+Testing tag application during dataset extend                          PASSED
+Testing tag application during object info retrieval                   PASSED
+Testing tag application during object copy                             PASSED
+Testing tag application during link name retrieval                     PASSED
+Testing tag application during external link creation                  PASSED
+Testing tag application during external link open                      PASSED
+Testing tag application during dense attribute manipulation            PASSED
+Testing tag application during iteration over links in a group         PASSED
+Testing failure on invalid tag application                             -SKIP-
+    test skipped because sanity checking on tag value is disabled.
+0.05user 0.02system 0:00.11elapsed 63%CPU (0avgtext+0avgdata 13156maxresident)k
+0inputs+2192outputs (0major+6764minor)pagefaults 0swaps
+
+Finished testing cache_tagging 
+============================

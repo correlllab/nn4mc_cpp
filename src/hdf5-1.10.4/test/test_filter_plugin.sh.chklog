@@ -1,0 +1,110 @@
+============================
+test_filter_plugin.sh  Test Log
+============================
+Testing with old file format:
+Testing dataset writes with deflate filter
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 1
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 2
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 3
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+Testing creating groups with filter plugin 4                           PASSED
+
+Testing reading data with with dynamic plugin filters:
+Testing dataset read I/O with deflate filter                           PASSED
+Testing     dataset reads with filter plugin 1                         PASSED
+Testing     dataset reads with filter plugin 2                         PASSED
+Testing     dataset reads with filter plugin 3                         PASSED
+Testing opening groups with filter plugin 4                            PASSED
+Testing filter plugin 1 with filter plugins disabled                   PASSED
+
+Testing with new file format:
+Testing dataset writes with deflate filter
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 1
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 2
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+    dataset writes with filter plugin 3
+Testing     filters (setup)                                            PASSED
+Testing     filters (uninitialized read)                               PASSED
+Testing     filters (write)                                            PASSED
+Testing     filters (read)                                             PASSED
+Testing     filters (modify)                                           PASSED
+Testing     filters (re-open)                                          PASSED
+Testing     filters (partial I/O)                                      PASSED
+Testing creating groups with filter plugin 4                           PASSED
+
+Testing reading data with with dynamic plugin filters:
+Testing dataset read I/O with deflate filter                           PASSED
+Testing     dataset reads with filter plugin 1                         PASSED
+Testing     dataset reads with filter plugin 2                         PASSED
+Testing     dataset reads with filter plugin 3                         PASSED
+Testing opening groups with filter plugin 4                            PASSED
+Testing filter plugin 1 with filter plugins disabled                   PASSED
+Testing access to the filter path table
+Testing     initialize                                                 PASSED
+Testing     remove                                                     PASSED
+Testing     remove (index 0 in empty table)                            PASSED
+Testing     append                                                     PASSED
+Testing     remove (index too high)                                    PASSED
+Testing     get (path name)                                            PASSED
+Testing     get (high and low indices)                                 PASSED
+Testing     get (index too high)                                       PASSED
+Testing     remove (arbitrary index 1)                                 PASSED
+Testing     prepend                                                    PASSED
+Testing     replace                                                    PASSED
+Testing     remove (arbitrary index 2)                                 PASSED
+Testing     insert                                                     PASSED
+Testing     remove (all)                                               PASSED
+All plugin tests passed.
+All filter plugin tests passed.
+0.16user 0.02system 0:00.23elapsed 79%CPU (0avgtext+0avgdata 12836maxresident)k
+8inputs+3456outputs (0major+24440minor)pagefaults 0swaps
+
+Finished testing test_filter_plugin.sh 
+============================

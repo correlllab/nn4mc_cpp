@@ -1,0 +1,26 @@
+============================
+testh5dumpvds.sh  Test Log
+============================
+Testing ../../src/h5dump/h5dump --enable-error-stack 1_vds.h5          PASSED
+Testing ../../src/h5dump/h5dump --enable-error-stack 2_vds.h5          PASSED
+Testing ../../src/h5dump/h5dump --enable-error-stack 3_1_vds.h5        PASSED
+Testing ../../src/h5dump/h5dump --enable-error-stack 3_2_vds.h5        PASSED
+Testing ../../src/h5dump/h5dump --enable-error-stack 4_vds.h5          PASSED
+Testing ../../src/h5dump/h5dump --enable-error-stack 5_vds.h5          PASSED
+Testing ../../src/h5dump/h5dump --vds-view-first-missing --enable-erro PASSED
+Testing ../../src/h5dump/h5dump -d /VDS-Eiger --vds-gap-size=1 --enabl PASSED
+Testing ../../src/h5dump/h5dump --vds-gap-size=2 --enable-error-stack  PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 1_vds.h5       PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 2_vds.h5       PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 3_1_vds.h5     PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 3_2_vds.h5     PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 4_vds.h5       PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack 5_vds.h5       PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack vds-eiger.h5   PASSED
+Testing ../../src/h5dump/h5dump -p --enable-error-stack vds-percival-u PASSED
+All h5dump tests passed.
+0.09user 0.04system 0:00.61elapsed 22%CPU (0avgtext+0avgdata 9888maxresident)k
+448inputs+2456outputs (0major+183609minor)pagefaults 0swaps
+
+Finished testing testh5dumpvds.sh 
+============================

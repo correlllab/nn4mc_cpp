@@ -1,0 +1,8 @@
+============================
+ h5dumpgentest  Test Log
+============================
+0.04user 0.00system 0:00.05elapsed 81%CPU (0avgtext+0avgdata 16060maxresident)k
+0inputs+20288outputs (0major+7905minor)pagefaults 0swaps
+
+Finished testing h5dumpgentest 
+============================

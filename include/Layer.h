@@ -1,3 +1,7 @@
+#ifndef _LAYER_H__
+#define _LAYER_H__
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -122,3 +126,6 @@ class LSTM: public Layer{
         bool unroll;
     public:
 };
+
+
+#endif

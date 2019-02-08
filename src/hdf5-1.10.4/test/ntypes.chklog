@@ -1,0 +1,25 @@
+============================
+ ntypes  Test Log
+============================
+Testing atomic datatype                                                PASSED
+Testing compound datatype                                              PASSED
+Testing nested compound datatype                                       PASSED
+Testing compound datatype with array as field                          PASSED
+Testing compound datatype with opaque field                            PASSED
+Testing enum datatype                                                  PASSED
+Testing array of compound datatype                                     PASSED
+Testing array of atomic datatype                                       PASSED
+Testing variable length datatype                                       PASSED
+Testing variable length string datatype                                PASSED
+Testing fixed-length string datatype                                   PASSED
+Testing reference datatype                                             PASSED
+Testing dataset region reference                                       PASSED
+Testing opaque datatype                                                PASSED
+Testing bitfield datatype                                              PASSED
+Testing native integer                                                 PASSED
+All native datatype tests passed.
+0.03user 0.00system 0:00.05elapsed 77%CPU (0avgtext+0avgdata 12260maxresident)k
+0inputs+7304outputs (0major+11508minor)pagefaults 0swaps
+
+Finished testing ntypes 
+============================

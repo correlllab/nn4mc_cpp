@@ -1,0 +1,36 @@
+============================
+ fillval  Test Log
+============================
+Testing property lists                                                 PASSED
+Testing property lists, with variable-length datatype                  PASSED
+Testing with old file format:
+Testing chunked dataset creation                                       PASSED
+Testing chunked dataset I/O                                            PASSED
+Testing chunked dataset extend                                         PASSED
+Testing chunked dataset partially allocated I/O                        PASSED
+Testing contiguous dataset creation                                    PASSED
+Testing contiguous dataset I/O                                         PASSED
+Testing contiguous dataset extend                                      -SKIP-
+    Not implemented yet -- needs H5S_SELECT_DIFF operator
+Testing contiguous dataset compatibility with v. 1.4                   PASSED
+Testing compact dataset creation                                       PASSED
+Testing compact dataset I/O                                            PASSED
+
+Testing with new file format:
+Testing chunked dataset creation                                       PASSED
+Testing chunked dataset I/O                                            PASSED
+Testing chunked dataset extend                                         PASSED
+Testing chunked dataset partially allocated I/O                        PASSED
+Testing contiguous dataset creation                                    PASSED
+Testing contiguous dataset I/O                                         PASSED
+Testing contiguous dataset extend                                      -SKIP-
+    Not implemented yet -- needs H5S_SELECT_DIFF operator
+Testing contiguous dataset compatibility with v. 1.4                   PASSED
+Testing compact dataset creation                                       PASSED
+Testing compact dataset I/O                                            PASSED
+All fill value tests passed.
+1.75user 0.10system 0:02.72elapsed 68%CPU (0avgtext+0avgdata 18676maxresident)k
+0inputs+342016outputs (0major+8494minor)pagefaults 0swaps
+
+Finished testing fillval 
+============================

@@ -1,3 +1,6 @@
+#ifndef _WEIGHTS_H__
+#define _WEIGHTS_H__
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,3 +23,5 @@ class Weights {
             }
         } 
 };
+
+#endif

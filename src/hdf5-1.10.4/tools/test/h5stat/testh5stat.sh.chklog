@@ -1,0 +1,44 @@
+============================
+testh5stat.sh  Test Log
+============================
+Testing ../../src/h5stat/h5stat -h                                     PASSED
+Testing ../../src/h5stat/h5stat --help                                 PASSED
+Testing ../../src/h5stat/h5stat notexist.h5                            PASSED
+Testing ../../src/h5stat/h5stat                                        PASSED
+Testing ../../src/h5stat/h5stat h5stat_filters.h5                      PASSED
+Testing ../../src/h5stat/h5stat -f h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat -F h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat -d h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat -g h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat -dT h5stat_filters.h5                  PASSED
+Testing ../../src/h5stat/h5stat -D h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat -T h5stat_filters.h5                   PASSED
+Testing ../../src/h5stat/h5stat h5stat_tsohm.h5                        PASSED
+Testing ../../src/h5stat/h5stat h5stat_newgrat.h5                      PASSED
+Testing ../../src/h5stat/h5stat -G h5stat_newgrat.h5                   PASSED
+Testing ../../src/h5stat/h5stat -A h5stat_newgrat.h5                   PASSED
+Testing ../../src/h5stat/h5stat h5stat_idx.h5                          PASSED
+Testing ../../src/h5stat/h5stat -l 0 h5stat_threshold.h5               PASSED
+Testing ../../src/h5stat/h5stat -g -l 8 h5stat_threshold.h5            PASSED
+Testing ../../src/h5stat/h5stat --links=8 h5stat_threshold.h5          PASSED
+Testing ../../src/h5stat/h5stat --links=20 -g h5stat_threshold.h5      PASSED
+Testing ../../src/h5stat/h5stat -g h5stat_newgrat.h5                   PASSED
+Testing ../../src/h5stat/h5stat -g -l 40000 h5stat_newgrat.h5          PASSED
+Testing ../../src/h5stat/h5stat -d --dims=-1 h5stat_threshold.h5       PASSED
+Testing ../../src/h5stat/h5stat -gd -m 5 h5stat_threshold.h5           PASSED
+Testing ../../src/h5stat/h5stat -d --di=15 h5stat_threshold.h5         PASSED
+Testing ../../src/h5stat/h5stat -a -2 h5stat_threshold.h5              PASSED
+Testing ../../src/h5stat/h5stat --numattrs h5stat_threshold.h5         PASSED
+Testing ../../src/h5stat/h5stat -AS -a 10 h5stat_threshold.h5          PASSED
+Testing ../../src/h5stat/h5stat -a 1 h5stat_threshold.h5               PASSED
+Testing ../../src/h5stat/h5stat -A --numattrs=25 h5stat_threshold.h5   PASSED
+Testing ../../src/h5stat/h5stat -A -a 100 h5stat_newgrat.h5            PASSED
+Testing ../../src/h5stat/h5stat h5stat_err_refcount.h5                 PASSED
+Testing ../../src/h5stat/h5stat h5stat_err_old_layout.h5               PASSED
+Testing ../../src/h5stat/h5stat h5stat_err_old_fill.h5                 PASSED
+All h5stat tests passed.
+2.26user 0.20system 0:06.45elapsed 38%CPU (0avgtext+0avgdata 24736maxresident)k
+12920inputs+1992outputs (0major+280912minor)pagefaults 0swaps
+
+Finished testing testh5stat.sh 
+============================
