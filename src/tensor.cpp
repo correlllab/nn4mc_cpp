@@ -5,7 +5,7 @@
 *
 */
 
-#include "tensor.h"
+#include "../include/tensor.h"
 #include <cstdarg>
 #include <cstdlib>
 #include <string>
