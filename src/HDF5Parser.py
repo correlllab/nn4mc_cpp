@@ -14,10 +14,10 @@ f= h5py.File(filename, 'r')
 
 def recursiveKeyPrinting(key, identifier):
     try:
-        if str(key.id) in identifier:
+        if str(key.name) in identifier:
             return
         else:
-            identifier.append(str(key.id))
+            identifier.append(str(key.name))
             if isinstance(key, h5py.Dataset):
                 return recursiveKeyPrinting(key.parent, identifier)
 
