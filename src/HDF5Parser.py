@@ -9,29 +9,13 @@
 import h5py
 import numpy as np
 
-filename= '../data/weights.best.hdf5'
-f= h5py.File(filename, 'r')
+def print_attrs(name, obj):
+    print(name)
+    for key, val in obj.attrs.items():
+        print(key, val)
 
-def recursiveKeyPrinting(key, identifier):
-    try:
-        if key.id not in identifier:
-            if isinstance(key, h5py.Dataset):
-                print(key.shape)
-                identifier+=key.id
-                return recursiveKeyPrinting(key.parent, identifier)
 
-            for kkey in key.keys():
-                print(key[kkey])
-                identifier+=key.id
-                return recursiveKeyPrinting(key[kkey], identifier)
-        else:
-            return
-
-    except Exception as e:
-        print(str(e))
-        print(identifier)
-
-if __name__=='__main__':
-    identifier= []
-    recursiveKeyPrinting(f, identifier)
-
+if __name__=="__main__":
+    filename= '../data/weights.best.hdf5'
+    f= h5py.File(filename, 'r')
+    f.visititems(print_attrs)
