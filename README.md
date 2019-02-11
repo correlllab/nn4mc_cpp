@@ -21,6 +21,18 @@ gcc testing.c
 That will allow you to compile and even print partial results by typing `./a.out` for debugging purposes.
 
 
+### BUILDING
+Building is done using cmake.  From the main directory:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+At the moment, this generates a tensor_test executable that runs some simple tests demonstrating the use of the tensor library.
+
 #### REPO TREE:
 ``` bash .
 |-- neural_network.c
