@@ -28,20 +28,23 @@
 
 #include <cstdarg>
 #include <exception>
+#include <vector>
 
-template <class DataType, unsigned int NumDims>
+template <class DataType>
 class Tensor
 {
 	private:
-		unsigned int dimensions[NumDims];
-		unsigned int offsets[NumDims];
+		std::vector<unsigned int> offsets;
 		unsigned int num_elements;
+
 		DataType* data;
 
 		unsigned int array_index(unsigned int, va_list);
 
 	public:
-		Tensor(unsigned int, ...);
+		std::vector<unsigned int> shape;
+
+		Tensor(std::vector<unsigned int>);
 		~Tensor();
 
 		DataType& operator()(unsigned int, ...);
@@ -57,9 +60,6 @@ class BadIndexBoundsException : public std::exception
 		unsigned int index_bound;
 		unsigned int index;
 		virtual const char* what() const throw();
-//		{
-//			return "Bad Index: Index Out of Bounds";
-//		};
 };
 
 #endif
