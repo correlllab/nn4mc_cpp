@@ -36,6 +36,8 @@ template <class DataType>
 class Tensor
 {
 	private:
+
+	public:	
 		std::vector<unsigned int> offsets;
 		unsigned int num_elements;
 
@@ -43,7 +45,7 @@ class Tensor
 
 		unsigned int array_index(unsigned int, va_list);
 
-	public:
+
 		std::vector<unsigned int> shape;
 
 		Tensor(std::vector<unsigned int>);

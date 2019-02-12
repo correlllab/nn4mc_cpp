@@ -22,7 +22,7 @@ class WeightsGenerator
 		std::string DATATYPE_DELIMITER =		"<%WEIGHT_DATATYPE>";
 		std::string NAME_DELIMITER =			"<%WEIGHT_NAME>";
 		std::string INDEX_DELIMITER	=			"<%WEIGHT_INDEX>";
-		std::string DATA_DELIMITER =			"<%WEIGHT_REPRESENTATION>";
+		std::string DATA_DELIMITER =			"<%DATA>";
 
 		std::string weight_template;
 		std::string template_header;
@@ -33,12 +33,13 @@ class WeightsGenerator
 
 		std::string weight_datatype = std::string("float");
 
+		std::string generate_tensor_string(Tensor<double>*);
 
 	public:
 		WeightsGenerator(std::string);
 		~WeightsGenerator();
 
-		void addWeight(Weight);
+		void addWeight(Weight*);
 		void dump(std::string);
 };
 
