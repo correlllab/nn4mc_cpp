@@ -14,7 +14,7 @@ class Layer{
         public:
 
             Layer(std::string id){
-                this.identifier = id;
+                this->identifier = id;
             }
 };
 
@@ -28,7 +28,6 @@ class Conv1D : public Layer{
         int dilation_rate;
         std::string activation;
         bool use_bias;
-        Weight3D Wb;
 
         // no need for training-specific variables
     public:
@@ -45,7 +44,6 @@ class Conv2D : public Layer{
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        Weight4D Wb;
         // no need for training-specific variables. 
         
     public:
@@ -57,7 +55,6 @@ class Dense : public Layer{
         std::string activation;
         bool use_bias;
         //no training-specific parameters
-        Weight2D Wb;
     public:
 
 };
@@ -103,7 +100,7 @@ class GRU: public Layer{
         std::string recurrent_activation;
         bool use_bias;
         float dropout;
-        float recurrent dropout;
+        float recurrent_dropout;
         bool go_backwards;
         bool stateful;
         bool unrool;
