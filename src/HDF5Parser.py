@@ -9,13 +9,13 @@
 import h5py
 import numpy as np
 
-
 filename= '../data/weights.best.hdf5'
 f= h5py.File(filename, 'r')
 
 class Layer:
     def __init__(self, layer_type='Dense'):
         self.layer_type= layre_type
+        self.Layers= []
 
     def loadWeights(node):
         self.W= np.array(node.data)
@@ -23,11 +23,13 @@ class Layer:
 class NeuralNetwork:
     def __init__(self, numlayers=0):
         self.numlayers= numlayers
+    def addLayer(self, layer_type, input_shape, output_shape, activation):
+        self.Layers+= Layer(layer_type)
 
-
-def funct(name, obj):
+def funct(name, obj, myNN):
     print(name)
     if isinstance(obj, h5py.Dataset):
+        myNN.addlayer()
         print(obj.shape)
         arr= np.empty(obj.shape)
         obj.read_direct(arr)
@@ -53,7 +55,6 @@ def recursiveKeyPrinting(key, identifier):
 
 
 if __name__=='__main__':
-    f.visititems(funct)
-    #identifier= []
-    #recursiveKeyPrinting(f, identifier)
+    myNN= NeuralNetwork()
+    f.visititems(funct, myNN)
 
