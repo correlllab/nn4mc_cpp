@@ -12,7 +12,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <hdf5.h>
+#include "hdf5.h"
 
 // Define bool type for platforms that don't support bool yet
 #ifdef BOOL_NOTDEFINED
