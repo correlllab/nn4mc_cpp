@@ -1,8 +1,8 @@
 #include <iostream>
 #include "hdf5/include/hdf5.h" 
 #include "hdf5/include/H5Cpp.h" 
-#include "../include/tensor.h"
-#include "../include/NeuralNetwork.h"
+//#include "../include/datastructures/tensor.h"
+//#include "../include/NeuralNetwork.h"
 #include <string>
 
 using namespace H5;
