@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 #include "datastructures/tensor.h"
-#include "generator/weights_generator.h"
+#include "generator/weight_generator.h"
 #include "datastructures/weights.h"
 
 /** SIMPLE EXAMPLE
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 
 	std::cout << "Done is printing" << std::endl;
 	// Now create a weight generator object
-	WeightsGenerator generator = WeightsGenerator("../templates/esp32/header/neural_network_params.h.template");
+	WeightGenerator generator = WeightGenerator("../templates/esp32/header/neural_network_params.h.template");
 
 	std::cout << "Write weight 1" << std::endl;
 	generator.addWeight(w1);
