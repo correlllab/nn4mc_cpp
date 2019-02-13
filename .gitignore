@@ -7,7 +7,7 @@
 /bin/
 /out/
 /cmake-build-*/
-
+/sandbox/
 
 ### CMake ###
 CMakeCache.txt
