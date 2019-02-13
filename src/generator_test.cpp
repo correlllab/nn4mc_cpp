@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
 	// Make two weights to add to the generator
 	Weight* w1 = new Weight("conv1_weight", std::vector<unsigned int>({2,3,4}));
-	Weight* w2 = new Weight("conv1_bias", std::vector<unsigned int>({4,2}));
+	Weight* w2 = new Weight("conv1_bias", std::vector<unsigned int>({4}));
 
 	Tensor<double>* v1 = w1->get_weight_tensor();
 	Tensor<double>* v2 = w2->get_weight_tensor();
@@ -32,10 +32,8 @@ int main(int argc, char** argv)
 
 	for(int i=0; i<4; i++)
 	{
-		for(int j=0; j<2; j++)
-		{
-			(*v2)(i,j) = (double)rand() / RAND_MAX;
-		}
+
+		(*v2)(i) = (double)rand() / RAND_MAX;
 	}
 
 
@@ -56,11 +54,7 @@ int main(int argc, char** argv)
 
 	for(int i=0; i<4; i++)
 	{
-		for(int j=0; j<2; j++)
-		{
-			std::cout << (*v2)(i,j) << " ";
-		}
-		std::cout << std::endl;
+		std::cout << (*v2)(i) << " ";
 	}
 	std::cout << std::endl;
 

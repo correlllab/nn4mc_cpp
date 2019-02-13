@@ -137,29 +137,41 @@ std::string WeightsGenerator::generate_tensor_string(Tensor<double>* values)
 
 	ss << "{";
 
-	for(int i=0; i<num_elements; i++)
+	if(values->shape.size() == 1)
 	{
-		// Check if a new row needs to be started
-		for(int j=0; j<offsets.size()-1; j++)
+		for(int i=0; i<num_elements-1; i++)
 		{
-			if(i%offsets[j] == 0)	ss << "{";	else 	ss << " ";
+			ss << values->data[i] << ", ";
 		}
+		ss << values->data[num_elements-1];
+	}
+	else
+	{
 
-		ss << values->data[i];
-
-		// Is this the end of (any) dimension along the tensor?  Then close all possible braces
-		for(int j=offsets.size()-2; j>=0; j--)
+		for(int i=0; i<num_elements; i++)
 		{
-			if((i+1)%offsets[j] == 0) 	 ss << "}";
-		}
-
-		// Add a comma, and if it's not an individual element, insert a newline
-		if(i < num_elements-1)
-		{
-			ss << ",";
-			if((i+1)%offsets[offsets.size()-2] == 0)
+			// Check if a new row needs to be started
+			for(int j=0; j<offsets.size()-1; j++)
 			{
-				ss << "\n";
+				if(i%offsets[j] == 0)	ss << "{";	else 	ss << " ";
+			}
+
+			ss << values->data[i];
+
+			// Is this the end of (any) dimension along the tensor?  Then close all possible braces
+			for(int j=offsets.size()-2; j>=0; j--)
+			{
+				if((i+1)%offsets[j] == 0) 	 ss << "}";
+			}
+
+			// Add a comma, and if it's not an individual element, insert a newline
+			if(i < num_elements-1)
+			{
+				ss << ",";
+				if((i+1)%offsets[offsets.size()-2] == 0)
+				{
+					ss << "\n";
+				}
 			}
 		}
 	}
@@ -173,7 +185,7 @@ std::string WeightsGenerator::generate_tensor_string(Tensor<double>* values)
 void WeightsGenerator::dump(std::string filename)
 {
 	// Load the template from the provided path
-	std::ofstream output_file(filename, std::ios::out | std::ios::app);
+	std::ofstream output_file(filename, std::ios::out);
 
 	// If it's open, load the text
 	if(output_file.is_open())
