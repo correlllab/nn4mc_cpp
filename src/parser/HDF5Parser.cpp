@@ -67,71 +67,14 @@ int main(void)
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
       Group group = Group( file.openGroup( "model_weights" ));
 
-      /*
-       * Access "Compressed_Data" dataset in the group.
-       */
-      try {  // to determine if the dataset exists in the group
-         DataSet * dataset = new DataSet( group.openDataSet( "Compressed_Data" ));
-      }
-      catch( GroupIException not_found_error )
-      {
-	 cout << " Dataset is not found." << endl;
-      }
-      cout << "dataset \"/Data/Compressed_Data\" is open" << endl;
-
-
-      /*
-       * Create hard link to the Data group.
-       */
-      file.link( H5G_LINK_HARD, "Data", "Data_new" );
-
-      /*
-       * We can access "Compressed_Data" dataset using created
-       * hard link "Data_new".
-       */
-      try {  // to determine if the dataset exists in the file
-        DataSet *  dataset = new DataSet( file->openDataSet( "/Data_new/Compressed_Data" ));
-      }
-      catch( FileIException not_found_error )
-      {
-         cout << " Dataset is not found." << endl;
-      }
-      cout << "dataset \"/Data_new/Compressed_Data\" is open" << endl;
-
-      /*
-       * Close the dataset.
-       */
-      delete dataset;
-
-      /*
-       * Use iterator to see the names of the objects in the file
-       * root directory.
-       */
-      int ret = file->iterateElems("/", NULL, file_info, NULL);
-      cout << endl;
-
-      /*
-       * Unlink  name "Data" and use iterator to see the names
-       * of the objects in the file root direvtory.
-       */
-      cout << "Unlinking..." << endl;
-      try {  // attempt to unlink the dataset
-         file->unlink( "Data" );
-      }
-      catch( FileIException unlink_error )
-      {
-         cout << " unlink failed." << endl;
-      }
-      cout << "\"Data\" is unlinked" << endl;
-
+      cout<< file.getId() <<endl;
       cerr << endl << "Iterating over elements in the file again" << endl;
-      ret = file->iterateElems("/", NULL, file_info, NULL);
+      herr_t idx=  H5Giterate(file.getId(), "/", NULL, file_info, NULL);
       cerr << endl;
 
       /*
        * Close the file.
        */
-      delete file;
 
    }  // end of try block
 
