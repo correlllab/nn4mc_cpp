@@ -25,17 +25,27 @@ SET (nn4mp_VERSION_MINOR 0)
 
 
 # Bring the headers and source files into the project
+INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
 
+
 FILE (GLOB CORE_LIB src/datastructures/*.cpp)
+#FILE (GLOB LAYERS_LIB src/datastructures/layers/*.cpp)
+FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_datastructures SHARED ${CORE_LIB})
+#ADD_LIBRARY (nn4mp_layers SHARED ${LAYERS_LIB})
+ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
 # Add the executable
 ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)
-TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
+ADD_EXECUTABLE (generator_test src/generator_test.cpp)
 
+TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
+TARGET_LINK_LIBRARIES (generator_test nn4mp_datastructures)
+TARGET_LINK_LIBRARIES (generator_test nn4mp_code_generator)
+#TARGET_LINK_LIBRARIES (generator_test nn4mp_layers)
 
 # Link the output files, and GTK+ libraries
 
