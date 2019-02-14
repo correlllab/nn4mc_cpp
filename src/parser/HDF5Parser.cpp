@@ -27,6 +27,8 @@
 #include <iostream>
 #endif
 #include <string>
+#include "../../include/datastructures/tensor.h"
+
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
@@ -40,20 +42,16 @@
 
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
-using namespace std;
 
 #endif
 
 const H5std_string FILE_NAME( "../../data/weights.best.hdf5" );
-const int	RANK = 2;
 
 // Operator function
 extern "C" herr_t file_info(hid_t loc_id, const char *name, void *opdata);
 
 int main(void)
 {
-    hsize_t  dims[2];
-    hsize_t  cdims[2];
 
    // Try block to detect exceptions raised by any of the calls inside it
    try
@@ -67,7 +65,6 @@ int main(void)
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
       Group group = Group( file.openGroup( "model_weights" ));
 
-      cout<< file.getId() <<endl;
       cerr << endl << "Iterating over elements in the file again" << endl;
       herr_t idx=  H5Giterate(file.getId(), "/", NULL, file_info, NULL);
       cerr << endl;
