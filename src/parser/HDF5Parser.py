@@ -9,7 +9,7 @@
 import h5py
 import numpy as np
 
-filename= '../data/weights.best.hdf5'
+filename= '../../data/weights.best.hdf5'
 f= h5py.File(filename, 'r')
 
 class Layer:
