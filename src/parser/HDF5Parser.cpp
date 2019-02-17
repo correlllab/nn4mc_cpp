@@ -1,26 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
- * All rights reserved.                                                      *
- *                                                                           *
- * This file is part of HDF5.  The full HDF5 copyright notice, including     *
- * terms governing use, modification, and redistribution, is contained in    *
- * the files COPYING and Copyright.html.  COPYING can be found at the root   *
- * of the source code distribution tree; Copyright.html can be found at the  *
- * root level of an installed copy of the electronic HDF5 document set and   *
- * is linked from the top-level documents page.  It can also be found at     *
- * http://hdfgroup.org/HDF5/doc/Copyright.html.  If you do not have          *
- * access to either file, you may request a copy from help@hdfgroup.org.     *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-/*
- * This example creates a group in the file and dataset in the group.
- * Hard link to the group object is created and the dataset is accessed
- * under different names.
- * Iterator function is used to find the object names in the root group.
- * Note that the C++ API iterateElems is still taking the operator function
- * in C.  Additional work on iterateElems is in progress.
- */
 #ifdef OLD_HEADER_FILENAME
 #include <iostream.h>
 #else
@@ -28,8 +5,7 @@
 #endif
 #include <string>
 #include "../../include/datastructures/tensor.h"
-
-
+#include <vector>
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
     using std::cout;
@@ -48,7 +24,8 @@ using namespace H5;
 const H5std_string FILE_NAME( "../../data/weights.best.hdf5" );
 
 // Operator function
-extern "C" herr_t file_info(hid_t loc_id, const char *name, void *opdata);
+extern "C" herr_t file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
+
 
 int main(void)
 {
@@ -60,15 +37,15 @@ int main(void)
        * Turn off the auto-printing when failure occurs so that we can
        * handle the errors appropriately
        */
+
       Exception::dontPrint();
 
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
       Group group = Group( file.openGroup( "model_weights" ));
 
-      cerr << endl << "Iterating over elements in the file again" << endl;
-      herr_t idx=  H5Giterate(file.getId(), "/", NULL, file_info, NULL);
+      cerr << endl << "Iterating over elements in the file" << endl;
+      herr_t idx=  H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL,  file_info, NULL);
       cerr << endl;
-
       /*
        * Close the file.
        */
@@ -109,12 +86,24 @@ int main(void)
  * Operator function.
  */
 herr_t
-file_info(hid_t loc_id, const char *name, void *opdata)
+file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
     /*
      * Display group name.
      */
+    hid_t group, dspace;
+    
+    // possibly create a new layer in the neural network. 
+    
+    group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
+    dspace= H5Dget_space(group);
+    const int ndims= H5Sget_simple_extent_ndims(dspace);
+    hsize_t dims[ndims];
+    H5Sget_simple_extent_dims(dspace, dims, NULL);
+
     cout << "Name : " << name << endl;
+          
+    H5Gclose(group);
 
     return 0;
  }
