@@ -44,7 +44,7 @@ int main(void)
       Group group = Group( file.openGroup( "model_weights" ));
 
       cerr << endl << "Iterating over elements in the file" << endl;
-      herr_t idx=  H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL,  file_info, NULL);
+      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  file_info, NULL);
       cerr << endl;
       /*
        * Close the file.
@@ -91,18 +91,13 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
     /*
      * Display group name.
      */
-    hid_t group, dspace;
+    hid_t group;
     
     // possibly create a new layer in the neural network. 
-    
+     
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
-    dspace= H5Dget_space(group);
-    const int ndims= H5Sget_simple_extent_ndims(dspace);
-    hsize_t dims[ndims];
-    H5Sget_simple_extent_dims(dspace, dims, NULL);
-
     cout << "Name : " << name << endl;
-          
+         
     H5Gclose(group);
 
     return 0;
