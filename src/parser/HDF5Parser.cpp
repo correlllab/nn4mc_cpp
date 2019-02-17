@@ -101,21 +101,31 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
     
     switch(infobuf.type){
-        case H5O_TYPE_GROUP:
+        case H5O_TYPE_GROUP:{
             cout << "Group : " << name << endl;
             break;
-        case H5O_TYPE_DATASET:
+                            }
+        case H5O_TYPE_DATASET:{
             cout<< "Dataset: " << name<<endl;
-            
-            hid_t dset 
+            enum layer_type(CONV1D, CONV2D, DENSE, FLATTEN, MAXPOOLING1D, MAXPOOLING2D, SIMPLERNN, GRU, LSTM);
+            hid_t dset, dspace;
+            herr_t stat;
+                        
+            dset = H5Dopen(group, NULL, H5P_DEFAULT);
+            dspace = H5Dget_space(dset);
+            const int ndims = H5Sget_simple_extent_ndims(dspace);
 
+            cout<< ndims <<endl;
             break;
-        case H5O_TYPE_NAMED_DATATYPE:
+                              }
+        case H5O_TYPE_NAMED_DATATYPE:{
             cout<< "DataType" << name <<endl;
             break;
-        default:
+                                     }
+        default:{
             cout<< "Unknown"<<endl;
-
+            
+                }       
     }
              
     H5Gclose(group);

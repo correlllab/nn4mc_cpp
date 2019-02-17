@@ -29,7 +29,7 @@ class NeuralNetwork:
 def funct(name, obj):
     print(name)
     if isinstance(obj, h5py.Dataset):
-        myNN.addlayer()
+        #myNN.addlayer()
         print(obj.shape)
         arr= np.empty(obj.shape)
         obj.read_direct(arr)
