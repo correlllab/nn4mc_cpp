@@ -92,12 +92,32 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
      * Display group name.
      */
     hid_t group;
-    
+    hid_t status;
+    H5O_info_t infobuf;
+
     // possibly create a new layer in the neural network. 
      
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
-    cout << "Name : " << name << endl;
-         
+    status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
+    
+    switch(infobuf.type){
+        case H5O_TYPE_GROUP:
+            cout << "Group : " << name << endl;
+            break;
+        case H5O_TYPE_DATASET:
+            cout<< "Dataset: " << name<<endl;
+            
+            hid_t dset 
+
+            break;
+        case H5O_TYPE_NAMED_DATATYPE:
+            cout<< "DataType" << name <<endl;
+            break;
+        default:
+            cout<< "Unknown"<<endl;
+
+    }
+             
     H5Gclose(group);
 
     return 0;
