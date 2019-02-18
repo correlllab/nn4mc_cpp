@@ -17,16 +17,15 @@
  * Created on: Thu Feb 07 2019
  * 
  * */
-
 #ifdef OLD_HEADER_FILENAME
 #include <iostream.h>
 #else
 #include <iostream>
 #endif
 #include <string>
-#include "../../include/Parser.h"
-//#include "../../include/Layer.h"
-#include "../../include/datastructures/tensor.h"
+#include "Parser.h"
+//#include "Layer.h"
+#include "datastructures/tensor.h"
 #include <vector>
 
 #ifndef H5_NO_NAMESPACE
@@ -46,32 +45,27 @@ using namespace H5;
 
 const H5std_string FILE_NAME( FILENAME );
 
-// Operator function
+// Callback function:
 extern "C" herr_t file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
-extern "C" void do_dset(hid_t);
-
-int main(void)
+extern "C" herr_t callback_neural_network(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
+int main()
 {
 
-   // Try block to detect exceptions raised by any of the calls inside it
    try
    {
-      /*
-       * Turn off the auto-printing when failure occurs so that we can
-       * handle the errors appropriately
-       */
 
       Exception::dontPrint();
 
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
       Group group = Group( file.openGroup( "model_weights" ));
 
-      cerr << endl << "Iterating over elements in the file" << endl;
+      cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  file_info, NULL);
       cerr << endl;
-      /*
-       * Close the file.
-       */
+
+      cout<< endl<<"Parsing neural newtork structure: "<<endl;
+      herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, callback_neural_network, NULL);
+      cerr<<endl;
 
    }  // end of try block
 
@@ -102,33 +96,31 @@ int main(void)
       //error.printError();
       return -1;
    }
-   return 0;
+ return 0; 
 }
 
-/*
- * Operator function.
- */
+herr_t
+callback_neural_network(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *opdata)
+{
+    cout<< "Layer: ";
+    cout<< name << endl;
+    return 0;
+}
+
 herr_t
 file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
 
-    //Callback function to read hdf5 dataset. 
-    /*
-     * Display group name.
-     */
     hid_t group;
     hid_t status;
     H5O_info_t infobuf;
 
-    // possibly create a new layer in the neural network. 
-     
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
     
     switch(infobuf.type){
         case H5O_TYPE_GROUP:{
             cout << "Group : " << name << endl;
-            
             break;
                             }
         case H5O_TYPE_DATASET:{
@@ -141,7 +133,6 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
             size= H5Tget_size(datatype);
             dataspace = H5Dget_space(dset);
             rank= H5Sget_simple_extent_ndims(dataspace); 
-            cout<< rank<<endl;
             hsize_t dims[rank];
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
             std::vector<unsigned int> tensor_dims;
@@ -167,8 +158,12 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
             ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
             cout<<endl;
             
-            for (int i=0; i<flat; i++) cout<< rbuf[i] << "  ";
+            for (int i=0; i<flat; i++) {
+                cout<< rbuf[i] << "  ";
+            }  
+
             cout<<endl;
+              
             ret= H5Dclose(dset); 
             
             //no toki:
