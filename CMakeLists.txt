@@ -1,9 +1,5 @@
 # The name of the project
 PROJECT (nn4mp)
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 # Minimum version of cmake required
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
@@ -50,8 +46,5 @@ TARGET_LINK_LIBRARIES (generator_test nn4mp_code_generator)
 # Link the output files, and GTK+ libraries
 
 # add the install targets
-<<<<<<< HEAD
-=======
 # add_executable(src HDF5Parser.cpp)
 # target_link_libraries(src h5cpp)
->>>>>>> origin/master
