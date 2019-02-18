@@ -46,8 +46,8 @@ using namespace H5;
 const H5std_string FILE_NAME( FILENAME );
 
 // Callback function:
-extern "C" herr_t file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
-extern "C" herr_t callback_neural_network(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
+extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
+extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 int main()
 {
 
@@ -60,11 +60,11 @@ int main()
       Group group = Group( file.openGroup( "model_weights" ));
 
       cerr << endl << "Parsing weights:" << endl;
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  file_info, NULL);
+      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
 
       cout<< endl<<"Parsing neural newtork structure: "<<endl;
-      herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, callback_neural_network, NULL);
+      herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, NULL);
       cerr<<endl;
 
    }  // end of try block
@@ -100,7 +100,7 @@ int main()
 }
 
 herr_t
-callback_neural_network(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *opdata)
+network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *opdata)
 {
     cout<< "Layer: ";
     cout<< name << endl;
@@ -108,7 +108,7 @@ callback_neural_network(hid_t loc_id, const char *name, const H5L_info_t *linfo,
 }
 
 herr_t
-file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
+weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
 
     hid_t group;
@@ -137,7 +137,7 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
             std::vector<unsigned int> tensor_dims;
             
-            cout<< "Dimensions of the dataset:" <<endl;
+            cout<<endl<< "Dimensions of the dataset:" <<endl;
             for (int i=0; i<rank; i++) {
                 cout<< dims[i] << "  ";            
                 tensor_dims.push_back((unsigned int)dims[i]);
