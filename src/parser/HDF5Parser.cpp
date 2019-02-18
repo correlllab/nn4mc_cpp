@@ -4,6 +4,7 @@
 #include <iostream>
 #endif
 #include <string>
+#include "../../include/Parser.h"
 #include "../../include/datastructures/tensor.h"
 #include <vector>
 #ifndef H5_NO_NAMESPACE
@@ -21,7 +22,7 @@ using namespace H5;
 
 #endif
 
-const H5std_string FILE_NAME( "../../data/weights.best.hdf5" );
+const H5std_string FILE_NAME( FILENAME );
 
 // Operator function
 extern "C" herr_t file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
@@ -107,7 +108,8 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
                             }
         case H5O_TYPE_DATASET:{
             cout<< "Dataset: " << name<<endl;
-            enum layer_type(CONV1D, CONV2D, DENSE, FLATTEN, MAXPOOLING1D, MAXPOOLING2D, SIMPLERNN, GRU, LSTM);
+            enum layer_type  {CONV1D, CONV2D, DENSE, FLATTEN, MAXPOOLING1D, MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
+            
             hid_t dset, dspace;
             herr_t stat;
                         
