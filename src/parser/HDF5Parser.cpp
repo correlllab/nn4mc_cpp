@@ -1,3 +1,23 @@
+/**
+ * \file HDF5Parser.cpp
+ * Code to parse hdf5 file containing neural network information
+ *
+ * \brief Parser for hdf5 neural network file:
+ * This code is meant to declare a neural network (NeuralNetwork.h) 
+ * based on the hdf5 file that was output by the training code
+ *
+ * \author: $Author: Sarah Aguasvivas Manzano $
+ *
+ * \version $Version: 0.1 $
+ *
+ * \date $Date: 2019/02/18 $
+ *
+ * Contact: saag5228@colorado.edu
+ *
+ * Created on: Thu Feb 07 2019
+ * 
+ * */
+
 #ifdef OLD_HEADER_FILENAME
 #include <iostream.h>
 #else
@@ -8,6 +28,7 @@
 //#include "../../include/Layer.h"
 #include "../../include/datastructures/tensor.h"
 #include <vector>
+
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
     using std::cout;
@@ -90,6 +111,8 @@ int main(void)
 herr_t
 file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
+
+    //Callback function to read hdf5 dataset. 
     /*
      * Display group name.
      */
@@ -105,6 +128,7 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
     switch(infobuf.type){
         case H5O_TYPE_GROUP:{
             cout << "Group : " << name << endl;
+            
             break;
                             }
         case H5O_TYPE_DATASET:{
@@ -115,18 +139,43 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
             datatype= H5Dget_type(dset);
             cclass = H5Tget_class(datatype); 
             size= H5Tget_size(datatype);
-            cout<<  " of size= "<< size <<endl;
             dataspace = H5Dget_space(dset);
             rank= H5Sget_simple_extent_ndims(dataspace); 
             cout<< rank<<endl;
             hsize_t dims[rank];
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
-            for (int i=0; i<rank; i++) cout<< dims[i] << "  ";
+            std::vector<unsigned int> tensor_dims;
+            
+            cout<< "Dimensions of the dataset:" <<endl;
+            for (int i=0; i<rank; i++) {
+                cout<< dims[i] << "  ";            
+                tensor_dims.push_back((unsigned int)dims[i]);
+            }
             cout<<endl;
+             
+            // TODO: handle the data type specific to the output type, 
+            // not only <double>
+           
+            Tensor<float> T(tensor_dims);
+            float *rbuf;
+            herr_t ret;
+            int flat=1;
+            for (int i=0; i<rank; i++){
+                flat*= dims[i];
+            }
+            rbuf= new float [flat];
+            ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
+            cout<<endl;
+            
+            for (int i=0; i<flat; i++) cout<< rbuf[i] << "  ";
+            cout<<endl;
+            ret= H5Dclose(dset); 
+            
+            //no toki:
             break;
                               }
         case H5O_TYPE_NAMED_DATATYPE:{
-            cout<< "DataType" << name <<endl;
+            cout<< "DataType: " << name <<endl;
             break;
                                      }
         default:{
