@@ -8,14 +8,17 @@
 #include "Weights.h"
 
 class Layer{
-        private:
-            std::string identifier;
+    private:
+      std::string identifier;
 
-        public:
+    public:
 
             Layer(std::string id){
                 this->identifier = id;
             }
+      Layer(std::string id){
+          this.identifier = id;
+      }
 };
 
 class Conv1D : public Layer{
@@ -28,6 +31,7 @@ class Conv1D : public Layer{
         int dilation_rate;
         std::string activation;
         bool use_bias;
+        Weights* w;
 
         // no need for training-specific variables
     public:
@@ -46,6 +50,9 @@ class Conv2D : public Layer{
         bool use_bias;
         // no need for training-specific variables. 
         
+        Weights* w;
+        // no need for training-specific variables.
+
     public:
 };
 
@@ -56,7 +63,10 @@ class Dense : public Layer{
         bool use_bias;
         //no training-specific parameters
     public:
+=======
+        Weights* w;
 
+    public:
 };
 
 
@@ -81,7 +91,6 @@ class MaxPooling2D: public Layer{
         std::string padding;
         std::string data_format;
     public:
-
 };
 
 class SimpleRNN : public Layer{
@@ -90,7 +99,6 @@ class SimpleRNN : public Layer{
         std::string activation;
         bool use_bias;
     public:
-
 };
 
 class GRU: public Layer{
