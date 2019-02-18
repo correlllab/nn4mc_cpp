@@ -5,6 +5,7 @@
 #endif
 #include <string>
 #include "../../include/Parser.h"
+//#include "../../include/Layer.h"
 #include "../../include/datastructures/tensor.h"
 #include <vector>
 #ifndef H5_NO_NAMESPACE
@@ -26,7 +27,7 @@ const H5std_string FILE_NAME( FILENAME );
 
 // Operator function
 extern "C" herr_t file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
-
+extern "C" void do_dset(hid_t);
 
 int main(void)
 {
@@ -107,17 +108,21 @@ file_info(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata
             break;
                             }
         case H5O_TYPE_DATASET:{
-            cout<< "Dataset: " << name<<endl;
-            enum layer_type  {CONV1D, CONV2D, DENSE, FLATTEN, MAXPOOLING1D, MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
-            
-            hid_t dset, dspace;
-            herr_t stat;
-                        
-            dset = H5Dopen(group, NULL, H5P_DEFAULT);
-            dspace = H5Dget_space(dset);
-            const int ndims = H5Sget_simple_extent_ndims(dspace);
 
-            cout<< ndims <<endl;
+            cout<< "Dataset: " << name;
+            hid_t datatype, dataspace, cclass, order, size, rank; 
+            hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
+            datatype= H5Dget_type(dset);
+            cclass = H5Tget_class(datatype); 
+            size= H5Tget_size(datatype);
+            cout<<  " of size= "<< size <<endl;
+            dataspace = H5Dget_space(dset);
+            rank= H5Sget_simple_extent_ndims(dataspace); 
+            cout<< rank<<endl;
+            hsize_t dims[rank];
+            H5Sget_simple_extent_dims(dataspace, dims, NULL);
+            for (int i=0; i<rank; i++) cout<< dims[i] << "  ";
+            cout<<endl;
             break;
                               }
         case H5O_TYPE_NAMED_DATATYPE:{
