@@ -1,6 +1,5 @@
 # The name of the project
 PROJECT (nn4mp)
-
 # Minimum version of cmake required
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
@@ -15,7 +14,7 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
-
+SET (HDF5 hdf5)
 # Version Number
 SET (nn4mp_VERSION_MAJOR 0)
 SET (nn4mp_VERSION_MINOR 0)

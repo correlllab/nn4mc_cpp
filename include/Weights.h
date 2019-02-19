@@ -14,15 +14,16 @@ class Weights {
         std::string identifier;
 
     public:
+        Weights(std::vector<int> dims, std::string id){ 
         Eigen::MatrixXd W;
         Eigen::VectorXd b;
-        Weights(std::vector<int> dims, std::string id){ 
+        Weights(std::vector<int> dims, std::string id){
             // common non-abstract constructor
-            this.identifier= id;
+            this->identifier= id;
             for(int i=0; i<dims.size(); i++){
-                this.dimensions.push_back(dims.at[i]);
+                this->dimensions.push_back(dims[i]);
             }
-        } 
+        }
 };
 
 #endif
