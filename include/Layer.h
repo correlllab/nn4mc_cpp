@@ -63,7 +63,6 @@ class Dense : public Layer{
         bool use_bias;
         //no training-specific parameters
     public:
-=======
         Weights* w;
 
     public:
