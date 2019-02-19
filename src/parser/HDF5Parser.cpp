@@ -48,6 +48,8 @@ const H5std_string FILE_NAME( FILENAME );
 // Callback function:
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
+
+
 int main()
 {
 
@@ -104,6 +106,7 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
 {
     cout<< "Layer: ";
     cout<< name << endl;
+    // this is where I addLayer();
     return 0;
 }
 
@@ -162,6 +165,20 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 cout<< rbuf[i] << "  ";
             }  
 
+            switch(rank){
+                case 1:
+                    {
+                        for (int i=0; i<dims[0]; i++){
+                            T(i) = rbuf[i];
+                        }
+
+                    }
+
+                default:
+                    break;
+
+            }
+
             cout<<endl;
               
             ret= H5Dclose(dset); 
@@ -172,7 +189,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
         case H5O_TYPE_NAMED_DATATYPE:{
             cout<< "DataType: " << name <<endl;
             break;
-                                     }
+                }
         default:{
             cout<< "Unknown"<<endl;
             
