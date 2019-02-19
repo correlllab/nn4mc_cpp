@@ -1,5 +1,5 @@
 #ifndef _CONV1D_H
-#def _CONV1D_H
+#define _CONV1D_H
 
 class Conv1D
 {

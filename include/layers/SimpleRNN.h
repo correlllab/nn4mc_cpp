@@ -1,5 +1,5 @@
 #ifndef _SIMPLERNN_H
-#def _SIMPLERNN_H
+#define _SIMPLERNN_H
 
 class SimpleRNN
 {

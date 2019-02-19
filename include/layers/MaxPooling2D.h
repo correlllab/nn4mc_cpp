@@ -1,5 +1,5 @@
 #ifndef _MAXPOOLING2D_H
-#def _MAXPOOLING2D_H
+#define _MAXPOOLING2D_H
 
 class MaxPooling2D
 {

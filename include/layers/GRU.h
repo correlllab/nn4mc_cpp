@@ -1,5 +1,5 @@
 #ifndef _GRU_
-#def _GRU_
+#define _GRU_
 
 class GRU
 {

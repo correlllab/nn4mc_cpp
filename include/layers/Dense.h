@@ -1,5 +1,5 @@
 #ifndef _DENSE_H
-#def _DENSE_H
+#define _DENSE_H
 
 class Dense
 {
