@@ -9,7 +9,7 @@ class GRU
         std::string recurrent_activation;
         bool use_bias;
         float dropout;
-        float recurrent dropout;
+        float recurrent_dropout;
         bool go_backwards;
         bool stateful;
         bool unrool;

@@ -13,7 +13,6 @@ class Conv2D
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        Weights Wb;
         // no need for training-specific variables.
 
     public:

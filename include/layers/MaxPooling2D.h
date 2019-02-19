@@ -10,7 +10,6 @@ class MaxPooling2D
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
-        Weights Wb;
 };
 
 #endif

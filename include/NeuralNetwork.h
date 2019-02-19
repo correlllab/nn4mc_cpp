@@ -5,6 +5,8 @@
 #include<vector>
 #include "Weights.h"
 #include "Layer.h"
+#include <string>
+
 
 struct LayerEdge
 {
@@ -16,19 +18,19 @@ struct LayerEdge
   }
 };
 
+
 struct LayerNode
 {
   Layer* layer;
   std::vector<LayerEdge> edges;
   bool visited;
 
-  LaerNode()
+  LayerNode()
   {
     layer=NULL;
     visited=false;
   }
 };
-
 
 class NeuralNetwork
 {
@@ -37,13 +39,14 @@ class NeuralNetwork
     std::vector<LayerNode> input;
 
     void setUnvisited();
-    LayerNode* findNode(string ID);
+    LayerNode* findNode(std::string ID);
+
   public:
     NeuralNetwork();
     ~NeuralNetwork();
 
     void addLayer(Layer* layer);
-    void addEdge(strind ID_1, string ID_2);
+    void addEdge(std::string ID_1, std::string ID_2);
 
     void BFSPrint();
     void DFSPrint();

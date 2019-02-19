@@ -10,7 +10,6 @@ class Dense
         std::string activation;
         bool use_bias;
         //no training-specific parameters
-        Weights Wb;
     public:
 
 };

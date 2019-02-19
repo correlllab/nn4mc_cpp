@@ -9,7 +9,6 @@ class SimpleRNN
         int units;
         std::string activation;
         bool use_bias;
-        Weights Wb; 
 };
 
 #endif
