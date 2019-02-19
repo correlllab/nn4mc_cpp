@@ -24,9 +24,10 @@
 #endif
 #include <string>
 #include "Parser.h"
-//#include "Layer.h"
 #include "datastructures/tensor.h"
 #include <vector>
+#include "NeuralNetwork.h"
+#include "LayerBuilder.h"
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
@@ -49,8 +50,7 @@ const H5std_string FILE_NAME( FILENAME );
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-
-int main()
+void HDF5Parser::ParseHDF5(NeuralNetwork NN)
 {
 
    try
@@ -61,13 +61,13 @@ int main()
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
       Group group = Group( file.openGroup( "model_weights" ));
 
-      cerr << endl << "Parsing weights:" << endl;
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
-      cerr << endl;
-
       cout<< endl<<"Parsing neural newtork structure: "<<endl;
       herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, NULL);
       cerr<<endl;
+
+      cerr << endl << "Parsing weights:" << endl;
+      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
+      cerr << endl;
 
    }  // end of try block
 
@@ -98,7 +98,7 @@ int main()
       //error.printError();
       return -1;
    }
- return 0; 
+ 
 }
 
 herr_t
@@ -106,7 +106,7 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
 {
     cout<< "Layer: ";
     cout<< name << endl;
-    // this is where I addLayer();
+    // Declare NN node + use builderMap to attach layer.      
     return 0;
 }
 
@@ -178,7 +178,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                     break;
 
             }
-
+            //link weights and biases to layer object
             cout<<endl;
               
             ret= H5Dclose(dset); 
