@@ -1,10 +1,11 @@
-#ifndef _WEIGHTS_H__
-#define _WEIGHTS_H__
+#ifndef __WEIGHTS_H__
+#define __WEIGHTS_H__
 
 #include <iostream>
 #include <string>
 #include <vector>
-#include <Eigen/Dense>
+#include "datastructures/tensor.h"
+#include "datastructures/tensor.cpp"
 
 
 class Weights {
