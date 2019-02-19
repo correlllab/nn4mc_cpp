@@ -14,7 +14,6 @@ class GRU
         bool stateful;
         bool unrool;
         bool reset_after;
-    public:
 };
 
 #endif

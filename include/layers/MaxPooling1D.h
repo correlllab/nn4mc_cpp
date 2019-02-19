@@ -1,6 +1,7 @@
 #ifndef _MAXPOOLING1D_H
 #define _MAXPOOLING1D_H
 
+#include "Weights.h"
 class MaxPooling1D
 {
     private:
@@ -8,7 +9,7 @@ class MaxPooling1D
         int strides;
         std::string padding;
         std::string data_format;
-    public:
+        Weights Wb;
 };
 
 #endif

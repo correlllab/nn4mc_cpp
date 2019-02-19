@@ -14,7 +14,6 @@ class LSTM
         bool go_backwards;
         bool stateful;
         bool unroll;
-    public:
 };
 
 #endif
