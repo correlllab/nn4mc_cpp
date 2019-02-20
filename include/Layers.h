@@ -1,5 +1,5 @@
 #ifndef _LAYERS_H
-#def _LAYERS_H
+#define _LAYERS_H
 
 //Includes all neccesary layer classes.
 

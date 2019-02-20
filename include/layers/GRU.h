@@ -1,5 +1,5 @@
 #ifndef _GRU_
-#def _GRU_
+#define _GRU_
 
 class GRU
 {
@@ -9,12 +9,11 @@ class GRU
         std::string recurrent_activation;
         bool use_bias;
         float dropout;
-        float recurrent dropout;
+        float recurrent_dropout;
         bool go_backwards;
         bool stateful;
         bool unrool;
         bool reset_after;
-    public:
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "NeuralNetwork.h"
 #include "LayerBuilder.h"
 #include <vector>
+#include <sstream>
 
 #define FILENAME    "../../data/weights.best.hdf5"
 #define HDF5_FORMAT "hdf5"
@@ -15,60 +16,54 @@
 class Parser{
     // Concrete class for parser obejcts. 
     private: 
-            enum class layer_type  {CONV1D, CONV2D, 
+            enum layer_type  {CONV1D, CONV2D, 
                 DENSE, FLATTEN, MAXPOOLING1D,               
                 MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
 
             std::string file_format;
-            std::map<layer_type, LayerBuilder> builderMap;                    
-
+            std::map<layer_type, LayerBuilder*> builderMap;                    
+            NeuralNetwork NN();
     public:
+            void ParseHDF5(NeuralNetwork NN);
+            void ParseJSON(NeuralNetwork NN);
+            void Parse(NeuralNetwork NN);
             Parser(){
-                builderMap layer_type={
-                    {layer_type::CONV1D, Conv1DBuilder},
-                    {layer_type::CONV2D, Conv2DBuilder},
-                    {layer_type::DENSE, DenseBuilder},
-                    {layer_type::FLATTEN, FlattenBuilder},
-                    {layer_type::MAXPOOLING1D, MaxPooling1DBuilder},
-                    {layer_type::MAXPOOLING2D, Maxpooling2DBuilder},
-                    {layer_type::SIMPLERNN, SimpleRNNBuilder},
-                    {layer_type::GRU, GRUBuilder},
-                    {layer_type::LSTM, LSTMBuilder}
-                }  
-            
-            std::vector<std::string> splitString;
-            std::string token;
-            while(std::getline(FILENAME, token, '.')){
-                if (!token.empty())
-                    splitString.push_back(token);
-            }
-            if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
-                HDF5Parser();              
-            } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
-                JSONParser();
-            } 
-            }; 
+/*
+                builderMap.insert(std::make_pair(layer_type.CONV1D, new Conv1DBuilder()));
+                builderMap.insert(std::make_pair(layer_type.CONV2D, new Conv2DBuilder()));
+                builderMap.insert(std::make_pair(layer_type.DENSE, new DenseBuilder()));
+                builderMap.insert(std::make_pair(layer_type.FLATTEN, new FlattenBuilder()));
+                builderMap.insert(std::make_pair(layer_type.MAXPOOLING1D, new MaxPooling1DBuilder()));
+                builderMap.insert(std::make_pair(layer_type.MAXPOOLING2D, new MaxPooling2DBuilder()));
+                builderMap.insert(std::make_pair(layer_type.SIMPLERNN, new SimpleRNNBuilder()));
+                builderMap.insert(std::make_pair(layer_type.GRU, new GRUBuilder()));
+                builderMap.insert(std::make_pair(layer_type.LSTM, new LSTMBuilder()));
+ */                 }; 
 };
 
+void Parser::Parse(NeuralNetwork NN){
+    std::vector<std::string> splitString;
+    std::string token;
+    std::istringstream iss(FILENAME);
+    while(std::getline(iss, token, '.')){
+        if (!token.empty())
+            splitString.push_back(token);
+    }
+    if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
+        this->ParseHDF5(NN);              
+    } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
+        this->ParseJSON(NN);
+      } 
+}
 
-class HDF5Parser : public Parser {
-   
-    public:
-        NeuralNetwork NN;
          
-        HDF5Parser(){
-            ParseHDF5(NeuralNetwork NN);
-        };
+void Parser::ParseHDF5(NeuralNetwork NN){
 
-};
+}
 
-class JSONParser : public Parser{
-    public:
-        NeuralNetwork NN;
 
-        JSONParser(){
-            ParserJSON(NeuralNetwork NN);
-        };
-};
+void Parser::ParseJSON(NeuralNetwork NN){
+
+}
 
 #endif

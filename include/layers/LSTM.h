@@ -1,5 +1,5 @@
 #ifndef _LSTM_H
-#def _LSTM_H
+#define _LSTM_H
 
 class LSTM
 {
@@ -14,7 +14,6 @@ class LSTM
         bool go_backwards;
         bool stateful;
         bool unroll;
-    public:
 };
 
 #endif

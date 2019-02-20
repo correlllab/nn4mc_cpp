@@ -1,5 +1,7 @@
 #ifndef _SIMPLERNN_H
-#def _SIMPLERNN_H
+#define _SIMPLERNN_H
+
+#include "Weights.h"
 
 class SimpleRNN
 {
@@ -7,8 +9,6 @@ class SimpleRNN
         int units;
         std::string activation;
         bool use_bias;
-    public:
-
 };
 
 #endif

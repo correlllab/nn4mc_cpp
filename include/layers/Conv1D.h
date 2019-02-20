@@ -1,5 +1,7 @@
 #ifndef _CONV1D_H
-#def _CONV1D_H
+#define _CONV1D_H
+#include "Weights.h"
+
 
 class Conv1D
 {
@@ -12,7 +14,6 @@ class Conv1D
         int dilation_rate;
         std::string activation;
         bool use_bias;
-        Weight3D Wb;
 
         // no need for training-specific variables
     public:

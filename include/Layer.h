@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Weights.h"
 
 class Layer{
     private:
@@ -13,11 +12,8 @@ class Layer{
 
     public:
 
-            Layer(std::string id){
-                this->identifier = id;
-            }
       Layer(std::string id){
-          this.identifier = id;
+          this->identifier = id;
       }
 };
 
@@ -129,6 +125,8 @@ class LSTM: public Layer{
         bool stateful;
         bool unroll;
     public:
+          this->identifier = id;
+      };
 };
 
 
