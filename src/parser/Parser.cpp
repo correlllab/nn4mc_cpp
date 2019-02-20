@@ -3,7 +3,8 @@
 
 int main(){
     
-    Parser P();
+    Parser P;
+    P.Parse();
 
     return 0;
 }

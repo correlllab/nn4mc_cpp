@@ -50,7 +50,7 @@ const H5std_string FILE_NAME( FILENAME );
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-void HDF5Parser::ParseHDF5(NeuralNetwork NN)
+void Parser::ParseHDF5()
 {
 
    try
@@ -75,28 +75,28 @@ void HDF5Parser::ParseHDF5(NeuralNetwork NN)
    catch( FileIException error )
    {
       //error.printError();
-      return -1;
+      return;
    }
 
    // catch failure caused by the DataSet operations
    catch( DataSetIException error )
    {
       //error.printError();
-      return -1;
+      return;
    }
 
    // catch failure caused by the DataSpace operations
    catch( DataSpaceIException error )
    {
       //error.printError();
-      return -1;
+      return;
    }
 
    // catch failure caused by the Attribute operations
    catch( AttributeIException error )
    {
       //error.printError();
-      return -1;
+      return;
    }
  
 }
