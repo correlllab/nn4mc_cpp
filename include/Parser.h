@@ -7,6 +7,7 @@
 #include "NeuralNetwork.h"
 #include "LayerBuilder.h"
 #include <vector>
+#include <sstream>
 
 #define FILENAME    "../../data/weights.best.hdf5"
 #define HDF5_FORMAT "hdf5"
@@ -23,6 +24,9 @@ class Parser{
             std::map<layer_type, LayerBuilder*> builderMap;                    
             NeuralNetwork NN();
     public:
+            void ParseHDF5(NeuralNetwork NN);
+            void ParseJSON(NeuralNetwork NN);
+            void Parse(NeuralNetwork NN);
             Parser(){
 /*
                 builderMap.insert(std::make_pair(layer_type.CONV1D, new Conv1DBuilder()));
@@ -34,39 +38,32 @@ class Parser{
                 builderMap.insert(std::make_pair(layer_type.SIMPLERNN, new SimpleRNNBuilder()));
                 builderMap.insert(std::make_pair(layer_type.GRU, new GRUBuilder()));
                 builderMap.insert(std::make_pair(layer_type.LSTM, new LSTMBuilder()));
- */           
-            std::vector<std::string> splitString;
-            std::string token;
-            istringstream iss(FILENAME);
-            while(std::getline(iss, token, '.')){
-                if (!token.empty())
-                    splitString.push_back(token);
-            }
-            if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
-                HDF5Parser();              
-            } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
-                JSONParser();
-              } 
-            }; 
+ */                 }; 
 };
 
+void Parser::Parse(NeuralNetwork NN){
+    std::vector<std::string> splitString;
+    std::string token;
+    std::istringstream iss(FILENAME);
+    while(std::getline(iss, token, '.')){
+        if (!token.empty())
+            splitString.push_back(token);
+    }
+    if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
+        this->ParseHDF5(NN);              
+    } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
+        this->ParseJSON(NN);
+      } 
+}
 
-class HDF5Parser : public Parser {
-   
-    public:
          
-        HDF5Parser(){
-            void ParseHDF5(NeuralNetwork );
-        };
+void Parser::ParseHDF5(NeuralNetwork NN){
 
-};
+}
 
-class JSONParser : public Parser{
-    public:
 
-        JSONParser(){
-            void ParserJSON(NeuralNetwork );
-        };
-};
+void Parser::ParseJSON(NeuralNetwork NN){
+
+}
 
 #endif
