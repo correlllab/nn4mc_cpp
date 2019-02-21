@@ -17,13 +17,15 @@
  * Created on: Thu Feb 07 2019
  * 
  * */
-#ifdef OLD_HEADER_FILENAME
+#ifdef _HDF5PARSER_C__ 
+#define _HDF4PARSER_C__
 #include <iostream.h>
+#include "Parser.h"
+
 #else
 #include <iostream>
 #endif
 #include <string>
-#include "Parser.h"
 #include "datastructures/tensor.h"
 #include <vector>
 #include "NeuralNetwork.h"
@@ -50,7 +52,7 @@ const H5std_string FILE_NAME( FILENAME );
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-void Parser::ParseHDF5()
+int Parser::ParseHDF5(void)
 {
 
    try
@@ -75,28 +77,28 @@ void Parser::ParseHDF5()
    catch( FileIException error )
    {
       //error.printError();
-      return;
+      return -1;
    }
 
    // catch failure caused by the DataSet operations
    catch( DataSetIException error )
    {
       //error.printError();
-      return;
+      return -1;
    }
 
    // catch failure caused by the DataSpace operations
    catch( DataSpaceIException error )
    {
       //error.printError();
-      return;
+      return -1;
    }
 
    // catch failure caused by the Attribute operations
    catch( AttributeIException error )
    {
       //error.printError();
-      return;
+      return -1;
    }
  
 }
