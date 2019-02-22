@@ -1,16 +1,18 @@
 #ifndef _NEURAL_NETWORK_H__
 #define _NEURAL_NETWORK_H__
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include "Weights.h"
 #include "Layer.h"
 #include <string>
+#include <list>
 
+struct LayerNode;
 
 struct LayerEdge
 {
-  LayerNode* l;
+  struct LayerNode* l;
 
   LayerEdge()
   {
@@ -49,7 +51,7 @@ class NeuralNetwork
     void addEdge(std::string ID_1, std::string ID_2);
 
     void BFSPrint();
-    void DFSPrint();
+    void DFSPrint(LayerNode* start);
 };
 
 #endif

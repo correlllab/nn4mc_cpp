@@ -8,10 +8,10 @@
 
 class Layer{
     private:
-      std::string identifier;
+      //std::string identifier;
 
     public:
-
+      std::string identifier;
       Layer(std::string id){
           this->identifier = id;
       }
@@ -44,8 +44,8 @@ class Conv2D : public Layer{
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        // no need for training-specific variables. 
-        
+        // no need for training-specific variables.
+
         Weights* w;
         // no need for training-specific variables.
 
@@ -125,8 +125,7 @@ class LSTM: public Layer{
         bool stateful;
         bool unroll;
     public:
-          this->identifier = id;
-      };
+          //this->identifier = id;
 };
 
 
