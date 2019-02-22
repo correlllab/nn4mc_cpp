@@ -6,41 +6,34 @@ NeuralNetwork::NeuralNetwork()
 }
 NeuralNetwork::~NeuralNetwork()
 {
-  std::vector<LayerNode>::iterator i;
-  std::vector<LayerEdge>::iterator j;
-  LayerNode* lPtr;
-  LayerEdge* ePtr;
+  LayerNode* del;
 
-  for(i=layers.begin(); i!=layers.end(); i++)
+  while(!layers.empty())
   {
-    for(j=i->edges.begin(); j!=i->edges.end(); j++)
-    {
-      ePtr = &(*j);
-      delete ePtr;
-    }
-    lPtr = &(*i);
-    delete lPtr;
+    del = layers.back();
+    layers.pop_back();
+    delete del;
   }
 }
 
 void NeuralNetwork::setUnvisited()
 {
-  std::vector<LayerNode>::iterator i;
+  std::vector<LayerNode*>::iterator i;
 
   for(i=layers.begin(); i!=layers.end(); i++)
   {
-    i->visited = false;
+    (*i)->visited = false;
   }
 }
 
 LayerNode* NeuralNetwork::findNode(std::string ID)
 {
-  std::vector<LayerNode>::iterator i;
+  std::vector<LayerNode*>::iterator i;
 
   for(i=layers.begin(); i!=layers.end(); i++)
   {
-    if(i->layer->identifier == ID)
-      return &(*i);
+    if((*i)->layer->identifier == ID)
+      return *i;
   }
 
   return NULL;
@@ -51,12 +44,13 @@ void NeuralNetwork::addLayer(Layer* input_layer)
   LayerNode* newLayer = new LayerNode;
   newLayer->layer = input_layer;
 
-  layers.push_back(*newLayer);
+  layers.push_back(newLayer);
 }
-void NeuralNetwork::addEdge(std::string ID_1, std::string ID_2)
+
+void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
 {
-  LayerNode* layer_1 = findNode(ID_1);
-  LayerNode* layer_2 = findNode(ID_2);
+  LayerNode* layer_1 = findNode(l1->identifier);
+  LayerNode* layer_2 = findNode(l2->identifier);
 
   LayerEdge* newEdge = new LayerEdge;
 
@@ -69,7 +63,7 @@ void NeuralNetwork::BFSPrint()
 {
   setUnvisited();
 
-  LayerNode* start = &(layers.front()); //Should change to input
+  LayerNode* start = layers.front(); //Should change to input
   std::list<LayerNode*> nodeList;
   std::vector<LayerEdge>::iterator i;
 
@@ -97,7 +91,7 @@ void NeuralNetwork::BFSPrint()
 
 }
 
-void NeuralNetwork::DFSPrint(LayerNode* start)
+void NeuralNetwork::DFS(LayerNode* start)
 {
   if(!(start->visited))
   {
@@ -110,6 +104,14 @@ void NeuralNetwork::DFSPrint(LayerNode* start)
   for(i=start->edges.begin(); i!=start->edges.end(); i++)
   {
     if(!i->l->visited)
-      DFSPrint(i->l);
+      DFS(i->l);
   }
+}
+
+void NeuralNetwork::DFSPrint()
+{
+  setUnvisited();
+  LayerNode* start = layers.front(); //Should change to input
+
+  DFS(start);
 }
