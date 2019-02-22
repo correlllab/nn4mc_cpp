@@ -25,7 +25,7 @@ deps_config := \
 	/home/sarahaguasvivas/esp/esp-idf/Kconfig.compiler \
 	/home/sarahaguasvivas/esp/esp-idf/components/bootloader/Kconfig.projbuild \
 	/home/sarahaguasvivas/esp/esp-idf/components/esptool_py/Kconfig.projbuild \
-	/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/Kconfig.projbuild \
+	/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/Kconfig.projbuild \
 	/home/sarahaguasvivas/esp/esp-idf/components/partition_table/Kconfig.projbuild \
 	/home/sarahaguasvivas/esp/esp-idf/Kconfig
 

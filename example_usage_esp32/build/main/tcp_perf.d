@@ -1,5 +1,5 @@
 tcp_perf.o: \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/tcp_perf.c \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/tcp_perf.c \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/string.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/newlib.h \
@@ -37,7 +37,7 @@ tcp_perf.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/vfs/include/sys/ioctl.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/sys/select.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_task.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_system.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h \
@@ -130,14 +130,16 @@ tcp_perf.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_event_loop.h \
  /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h \
  /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/tcp_perf.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/adc_collector.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/tcp_perf.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/adc_collector.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h \
  /home/sarahaguasvivas/esp/esp-idf/components/driver/include/driver/adc.h \
  /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/adc_channel.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network.c \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network_params.h
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.c \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network_params.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network_params.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.h
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/string.h:
 
@@ -213,7 +215,7 @@ tcp_perf.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_task.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_system.h:
 
@@ -399,9 +401,9 @@ tcp_perf.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/tcp_perf.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/tcp_perf.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/adc_collector.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/adc_collector.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h:
 
@@ -409,9 +411,13 @@ tcp_perf.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/adc_channel.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network.c:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.c:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/neural_network_params.h:
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/./tcp_perf.c:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network_params.h:
+
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network_params.h:
+
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/nn4mp/neural_network.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/./tcp_perf.c:

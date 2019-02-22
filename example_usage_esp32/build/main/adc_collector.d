@@ -1,5 +1,5 @@
 adc_collector.o: \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/adc_collector.c \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/adc_collector.c \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_intr_alloc.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/_default_types.h \
@@ -23,7 +23,7 @@ adc_collector.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/sched.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/alloca.h \
@@ -88,7 +88,7 @@ adc_collector.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h \
  /home/sarahaguasvivas/esp/esp-idf/components/driver/include/driver/adc.h \
  /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/adc_channel.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/adc_collector.h
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/adc_collector.h
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_intr_alloc.h:
 
@@ -136,7 +136,7 @@ adc_collector.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h:
 
@@ -266,5 +266,5 @@ adc_collector.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/adc_channel.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/adc_collector.h:
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/main/./adc_collector.c:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/adc_collector.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/main/./adc_collector.c:
