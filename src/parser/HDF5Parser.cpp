@@ -100,7 +100,7 @@ int Parser::ParseHDF5(void)
       //error.printError();
       return -1;
    }
- 
+return 0; 
 }
 
 herr_t
