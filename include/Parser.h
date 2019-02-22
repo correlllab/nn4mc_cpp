@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include "NeuralNetwork.h"
-#include "LayerBuilder.h"
+//#include "LayerBuilder.h"
 #include <vector>
 #include <sstream>
 
@@ -21,7 +21,7 @@ class Parser{
                 MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
 
             std::string file_format;
-            std::map<layer_type, LayerBuilder*> builderMap;                    
+          //  std::map<layer_type, LayerBuilder*> builderMap;                    
 //            NeuralNetwork NN();
     public:
                 Parser(){
