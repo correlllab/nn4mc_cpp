@@ -1,6 +1,8 @@
 ﻿# nn4mp: Neural Networks for Microcontrollers
 ### Started by Sarah Aguasvivas (January 2019)
 
+
+
 This repo is a generalization of the neural network created by Dana Hughes https://github.com/danathughes/esp32_neural_net 
 
 In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we want to be able to flash a microcontroller with our trained neural network model (which we trained offline, in another computer) with a code that is easy to use and reusable.  
@@ -18,6 +20,18 @@ gcc testing.c
 
 That will allow you to compile and even print partial results by typing `./a.out` for debugging purposes.
 
+
+### BUILDING
+Building is done using cmake.  From the main directory:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+At the moment, this generates a tensor_test executable that runs some simple tests demonstrating the use of the tensor library.
 
 #### REPO TREE:
 ``` bash .
@@ -203,3 +217,5 @@ If you would like to access the results from this neural network, just refer to 
  }
  printf("\n");
 ```
+
+![Alt text](/docs/uml/nn4mp_network_diagram.pdf?raw=true "UML Diagram")
