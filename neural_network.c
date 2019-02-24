@@ -6,15 +6,11 @@
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
-<<<<<<< HEAD
 #define TAG "neural network. c: "
 =======
 #define exp(x) 1.0 + x + x*x/2.0 + x*x*x/6.0 + x*x*x*x/24.0+ x*x*x*x*x/120.0 + x*x*x*x*x*x/720.0 + x*x*x*x*x*x*x/5040.0
 #define sigmoid(x) 1.0/(1.0 + exp(-1.0*x)) 
-#define COLS(arr) (int)sizeof((arr)[0])
-#define ROWS(arr) (int)(sizeof(arr)/sizeof(arr[0])) 
 
->>>>>>> ae0028711140c253ecfacde571bd7c620a6b46e1
 void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_size, int filters){
     // These will emulate the constructors
     struct Conv1D L; 
