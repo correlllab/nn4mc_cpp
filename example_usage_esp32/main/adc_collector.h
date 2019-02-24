@@ -11,7 +11,6 @@ extern "C" {
 #define V_REF			1100
 
 #include "esp_adc_cal.h"
-
 //uint16_t* buffer;
 
 volatile uint16_t buffer[WINDOW_SIZE*NUM_ADC];
@@ -21,7 +20,6 @@ volatile float ** window;
 float output[NUM_OUTPUT];
 volatile int buffer_idx;
 volatile bool buffer_full;
-
 char* packet;
 volatile int packet_size;
 volatile bool packet_ready;

@@ -1,22 +1,7 @@
-/* tcp_perf Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
-
-
-/*
-tcp_perf example
-
-Using this example to test tcp throughput performance.
+/*mple to test tcp t<Plug>yankstack_after_pastehroughput performance.
 esp<->esp or esp<->ap
-
 step1:
     init wifi as AP/STA using config SSID/PASSWORD.
-
 step2:
     create a tcp server/client socket using config PORT/(IP).
     if server: wating for connect.
