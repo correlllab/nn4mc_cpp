@@ -10,7 +10,7 @@
 
 struct LayerEdge
 {
-  LayerNode* l;
+struct LayerNode * l;
 
   LayerEdge()
   {

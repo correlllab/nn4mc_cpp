@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include "NeuralNetwork.h"
-#include "LayerBuilder.h"
+//#include "LayerBuilder.h"
 #include <vector>
 #include <sstream>
 
@@ -21,13 +21,10 @@ class Parser{
                 MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
 
             std::string file_format;
-            std::map<layer_type, LayerBuilder*> builderMap;                    
-            NeuralNetwork NN();
+          //  std::map<layer_type, LayerBuilder*> builderMap;                    
+//            NeuralNetwork NN();
     public:
-            void ParseHDF5(NeuralNetwork NN);
-            void ParseJSON(NeuralNetwork NN);
-            void Parse(NeuralNetwork NN);
-            Parser(){
+                Parser(){
 /*
                 builderMap.insert(std::make_pair(layer_type.CONV1D, new Conv1DBuilder()));
                 builderMap.insert(std::make_pair(layer_type.CONV2D, new Conv2DBuilder()));
@@ -38,10 +35,13 @@ class Parser{
                 builderMap.insert(std::make_pair(layer_type.SIMPLERNN, new SimpleRNNBuilder()));
                 builderMap.insert(std::make_pair(layer_type.GRU, new GRUBuilder()));
                 builderMap.insert(std::make_pair(layer_type.LSTM, new LSTMBuilder()));
- */                 }; 
-};
+ */                 };
+            int ParseHDF5(void);
+            int ParseJSON(void);
+            void Parse(void);
+                       };
 
-void Parser::Parse(NeuralNetwork NN){
+void Parser::Parse(void){
     std::vector<std::string> splitString;
     std::string token;
     std::istringstream iss(FILENAME);
@@ -50,20 +50,18 @@ void Parser::Parse(NeuralNetwork NN){
             splitString.push_back(token);
     }
     if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
-        this->ParseHDF5(NN);              
+    std::cout<<"Parser: parsing hdf5..."<<std::endl;
+        this->ParseHDF5();              
     } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
-        this->ParseJSON(NN);
+        std::cout<< "Parser: parsing json..."<<std::endl;
+        this->ParseJSON();
       } 
 }
 
-         
-void Parser::ParseHDF5(NeuralNetwork NN){
-
-}
-
-
-void Parser::ParseJSON(NeuralNetwork NN){
-
+//TODO:
+int Parser::ParseJSON(void){
+    std::cout<< "here" <<std::endl;
+    return 0;
 }
 
 #endif

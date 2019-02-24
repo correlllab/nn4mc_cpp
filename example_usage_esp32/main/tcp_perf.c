@@ -82,49 +82,47 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
     return ESP_OK;
 }
 
-void feed_forward(volatile float ** window){
+void feed_forward(){
 
     struct Conv1D L1; 
     set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
-    fwd_conv1D(&L1, 4, 2, 8, W_0, b_0, window);
+    fwd_conv1D(&L1, 4, 1, 8, W_0, b_0, window);
 
     struct Conv1D L2; 
-    set_conv1D(&L2, 47, 8, 4, 8); 
+    set_conv1D(&L2, 247, 8, 4, 8); 
     fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L1.h);
 
-    struct Flatten2D1D FL; 
-    flatten2D1D(&FL, 44, 8, L2.h);
+    struct Flatten2D1D FL;
+    setflatten2D1D(&FL, 244, 8);
+    flatten2D1D(&FL, L2.h);
 
     struct Dense D1; 
-    set_dense(&D1, FL.output_size, 64, 'r');
+    set_dense(&D1, FL.output_size, 100, 'r');
     fwd_dense(&D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);
 
     struct Dense D2; 
-    set_dense(&D2, D1.output_size, 32, 'r');
+    set_dense(&D2, D1.output_size, 50, 'r');
     fwd_dense(&D2, D2.input_size, D2.output_size, W_3, b_3, D1.h);
 
     struct Dense D3; 
-    set_dense(&D3, D2.output_size, 16, 'r');
+    set_dense(&D3, D2.output_size, 50, 'l');
     fwd_dense(&D3, D3.input_size, D3.output_size, W_4, b_4, D2.h);
 
     struct Dense D4; 
-    set_dense(&D4, D3.output_size, 8, 'r');
+    set_dense(&D4, D3.output_size, 1, 'l');
     fwd_dense(&D4, D4.input_size, D4.output_size, W_5, b_5, D3.h);
 
-    struct Dense D5; 
-    set_dense(&D5, D4.output_size, 3, 'l');
-    fwd_dense(&D5, D5.input_size, D5.output_size, W_6, b_6, D4.h);
-
     for (int i=0; i<NUM_OUTPUT; i++){
-        output[i]= D5.h[i];
+        output[i]= D4.h[i];
     }
+
 }
 
 //send data
 void send_data(void *pvParameters)
 {
     int len = 0;
-    vTaskDelay(100 / portTICK_RATE_MS);
+    vTaskDelay(1 / portTICK_RATE_MS);
     ESP_LOGI(TAG, "start sending...");
 
     while (1) {
@@ -132,25 +130,23 @@ void send_data(void *pvParameters)
         // Check if ready to send the terrain class
         if(packet_ready)
         {
-            ESP_LOGI(TAG, "Sending Packet...");
-            
+    //        ESP_LOGI(TAG, "Sending Packet...");
+             
             packet_ready = false;
             // How many bytes are left to send?
             int to_write = packet_size;
-            for(int i=0; i<(int)WINDOW_SIZE/2;i++){
-                for (int j=0; j<NUM_ADC; j++){
-                    int idx= i*(int)WINDOW_SIZE/2+j;
+              window= (volatile float**)malloc(WINDOW_SIZE*sizeof(volatile float*));
+       for (int i=0; i<WINDOW_SIZE; i++) window[i]= (volatile float*)malloc(1*sizeof(volatile float));    
+            for(int i=0; i<(int)WINDOW_SIZE;i++){
+                for (int j=0; j<1; j++){
+                    int idx= i*(int)1+j;
                     window[i][j]= (float)packet[idx]/4096.0;
                 }   
             }
-            TickType_t start= xTaskGetTickCount();            
-            feed_forward(window);
-            TickType_t end= xTaskGetTickCount();
-            uint32_t total_ticks= (uint32_t) end - start;
-            ESP_LOGI(TAG, "#Ticks: %d ", total_ticks);
-            ESP_LOGI(TAG, "pitch=%f", output[0]);
-            ESP_LOGI(TAG, "roll=%f", output[1]);
-            ESP_LOGI(TAG, "F=%f", output[2]);
+            feed_forward();
+            free(window);
+            ESP_LOGI(TAG, "r= %f", output[0]);
+             
             //send function
             while (to_write > 0) {
                 len = send(connect_socket, output + (packet_size - to_write), to_write, 0);
@@ -167,13 +163,13 @@ void send_data(void *pvParameters)
                     }
                 }  
             }
-            ESP_LOGI(TAG, "Buffer Sent!");    
+     //       ESP_LOGI(TAG, "Buffer Sent!");    
 
             packet_ready = false;
         }
         else
         {
-            vTaskDelay(100);
+            vTaskDelay(1);
         }
 
         if(g_rxtx_need_restart)
