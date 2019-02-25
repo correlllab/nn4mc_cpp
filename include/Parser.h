@@ -51,10 +51,10 @@ void Parser::Parse(void){
     }
     if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
     std::cout<<"Parser: parsing hdf5..."<<std::endl;
-        this->ParseHDF5();              
+        ParseHDF5();              
     } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
         std::cout<< "Parser: parsing json..."<<std::endl;
-        this->ParseJSON();
+        ParseJSON();
       } 
 }
 
