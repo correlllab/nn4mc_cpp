@@ -7,7 +7,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 #define TAG "neural network. c: "
-=======
+
 #define exp(x) 1.0 + x + x*x/2.0 + x*x*x/6.0 + x*x*x*x/24.0+ x*x*x*x*x/120.0 + x*x*x*x*x*x/720.0 + x*x*x*x*x*x*x/5040.0
 #define sigmoid(x) 1.0/(1.0 + exp(-1.0*x)) 
 
