@@ -5,9 +5,9 @@
 extern "C" {
 #endif
 
-#define WINDOW_SIZE	    250	
+#define WINDOW_SIZE	    100
 #define NUM_ADC		    2
-#define NUM_OUTPUT      1
+#define NUM_OUTPUT      2
 #define V_REF			1100
 
 #include "esp_adc_cal.h"

@@ -88,29 +88,20 @@ void feed_forward(){
     set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
     fwd_conv1D(&L1, 4, 1, 8, W_0, b_0, window);
 
-    struct Conv1D L2; 
-    set_conv1D(&L2, 247, 8, 4, 8); 
-    fwd_conv1D(&L2, 4, 8, 8, W_1, b_1, L1.h);
-
     struct Flatten2D1D FL;
     setflatten2D1D(&FL, 244, 8);
-    flatten2D1D(&FL, L2.h);
-
-    struct Dense D1; 
-    set_dense(&D1, FL.output_size, 100, 'r');
-    fwd_dense(&D1, D1.input_size, D1.output_size, W_2, b_2, FL.h);
 
     struct Dense D2; 
-    set_dense(&D2, D1.output_size, 50, 'r');
-    fwd_dense(&D2, D2.input_size, D2.output_size, W_3, b_3, D1.h);
+    set_dense(&D2, D1.output_size, 20, 'r');
+    fwd_dense(&D2, D2.input_size, D2.output_size, W_2, b_2, D1.h);
 
     struct Dense D3; 
-    set_dense(&D3, D2.output_size, 50, 'l');
-    fwd_dense(&D3, D3.input_size, D3.output_size, W_4, b_4, D2.h);
+    set_dense(&D3, D2.output_size, 10, 'l');
+    fwd_dense(&D3, D3.input_size, D3.output_size, W_3, b_3, D2.h);
 
     struct Dense D4; 
-    set_dense(&D4, D3.output_size, 1, 'l');
-    fwd_dense(&D4, D4.input_size, D4.output_size, W_5, b_5, D3.h);
+    set_dense(&D4, D3.output_size, 2, 'l');
+    fwd_dense(&D4, D4.input_size, D4.output_size, W_4, b_4, D3.h);
 
     for (int i=0; i<NUM_OUTPUT; i++){
         output[i]= D4.h[i];
@@ -145,7 +136,7 @@ void send_data(void *pvParameters)
             }
             feed_forward();
             free(window);
-            ESP_LOGI(TAG, "r= %f", output[0]);
+            ESP_LOGI(TAG, "r= %f, theta=%f", output[0], output[1]);
              
             //send function
             while (to_write > 0) {
