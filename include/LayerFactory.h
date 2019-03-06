@@ -7,7 +7,6 @@ class LayerFactory{
         LayerBuilder *create()=0;
 };
 
-
 class Conv1DFactory : public LayerFactory {
     public:
         Conv1DBuilder * create(){return new Conv1DBuilder();};
