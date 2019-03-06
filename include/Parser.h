@@ -21,25 +21,13 @@ class Parser{
                 MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
 
             std::string file_format;
-          //  std::map<layer_type, LayerBuilder*> builderMap;                    
-//            NeuralNetwork NN();
     public:
-                Parser(){
-/*
-                builderMap.insert(std::make_pair(layer_type.CONV1D, new Conv1DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.CONV2D, new Conv2DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.DENSE, new DenseBuilder()));
-                builderMap.insert(std::make_pair(layer_type.FLATTEN, new FlattenBuilder()));
-                builderMap.insert(std::make_pair(layer_type.MAXPOOLING1D, new MaxPooling1DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.MAXPOOLING2D, new MaxPooling2DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.SIMPLERNN, new SimpleRNNBuilder()));
-                builderMap.insert(std::make_pair(layer_type.GRU, new GRUBuilder()));
-                builderMap.insert(std::make_pair(layer_type.LSTM, new LSTMBuilder()));
- */                 };
+            Parser(){
             int ParseHDF5(void);
             int ParseJSON(void);
             void Parse(void);
-                       };
+            }
+};
 
 void Parser::Parse(void){
     std::vector<std::string> splitString;

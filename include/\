@@ -23,41 +23,28 @@ class LayerBuilder{
     private: 
             std::string layer_id;
             std::string layer_type;
+            struct LayerNode;
             NeuralNetwork NN;
     public:
-            virtual void createLayer(Parser parsedObject) = 0;
+            virtual LayerBuilder* createLayer(struct LayerNode LN, NeuralNetwork NN) = 0;
             virtual ~LayerBuilder() {}
 };
 
 class Conv1DBuilder : public LayerBuilder {
     private:
+        //Parser parsedObject();
         Conv1D layerObject();
+
     public:
-        virtual void createLayer(Parser parsedObject){
-            // Assign attributes
-            layerObject.kernel_size= parsedObject.kernel_size;
-            layerObject.filters= parserdObject.filters;
-            layerObject.padding= parsedObject.padding;
-            layerObject.data_format= parsedObject.data_format;
-            layerObject.dilation_rate= parsedObject.dilation_rate;
-            layerObject.activation= parsedObject.activation;
-            layerObject.use_bias= parsedObject.use_bias;
-            layerObject.kernel_initializer= parsedObject.kernel_initializer;
-            layerObject.bias_initializer= parsedObject.bias_initializer;
-            layerObject.kernel_regularizer= parsedObject.kernel_regularizer;
-            layerObject.bias_regularizer= parsedObject.bias_regularizer;
-            layerObject.activity_regularizer= parsedObject.activity_regularizer;
-            layerObject.kernel_constraint= parsedObject.kernel_constraint;
-            layerObject.bias_constraint= parsedObject.bias_constraint;
-        };
+        virtual void createLayer(struct LayerNode LN, NeuralNetwork NN);
 };
-/*
+
 class Conv2DBuilder : public LayerBuilder {
     private:
         //Parser parsedObject(); 
         Conv2D layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
         } 
 
 };
@@ -67,7 +54,7 @@ class DenseBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         Dense layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
         } 
 
 };
@@ -77,7 +64,7 @@ class FlattenBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         Flatten layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
         } 
 
 };
@@ -87,8 +74,11 @@ class GRUBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         GRU layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
+
+            
         } 
+
 };
 
 class LSTMBuilder : public LayerBuilder {
@@ -96,7 +86,7 @@ class LSTMBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         LSTM layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
 
             
         } 
@@ -108,7 +98,7 @@ class MaxPooling1DBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         MaxPooling1D layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
 
             
         } 
@@ -120,7 +110,7 @@ class MaxPooling2DBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         MaxPooling2D layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
 
             
         } 
@@ -132,11 +122,17 @@ class SimpleRNNBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         SimpleRNN layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
 
             
         } 
 
 };
-*/
+
+
+
+
+
+
+
 #endif
