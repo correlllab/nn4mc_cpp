@@ -15,6 +15,8 @@ class Conv1D
         std::string activation;
         bool use_bias;
 
+        
+
         // no need for training-specific variables
     public:
 };

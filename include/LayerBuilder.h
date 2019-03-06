@@ -13,13 +13,26 @@ parsed object to the right layer.
 #include <map>
 #include "Layers.h"
 #include "Parser.h"
-//#include "NeuralNetwork.h"
+#include "NeuralNetwork.h"
+#include "LayerFactory.h"
+
+typedef std::map<std::string, LayerFactory *> builder_map;
 
 class LayerBuilder{
+    // Builder class for dynamic instantiation
     private: 
+        // need some sort of dynamic instantiation
             std::string layer_id;
+            std::string layer_type;
+            struct LayerNode;
+            NeuralNetwork NN;
+            builder_map LayerFactories;
     public:
-            virtual void createLayer() = 0;
+            ~LayerBuilder();
+            LayerBuilder(std::string type){
+                LayerFactories[]= new 
+            }
+
 };
 
 
@@ -29,11 +42,6 @@ class Conv1DBuilder : public LayerBuilder {
         Conv1D layerObject();
 
     public:
-        virtual void createLayer(){
-
-            
-        } 
-
 };
 
 
@@ -42,7 +50,6 @@ class Conv2DBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         Conv2D layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -54,7 +61,6 @@ class DenseBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         Dense layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -66,7 +72,6 @@ class FlattenBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         Flatten layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -78,7 +83,6 @@ class GRUBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         GRU layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -90,7 +94,6 @@ class LSTMBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         LSTM layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -102,7 +105,6 @@ class MaxPooling1DBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         MaxPooling1D layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -114,7 +116,6 @@ class MaxPooling2DBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         MaxPooling2D layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
@@ -126,17 +127,10 @@ class SimpleRNNBuilder : public LayerBuilder {
         //Parser parsedObject(); 
         SimpleRNN layerObject();
     public:
-        virtual void createLayer(){
 
             
         } 
 
 };
-
-
-
-
-
-
 
 #endif
