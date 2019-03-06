@@ -6,6 +6,10 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 #define TAG "neural network. c: "
+
+#define exp(x) 1.0 + x + x*x/2.0 + x*x*x/6.0 + x*x*x*x/24.0+ x*x*x*x*x/120.0 + x*x*x*x*x*x/720.0 + x*x*x*x*x*x*x/5040.0
+#define sigmoid(x) 1.0/(1.0 + exp(-1.0*x)) 
+
 void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_size, int filters){
     // These will emulate the constructors
     struct Conv1D L; 
@@ -131,6 +135,7 @@ void flatten2D1D(struct Flatten2D1D * FLATFLAT, volatile float ** incoming){
         FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1*sizeof(float));
     }
     //ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
+    ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
     for (int i=0; i<FLAT.in_shape_0; i++){
         for (int j=0; j<FLAT.in_shape_1; j++){
             int idx= FLAT.in_shape_1*i+j;
