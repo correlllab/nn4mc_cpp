@@ -14,8 +14,6 @@ parsed object to the right layer.
 #include "Layer.h"
 #include "Parser.h"
 #include "NeuralNetwork.h"
-#include "LayerFactory.h"
-
 
 class LayerBuilder{
     // Builder class for dynamic instantiation
@@ -24,8 +22,8 @@ class LayerBuilder{
             std::string layer_type;
             NeuralNetwork NN;
     public:
-            virtual void createLayer() = 0;
-            virtual ~LayerBuilder() {}
+            void createLayer();
+            ~LayerBuilder() {}
 };
 
 class Conv1DBuilder : public LayerBuilder {
