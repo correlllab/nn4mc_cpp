@@ -2,7 +2,7 @@
 #define __PARSER_H__
 
 #include "NeuralNetwork.h"
-#include "Layers.h"
+#include "Layer.h"
 #include "LayerBuilder.h"
 
 /* Smart Pointer Class */

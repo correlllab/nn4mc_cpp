@@ -4,7 +4,7 @@
 int main(){
     
     Parser P;
-    P.Parse();
+    P.parse("../../data/weights.best.hdf5");
 
     return 0;
 }

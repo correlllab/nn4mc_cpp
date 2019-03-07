@@ -11,7 +11,7 @@ parsed object to the right layer.
 #include <iostream>
 #include <string>
 #include <map>
-#include "Layers.h"
+#include "Layer.h"
 #include "Parser.h"
 #include "NeuralNetwork.h"
 #include "LayerFactory.h"

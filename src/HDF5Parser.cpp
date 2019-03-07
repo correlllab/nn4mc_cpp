@@ -19,17 +19,16 @@
  * */
 #ifdef _HDF5PARSER_C__ 
 #define _HDF4PARSER_C__
-#include <iostream.h>
-//#include "Parser.h"
+
+#include "Parser.h"
 
 #else
 #include <iostream>
 #endif
 #include <string>
-//#include "datastructures/tensor.h"
+#include "datastructures/tensor.h"
 #include <vector>
-//#include "NeuralNetwork.h"
-//#include "LayerBuilder.h"
+#include "LayerFactory.h"
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
@@ -45,20 +44,16 @@
 using namespace H5;
 
 #endif
-#define FILENAME    "../../data/weights.best.hdf5" //
-const H5std_string FILE_NAME( FILENAME );
 
 // Callback function:
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-//int Parser::ParseHDF5(void)
-int main(void)//
+int HDF5Parser::parse(std::string FILENAME)
 {
-
-   try
+  const H5std_string FILE_NAME( FILENAME );
+  try
    {
-
       Exception::dontPrint();
         
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
@@ -77,7 +72,7 @@ int main(void)//
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
 
-    // Reading neural network configuration file:
+      // Reading neural network configuration file:
       hid_t attr, dataspace;
       herr_t status;
       cout<< "Reading Attributes: "<<endl;
