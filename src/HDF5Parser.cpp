@@ -20,7 +20,6 @@
 #ifdef _HDF5PARSER_C__ 
 #define _HDF4PARSER_C__
 
-#include "Parser.h"
 
 #else
 #include <iostream>
@@ -28,7 +27,6 @@
 #include <string>
 #include "datastructures/tensor.h"
 #include <vector>
-#include "LayerFactory.h"
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
@@ -39,7 +37,7 @@
 #endif
 
 #include "H5Cpp.h"
-
+#include "Parser.h"
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
 

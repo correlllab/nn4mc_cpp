@@ -6,7 +6,7 @@
 class LayerFactory{
     // Abstract Factory that instantiates LayerFactory depending on the type.
     public:
-        LayerBuilder * create()=0;
+        virtual LayerBuilder * create()=0;
 };
 // See src/LayerFactory.cpp for specific subclasses
 class Conv1DFactory : public LayerFactory {
@@ -63,7 +63,7 @@ class MaxPooling1DFactory : public LayerFactory {
 
 class MaxPooling2DFactory : public LayerFactory {
           public:
-                                     MaxPooling2DFactory* create(){return new MaxPooling2DBuilder();}
+                                     MaxPooling2DBuilder* create(){return new MaxPooling2DBuilder();}
                                            
                                       
 };

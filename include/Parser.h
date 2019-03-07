@@ -11,11 +11,11 @@
 #include "LayerFactory.h"
 
 
-typedef std::map<std::string, LayerFactory *> builder_map;
 
 class Parser{
     // Concrete class for parser obejcts. 
     public: 
+            typedef std::map<char *, LayerFactory *> builder_map;
             builder_map BuilderMap;
             std::string file_format;
             std::string file_name;
