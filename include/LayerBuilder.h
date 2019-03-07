@@ -16,7 +16,6 @@ parsed object to the right layer.
 #include "NeuralNetwork.h"
 #include "LayerFactory.h"
 
-typedef std::map<std::string, LayerFactory *> builder_map;
 
 class LayerBuilder{
     // Builder class for dynamic instantiation
@@ -33,8 +32,9 @@ class Conv1DBuilder : public LayerBuilder {
     private:
         Conv1D layerObject();
     public:
-        virtual void createLayer(Parser parsedObject){
+        virtual void createLayer(){
             // Assign attributes
+                       
             layerObject.kernel_size= parsedObject.kernel_size;
             layerObject.filters= parserdObject.filters;
             layerObject.padding= parsedObject.padding;
@@ -51,7 +51,7 @@ class Conv1DBuilder : public LayerBuilder {
             layerObject.bias_constraint= parsedObject.bias_constraint;
         };
 };
-/*
+
 class Conv2DBuilder : public LayerBuilder {
     private:
         //Parser parsedObject(); 
@@ -138,5 +138,4 @@ class SimpleRNNBuilder : public LayerBuilder {
         } 
 
 };
-*/
 #endif

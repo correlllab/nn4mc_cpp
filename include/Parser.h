@@ -8,48 +8,45 @@
 //#include "LayerBuilder.h"
 #include <vector>
 #include <sstream>
+#include "LayerFactory.h"
 
 #define FILENAME    "../../data/weights.best.hdf5"
 #define HDF5_FORMAT "hdf5"
 #define JSON_FORMAT "json"
 
+
+typedef std::map<std::string, LayerFactory *> builder_map;
+
 class Parser{
     // Concrete class for parser obejcts. 
     private: 
-            enum layer_type  {CONV1D, CONV2D, 
-                DENSE, FLATTEN, MAXPOOLING1D,               
-                MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
-
+            builder_map BuilderMap;
             std::string file_format;
+            std::string file_name;
     public:
+            virtual int parse(std::string file_name) = 0;
+
             Parser(){
-            int ParseHDF5(void);
-            int ParseJSON(void);
-            void Parse(void);
+                BuilderMap["conv1d"]= new Conv1DFactory();
+                BuilderMap["conv2d"]= new Conv2DFactory();
+                BuilderMap["dense"] = new DenseFactory();
+                BuilderMap["flatten"]= new FlattenFactory();
+                BuilderMap["maxpooling1d"]= new MaxPooling1DFactory();
+                BuilderMap["maxpooling2d"]= new MaxPooling2DFactory();
+                BuilderMap["simplernn"]= new SimpleRNNFactory();
+                BuilderMap["lstm"]= new LSTMFactory();
+                BuilderMap["gru"]= new GRUFactory();
             }
 };
 
-void Parser::Parse(void){
-    std::vector<std::string> splitString;
-    std::string token;
-    std::istringstream iss(FILENAME);
-    while(std::getline(iss, token, '.')){
-        if (!token.empty())
-            splitString.push_back(token);
-    }
-    if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
-    std::cout<<"Parser: parsing hdf5..."<<std::endl;
-        ParseHDF5();              
-    } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
-        std::cout<< "Parser: parsing json..."<<std::endl;
-        ParseJSON();
-      } 
-}
+class HDF5Parser : public Parser{
+    public: 
+        int parse(std::string);
+};
 
-//TODO:
-int Parser::ParseJSON(void){
-    std::cout<< "here" <<std::endl;
-    return 0;
-}
+class JSONParser : public Parser{
+    public:
+        int parse(std::string);
+};
 
 #endif
