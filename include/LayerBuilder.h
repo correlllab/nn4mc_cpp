@@ -33,22 +33,6 @@ class Conv1DBuilder : public LayerBuilder {
         Conv1D layerObject();
     public:
         virtual void createLayer(){
-            // Assign attributes
-                       
-            layerObject.kernel_size= parsedObject.kernel_size;
-            layerObject.filters= parserdObject.filters;
-            layerObject.padding= parsedObject.padding;
-            layerObject.data_format= parsedObject.data_format;
-            layerObject.dilation_rate= parsedObject.dilation_rate;
-            layerObject.activation= parsedObject.activation;
-            layerObject.use_bias= parsedObject.use_bias;
-            layerObject.kernel_initializer= parsedObject.kernel_initializer;
-            layerObject.bias_initializer= parsedObject.bias_initializer;
-            layerObject.kernel_regularizer= parsedObject.kernel_regularizer;
-            layerObject.bias_regularizer= parsedObject.bias_regularizer;
-            layerObject.activity_regularizer= parsedObject.activity_regularizer;
-            layerObject.kernel_constraint= parsedObject.kernel_constraint;
-            layerObject.bias_constraint= parsedObject.bias_constraint;
         };
 };
 
