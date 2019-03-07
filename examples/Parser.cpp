@@ -3,8 +3,8 @@
 
 int main(){
     
-    Parser P;
-    P.parse("../../data/weights.best.hdf5");
+    HDF5Parser P("../../data/weights.best.hdf5");
+    P.parse();
 
     return 0;
 }
