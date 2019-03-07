@@ -6,12 +6,12 @@
 class LayerFactory{
     // Abstract Factory that instantiates LayerFactory depending on the type.
     public:
-        LayerBuilder *create()=0;
+        LayerBuilder * create()=0;
 };
 // See src/LayerFactory.cpp for specific subclasses
 class Conv1DFactory : public LayerFactory {
               public:
-                     Conv1DBuilder * create(){return new Conv1DBuilder();};
+                     Conv1DBuilder* create(){return new Conv1DBuilder();};
                                                
                                           
 };
@@ -19,7 +19,7 @@ class Conv1DFactory : public LayerFactory {
   
 class Conv2DFactory : public LayerFactory {
               public:
-                     Conv2DBuilder * create(){return new Conv1DBuilder();}
+                     Conv2DBuilder* create(){return new Conv2DBuilder();}
                                            
                                            
                                       
@@ -27,7 +27,7 @@ class Conv2DFactory : public LayerFactory {
 
 class DenseFactory : public LayerFactory {
           public:
-                 DenseBuilder * create(){return new DenseBuilder();} 
+                 DenseBuilder* create(){return new DenseBuilder();} 
                                            
                                            
                                       
@@ -35,42 +35,42 @@ class DenseFactory : public LayerFactory {
 
 class FlattenFactory : public LayerFactory {
           public:
-                                     FlattenBuilder *create(){return new FlattenBuilder();}
+                                     FlattenBuilder* create(){return new FlattenBuilder();}
                                            
                                       
 };
 
 class GRUFactory : public LayerFactory {
           public:
-                                     GRUBuilder *create(){return new GRUBuilder();}
+                                     GRUBuilder* create(){return new GRUBuilder();}
                                            
                                       
 };
 
 class LSTMFactory : public LayerFactory {
           public:
-                                     LSTMBuilder * create(){return new LSTMBuilder();}
+                                     LSTMBuilder* create(){return new LSTMBuilder();}
                                            
                                       
 };
 
 class MaxPooling1DFactory : public LayerFactory {
           public:
-                                     MaxPooling1DBuilder * create(){return new MaxPooling1DBuilder();}
+                                     MaxPooling1DBuilder* create(){return new MaxPooling1DBuilder();}
                                            
                                       
 };
 
 class MaxPooling2DFactory : public LayerFactory {
           public:
-                                     MaxPooling2DFactory * create(){return new MaxPooling2DBuilder();}
+                                     MaxPooling2DFactory* create(){return new MaxPooling2DBuilder();}
                                            
                                       
 };
 
 class SimpleRNNFactory : public LayerFactory {
           public:
-                                     SimpleRNNBuilder * create(){return new SimpleRNNBuilder();}
+                                     SimpleRNNBuilder* create(){return new SimpleRNNBuilder();}
                                            
                                       
 };

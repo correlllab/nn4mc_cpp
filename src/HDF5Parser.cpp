@@ -49,9 +49,9 @@ using namespace H5;
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-int HDF5Parser::parse(std::string FILENAME)
+int HDF5Parser::parse()
 {
-  const H5std_string FILE_NAME( FILENAME );
+  const H5std_string FILE_NAME( this->file_name );
   try
    {
       Exception::dontPrint();
