@@ -57,6 +57,7 @@ void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
   newEdge->l = layer_2;
 
   layer_1->edges.push_back(*newEdge);
+  layer_2->inputs.push_back(layer_1);
 }
 
 void NeuralNetwork::BFSPrint()
@@ -76,6 +77,7 @@ void NeuralNetwork::BFSPrint()
   {
     start=nodeList.front();
     nodeList.pop_front();
+    BFS.push_back(start);
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {

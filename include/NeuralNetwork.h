@@ -10,9 +10,9 @@
 
 struct LayerNode;
 
-struct LayerEdge
+struct LayerEdge //Struct for edges in graph.
 {
-  struct LayerNode* l;
+  struct LayerNode* l; //Pointer to the LayerNode endpoint of the edge.
 
   LayerEdge()
   {
@@ -21,10 +21,11 @@ struct LayerEdge
 };
 
 
-struct LayerNode
+struct LayerNode //Struct for each node in the graph representing a layer in the nerual network.
 {
-  Layer* layer;
-  std::vector<LayerEdge> edges;
+  Layer* layer; //Pointer to layer object which contains all the metadata.
+  std::vector<LayerEdge> edges; //Output edges of the node.
+  std::vector<LayerNode*> inputs; //Input edges of the node.
   bool visited;
 
   LayerNode()
@@ -37,8 +38,9 @@ struct LayerNode
 class NeuralNetwork
 {
   private:
-    std::vector<LayerNode*> layers;
-    std::vector<LayerNode> input;
+    std::vector<LayerNode*> layers; //All layers in graph
+    std::vector<LayerNode> input; //Input layers for graph.
+    std::list<LayerNode*> BFS; //List with BFS order of nodes.
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
