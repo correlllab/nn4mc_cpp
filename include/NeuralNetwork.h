@@ -1,16 +1,18 @@
 #ifndef _NEURAL_NETWORK_H__
 #define _NEURAL_NETWORK_H__
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include "Weights.h"
 #include "Layer.h"
 #include <string>
+#include <list>
 
+struct LayerNode;
 
 struct LayerEdge
 {
-  LayerNode* l;
+  struct LayerNode* l;
 
   LayerEdge()
   {
@@ -35,18 +37,19 @@ struct LayerNode
 class NeuralNetwork
 {
   private:
-    std::vector<LayerNode> layers;
+    std::vector<LayerNode*> layers;
     std::vector<LayerNode> input;
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
+    void DFS(LayerNode* start);
 
   public:
     NeuralNetwork();
     ~NeuralNetwork();
 
     void addLayer(Layer* layer);
-    void addEdge(std::string ID_1, std::string ID_2);
+    void addEdge(Layer* l1, Layer* l2);
 
     void BFSPrint();
     void DFSPrint();

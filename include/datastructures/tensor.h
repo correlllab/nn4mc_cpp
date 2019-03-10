@@ -61,7 +61,7 @@ class BadIndexBoundsException : public std::exception
 {
 	public:
 		BadIndexBoundsException(unsigned int, unsigned int, unsigned int);
-		~BadIndexBoundsException();
+		~BadIndexBoundsException() throw();
 		unsigned int dimension_number;
 		unsigned int index_bound;
 		unsigned int index;

@@ -8,62 +8,46 @@
 #include "LayerBuilder.h"
 #include <vector>
 #include <sstream>
+#include "LayerFactory.h"
 
-#define FILENAME    "../../data/weights.best.hdf5"
-#define HDF5_FORMAT "hdf5"
-#define JSON_FORMAT "json"
+
 
 class Parser{
     // Concrete class for parser obejcts. 
-    private: 
-            enum layer_type  {CONV1D, CONV2D, 
-                DENSE, FLATTEN, MAXPOOLING1D,               
-                MAXPOOLING2D, SIMPLERNN, GRU, LSTM};
-
+    public: 
+            typedef std::map<char *, LayerFactory *> builder_map;
+            builder_map BuilderMap;
             std::string file_format;
-            std::map<layer_type, LayerBuilder*> builderMap;                    
-            NeuralNetwork NN();
-    public:
-            void ParseHDF5(NeuralNetwork NN);
-            void ParseJSON(NeuralNetwork NN);
-            void Parse(NeuralNetwork NN);
-            Parser(){
-/*
-                builderMap.insert(std::make_pair(layer_type.CONV1D, new Conv1DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.CONV2D, new Conv2DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.DENSE, new DenseBuilder()));
-                builderMap.insert(std::make_pair(layer_type.FLATTEN, new FlattenBuilder()));
-                builderMap.insert(std::make_pair(layer_type.MAXPOOLING1D, new MaxPooling1DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.MAXPOOLING2D, new MaxPooling2DBuilder()));
-                builderMap.insert(std::make_pair(layer_type.SIMPLERNN, new SimpleRNNBuilder()));
-                builderMap.insert(std::make_pair(layer_type.GRU, new GRUBuilder()));
-                builderMap.insert(std::make_pair(layer_type.LSTM, new LSTMBuilder()));
- */                 }; 
+            std::string file_name;
+            virtual int parse() = 0;
+
+           /*     this-> file_name = str1; 
+                this->BuilderMap["conv1d"]= new Conv1DFactory();
+                this->BuilderMap["conv2d"]= new Conv2DFactory();
+                this->BuilderMap["dense"] = new DenseFactory();
+                this->BuilderMap["flatten"]= new FlattenFactory();
+                this->BuilderMap["maxpooling1d"]= new MaxPooling1DFactory();
+                this->BuilderMap["maxpooling2d"]= new MaxPooling2DFactory();
+                this->BuilderMap["simplernn"]= new SimpleRNNFactory();
+                this->BuilderMap["lstm"]= new LSTMFactory();
+                this->BuilderMap["gru"]= new GRUFactory();*/
 };
 
-void Parser::Parse(NeuralNetwork NN){
-    std::vector<std::string> splitString;
-    std::string token;
-    std::istringstream iss(FILENAME);
-    while(std::getline(iss, token, '.')){
-        if (!token.empty())
-            splitString.push_back(token);
-    }
-    if (splitString[splitString.size()-1].compare(HDF5_FORMAT)){
-        this->ParseHDF5(NN);              
-    } else if(splitString[splitString.size()-1].compare(JSON_FORMAT)){
-        this->ParseJSON(NN);
-      } 
-}
+class HDF5Parser : public Parser{
+    public: 
+        int parse();
+        std::string file_name;
+        HDF5Parser(std::string str1){
+            this->file_name= str1;
+        }
+};
 
-         
-void Parser::ParseHDF5(NeuralNetwork NN){
-
-}
-
-
-void Parser::ParseJSON(NeuralNetwork NN){
-
-}
+class JSONParser : public Parser{
+    public:
+        int parse();
+        JSONParser(std::string str1){
+            this->file_name= str1;
+        }
+};
 
 #endif

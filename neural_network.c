@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "esp_log.h"
 
-
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 #define TAG "neural network. c: "
@@ -111,9 +110,6 @@ void fwd_dense(struct Dense * LL, int a, int bb, const float W[a][bb], const flo
         if (L.activation=='r'){
             L.h[i]= max(L.h[i], 0.0);
         } 
-        if (L.activation=='s'){
-            L.h[i]= sigmoid(L.h[i]);
-        }
     }
     free(window);
     *LL = L;
@@ -138,6 +134,7 @@ void flatten2D1D(struct Flatten2D1D * FLATFLAT, volatile float ** incoming){
         ESP_LOGI(TAG, "herehere");
         FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1*sizeof(float));
     }
+    //ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
     ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
     for (int i=0; i<FLAT.in_shape_0; i++){
         for (int j=0; j<FLAT.in_shape_1; j++){

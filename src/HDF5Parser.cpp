@@ -17,17 +17,16 @@
  * Created on: Thu Feb 07 2019
  * 
  * */
-#ifdef OLD_HEADER_FILENAME
-#include <iostream.h>
+#ifdef _HDF5PARSER_C__ 
+#define _HDF4PARSER_C__
+
+
 #else
 #include <iostream>
 #endif
 #include <string>
-#include "Parser.h"
 #include "datastructures/tensor.h"
 #include <vector>
-#include "NeuralNetwork.h"
-#include "LayerBuilder.h"
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
@@ -38,36 +37,49 @@
 #endif
 
 #include "H5Cpp.h"
-
+#include "Parser.h"
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
 
 #endif
 
-const H5std_string FILE_NAME( FILENAME );
-
 // Callback function:
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-void HDF5Parser::ParseHDF5(NeuralNetwork NN)
+int HDF5Parser::parse()
 {
-
-   try
+  const H5std_string FILE_NAME( this->file_name );
+  try
    {
-
       Exception::dontPrint();
-
+        
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
+      
+      // Interested in model_weights only:
       Group group = Group( file.openGroup( "model_weights" ));
-
+      Group root= Group(file.openGroup("/")); 
+                  
+        // Parsing overall neural network structure:
       cout<< endl<<"Parsing neural newtork structure: "<<endl;
       herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, NULL);
       cerr<<endl;
 
+      // Parsing specific weights:
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
+
+      // Reading neural network configuration file:
+      hid_t attr, dataspace;
+      herr_t status;
+      cout<< "Reading Attributes: "<<endl;
+      attr = H5Aopen(root.getId(), "model_config", H5P_DEFAULT); 
+      char* rdata = new char[100];
+      status = H5Aread(attr, H5Tcopy(H5T_C_S1), &rdata);
+      cout<< (char)rdata[0]<<endl;
+      delete [] rdata;
+    return 0;//
 
    }  // end of try block
 
@@ -98,7 +110,7 @@ void HDF5Parser::ParseHDF5(NeuralNetwork NN)
       //error.printError();
       return -1;
    }
- 
+return 0; 
 }
 
 herr_t
@@ -116,11 +128,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
     hid_t group;
     hid_t status;
+    hid_t attribute;
     H5O_info_t infobuf;
-
+    
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
-    
+
     switch(infobuf.type){
         case H5O_TYPE_GROUP:{
             cout << "Group : " << name << endl;
@@ -150,7 +163,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             // TODO: handle the data type specific to the output type, 
             // not only <double>
            
-            Tensor<float> T(tensor_dims);
+            //Tensor<float>* T(tensor_dims);
             float *rbuf;
             herr_t ret;
             int flat=1;
@@ -165,11 +178,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 cout<< rbuf[i] << "  ";
             }  
 
-            switch(rank){
+           /* switch(rank){
                 case 1:
                     {
                         for (int i=0; i<dims[0]; i++){
-                            T(i) = rbuf[i];
+                            (*T)(i) = rbuf[i];
+                            cout<< (*T)(i) <<endl;
                         }
 
                     }
@@ -177,7 +191,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 default:
                     break;
 
-            }
+            }*/
             //link weights and biases to layer object
             cout<<endl;
               

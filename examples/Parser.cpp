@@ -1,9 +1,11 @@
 #include <iostream>
 #include "Parser.h"
 
+
 int main(){
     
-    Parser P();
+    HDF5Parser P("../../data/weights.best.hdf5");
+    P.parse();
 
     return 0;
 }
