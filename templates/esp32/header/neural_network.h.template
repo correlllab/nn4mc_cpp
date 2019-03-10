@@ -1,0 +1,11 @@
+#ifndef __NEURAL_NETWORK_H__
+#define __NEURAL_NETWORK_H__
+
+volatile int num_layers = <%NUMBER_OF_LAYERS>;
+
+<%BEGIN_TEMPLATE>
+
+<%END_TEMPLATE>
+
+
+#endif

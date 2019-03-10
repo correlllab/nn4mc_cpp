@@ -4,16 +4,39 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
 #include <vector>
 
 /*******************
 * TensorRepresentation
 */
 TensorRepresentation::TensorRepresentation()
-{
+{	
 	// Initially assume no padding after newline
-	pad = std::string("");
+	std::cout << "In default constructor" << std::endl;
+
+	// Assume that C / C++ arrays are being used, and the dimensionality of 
+	// the array matches that of the tensor
+	array_start = std::string("{");
+	array_end = std::string("}");
 }
+
+
+/*******************
+* TensorRepresentation
+*
+* char array_starter
+* char array_ender
+*/
+TensorRepresentation::TensorRepresentation(const char* array_start_char, const char* array_end_char)
+{
+
+	pad = std::string("");
+
+	array_start = std::string(array_start_char);
+	array_end = std::string(array_end_char);
+}
+
 
 /*******************
 * ~TensorRepresentation
@@ -54,6 +77,8 @@ void TensorRepresentation::addPad(unsigned int pad_size)
 */
 std::string TensorRepresentation::getString(Tensor<double>* values)
 {
+	std::cout << "In getString - " << array_start << " " << array_end << std::endl;
+
 	std::stringstream ss;	
 
 	std::vector<unsigned int> offsets = values->offsets;
@@ -77,7 +102,7 @@ std::string TensorRepresentation::getString(Tensor<double>* values)
 			// Check if a new row needs to be started
 			for(int j=0; j<offsets.size()-1; j++)
 			{
-				if(i%offsets[j] == 0)	ss << "{";	else 	ss << " ";
+				if(i%offsets[j] == 0)	ss << array_start;	else 	ss << " ";
 			}
 
 			ss << values->data[i];
@@ -85,7 +110,7 @@ std::string TensorRepresentation::getString(Tensor<double>* values)
 			// Is this the end of (any) dimension along the tensor?  Then close all possible braces
 			for(int j=offsets.size()-2; j>=0; j--)
 			{
-				if((i+1)%offsets[j] == 0) 	 ss << "}";
+				if((i+1)%offsets[j] == 0) 	 ss << array_end;
 			}
 
 			// Add a comma, and if it's not an individual element, insert a newline

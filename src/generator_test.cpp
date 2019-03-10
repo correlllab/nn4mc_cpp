@@ -4,6 +4,7 @@
 
 #include "datastructures/tensor.h"
 #include "generator/weight_generator.h"
+#include "generator/weight_generator_flat_array.h"
 #include "datastructures/weights.h"
 
 /** SIMPLE EXAMPLE
@@ -60,12 +61,14 @@ int main(int argc, char** argv)
 
 	std::cout << "Done is printing" << std::endl;
 	// Now create a weight generator object
-	WeightGenerator generator = WeightGenerator("../templates/esp32/header/neural_network_params.h.template");
+	WeightGeneratorFlatArray* generator = new WeightGeneratorFlatArray("../templates/esp32/header/neural_network_params.h.template");
 
 	std::cout << "Write weight 1" << std::endl;
-	generator.addWeight(w1);
+	generator->addWeight(w1);
 	std::cout << "Write weight 2" << std::endl;
-	generator.addWeight(w2);
+	generator->addWeight(w2);
 	std::cout << "Dumping" << std::endl;
-	generator.dump("demo_neural_net_weights.h");
+	generator->dump("demo_neural_net_weights.h");
+
+	delete generator;
 }

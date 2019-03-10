@@ -45,7 +45,6 @@ class Tensor
 
 		unsigned int array_index(unsigned int, va_list);
 
-
 		std::vector<unsigned int> shape;
 
 		Tensor(std::vector<unsigned int>);
@@ -62,7 +61,7 @@ class BadIndexBoundsException : public std::exception
 {
 	public:
 		BadIndexBoundsException(unsigned int, unsigned int, unsigned int);
-	//	~BadIndexBoundsException();
+		~BadIndexBoundsException();
 		unsigned int dimension_number;
 		unsigned int index_bound;
 		unsigned int index;

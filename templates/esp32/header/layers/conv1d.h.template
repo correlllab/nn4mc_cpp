@@ -1,0 +1,14 @@
+struct Conv1D {
+	<%WEIGHT_DATATYPE_POINTER> weights;
+	<%WEIGHT_DATATYPE_POINTER> bias;
+	int kernel_size;
+	int output_shape;
+	volatile float **h;
+	int input_sh1;
+	int input_sh2;	
+};
+
+<%BEGIN_TEMPLATE>
+Conv1D* <%LAYER_NAME>;
+<%LAYER_NAME>->weights = <%WEIGHT_NAME>
+<%END_TEMPLATE>

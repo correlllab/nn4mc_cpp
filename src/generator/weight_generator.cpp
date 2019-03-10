@@ -47,7 +47,7 @@ WeightGenerator::WeightGenerator(std::string template_path)
 	}
 
 	// Make an object to generate representation of tensors
-	tensorRepresentation = new TensorRepresentation();
+	tensorRepresentation = new TensorRepresentation("{","}");
 }
 
 
