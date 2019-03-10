@@ -89,7 +89,7 @@ int main(void)//
       DataType *type = new DataType (attr-> getDataType());
       attr->read(*type, &test);
       std::string str(test);
-      cout<< str<<endl;
+      //cout<< str<<endl;
       
       delete type;
       delete attr;
