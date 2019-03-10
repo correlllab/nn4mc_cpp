@@ -41,10 +41,12 @@
 
 #include "H5Cpp.h"
 #include <nlohmann/json.hpp>
+#include <iomanip>
+#include <sstream>
 
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
-
+using json= nlohmann::json;
 #endif
 #define FILENAME    "../../data/weights.best.hdf5" //
 const H5std_string FILE_NAME( FILENAME );
@@ -52,7 +54,6 @@ const H5std_string FILE_NAME( FILENAME );
 // Callback function:
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
-
 //int Parser::ParseHDF5(void)
 int main(void)//
 {
@@ -94,11 +95,27 @@ int main(void)//
       delete attr;
       delete what;
       delete filefile;
-      
-      //Parsing model structure in JSON:
-               
+    
 
+      // PARSING MODEL STRUCTURE AS JSON:
+    // define parser callback
+    json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
+    {
+        // skip object elements with key "Thumbnail"
+        if (event == json::parse_event_t::key and parsed == json("Thumbnail"))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    };
+      std::stringstream ss;
+      ss<< str;
 
+      json j_filtered= json::parse(ss, cb);
+      std::cout<<j_filtered["class_name"]<<endl;
 
     return 0;//
 
@@ -235,3 +252,4 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
     return 0;
  }
+
