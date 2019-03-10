@@ -40,6 +40,7 @@
 #endif
 
 #include "H5Cpp.h"
+#include <nlohmann/json.hpp>
 
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
@@ -62,6 +63,7 @@ int main(void)//
       Exception::dontPrint();
         
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
+      // These sections will all be in HDF5Parser methods:
       
       // Interested in model_weights only:
       Group group = Group( file.openGroup( "model_weights" ));
@@ -78,14 +80,6 @@ int main(void)//
       cerr << endl;
 
     // Reading neural network configuration file:
-    /*  hid_t attr, dataspace;
-      herr_t status;
-      cout<< "Reading Attributes: "<<endl;
-      attr = H5Aopen(root.getId(), "model_config", H5P_DEFAULT); 
-      char* rdata = new char[100000];
-      status = H5Aread(attr, H5Tcopy(H5T_C_S1), &rdata);
-      cout<< (char)rdata[0]<<endl;
-      delete [] rdata;*/
       char* test= new char[1000000]; 
       cout<< "Attributes:"<<endl;
       H5File *filefile = new H5File( FILE_NAME, H5F_ACC_RDONLY );
@@ -93,12 +87,19 @@ int main(void)//
       Attribute *attr= new Attribute(what->openAttribute("model_config"));
       DataType *type = new DataType (attr-> getDataType());
       attr->read(*type, &test);
-      cout<< test<<endl;
-
+      std::string str(test);
+      cout<< str<<endl;
+      
       delete type;
       delete attr;
       delete what;
       delete filefile;
+      
+      //Parsing model structure in JSON:
+               
+
+
+
     return 0;//
 
    }  // end of try block
