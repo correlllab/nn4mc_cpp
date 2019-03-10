@@ -38,16 +38,64 @@
 
 #include "H5Cpp.h"
 #include "Parser.h"
+#include <nlohmann/json.hpp>
+#include <iomanip>
+#include <sstream>
+
+
 #ifndef H5_NO_NAMESPACE
 using namespace H5;
+using json=nlohmann::json;
 
 #endif
 
-// Callback function:
+// Callback functions:
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-int HDF5Parser::parse()
+
+json HDF5Parser::parseModelConfig(){
+
+      char* test= new char[1000000]; 
+      cout<< "Attributes:"<<endl;
+      H5File *filefile = new H5File( this->FILE_NAME, H5F_ACC_RDONLY );
+      Group *what = new Group(filefile->openGroup("/"));
+      Attribute *attr= new Attribute(what->openAttribute("model_config"));
+      DataType *type = new DataType (attr-> getDataType());
+      attr->read(*type, &test);
+      std::string str(test);
+     
+       // PARSING MODEL STRUCTURE AS JSON:
+    // define parser callback
+    json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
+    {
+        // skip object elements with key "Thumbnail"
+        if (event == json::parse_event_t::key and parsed == json("Thumbnail"))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    };
+      std::stringstream ss;
+      ss<< str;
+
+      json j_filtered= json::parse(ss, cb);
+      std::cout<<j_filtered["class_name"]<<endl;
+
+      delete type;
+      delete attr;
+      delete what;
+      delete filefile;
+
+
+      return j_filtered;
+}
+
+
+int HDF5Parser::parseWeights()
 {
   const H5std_string FILE_NAME( this->file_name );
   try
@@ -58,7 +106,6 @@ int HDF5Parser::parse()
       
       // Interested in model_weights only:
       Group group = Group( file.openGroup( "model_weights" ));
-      Group root= Group(file.openGroup("/")); 
                   
         // Parsing overall neural network structure:
       cout<< endl<<"Parsing neural newtork structure: "<<endl;
@@ -70,16 +117,7 @@ int HDF5Parser::parse()
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
 
-      // Reading neural network configuration file:
-      hid_t attr, dataspace;
-      herr_t status;
-      cout<< "Reading Attributes: "<<endl;
-      attr = H5Aopen(root.getId(), "model_config", H5P_DEFAULT); 
-      char* rdata = new char[100];
-      status = H5Aread(attr, H5Tcopy(H5T_C_S1), &rdata);
-      cout<< (char)rdata[0]<<endl;
-      delete [] rdata;
-    return 0;//
+    return 0;
 
    }  // end of try block
 
