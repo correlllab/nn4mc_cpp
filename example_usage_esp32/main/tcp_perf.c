@@ -82,18 +82,19 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
     return ESP_OK;
 }
 
-void feed_forward(){
+void feed_forward(float ** window){
 
     struct Conv1D L1; 
     set_conv1D(&L1, WINDOW_SIZE, NUM_ADC, 4, 8); 
     fwd_conv1D(&L1, 4, 1, 8, W_0, b_0, window);
 
     struct Flatten2D1D FL;
-    setflatten2D1D(&FL, 244, 8);
+    setflatten2D1D(&FL, L1.output_shape, L1.filters);
+    flatten2D1D(&FL, L1.h);
 
     struct Dense D2; 
-    set_dense(&D2, D1.output_size, 20, 'r');
-    fwd_dense(&D2, D2.input_size, D2.output_size, W_2, b_2, D1.h);
+    set_dense(&D2, FL.output_size, 20, 'r');
+    fwd_dense(&D2, D2.input_size, D2.output_size, W_2, b_2, FL.h);
 
     struct Dense D3; 
     set_dense(&D3, D2.output_size, 10, 'l');
@@ -113,7 +114,7 @@ void feed_forward(){
 void send_data(void *pvParameters)
 {
     int len = 0;
-    vTaskDelay(1 / portTICK_RATE_MS);
+    vTaskDelay(100 / portTICK_RATE_MS);
     ESP_LOGI(TAG, "start sending...");
 
     while (1) {
@@ -126,15 +127,15 @@ void send_data(void *pvParameters)
             packet_ready = false;
             // How many bytes are left to send?
             int to_write = packet_size;
-              window= (volatile float**)malloc(WINDOW_SIZE*sizeof(volatile float*));
-       for (int i=0; i<WINDOW_SIZE; i++) window[i]= (volatile float*)malloc(1*sizeof(volatile float));    
+              window= (float**)malloc(WINDOW_SIZE*sizeof(float*));
+       for (int i=0; i<WINDOW_SIZE; i++) window[i]= (float*)malloc(1*sizeof(float));    
             for(int i=0; i<(int)WINDOW_SIZE;i++){
                 for (int j=0; j<1; j++){
                     int idx= i*(int)1+j;
                     window[i][j]= (float)packet[idx]/4096.0;
                 }   
             }
-            feed_forward();
+            feed_forward(window);
             free(window);
             ESP_LOGI(TAG, "r= %f, theta=%f", output[0], output[1]);
              
@@ -160,7 +161,7 @@ void send_data(void *pvParameters)
         }
         else
         {
-            vTaskDelay(1);
+            vTaskDelay(100);
         }
 
         if(g_rxtx_need_restart)

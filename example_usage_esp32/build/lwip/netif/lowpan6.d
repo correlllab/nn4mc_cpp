@@ -35,7 +35,7 @@ netif/lowpan6.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/vfs/include/sys/ioctl.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/sys/select.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_task.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_system.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h \
@@ -176,7 +176,7 @@ netif/lowpan6.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_task.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_system.h:
 

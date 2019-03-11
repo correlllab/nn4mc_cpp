@@ -21,7 +21,7 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     num_layers++;
     L.h = (volatile float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(volatile float*));
     for (int i=0; i< (int)(L.input_sh1- L.kernel_size+1); i++){
-        L.h[i] = (float*)malloc(L.filters * sizeof(float));
+        L.h[i] = (volatile float*)malloc(L.filters * sizeof(volatile float));
     } 
     L.output_shape= (int)(L.input_sh1-L.kernel_size+1);
     *LL = L;

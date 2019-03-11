@@ -24,7 +24,7 @@ port/minicheck.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/setjmp.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/setjmp.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/assert.h \
  /home/sarahaguasvivas/esp/esp-idf/components/expat/include/expat/internal.h \
  /home/sarahaguasvivas/esp/esp-idf/components/expat/port/include/minicheck.h
@@ -77,7 +77,7 @@ port/minicheck.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/assert.h:
 

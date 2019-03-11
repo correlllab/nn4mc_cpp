@@ -1,54 +1,54 @@
 xtensa_intr_asm.o: \
- /Users/sarahaguasvivas/esp/esp-idf/components/freertos/xtensa_intr_asm.S \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie-asm.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/coreasm.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/specreg.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/system.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtruntime-frames.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /Users/sarahaguasvivas/esp/esp-idf/example/build/include/sdkconfig.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h
+ /home/sarahaguasvivas/esp/esp-idf/components/freertos/xtensa_intr_asm.S \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie-asm.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/coreasm.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/specreg.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/system.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtruntime-frames.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie-asm.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie-asm.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h:
+/home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/coreasm.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/coreasm.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/specreg.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/specreg.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/system.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/system.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtruntime-frames.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtruntime-frames.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
+/home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/example/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
+/home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h:
-/Users/sarahaguasvivas/esp/esp-idf/components/freertos/./xtensa_intr_asm.S:
+/home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h:
+/home/sarahaguasvivas/esp/esp-idf/components/freertos/./xtensa_intr_asm.S:
