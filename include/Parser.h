@@ -18,32 +18,31 @@ class Parser{
     public: 
             typedef std::map<char *, LayerFactory *> builder_map;
             builder_map BuilderMap;
+            
             std::string file_format;
             std::string file_name;
             virtual int parse() = 0;
             virtual ~Parser() = default;
-           /*     this-> file_name = str1; 
-                this->BuilderMap["conv1d"]= new Conv1DFactory();
-                this->BuilderMap["conv2d"]= new Conv2DFactory();
-                this->BuilderMap["dense"] = new DenseFactory();
-                this->BuilderMap["flatten"]= new FlattenFactory();
-                this->BuilderMap["maxpooling1d"]= new MaxPooling1DFactory();
-                this->BuilderMap["maxpooling2d"]= new MaxPooling2DFactory();
-                this->BuilderMap["simplernn"]= new SimpleRNNFactory();
-                this->BuilderMap["lstm"]= new LSTMFactory();
-                this->BuilderMap["gru"]= new GRUFactory();*/
 };
 
 class HDF5Parser : public Parser{
     public: 
         int parse();
-        json parseModelConfig(); 
-        std::string file_name;
+        json model_config;
+        HDF5Parser(std::string file_name_str){
+            this->file_name= file_name_str;
+        }
+        json parseModelConfig();
+        void buildNN();
 };
 
 class JSONParser : public Parser{
     public:
         int parse();
+        JSONParser(std::string file_name_str){
+            this->file_name= file_name_str;
+        }
+        
 };
 
 #endif

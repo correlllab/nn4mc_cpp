@@ -38,6 +38,7 @@
 
 #include "H5Cpp.h"
 #include "Parser.h"
+#include "LayerBuilder.h"
 #include <nlohmann/json.hpp>
 #include <iomanip>
 #include <sstream>
@@ -53,8 +54,13 @@ using json=nlohmann::json;
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-json HDF5Parser::parseModelConfig(){
+void HDF5Parser::buildNN(){
 
+
+}
+
+json HDF5Parser::parseModelConfig(){
+      // TODO: Also parse the size of this attribute so I don't have to hard code 
       char* test= new char[1000000]; 
       cout<< "Attributes:"<<endl;
       H5File *filefile = new H5File( this->file_name, H5F_ACC_RDONLY );
@@ -64,21 +70,20 @@ json HDF5Parser::parseModelConfig(){
       attr->read(*type, &test);
       std::string str(test);
      
-       // PARSING MODEL STRUCTURE AS JSON:
-    // define parser callback
-    json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
-    {
-        // skip object elements with key "Thumbnail"
-        if (event == json::parse_event_t::key and parsed == json("Thumbnail"))
+        // define parser callback
+        json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    };
-      std::stringstream ss;
+            // skip object elements with key "Thumbnail"
+            if (event == json::parse_event_t::key and parsed == json("Thumbnail"))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        };
+          std::stringstream ss;
       ss<< str;
 
       json j_filtered= json::parse(ss, cb);
@@ -88,34 +93,35 @@ json HDF5Parser::parseModelConfig(){
       delete attr;
       delete what;
       delete filefile;
-
-
       return j_filtered;
 }
 
 
 int HDF5Parser::parse()
 {
+
   const H5std_string FILE_NAME( this->file_name );
   try
    {
       Exception::dontPrint();
-        
       H5File file = H5File( FILE_NAME, H5F_ACC_RDWR );
-      
       // Interested in model_weights only:
       Group group = Group( file.openGroup( "model_weights" ));
-                  
-        // Parsing overall neural network structure:
+      
+      // Parsing overall neural network structure:
       cout<< endl<<"Parsing neural newtork structure: "<<endl;
       herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, NULL);
       cerr<<endl;
-
+       
       // Parsing specific weights:
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
-
+    
+      cout << "Parsing model config:"<< endl;
+      this->model_config= this->parseModelConfig(); 
+      cout<< this->model_config["config"]["layers"]<<endl;
+    
     return 0;
 
    }  // end of try block
@@ -199,8 +205,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
              
             // TODO: handle the data type specific to the output type, 
             // not only <double>
-           
-            //Tensor<float>* T(tensor_dims);
+            Tensor<float> T(tensor_dims); 
             float *rbuf;
             herr_t ret;
             int flat=1;
@@ -215,20 +220,47 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 cout<< rbuf[i] << "  ";
             }  
 
-           /* switch(rank){
+            cout<<endl;
+            switch(rank){
                 case 1:
                     {
+                        cout<<"1D"<<endl;
                         for (int i=0; i<dims[0]; i++){
-                            (*T)(i) = rbuf[i];
-                            cout<< (*T)(i) <<endl;
+                            T(i) = rbuf[i];
                         }
 
+                    break;
                     }
+                case 2:
+                    {
+                        cout<<"2D"<<endl;
+                        for (int i=0; i<tensor_dims[0]; i++){
+                            for (int j=0; j<tensor_dims[1]; j++){
+                                int idx= tensor_dims[1]*i+j;
+                                T(i, j) = rbuf[idx];
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        for (int i=0; i< tensor_dims[0]; i++){
+                            for (int j=0; j<tensor_dims[1]; j++){
+                                for (int k=0; k<tensor_dims[2]; k++){
+                                    int idx= tensor_dims[2]*tensor_dims[1]*i + tensor_dims[2]*j + k;
+                                    T(i, j, k)= rbuf[idx];
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+
 
                 default:
                     break;
 
-            }*/
+            }
             //link weights and biases to layer object
             cout<<endl;
               
