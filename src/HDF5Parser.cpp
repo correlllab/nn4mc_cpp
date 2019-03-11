@@ -53,12 +53,11 @@ using json=nlohmann::json;
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-
 json HDF5Parser::parseModelConfig(){
 
       char* test= new char[1000000]; 
       cout<< "Attributes:"<<endl;
-      H5File *filefile = new H5File( this->FILE_NAME, H5F_ACC_RDONLY );
+      H5File *filefile = new H5File( this->file_name, H5F_ACC_RDONLY );
       Group *what = new Group(filefile->openGroup("/"));
       Attribute *attr= new Attribute(what->openAttribute("model_config"));
       DataType *type = new DataType (attr-> getDataType());
@@ -95,7 +94,7 @@ json HDF5Parser::parseModelConfig(){
 }
 
 
-int HDF5Parser::parseWeights()
+int HDF5Parser::parse()
 {
   const H5std_string FILE_NAME( this->file_name );
   try

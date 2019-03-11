@@ -9,8 +9,9 @@
 #include <vector>
 #include <sstream>
 #include "LayerFactory.h"
+#include <nlohmann/json.hpp>
 
-
+using json= nlohmann::json;
 
 class Parser{
     // Concrete class for parser obejcts. 
@@ -20,7 +21,7 @@ class Parser{
             std::string file_format;
             std::string file_name;
             virtual int parse() = 0;
-
+            virtual ~Parser() = default;
            /*     this-> file_name = str1; 
                 this->BuilderMap["conv1d"]= new Conv1DFactory();
                 this->BuilderMap["conv2d"]= new Conv2DFactory();
@@ -36,18 +37,13 @@ class Parser{
 class HDF5Parser : public Parser{
     public: 
         int parse();
+        json parseModelConfig(); 
         std::string file_name;
-        HDF5Parser(std::string str1){
-            this->file_name= str1;
-        }
 };
 
 class JSONParser : public Parser{
     public:
         int parse();
-        JSONParser(std::string str1){
-            this->file_name= str1;
-        }
 };
 
 #endif
