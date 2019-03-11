@@ -1,0 +1,42 @@
+/*************
+* conv1d.h
+*
+* Conv1D Layer Header
+* Hardware Plateform: ESP-32
+*
+* This file defines the datastructure needed to create a 1D Convolutional layer.
+*/
+
+#ifndef __CONV1D_H__
+#define __CONV1D_H__
+
+#ifdef __cpluscplus
+extern "C" {
+#endif
+
+struct Conv1D {
+	// Weights and biases defining the layer
+	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
+	<%WEIGHT_DATATYPE_DELIMITER>* bias;				// Pointer to constant bias
+
+	// Kernel information
+	<%INDEX_DATATYPE_DELIMITER> kernel_shape[3];	// (NUM_INPUT_CHANNELS x KERNEL_SIZE x NUM_OUTPUT_CHANNELS)
+	<%INDEX_DATATYPE_DELIMITER> stride;				//
+
+
+	// Shape of the input and output
+	<%INDEX_DATATYPE_DELIMITER> input_shape[2];
+	<%INDEX_DATATYPE_DELIMITER> output_shape[2];
+};
+
+
+#ifdef __cplusplus
+}
+
+#endif
+#endif
+
+
+
+
+
