@@ -31,17 +31,21 @@
 #include <sstream>
 #include "LayerBuilder.h"
 #ifndef H5_NO_NAMESPACE
+
 using namespace H5;
 using json=nlohmann::json;
 
 #endif
-
-
+struct opdata{
+            std::map<std::string, LayerFactory *> BM;
+            std::vector<LayerFactory*> lBV;
+        };
 class HDF5Parser : public Parser{
     public: 
         int parse();
         typedef std::map<std::string, LayerFactory *> builder_map;
-        std::vector<LayerBuilder*> layerBuilderVector;
+        
+        std::vector<LayerFactory*> layerBuilderVector;
 
         builder_map BuilderMap;
         json model_config;
@@ -52,10 +56,7 @@ class HDF5Parser : public Parser{
         void parseNeuralNetworkArchitecture();
         void constructBuilderMap();
         void buildNN();
-        struct opdata{
-            builder_map BuilderMap;
-            std::vector<LayerBuilder*> layerBuilderVector;
-        } od;
+        struct opdata odnn;
 };
 
 

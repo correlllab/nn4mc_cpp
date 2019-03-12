@@ -23,6 +23,7 @@ extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_inf
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
 void HDF5Parser::constructBuilderMap(){
+
     this->BuilderMap["conv1d"]= new Conv1DFactory();
     this->BuilderMap["conv2d"]= new Conv2DFactory();
     this->BuilderMap["flatten"]= new FlattenFactory();
@@ -32,16 +33,19 @@ void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["lstm"]= new LSTMFactory();
     this->BuilderMap["gru"]= new GRUFactory();
     this->BuilderMap["simplernn"]= new SimpleRNNFactory();
+
 }
 
 void HDF5Parser::parseNeuralNetworkArchitecture(){
+
     const H5std_string FILE_NAME( this->file_name );
- 
     H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
     Group group = Group( file.openGroup( "model_weights" ));
-            
-    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, &this->od);
-    cout<< rat << endl;
+    this->odnn.BM = this->BuilderMap;
+    this->odnn.lBV= this->layerBuilderVector;
+
+    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, (void*)&this->odnn);
+
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -139,16 +143,22 @@ return 0;
 }
 
 herr_t
-network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *opdata)
-{   
+network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *operator_data)
+{
+
+    // Neural Network Parsing:
+    struct opdata *od = (struct opdata *) operator_data;
+    
     std::string s(name);
     std::string delimiter= "_";
     std::string token;
+
     size_t pos=0;
     while ((pos=s.find(delimiter)) != std::string::npos){
         token= s.substr(0, pos);
         s.erase(0, pos+delimiter.length());
     }
+    od->lBV.push_back(od->BM[token]);
     // token is the layer type
     return 0;
 }
@@ -156,7 +166,6 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
-
     hid_t group;
     hid_t status;
     hid_t attribute;
