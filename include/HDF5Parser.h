@@ -52,6 +52,10 @@ class HDF5Parser : public Parser{
         void parseNeuralNetworkArchitecture();
         void constructBuilderMap();
         void buildNN();
+        struct opdata{
+            builder_map BuilderMap;
+            std::vector<LayerBuilder*> layerBuilderVector;
+        } od;
 };
 
 

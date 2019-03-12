@@ -22,7 +22,6 @@
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-
 void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["conv1d"]= new Conv1DFactory();
     this->BuilderMap["conv2d"]= new Conv2DFactory();
@@ -41,7 +40,7 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
     Group group = Group( file.openGroup( "model_weights" ));
             
-    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, NULL);
+    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, &this->od);
     cout<< rat << endl;
 }
 
