@@ -43,11 +43,10 @@ struct opdata{
 class HDF5Parser : public Parser{
     public: 
         int parse();
-        typedef std::map<std::string, LayerFactory *> builder_map;
-        
-        std::vector<LayerFactory*> layerBuilderVector;
-
+        NeuralNetwork NN;
+        typedef std::map<std::string, LayerFactory*> builder_map;
         builder_map BuilderMap;
+        std::vector<LayerFactory*> layerBuilderVector;
         json model_config;
         HDF5Parser(std::string file_name_str){
             this->file_name= file_name_str;
@@ -55,8 +54,7 @@ class HDF5Parser : public Parser{
         json parseModelConfig();
         void parseNeuralNetworkArchitecture();
         void constructBuilderMap();
-        void buildNN();
-        struct opdata odnn;
+        void buildLayers();
 };
 
 

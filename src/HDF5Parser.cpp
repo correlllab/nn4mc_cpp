@@ -41,11 +41,23 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     const H5std_string FILE_NAME( this->file_name );
     H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
     Group group = Group( file.openGroup( "model_weights" ));
-    this->odnn.BM = this->BuilderMap;
-    this->odnn.lBV= this->layerBuilderVector;
+    
+    struct opdata odnn; // local var
+    odnn.BM = this->BuilderMap;
+    // Shallow copy of the vectors:
+    std::copy(this->layerBuilderVector.begin(), this->layerBuilderVector.end(), std::back_inserter(odnn.lBV));
+    // This is what calls the callback function:
+    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, (void*)&odnn);
+    // My vector of factories if layerBuilderVector()    
+    std::copy(odnn.lBV.begin(), odnn.lBV.end(), std::back_inserter(this->layerBuilderVector));
 
-    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, (void*)&this->odnn);
+    for (int i=0; i<this->layerBuilderVector.size(); ++i) {
+    cout<< this->layerBuilderVector[i]<<endl;
+    }
+}
 
+void HDF5Parser::buildLayers(){
+    // Vector of factories is layerBuilderVector
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -99,7 +111,7 @@ int HDF5Parser::parse()
       Group group = Group( file.openGroup( "model_weights" ));
      
       this->parseNeuralNetworkArchitecture(); 
-
+      this->buildLayers();
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;

@@ -32,6 +32,12 @@ struct LayerNode
     layer=NULL;
     visited=false;
   }
+  LayerNode& operator=(const LayerNode& a){
+      // Copying edges:
+      std::copy(a.edges.begin(), a.edges.end(), back_inserter(edges));
+      visited= a.visited;
+      layer = a.layer;
+  }
 };
 
 class NeuralNetwork
@@ -50,7 +56,7 @@ class NeuralNetwork
 
     void addLayer(Layer* layer);
     void addEdge(Layer* l1, Layer* l2);
-
+    
     void BFSPrint();
     void DFSPrint();
 };
