@@ -78,8 +78,8 @@ void NeuralNetwork::BFS()
     start=nodeList.front();
     nodeList.pop_front();
 
-    nnData.nodes.push_back(start); //Adding node order data.
-    nnData.weights.push_back(start->w); //Adding weight data.
+    nodes_ord.push_back(start); //Adding node order data.
+    weights.push_back(start->w); //Adding weight data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {
@@ -118,4 +118,13 @@ void NeuralNetwork::DFSPrint()
   LayerNode* start = layers.front(); //Should change to input
 
   DFS(start);
+}
+
+std::list<LayerNode*>* getOrderedLayers()
+{
+  return &nodes_ord;
+}
+std::list<Weights*>* getLayerWeights()
+{
+  return &weights;
 }

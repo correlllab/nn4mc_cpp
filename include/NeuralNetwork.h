@@ -10,7 +10,6 @@
 
 struct LayerEdge;
 struct LayerNode;
-struct nnMeta;
 
 struct LayerEdge //Struct for edges in graph.
 {
@@ -37,18 +36,14 @@ struct LayerNode //Struct for each node in the graph representing a layer in the
   }
 };
 
-struct nnMeta
-{
-  std::list<LayerNode*> nodes;
-  std::list<Weights*> weights;
-};
-
 class NeuralNetwork
 {
   private:
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode> input; //Input layers for graph.
-    nnMeta nnData;
+
+    std::list<LayerNode*> nodes_ord; //Ordered list of nodes.
+    std::list<Weights*> weights; //Weights
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
@@ -63,6 +58,9 @@ class NeuralNetwork
 
     void BFS();
     void DFSPrint();
+
+    std::list<LayerNode*>* getOrderedLayers();
+    std::list<Weights*>* getLayerWeights();
 };
 
 #endif
