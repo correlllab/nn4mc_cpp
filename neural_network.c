@@ -19,7 +19,7 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     L.kernel_size = kernel_size;
     L.filters= filters;
     num_layers++;
-    L.h = (volatile float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(volatile float*));
+    L.h = (float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(float*));
     for (int i=0; i< (int)(L.input_sh1- L.kernel_size+1); i++){
         L.h[i] = (float*)malloc(L.filters * sizeof(float));
     } 
@@ -27,7 +27,7 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     *LL = L;
 }
 
-void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, volatile float ** window){
+void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float ** window){
     struct Conv1D L;
     L= *LL;
 
@@ -125,7 +125,7 @@ void setflatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b){
     *FLATFLAT= FLAT;
 }
 
-void flatten2D1D(struct Flatten2D1D * FLATFLAT, volatile float ** incoming){
+void flatten2D1D(struct Flatten2D1D * FLATFLAT, float ** incoming){
     ESP_LOGI(TAG, "here1");
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;

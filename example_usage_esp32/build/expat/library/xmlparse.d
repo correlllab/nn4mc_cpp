@@ -16,7 +16,7 @@ library/xmlparse.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/cdefs.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/string.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/alloca.h \
@@ -70,7 +70,7 @@ library/xmlparse.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h:
 

@@ -3,7 +3,7 @@ port/chardata.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/expat/include/expat/expat_config.h \
  /home/sarahaguasvivas/esp/esp-idf/components/expat/port/include/minicheck.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/ieeefp.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h \
@@ -38,7 +38,7 @@ port/chardata.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h:
 

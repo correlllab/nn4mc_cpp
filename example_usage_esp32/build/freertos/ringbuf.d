@@ -22,7 +22,7 @@ ringbuf.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h \
  /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h \
@@ -130,7 +130,7 @@ ringbuf.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 
