@@ -97,6 +97,39 @@ std::string LayerGenerator::processTemplate(std::string template_path)
 }
 
 
+
+/*******************
+* addLayer(Layer layer, std::string layer_type)
+*
+* Generic code associate with all types of layers
+*/
+void LayerGenerator::addLayer(Layer layer, std::string layer_type)
+{
+	// Create strings for the path to the header and src template files
+	std::string include_path = include_template_path + "/" + layer_type + ".h.template";
+	std::string src_path = src_template_path + "/" + layer_type + ".cpp.template";
+
+	// Check if this layer type has been included in the set of template files to process
+	std::map<std::string, std::string>::iterator iter = include_files.find(layer_type);
+	if(iter == include_files.end())
+	{
+		std::string file_contents = processTemplate(include_path);
+		include_files.insert( std::pair<std::string, std::string>(layer_type, file_contents));	
+	}
+
+	iter = src_files.find(layer_type);
+	if(iter == src_files.end())
+	{
+		std::string file_contents = processTemplate(src_path);
+		src_files.insert(std::pair<std::string, std::string>(layer_type, file_contents));
+	}
+
+	// Store the layer for later use
+	layers.push_back(layer);	
+}
+
+
+
 /*******************
 * addLayer(Layer layer)
 *
@@ -104,20 +137,7 @@ std::string LayerGenerator::processTemplate(std::string template_path)
 */
 void LayerGenerator::addLayer(Conv1D layer)
 {
-	// Check if this layer type has been included in the set of template files to process
-	std::map<std::string, std::string>::iterator iter = include_files.find("conv1d");
-	if(iter == include_files.end())
-	{
-		std::string file_contents = processTemplate(include_template_path + "/conv1d.h.template");
-		include_files.insert( std::pair<std::string, std::string>("conv1d", file_contents));	
-	}
-
-	iter = src_files.find("conv1d");
-	if(iter == src_files.end())
-	{
-		std::string file_contents = processTemplate(src_template_path + "/conv1d.cpp.template");
-		src_files.insert(std::pair<std::string, std::string>("conv1d", file_contents));
-	}
+	addLayer((Layer) layer, "conv1d");
 }
 
 
@@ -129,7 +149,7 @@ void LayerGenerator::addLayer(Conv2D layer)
 
 void LayerGenerator::addLayer(Dense layer)
 {
-
+	addLayer((Layer) layer, "dense");
 }
 
 

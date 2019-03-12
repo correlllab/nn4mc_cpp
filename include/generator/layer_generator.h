@@ -26,6 +26,7 @@
 #include <string>
 #include <array>
 #include <map>
+#include <vector>
 
 #include "Layer.h"
 
@@ -55,8 +56,12 @@ class LayerGenerator
 		std::map<std::string, std::string> include_files;
 		std::map<std::string, std::string> src_files;
 
+		// Storage for the layers
+		std::vector<Layer> layers;
+
 		std::string processTemplate(std::string);
 		void dump(std::string, std::map<std::string,std::string>);
+		void addLayer(Layer, std::string);
 
 
 	public:
