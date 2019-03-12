@@ -16,7 +16,7 @@ extern "C" {
 volatile uint16_t buffer[WINDOW_SIZE*NUM_ADC];
 volatile float gradient;
 volatile bool event_detected;
-volatile float ** window;
+float ** window;
 float output[NUM_OUTPUT];
 volatile int buffer_idx;
 volatile bool buffer_full;

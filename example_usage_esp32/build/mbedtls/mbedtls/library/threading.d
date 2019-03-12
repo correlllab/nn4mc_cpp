@@ -1,66 +1,18 @@
 mbedtls/library/threading.o: \
- /Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/library/threading.c \
- /Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h \
- /Users/sarahaguasvivas/esp/esp-idf/example/build/include/sdkconfig.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/esp_mem.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/ieeefp.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/newlib.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/config.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/features.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/reent.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_types.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/_types.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/_default_types.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/lock.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/cdefs.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/stdlib.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/alloca.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/check_config.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/limits.h
+ /home/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/library/threading.c \
+ /home/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/check_config.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/limits.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/newlib.h
 
-/Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h:
+/home/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/example/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/port/include/esp_mem.h:
+/home/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/check_config.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdlib.h:
+/home/sarahaguasvivas/esp/esp-idf/components/newlib/include/limits.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/ieeefp.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/newlib.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/config.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/features.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-isa.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/reent.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/_ansi.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_types.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/_types.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/_default_types.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/lock.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/cdefs.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/machine/stdlib.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/alloca.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/check_config.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/newlib/include/limits.h:
-/Users/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/library/threading.c:
+/home/sarahaguasvivas/esp/esp-idf/components/newlib/include/newlib.h:
+/home/sarahaguasvivas/esp/esp-idf/components/mbedtls/mbedtls/library/threading.c:
