@@ -8,7 +8,9 @@
 #include <string>
 #include <list>
 
+struct LayerEdge;
 struct LayerNode;
+struct nnMeta;
 
 struct LayerEdge //Struct for edges in graph.
 {
@@ -35,12 +37,18 @@ struct LayerNode //Struct for each node in the graph representing a layer in the
   }
 };
 
+struct nnMeta
+{
+  std::list<LayerNode*> nodes;
+  std::list<Weights*> weights;
+};
+
 class NeuralNetwork
 {
   private:
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode> input; //Input layers for graph.
-    std::list<LayerNode*> BFS; //List with BFS order of nodes.
+    nnMeta nnData;
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
@@ -53,7 +61,7 @@ class NeuralNetwork
     void addLayer(Layer* layer);
     void addEdge(Layer* l1, Layer* l2);
 
-    void BFSPrint();
+    void BFS();
     void DFSPrint();
 };
 

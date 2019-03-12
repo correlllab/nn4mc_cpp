@@ -60,7 +60,7 @@ void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
   layer_2->inputs.push_back(layer_1);
 }
 
-void NeuralNetwork::BFSPrint()
+void NeuralNetwork::BFS()
 {
   setUnvisited();
 
@@ -77,7 +77,9 @@ void NeuralNetwork::BFSPrint()
   {
     start=nodeList.front();
     nodeList.pop_front();
-    BFS.push_back(start);
+
+    nnData.nodes.push_back(start); //Adding node order data.
+    nnData.weights.push_back(start->w); //Adding weight data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {
@@ -86,7 +88,7 @@ void NeuralNetwork::BFSPrint()
         i->l->visited = true;
         nodeList.push_back(i->l);
 
-        std::cout << i->l->layer->identifier<<std::endl;
+        //std::cout << i->l->layer->identifier<<std::endl;
       }
     }
   }
