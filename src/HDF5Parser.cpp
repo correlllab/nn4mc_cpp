@@ -43,21 +43,34 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     Group group = Group( file.openGroup( "model_weights" ));
     
     struct opdata odnn; // local var
+    // Copying existing variables from object attribute:
     odnn.BM = this->BuilderMap;
-    // Shallow copy of the vectors:
+    std::copy(this->layer_ids.begin(), this->layer_ids.end(), std::back_inserter(odnn.layer_ids));
+    std::copy(this->layer_edges.begin(), this->layer_edges.end(), std::back_inserter(odnn.layer_edges));
     std::copy(this->layerBuilderVector.begin(), this->layerBuilderVector.end(), std::back_inserter(odnn.lBV));
+    
     // This is what calls the callback function:
     herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, (void*)&odnn);
     // My vector of factories if layerBuilderVector()    
     std::copy(odnn.lBV.begin(), odnn.lBV.end(), std::back_inserter(this->layerBuilderVector));
+    std::copy(odnn.layer_edges.begin(), odnn.layer_edges.end(), std::back_inserter(this->layer_edges));
+    std::copy(odnn.layer_ids.begin(), odnn.layer_ids.end(), std::back_inserter(this->layer_ids));
 
     for (int i=0; i<this->layerBuilderVector.size(); ++i) {
-    cout<< this->layerBuilderVector[i]<<endl;
+          cout<< this->layer_ids[i]<<endl;
     }
 }
 
-void HDF5Parser::buildLayers(){
+void HDF5Parser::buildEdges(){
     // Vector of factories is layerBuilderVector
+    // Assuming Sequential:
+    for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
+       this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
+    }
+
+    for (int i=0; i<this->layer_edges.size(); ++i){
+        cout<< this->layer_edges[i].first << " "<< this->layer_edges[i].second <<endl;
+    }
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -111,7 +124,7 @@ int HDF5Parser::parse()
       Group group = Group( file.openGroup( "model_weights" ));
      
       this->parseNeuralNetworkArchitecture(); 
-      this->buildLayers();
+      this->buildEdges();
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
@@ -164,14 +177,14 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
     std::string s(name);
     std::string delimiter= "_";
     std::string token;
-
+    od->layer_ids.push_back(s);  
     size_t pos=0;
     while ((pos=s.find(delimiter)) != std::string::npos){
         token= s.substr(0, pos);
         s.erase(0, pos+delimiter.length());
     }
     od->lBV.push_back(od->BM[token]);
-    // token is the layer type
+       // token is the layer type
     return 0;
 }
 

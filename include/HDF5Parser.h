@@ -39,7 +39,9 @@ using json=nlohmann::json;
 struct opdata{
             std::map<std::string, LayerFactory *> BM;
             std::vector<LayerFactory*> lBV;
-        };
+            std::vector<std::string> layer_ids;
+            std::vector<std::pair<std::string, std::string>> layer_edges;
+            };
 class HDF5Parser : public Parser{
     public: 
         int parse();
@@ -47,6 +49,8 @@ class HDF5Parser : public Parser{
         typedef std::map<std::string, LayerFactory*> builder_map;
         builder_map BuilderMap;
         std::vector<LayerFactory*> layerBuilderVector;
+        std::vector<std::string> layer_ids;
+        std::vector<std::pair<std::string, std::string>> layer_edges;
         json model_config;
         HDF5Parser(std::string file_name_str){
             this->file_name= file_name_str;
@@ -54,7 +58,7 @@ class HDF5Parser : public Parser{
         json parseModelConfig();
         void parseNeuralNetworkArchitecture();
         void constructBuilderMap();
-        void buildLayers();
+        void buildEdges();
 };
 
 
