@@ -46,7 +46,7 @@ void fwdConv1D(Conv1D* layer, <%LAYER_DATATYPE_DELIMITER>* input, <%LAYER_DATATY
 	// Loop through to calculate the output at each point
 	for(<%INDEX_DATATYPE_DELIMITER> output_position = 0; output_position < L.output_shape[0]; output_position++)
 	{
-		for(<%INDEX_DATATYPE_DELIMITER> output_channel = 0; output_channel < L.kernel_shape[2]; output_channel++)
+		for(<%INDEX_DATATYPE_DELIMITER> output_channel = 0; output_channel < L.output_shape[1]; output_channel++)
 		{
 			// Convert the 2D output index (i,j) to the 1D index in the provided array
 			output_idx = output_position*L.kernel_shape[2] + output_channel;
