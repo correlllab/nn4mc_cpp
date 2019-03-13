@@ -200,7 +200,7 @@ std::string LayerGenerator::getCallString(std::string layer_template)
 *
 * Generic code associate with all types of layers
 */
-void LayerGenerator::addLayer(Layer layer, std::string layer_type, std::string layer_datatype)
+void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string layer_datatype)
 {
 	// Create strings for the path to the header and src template files
 	std::string include_path = include_template_path + "/" + layer_type + ".h.template";
@@ -246,55 +246,55 @@ void LayerGenerator::addLayer(Layer layer, std::string layer_type, std::string l
 *
 * Add the layer to the list of layers to create.
 */
-void LayerGenerator::addLayer(Conv1D layer)
+void LayerGenerator::addLayer(Conv1D* layer)
 {
-	addLayer((Layer) layer, "conv1d", "float");
+	addLayer((Layer*) layer, "conv1d", "float");
 }
 
 
-void LayerGenerator::addLayer(Conv2D layer)
+void LayerGenerator::addLayer(Conv2D* layer)
 { 
 
 }
 
 
-void LayerGenerator::addLayer(Dense layer)
+void LayerGenerator::addLayer(Dense* layer)
 {
-	addLayer((Layer) layer, "dense", "float");
+	addLayer((Layer*) layer, "dense", "float");
 }
 
 
-void LayerGenerator::addLayer(Flatten layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(MaxPooling1D layer)
+void LayerGenerator::addLayer(Flatten* layer)
 {
 
 }
 
 
-void LayerGenerator::addLayer(MaxPooling2D layer)
+void LayerGenerator::addLayer(MaxPooling1D* layer)
 {
 
 }
 
 
-void LayerGenerator::addLayer(SimpleRNN layer)
+void LayerGenerator::addLayer(MaxPooling2D* layer)
 {
 
 }
 
 
-void LayerGenerator::addLayer(GRU layer)
+void LayerGenerator::addLayer(SimpleRNN* layer)
 {
 
 }
 
 
-void LayerGenerator::addLayer(LSTM layer)
+void LayerGenerator::addLayer(GRU* layer)
+{
+
+}
+
+
+void LayerGenerator::addLayer(LSTM* layer)
 {
 
 }

@@ -66,7 +66,7 @@ class LayerGenerator
 		std::map<std::string, std::string> fwd_calls;
 
 		// Storage for the layers
-		std::vector<Layer> layers;
+		std::vector<Layer*> layers;
 
 		// Loading template files
 		std::string loadTemplate(std::string);
@@ -79,7 +79,7 @@ class LayerGenerator
 
 
 		void dump(std::string, std::map<std::string,std::string>, std::string);
-		void addLayer(Layer, std::string, std::string);
+		void addLayer(Layer*, std::string, std::string);
 
 
 	public:
@@ -87,15 +87,15 @@ class LayerGenerator
 		LayerGenerator(std::string, std::string, const char*, const char*);
 		~LayerGenerator();
 
-		void addLayer(Conv1D);
-		void addLayer(Conv2D);
-		void addLayer(Dense);
-		void addLayer(Flatten);
-		void addLayer(MaxPooling1D);
-		void addLayer(MaxPooling2D);
-		void addLayer(SimpleRNN);
-		void addLayer(GRU);
-		void addLayer(LSTM);
+		void addLayer(Conv1D*);
+		void addLayer(Conv2D*);
+		void addLayer(Dense*);
+		void addLayer(Flatten*);
+		void addLayer(MaxPooling1D*);
+		void addLayer(MaxPooling2D*);
+		void addLayer(SimpleRNN*);
+		void addLayer(GRU*);
+		void addLayer(LSTM*);
 
 
 		void dumpLayerHeaders(std::string);

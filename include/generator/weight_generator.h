@@ -33,12 +33,12 @@
 class WeightGenerator
 {
 	private:
-		static std::string TEMPLATE_BEGIN_DELIMITER;// =	"<%BEGIN_TEMPLATE>";
-		static std::string TEMPLATE_END_DELIMITER;// =		"<%END_TEMPLATE>";
-		static std::string DATATYPE_DELIMITER;// =			"<%WEIGHT_DATATYPE>";
-		static std::string NAME_DELIMITER;// =				"<%WEIGHT_NAME>";
-		static std::string INDEX_DELIMITER;//	=			"<%WEIGHT_INDEX>";
-		static std::string DATA_DELIMITER;// =				"<%DATA>";
+		static std::string TEMPLATE_BEGIN_DELIMITER;
+		static std::string TEMPLATE_END_DELIMITER;
+		static std::string DATATYPE_DELIMITER;
+		static std::string NAME_DELIMITER;
+		static std::string INDEX_DELIMITER;
+		static std::string DATA_DELIMITER;
 
 		std::string weight_template;
 		std::string template_header;

@@ -24,14 +24,13 @@ SET (nn4mp_VERSION_MINOR 0)
 INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
 
-
-FILE (GLOB CORE_LIB src/datastructures/*.cpp)
-#FILE (GLOB LAYERS_LIB src/datastructures/layers/*.cpp)
+FILE (GLOB CORE_LIB src/NeuralNetwork.cpp)
+FILE (GLOB DATASTRUCTURE_LIB src/datastructures/*.cpp)
 FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 
 # Build libraries
-ADD_LIBRARY (nn4mp_datastructures SHARED ${CORE_LIB})
-#ADD_LIBRARY (nn4mp_layers SHARED ${LAYERS_LIB})
+ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
+ADD_LIBRARY (nn4mp_datastructures SHARED ${DATASTRUCTURE_LIB})
 ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
 # Add the executable
@@ -39,6 +38,8 @@ ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)
 ADD_EXECUTABLE (generator_test src/generator_test.cpp)
 
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
+
+TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_datastructures)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_code_generator)
 #TARGET_LINK_LIBRARIES (generator_test nn4mp_layers)
