@@ -61,12 +61,12 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     }
 }
 void HDF5Parser::callLayerBuilders(){
-    //cout << this->model_config["config"] << endl;
-    //cout<<endl;
-    
+        int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
             cout<< it.key() << " | " << it.value() << endl;
-            cout<<endl;
+            //this->layerBuilderVector[i]->create()->create_from_json(it.value(), this->layer_ids[i]); 
+            cout << endl;
+            i++;
         }
    
 }

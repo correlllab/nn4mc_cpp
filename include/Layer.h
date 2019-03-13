@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 class Layer{
     private:
@@ -18,7 +19,7 @@ class Layer{
 };
 
 class Conv1D : public Layer{
-    private:
+    public:
         int filters;
         int kernel_size;
         int strides;
@@ -27,10 +28,7 @@ class Conv1D : public Layer{
         int dilation_rate;
         std::string activation;
         bool use_bias;
-//        Weights* w;
-
         // no need for training-specific variables
-    public:
 };
 
 

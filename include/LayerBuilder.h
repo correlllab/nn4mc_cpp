@@ -12,8 +12,10 @@ parsed object to the right layer.
 #include <string>
 #include <map>
 #include "Layer.h"
-#include "Parser.h"
 #include "NeuralNetwork.h"
+#include <nlohmann/json.hpp>
+
+using json=nlohmann::json;
 
 class LayerBuilder{
     // Builder class for dynamic instantiation
@@ -22,102 +24,77 @@ class LayerBuilder{
             std::string layer_type;
             NeuralNetwork NN;
     public:
-            void createLayer();
-            ~LayerBuilder() {}
+            void create_from_json(json obj, std::string id);
+            ~LayerBuilder() {};
 };
 
 class Conv1DBuilder : public LayerBuilder {
     private:
         Conv1D layerObject();
+
     public:
-        void createLayer(){
-        };
+        void create_from_json(json object, std::string id);
 };
 
 class Conv2DBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         Conv2D layerObject();
     public:
-        void createLayer(){
-        } 
+        void create_from_json(json object, std::string id); 
 
 };
 
 class DenseBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         Dense layerObject();
     public:
-        void createLayer(){
-        } 
+        void create_from_json(json object, std::string id); 
 
 };
 
 class FlattenBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         Flatten layerObject();
     public:
-        void createLayer(){
-        } 
+        void create_from_json(json object, std::string id);
 
 };
 
 class GRUBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         GRU layerObject();
     public:
-        void createLayer(){
-        } 
+        void create_from_json(json object, std::string id);
 };
-
 class LSTMBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         LSTM layerObject();
     public:
-        void createLayer(){
-
-            
-        } 
+        void create_from_json(json object, std::string id); 
 
 };
 
 class MaxPooling1DBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         MaxPooling1D layerObject();
     public:
-        void createLayer(){
-
-            
-        } 
+        void create_from_json(json object, std::string id); 
 
 };
 
 class MaxPooling2DBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         MaxPooling2D layerObject();
     public:
-        void createLayer(){
-
-            
-        } 
+        void create_from_json(json object, std::string id); 
 
 };
 
 class SimpleRNNBuilder : public LayerBuilder {
     private:
-        //Parser parsedObject(); 
         SimpleRNN layerObject();
     public:
-         void createLayer(){
-
-            
-        } 
+         void create_from_json(json object, std::string id);
 
 };
 #endif
