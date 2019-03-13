@@ -31,6 +31,7 @@ class Conv1D : public Layer{
 
         // no need for training-specific variables
     public:
+        Conv1D(std::string id) : Layer(id) {}
 };
 
 
@@ -50,6 +51,7 @@ class Conv2D : public Layer{
         // no need for training-specific variables.
 
     public:
+        Conv2D(std::string id) : Layer(id) {}
 };
 
 class Dense : public Layer{
@@ -62,12 +64,14 @@ class Dense : public Layer{
   //      Weights* w;
 
     public:
+        Dense(std::string id) : Layer(id) {}
 };
 
 
 class Flatten : public Layer{
 
-
+    public:
+        Flatten(std::string id) : Layer(id) {}
 };
 
 class MaxPooling1D : public Layer{
@@ -77,6 +81,7 @@ class MaxPooling1D : public Layer{
         std::string padding;
         std::string data_format;
     public:
+        MaxPooling1D(std::string id) : Layer(id) {}
 } ;
 
 class MaxPooling2D: public Layer{
@@ -86,6 +91,7 @@ class MaxPooling2D: public Layer{
         std::string padding;
         std::string data_format;
     public:
+        MaxPooling2D(std::string id) : Layer(id) {}
 };
 
 class SimpleRNN : public Layer{
@@ -94,6 +100,7 @@ class SimpleRNN : public Layer{
         std::string activation;
         bool use_bias;
     public:
+        SimpleRNN(std::string id) : Layer(id) {}
 };
 
 class GRU: public Layer{
@@ -109,6 +116,7 @@ class GRU: public Layer{
         bool unrool;
         bool reset_after;
     public:
+        GRU(std::string id) : Layer(id) {}
 };
 
 
@@ -126,6 +134,7 @@ class LSTM: public Layer{
         bool unroll;
     public:
           //this->identifier = id;
+        LSTM(std::string id) : Layer(id) {}
 };
 
 

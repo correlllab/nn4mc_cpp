@@ -1,3 +1,4 @@
+<%BEGIN_DEFINITION_TEMPLATE>
 /*************
 * conv1d.h
 *
@@ -36,7 +37,4 @@ struct Conv1D {
 #endif
 #endif
 
-
-
-
-
+<%END_DEFINITION_TEMPLATE>

@@ -9,6 +9,13 @@
 // Define the delimiters used
 std::string LayerGenerator::WEIGHT_DATATYPE_DELIMITER =	"<%WEIGHT_DATATYPE_DELIMITER>";
 std::string LayerGenerator::INDEX_DATATYPE_DELIMITER =	"<%INDEX_DATATYPE_DELIMITER>";
+std::string LayerGenerator::LAYER_DATATYPE_DELIMITER = "<%LAYER_DATATYPE_DELIMITER>";
+std::string LayerGenerator::START_DELIMITER = "<%BEGIN_DEFINITION_TEMPLATE>";
+std::string LayerGenerator::END_DELIMITER = "<%END_DEFINITION_TEMPLATE>";
+std::string LayerGenerator::START_CALL_DELIMITER = "<%BEGIN_CALL_TEMPLATE>";
+std::string LayerGenerator::END_CALL_DELIMITER = "<%END_CALL_TEMPLATE>";
+std::string LayerGenerator::START_INITIALIZE_DELIMITER = "<%BEGIN_INITIALIZE_TEMPLATE>";
+std::string LayerGenerator::END_INITIALIZE_DELIMITER = "<%END_INITIALIZE_TEMPLATE>";
 
 // Define the available layer types
 std::array<std::string, 9> LayerGenerator::layer_types = { 	std::string("conv1d"),
@@ -56,7 +63,12 @@ LayerGenerator::~LayerGenerator()
 }
 
 
-std::string LayerGenerator::processTemplate(std::string template_path)
+/*******************
+* loadTemplate(std::string template_path)
+*
+* Load the template file from the provided path.
+*/
+std::string LayerGenerator::loadTemplate(std::string template_path)
 {
 	// The string to put the processed template into
 	std::string layer_template;
@@ -76,6 +88,28 @@ std::string LayerGenerator::processTemplate(std::string template_path)
 		throw std::runtime_error("Could not open file: " + template_path);
 	}
 
+	return layer_template;
+}
+
+
+
+/*******************
+* processTemplate(std::string template, std::string layer_datatype)
+*
+* Pull out and process the template
+*/
+std::string LayerGenerator::processTemplate(std::string layer_template, std::string layer_datatype)
+{
+	// Extract the template from where the definition begins and ends
+	size_t start_position = layer_template.find(START_DELIMITER);
+	size_t end_position = layer_template.find(END_DELIMITER);
+
+	// TODO: Do the delimiters actually exist?
+
+	start_position += START_DELIMITER.length();
+
+	layer_template = layer_template.substr(start_position, end_position-start_position);
+
 	// Replace all the instances of the datatype templates
 	size_t delimiter_position = layer_template.find(WEIGHT_DATATYPE_DELIMITER);
 
@@ -93,9 +127,72 @@ std::string LayerGenerator::processTemplate(std::string template_path)
 		delimiter_position = layer_template.find(INDEX_DATATYPE_DELIMITER);
 	}
 
+	delimiter_position = layer_template.find(LAYER_DATATYPE_DELIMITER);
+
+	while(delimiter_position != std::string::npos)
+	{
+		layer_template.replace(delimiter_position, LAYER_DATATYPE_DELIMITER.length(), layer_datatype);
+		delimiter_position = layer_template.find(LAYER_DATATYPE_DELIMITER);
+	}
+
+
 	return layer_template;
 }
 
+
+
+/*******************
+* getFunctionString(std::string layer_template, std::string start_delimiter, std::string end_delimiter)
+*
+* 
+*/
+std::string LayerGenerator::getFunctionString(std::string layer_template, std::string start_delimiter, std::string end_delimiter)
+{
+	// Extract the template from where the call begins and ends
+	size_t start_position = layer_template.find(start_delimiter);
+	size_t end_position = layer_template.find(end_delimiter);
+
+	// TODO: Do the delimiters actually exist?
+
+	start_position += start_delimiter.length();
+
+	layer_template = layer_template.substr(start_position, end_position-start_position);
+
+	return layer_template;	
+}
+
+
+/*******************
+* getInitString(std::string layer_template)
+*
+* 
+*/
+std::string LayerGenerator::getInitString(std::string layer_template)
+{
+	return getFunctionString(layer_template, START_INITIALIZE_DELIMITER, END_INITIALIZE_DELIMITER);
+}
+
+
+
+/*******************
+* getCallString(std::string layer_template)
+*
+* 
+*/
+std::string LayerGenerator::getCallString(std::string layer_template)
+{
+	// Extract the template from where the call begins and ends
+	size_t start_position = layer_template.find(START_CALL_DELIMITER);
+	size_t end_position = layer_template.find(END_CALL_DELIMITER);
+
+	// TODO: Do the delimiters actually exist?
+
+	start_position += START_CALL_DELIMITER.length();
+
+	layer_template = layer_template.substr(start_position, end_position-start_position);
+
+	return layer_template;
+}
 
 
 /*******************
@@ -103,25 +200,39 @@ std::string LayerGenerator::processTemplate(std::string template_path)
 *
 * Generic code associate with all types of layers
 */
-void LayerGenerator::addLayer(Layer layer, std::string layer_type)
+void LayerGenerator::addLayer(Layer layer, std::string layer_type, std::string layer_datatype)
 {
 	// Create strings for the path to the header and src template files
 	std::string include_path = include_template_path + "/" + layer_type + ".h.template";
 	std::string src_path = src_template_path + "/" + layer_type + ".cpp.template";
 
+	// Load the templates
+	std::string include_template = loadTemplate(include_path);
+	std::string src_template = loadTemplate(src_path);
+
 	// Check if this layer type has been included in the set of template files to process
 	std::map<std::string, std::string>::iterator iter = include_files.find(layer_type);
 	if(iter == include_files.end())
 	{
-		std::string file_contents = processTemplate(include_path);
-		include_files.insert( std::pair<std::string, std::string>(layer_type, file_contents));	
+		std::string include_contents = processTemplate(include_template, layer_datatype);
+		include_files.insert( std::pair<std::string, std::string>(layer_type, include_contents));	
 	}
 
 	iter = src_files.find(layer_type);
 	if(iter == src_files.end())
 	{
-		std::string file_contents = processTemplate(src_path);
-		src_files.insert(std::pair<std::string, std::string>(layer_type, file_contents));
+		std::string src_contents = processTemplate(src_template, layer_datatype);
+		src_files.insert(std::pair<std::string, std::string>(layer_type, src_contents));
+
+		// Pull out the code needed to initialize and call functions for this type of layer
+		init_calls.insert(std::pair<std::string, std::string>());
+		fwd_calls.insert(std::pair<std::string, std::string>());
+
+		std::string initString = getInitString(src_template);
+		std::string callString = getCallString(src_template);
+
+		std::cout << initString;
+		std::cout << callString;
 	}
 
 	// Store the layer for later use
@@ -137,7 +248,7 @@ void LayerGenerator::addLayer(Layer layer, std::string layer_type)
 */
 void LayerGenerator::addLayer(Conv1D layer)
 {
-	addLayer((Layer) layer, "conv1d");
+	addLayer((Layer) layer, "conv1d", "float");
 }
 
 
@@ -149,7 +260,7 @@ void LayerGenerator::addLayer(Conv2D layer)
 
 void LayerGenerator::addLayer(Dense layer)
 {
-	addLayer((Layer) layer, "dense");
+	addLayer((Layer) layer, "dense", "float");
 }
 
 
@@ -188,12 +299,23 @@ void LayerGenerator::addLayer(LSTM layer)
 
 }
 
-void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map)
+
+/*******************
+* dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
+*
+* 
+*
+* Arguments:
+*   directory - path to the directory to write code to\
+*   file_map -  mapping of file name to contents
+*   extension - file extension for each file being written
+*/
+void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
 	// Loop through the include files and dump into the provided directory with appropriate paths
 	for(std::map<std::string, std::string>::iterator iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
-		std::string path = directory + "/" + iter->first + ".h";
+		std::string path = directory + "/" + iter->first + extension;
 
 		// Load the template from the provided path
 		std::ofstream output_file(path, std::ios::out);
@@ -220,7 +342,7 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 */
 void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 {
-	dump(layer_header_directory, include_files);
+	dump(layer_header_directory, include_files, ".h");
 }
 
 
@@ -234,5 +356,5 @@ void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 */
 void LayerGenerator::dumpLayerSources(std::string layer_src_directory)
 {
-	dump(layer_src_directory, src_files);
+	dump(layer_src_directory, src_files, ".cpp");
 }

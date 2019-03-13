@@ -40,6 +40,13 @@ class LayerGenerator
 		// Delimiters
 		static std::string WEIGHT_DATATYPE_DELIMITER;
 		static std::string INDEX_DATATYPE_DELIMITER;
+		static std::string LAYER_DATATYPE_DELIMITER;
+		static std::string START_DELIMITER;
+		static std::string END_DELIMITER;
+		static std::string START_CALL_DELIMITER;
+		static std::string END_CALL_DELIMITER;
+		static std::string START_INITIALIZE_DELIMITER;
+		static std::string END_INITIALIZE_DELIMITER;
 
 		// Types of layers defined, and number of defined layers
 		static std::array<std::string, 9> layer_types;
@@ -55,13 +62,24 @@ class LayerGenerator
 		// Types of layers to actually include in the generated files
 		std::map<std::string, std::string> include_files;
 		std::map<std::string, std::string> src_files;
+		std::map<std::string, std::string> init_calls;
+		std::map<std::string, std::string> fwd_calls;
 
 		// Storage for the layers
 		std::vector<Layer> layers;
 
-		std::string processTemplate(std::string);
-		void dump(std::string, std::map<std::string,std::string>);
-		void addLayer(Layer, std::string);
+		// Loading template files
+		std::string loadTemplate(std::string);
+
+		// Processing template files
+		std::string getFunctionString(std::string, std::string, std::string);
+		std::string getInitString(std::string);
+		std::string getCallString(std::string);
+		std::string processTemplate(std::string, std::string);
+
+
+		void dump(std::string, std::map<std::string,std::string>, std::string);
+		void addLayer(Layer, std::string, std::string);
 
 
 	public:

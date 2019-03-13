@@ -5,6 +5,9 @@
 #include "datastructures/tensor.h"
 #include "generator/weight_generator.h"
 #include "datastructures/weights.h"
+#include "generator/layer_generator.h"
+
+#include "Layer.h"
 
 /** SIMPLE EXAMPLE
 **/
@@ -68,6 +71,22 @@ int main(int argc, char** argv)
 	generator->addWeight(w2);
 	std::cout << "Dumping" << std::endl;
 	generator->dump("demo_neural_net_weights.h");
+
+	std::cout << std::endl << "BUILDING LAYERS" << std::endl;
+
+	LayerGenerator* layer_gen = new LayerGenerator("../templates/esp32/include/layers",
+												   "../templates/esp32/src/layers",
+												   "const float", "int");
+
+
+	Conv1D conv1d_layer("layer0");
+	Dense dense_layer("layer1");
+
+	layer_gen->addLayer(conv1d_layer);
+	layer_gen->addLayer(dense_layer);
+
+	layer_gen->dumpLayerHeaders(".");
+	layer_gen->dumpLayerSources(".");
 
 	delete generator;
 }
