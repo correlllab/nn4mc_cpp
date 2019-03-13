@@ -58,6 +58,7 @@ class HDF5Parser : public Parser{
         json parseModelConfig();
         void parseNeuralNetworkArchitecture();
         void constructBuilderMap();
+        void callLayerBuilders();
         void buildEdges();
 };
 

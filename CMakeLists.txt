@@ -29,7 +29,7 @@ FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 # Build libraries
 #ADD_LIBRARY (nn4mp_datastructures SHARED ${CORE_LIB})
 #ADD_LIBRARY (nn4mp_layers SHARED ${LAYERS_LIB})
-ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
+#ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
 # Add the executable
 #ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)

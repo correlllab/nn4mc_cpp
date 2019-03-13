@@ -60,6 +60,16 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
           cout<< this->layer_ids[i]<<endl;
     }
 }
+void HDF5Parser::callLayerBuilders(){
+    //cout << this->model_config["config"] << endl;
+    //cout<<endl;
+    
+        for (auto it: this->model_config["config"]["layers"].items()){
+            cout<< it.key() << " | " << it.value() << endl;
+            cout<<endl;
+        }
+   
+}
 
 void HDF5Parser::buildEdges(){
     // Vector of factories is layerBuilderVector
@@ -125,14 +135,15 @@ int HDF5Parser::parse()
      
       this->parseNeuralNetworkArchitecture(); 
       this->buildEdges();
+
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
     
       cout << "Parsing model config:"<< endl;
-      this->model_config= this->parseModelConfig(); 
-      cout<< this->model_config["config"]["layers"]<<endl;
-    
+      this->model_config= this->parseModelConfig();
+      this->callLayerBuilders(); 
+
     return 0;
 
    }  // end of try block
