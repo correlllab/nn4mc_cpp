@@ -7,22 +7,18 @@
 class LayerFactory{
     // Abstract Factory that instantiates LayerFactory depending on the type.
     public:
-        virtual LayerBuilder* create()=0;
+        virtual LayerBuilder * create()=0;
 };
 // See src/LayerFactory.cpp for specific subclasses
 class Conv1DFactory : public LayerFactory {
               public:
                      Conv1DBuilder* create(){return new Conv1DBuilder();}
-                                               
-                                          
 };
   
   
 class Conv2DFactory : public LayerFactory {
               public:
                      Conv2DBuilder* create(){return new Conv2DBuilder();}
-                                           
-                                           
                                       
 };
 

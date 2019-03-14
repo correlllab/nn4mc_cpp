@@ -24,21 +24,21 @@ class LayerBuilder{
             std::string layer_type;
             NeuralNetwork NN;
     public:
+            //LayerBuilder(std::string id) {std::strcpy(this->layer_id , id);}
+            LayerBuilder(){}
             virtual void create_from_json(json obj, std::string id)=0;
-            virtual ~LayerBuilder() {};
+            virtual ~LayerBuilder() = default;
 };
 
 class Conv1DBuilder : public LayerBuilder {
-    private:
-        Conv1D layerObject();
-
     public:
+        Conv1D layerObject;
         void create_from_json(json object, std::string id);
 };
 
 class Conv2DBuilder : public LayerBuilder {
     private:
-        Conv2D layerObject();
+        Conv2D layerObject;
     public:
         void create_from_json(json object, std::string id); 
 
@@ -46,7 +46,7 @@ class Conv2DBuilder : public LayerBuilder {
 
 class DenseBuilder : public LayerBuilder {
     private:
-        Dense layerObject();
+        Dense layerObject;
     public:
         void create_from_json(json object, std::string id); 
 
@@ -54,7 +54,7 @@ class DenseBuilder : public LayerBuilder {
 
 class FlattenBuilder : public LayerBuilder {
     private:
-        Flatten layerObject();
+        Flatten layerObject;
     public:
         void create_from_json(json object, std::string id);
 
@@ -62,13 +62,13 @@ class FlattenBuilder : public LayerBuilder {
 
 class GRUBuilder : public LayerBuilder {
     private:
-        GRU layerObject();
+        GRU layerObject;
     public:
         void create_from_json(json object, std::string id);
 };
 class LSTMBuilder : public LayerBuilder {
     private:
-        LSTM layerObject();
+        LSTM layerObject;
     public:
         void create_from_json(json object, std::string id); 
 
@@ -76,7 +76,7 @@ class LSTMBuilder : public LayerBuilder {
 
 class MaxPooling1DBuilder : public LayerBuilder {
     private:
-        MaxPooling1D layerObject();
+        MaxPooling1D layerObject;
     public:
         void create_from_json(json object, std::string id); 
 
@@ -84,7 +84,7 @@ class MaxPooling1DBuilder : public LayerBuilder {
 
 class MaxPooling2DBuilder : public LayerBuilder {
     private:
-        MaxPooling2D layerObject();
+        MaxPooling2D layerObject;
     public:
         void create_from_json(json object, std::string id); 
 
@@ -92,7 +92,7 @@ class MaxPooling2DBuilder : public LayerBuilder {
 
 class SimpleRNNBuilder : public LayerBuilder {
     private:
-        SimpleRNN layerObject();
+        SimpleRNN layerObject;
     public:
          void create_from_json(json object, std::string id);
 
