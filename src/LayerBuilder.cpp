@@ -1,16 +1,16 @@
 #include "LayerBuilder.h"
 
 void Conv1DBuilder::create_from_json(json obj, std::string id){
-
-    this->layerObject.filters= obj["config"]["filters"];
-    this->layerObject.kernel_size = obj["config"]["kernel_size"];
-    this->layerObject.strides = obj["config"]["strides"];
-    std::cout<<obj["config"]["padding"]<<std::endl;
-    /*std::strcpy(this->layerObject.padding, std::string(obj["config"]["padding"]);
-    std::strcpy(this->layerObject.data_format, std::string(obj["config"]["data_format"]));
-    this->layerObject.dilation_rate= obj["config"]["dilation_rate"];
-    std::strcpy(this->layerObject.activation, std::string(obj["config"]["data_format"]));
-    this->layerObject.use_bias = obj["config"]["use_bias"];*/
+    json object= obj["config"];
+    this->layerObject.identifier.assign(id);
+    this->layerObject.filters= object["filters"];
+    this->layerObject.kernel_size = object["kernel_size"][0];
+    this->layerObject.strides = object["strides"][0];
+    this->layerObject.padding.assign(object["padding"]); 
+    this->layerObject.data_format.assign(object["data_format"]); 
+    this->layerObject.dilation_rate= object["dilation_rate"][0];
+    this->layerObject.activation.assign(object["activation"]);
+    this->layerObject.use_bias = object["use_bias"];
 }
 
 void Conv2DBuilder::create_from_json(json obj, std::string id){
