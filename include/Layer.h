@@ -16,7 +16,7 @@ class Layer{
 class Conv1D : public Layer{
     public:
         int filters;
-        int kernel_size;
+        std::vector<int> kernel_size;
         int strides;
         std::string padding;
         std::string data_format;
@@ -30,7 +30,7 @@ class Conv1D : public Layer{
 class Conv2D : public Layer{
     public:
         int filters;
-        int kernel_size;
+        std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
