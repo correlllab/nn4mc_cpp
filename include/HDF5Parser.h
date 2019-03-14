@@ -60,6 +60,7 @@ class HDF5Parser : public Parser{
         void constructBuilderMap();
         void callLayerBuilders();
         void buildEdges();
+        void restructureLayerIds();
 };
 
 

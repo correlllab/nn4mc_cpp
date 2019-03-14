@@ -33,63 +33,55 @@ class Conv1DBuilder : public LayerBuilder {
         void create_from_json(json object, std::string id);
 };
 class Conv2DBuilder : public LayerBuilder {
-    private:
-        Conv2D layerObject;
     public:
+        Conv2D layerObject;
         void create_from_json(json object, std::string id); 
 
 };
 
 class DenseBuilder : public LayerBuilder {
-    private:
-        Dense layerObject;
     public:
+        Dense layerObject;
         void create_from_json(json object, std::string id); 
 
 };
 
 class FlattenBuilder : public LayerBuilder {
-    private:
-        Flatten layerObject;
     public:
+        Flatten layerObject;
         void create_from_json(json object, std::string id);
 
 };
 
 class GRUBuilder : public LayerBuilder {
-    private:
-        GRU layerObject;
     public:
+        GRU layerObject;
         void create_from_json(json object, std::string id);
 };
 class LSTMBuilder : public LayerBuilder {
-    private:
-        LSTM layerObject;
     public:
+        LSTM layerObject;
         void create_from_json(json object, std::string id); 
 
 };
 
 class MaxPooling1DBuilder : public LayerBuilder {
-    private:
-        MaxPooling1D layerObject;
     public:
+        MaxPooling1D layerObject;
         void create_from_json(json object, std::string id); 
 
 };
 
 class MaxPooling2DBuilder : public LayerBuilder {
-    private:
-        MaxPooling2D layerObject;
     public:
+        MaxPooling2D layerObject;
         void create_from_json(json object, std::string id); 
 
 };
 
 class SimpleRNNBuilder : public LayerBuilder {
-    private:
-        SimpleRNN layerObject;
     public:
+        SimpleRNN layerObject;
          void create_from_json(json object, std::string id);
 
 };

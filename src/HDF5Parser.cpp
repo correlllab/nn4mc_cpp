@@ -63,9 +63,9 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
-            cout<< it.key() << " | " << it.value() << endl;
-            this->layerBuilderVector[i]->create()->create_from_json(it.value(), this->layer_ids[i]); 
-            cout << endl;
+            //cout<< it.key() << " | " << it.value() << endl;
+            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
+            //cout << endl;
             i++;
         }
    
@@ -133,9 +133,9 @@ int HDF5Parser::parse()
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
      
-      this->parseNeuralNetworkArchitecture(); 
+      this->parseNeuralNetworkArchitecture();
       this->buildEdges();
-
+        
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;

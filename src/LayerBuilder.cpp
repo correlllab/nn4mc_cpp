@@ -11,7 +11,7 @@ void Conv1DBuilder::create_from_json(json obj, std::string id){
     this->layerObject.dilation_rate= object["dilation_rate"][0];
     this->layerObject.activation.assign(object["activation"]);
     this->layerObject.use_bias = object["use_bias"];
-    std::cout<< "Conv1D Layer Built!"<<std::endl;
+    std::cout<< "Conv1D Layer "<< this->layerObject.identifier << " Built!"<<std::endl;
 }
 
 void Conv2DBuilder::create_from_json(json obj, std::string id){
@@ -28,7 +28,7 @@ void Conv2DBuilder::create_from_json(json obj, std::string id){
     this->layerObject.data_format.assign(object["data_format"]);
     this->layerObject.activation.assign(object["activation"]);
     this->layerObject.use_bias= object["use_bias"];
-    std::cout<< "Conv2D Layer Built!"<<std::endl;
+    std::cout<< "Conv2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
 void MaxPooling1DBuilder::create_from_json(json obj, std::string id){
@@ -53,22 +53,22 @@ void MaxPooling2DBuilder::create_from_json(json obj, std::string id){
     }
     this->layerObject.padding.assign(object["padding"]);
     this->layerObject.data_format.assign(object["data_format"]);
-    std::cout<< "MaxPooling2D Layer Built!"<<std::endl;
+    std::cout<< "MaxPooling2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
 void DenseBuilder::create_from_json(json obj, std::string id){
     json object= obj["config"];
-    
     this->layerObject.identifier.assign(id);
-  /*  this->layerObject.units=object["units"];
+   /* this->layerObject.units=object["units"];
     this->layerObject.activation.assign(object["activation"]);
     this->layerObject.use_bias = object["use_bias"];*/
-    std::cout<< "Dense Layer Built!"<<std::endl;
+    std::cout<< "Dense Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
 void FlattenBuilder::create_from_json(json obj, std::string id){
     this->layerObject.identifier.assign(id);
-    std::cout<< "Flattening Layer Built!"<<std::endl;
+    std::cout<< "Flatten Layer " << this->layerObject.identifier << " Built!"<<std::endl;
+
 }
 
 void GRUBuilder::create_from_json(json obj, std::string id){
