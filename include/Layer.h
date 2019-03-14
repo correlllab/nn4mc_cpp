@@ -23,7 +23,7 @@ class Conv1D : public Layer{
         int dilation_rate;
         std::string activation;
         bool use_bias;
-        void setLayer();
+        void setLayer(){}
 };
 
 
@@ -37,7 +37,7 @@ class Conv2D : public Layer{
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        void setLayer(); 
+        void setLayer(){} 
 };
 
 class Dense : public Layer{
@@ -45,13 +45,13 @@ class Dense : public Layer{
         int units;
         std::string activation;
         bool use_bias;
-        void setLayer();
+        void setLayer(){}
 };
 
 
 class Flatten : public Layer{
     public:
-        void setLayer();
+        void setLayer(){}
 };
 
 class MaxPooling1D : public Layer{
@@ -60,7 +60,7 @@ class MaxPooling1D : public Layer{
         int strides;
         std::string padding;
         std::string data_format;
-        void setLayer();
+        void setLayer(){}
 } ;
 
 class MaxPooling2D: public Layer{
@@ -69,7 +69,7 @@ class MaxPooling2D: public Layer{
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
-        void setLayer();
+        void setLayer(){}
 };
 
 class SimpleRNN : public Layer{
@@ -77,7 +77,7 @@ class SimpleRNN : public Layer{
         int units;
         std::string activation;
         bool use_bias;
-        void setLayer();
+        void setLayer(){}
 };
 
 class GRU: public Layer{
@@ -92,7 +92,7 @@ class GRU: public Layer{
         bool stateful;
         bool unrool;
         bool reset_after;
-        void setLayer();
+        void setLayer(){}
 };
 
 
@@ -108,7 +108,7 @@ class LSTM: public Layer{
         bool go_backwards;
         bool stateful;
         bool unroll;
-        void setLayer();
+        void setLayer(){}
 };
 
 

@@ -19,13 +19,10 @@ using json=nlohmann::json;
 
 class LayerBuilder{
     // Builder class for dynamic instantiation
-    private: 
+    public: 
             std::string layer_id;
             std::string layer_type;
             NeuralNetwork NN;
-    public:
-            //LayerBuilder(std::string id) {std::strcpy(this->layer_id , id);}
-            LayerBuilder(){}
             virtual void create_from_json(json obj, std::string id)=0;
             virtual ~LayerBuilder() = default;
 };
@@ -35,7 +32,6 @@ class Conv1DBuilder : public LayerBuilder {
         Conv1D layerObject;
         void create_from_json(json object, std::string id);
 };
-
 class Conv2DBuilder : public LayerBuilder {
     private:
         Conv2D layerObject;
