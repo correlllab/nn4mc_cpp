@@ -2,7 +2,7 @@
 
 NeuralNetwork::NeuralNetwork()
 {
-
+  idx_n = idx_w = 0;
 }
 NeuralNetwork::~NeuralNetwork()
 {
@@ -24,6 +24,9 @@ void NeuralNetwork::setUnvisited()
   {
     (*i)->visited = false;
   }
+
+  idx_n = 0;
+  idx_w = 0;
 }
 
 LayerNode* NeuralNetwork::findNode(std::string ID)
@@ -71,7 +74,7 @@ void NeuralNetwork::BFS()
   start->visited = true;
   nodeList.push_back(start);
 
-  std::cout << start->layer->identifier << std::endl;
+  //std::cout << start->layer->identifier << std::endl;
 
   while(!nodeList.empty())
   {
@@ -79,7 +82,7 @@ void NeuralNetwork::BFS()
     nodeList.pop_front();
 
     nodes_ord.push_back(start); //Adding node order data.
-    weights.push_back(start->w); //Adding weight data.
+    //weights.push_back(start->layer->w); //Adding weight data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {
@@ -92,7 +95,8 @@ void NeuralNetwork::BFS()
       }
     }
   }
-
+  nodes_ord.push_back(NULL);
+  //weights.push_back(NULL);
 }
 
 void NeuralNetwork::DFS(LayerNode* start)
@@ -120,11 +124,18 @@ void NeuralNetwork::DFSPrint()
   DFS(start);
 }
 
-std::list<LayerNode*>* getOrderedLayers()
+LayerNode* NeuralNetwork::getNextLayer()
 {
-  return &nodes_ord;
+  if(nodes_ord[idx_n] != NULL)
+    return nodes_ord[idx_n++];
+  else
+    return nodes_ord[idx_n];
 }
-std::list<Weights*>* getLayerWeights()
+
+Weights* NeuralNetwork::getNextWeight()
 {
-  return &weights;
+  if(nodes_ord[idx_w] != NULL)
+    return weights[idx_w++];
+  else
+    return weights[idx_w];
 }

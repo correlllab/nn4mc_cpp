@@ -42,12 +42,15 @@ class NeuralNetwork
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode> input; //Input layers for graph.
 
-    std::list<LayerNode*> nodes_ord; //Ordered list of nodes.
-    std::list<Weights*> weights; //Weights
+    std::vector<LayerNode*> nodes_ord; //Ordered list of nodes.
+    std::vector<Weights*> weights; //Weights
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
     void DFS(LayerNode* start);
+
+    int idx_n; //Current index for nodes_ord.
+    int idx_w; //Current index for weights.
 
   public:
     NeuralNetwork();
@@ -59,8 +62,8 @@ class NeuralNetwork
     void BFS();
     void DFSPrint();
 
-    std::list<LayerNode*>* getOrderedLayers();
-    std::list<Weights*>* getLayerWeights();
+    LayerNode* getNextLayer();
+    Weights* getNextWeight();
 };
 
 #endif
