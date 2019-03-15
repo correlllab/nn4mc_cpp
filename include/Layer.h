@@ -1,103 +1,87 @@
 #ifndef _LAYER_H__
 #define _LAYER_H__
 
-
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 class Layer{
-    private:
-      //std::string identifier;
-
     public:
-      std::string identifier;
-      Layer(std::string id){
-          this->identifier = id;
-      }
+        std::string identifier;
+        virtual void setLayer() = 0;
+        virtual ~Layer() {};
 };
 
 class Conv1D : public Layer{
-    private:
+    public:
         int filters;
-        int kernel_size;
+        std::vector<int> kernel_size;
         int strides;
         std::string padding;
         std::string data_format;
         int dilation_rate;
         std::string activation;
         bool use_bias;
-//        Weights* w;
-
-        // no need for training-specific variables
-    public:
+        void setLayer(){}
 };
 
 
 class Conv2D : public Layer{
-    private:
+    public:
         int filters;
-        int kernel_size;
+        std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        // no need for training-specific variables.
-
- //       Weights* w;
-        // no need for training-specific variables.
-
-    public:
+        void setLayer(){} 
 };
 
 class Dense : public Layer{
-    private:
+    public:
         int units;
         std::string activation;
         bool use_bias;
-        //no training-specific parameters
-    public:
-  //      Weights* w;
-
-    public:
+        void setLayer(){}
 };
 
 
 class Flatten : public Layer{
-
-
+    public:
+        void setLayer(){}
 };
 
 class MaxPooling1D : public Layer{
-    private:
+    public:
         int pool_size;
         int strides;
         std::string padding;
         std::string data_format;
-    public:
+        void setLayer(){}
 } ;
 
 class MaxPooling2D: public Layer{
-    private:
+    public:
         std::vector<int> pool_size;
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
-    public:
+        void setLayer(){}
 };
 
 class SimpleRNN : public Layer{
-    private:
+    public:
         int units;
         std::string activation;
         bool use_bias;
-    public:
+        void setLayer(){}
 };
 
 class GRU: public Layer{
-    private:
+    public:
         int units;
         std::string activation;
         std::string recurrent_activation;
@@ -108,12 +92,12 @@ class GRU: public Layer{
         bool stateful;
         bool unrool;
         bool reset_after;
-    public:
+        void setLayer(){}
 };
 
 
 class LSTM: public Layer{
-    private:
+    public:
         int units;
         std::string activation;
         std::string recursive_activation;
@@ -124,8 +108,7 @@ class LSTM: public Layer{
         bool go_backwards;
         bool stateful;
         bool unroll;
-    public:
-          //this->identifier = id;
+        void setLayer(){}
 };
 
 

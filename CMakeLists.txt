@@ -6,7 +6,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Packages needed for this project
-# FIND_PACKAGE (h5cpp REQUIRED)
+FIND_PACKAGE (HDF5 REQUIRED COMPONENTS C CXX)
 
 # Where to look for libraries and headers
 
@@ -14,31 +14,28 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
-SET (HDF5 hdf5)
 # Version Number
 SET (nn4mp_VERSION_MAJOR 0)
 SET (nn4mp_VERSION_MINOR 0)
 
-
 # Bring the headers and source files into the project
 INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
-
+INCLUDE_DIRECTORIES (include/cget/include)
 
 FILE (GLOB CORE_LIB src/datastructures/*.cpp)
-#FILE (GLOB LAYERS_LIB src/datastructures/layers/*.cpp)
 FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 
 # Build libraries
-ADD_LIBRARY (nn4mp_datastructures SHARED ${CORE_LIB})
+#ADD_LIBRARY (nn4mp_datastructures SHARED ${CORE_LIB})
 #ADD_LIBRARY (nn4mp_layers SHARED ${LAYERS_LIB})
-ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
+#ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
 # Add the executable
-ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)
+#ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)
 ADD_EXECUTABLE (generator_test src/generator_test.cpp)
 
-TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
+#TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_datastructures)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_code_generator)
 #TARGET_LINK_LIBRARIES (generator_test nn4mp_layers)
