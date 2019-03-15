@@ -6,6 +6,10 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 #define TAG "neural network. c: "
+
+#define exp(x) 1.0 + x + x*x/2.0 + x*x*x/6.0 + x*x*x*x/24.0+ x*x*x*x*x/120.0 + x*x*x*x*x*x/720.0 + x*x*x*x*x*x*x/5040.0
+#define sigmoid(x) 1.0/(1.0 + exp(-1.0*x)) 
+
 void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_size, int filters){
     // These will emulate the constructors
     struct Conv1D L; 
@@ -15,7 +19,7 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     L.kernel_size = kernel_size;
     L.filters= filters;
     num_layers++;
-    L.h = (volatile float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(volatile float*));
+    L.h = (float**)malloc((int)(L.input_sh1-L.kernel_size+1) * sizeof(float*));
     for (int i=0; i< (int)(L.input_sh1- L.kernel_size+1); i++){
         L.h[i] = (float*)malloc(L.filters * sizeof(float));
     } 
@@ -23,7 +27,7 @@ void set_conv1D(struct Conv1D * LL, int input_sh1, int input_sh2, int kernel_siz
     *LL = L;
 }
 
-void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, volatile float ** window){
+void fwd_conv1D(struct Conv1D * LL, int a, int bb, int c, const float W[a][bb][c], const float * b, float ** window){
     struct Conv1D L;
     L= *LL;
 
@@ -121,7 +125,7 @@ void setflatten2D1D(struct Flatten2D1D * FLATFLAT, int a, int b){
     *FLATFLAT= FLAT;
 }
 
-void flatten2D1D(struct Flatten2D1D * FLATFLAT, volatile float ** incoming){
+void flatten2D1D(struct Flatten2D1D * FLATFLAT, float ** incoming){
     ESP_LOGI(TAG, "here1");
     struct Flatten2D1D FLAT;
     FLAT= *FLATFLAT;
@@ -131,6 +135,7 @@ void flatten2D1D(struct Flatten2D1D * FLATFLAT, volatile float ** incoming){
         FLAT.h= malloc(FLAT.in_shape_0*FLAT.in_shape_1*sizeof(float));
     }
     //ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
+    ESP_LOGI(TAG, "NULL? %d, in0= %d, in1=%d", FLAT.h==NULL, FLAT.in_shape_0, FLAT.in_shape_1);
     for (int i=0; i<FLAT.in_shape_0; i++){
         for (int j=0; j<FLAT.in_shape_1; j++){
             int idx= FLAT.in_shape_1*i+j;

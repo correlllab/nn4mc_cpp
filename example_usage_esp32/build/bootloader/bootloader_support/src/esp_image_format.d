@@ -1,84 +1,66 @@
 src/esp_image_format.o: \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/src/esp_image_format.c \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/rtc.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_assert.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/cpu.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_image_format.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_err.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_flash_partitions.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_flash_data_types.h \
- /Users/sarahaguasvivas/esp/esp-idf/example/build/bootloader/../include/sdkconfig.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_secure_boot.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/efuse_reg.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_flash.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/bootloader_random.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_sha.h \
- /Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/bootloader_util.h
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/src/esp_image_format.c \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/rtc.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_assert.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/cpu.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_image_format.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_err.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_flash_partitions.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_flash_data_types.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/bootloader/../include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_secure_boot.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/efuse_reg.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_flash.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_random.h \
+ /home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_sha.h
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/rtc.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/rtc.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
+/home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_assert.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_assert.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/cpu.h:
+/home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/cpu.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/corebits.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_image_format.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_err.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/xtensa-versions.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_flash_partitions.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core-matmap.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_flash_data_types.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/tie.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/bootloader/../include/sdkconfig.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_image_format.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_secure_boot.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_err.h:
+/home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/efuse_reg.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_flash_partitions.h:
+/home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_flash_data_types.h:
+/home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/example/build/bootloader/../include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/esp_secure_boot.h:
+/home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/efuse_reg.h:
+/home/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_flash.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_random.h:
 
-/Users/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_flash.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/bootloader_random.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_sha.h:
-
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include/bootloader_util.h:
-/Users/sarahaguasvivas/esp/esp-idf/components/bootloader_support/src/esp_image_format.c:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/include_priv/bootloader_sha.h:
+/home/sarahaguasvivas/esp/esp-idf/components/bootloader_support/src/esp_image_format.c:

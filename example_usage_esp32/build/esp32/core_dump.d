@@ -19,7 +19,7 @@ core_dump.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h \
  /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/hal.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/xtensa/config/core.h \
@@ -88,9 +88,7 @@ core_dump.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_panic.h \
  /home/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_partition.h \
  /home/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
- /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_clk.h \
- /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h \
- /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h
+ /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_clk.h
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/string.h:
 
@@ -130,7 +128,7 @@ core_dump.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 
@@ -269,8 +267,4 @@ core_dump.o: \
 /home/sarahaguasvivas/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_clk.h:
-
-/home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h:
-
-/home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log_internal.h:
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/./core_dump.c:

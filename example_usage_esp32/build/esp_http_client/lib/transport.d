@@ -22,7 +22,7 @@ lib/transport.o: \
  /home/sarahaguasvivas/esp/esp-idf/components/log/include/esp_log.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h \
- /home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h \
+ /home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h \
  /home/sarahaguasvivas/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/esp_assert.h \
@@ -83,7 +83,7 @@ lib/transport.o: \
 
 /home/sarahaguasvivas/esp/esp-idf/components/newlib/include/sys/_intsup.h:
 
-/home/sarahaguasvivas/esp/esp-idf/source-local-board/tcp_perf/build/include/sdkconfig.h:
+/home/sarahaguasvivas/esp/esp-idf/example_usage_esp32/build/include/sdkconfig.h:
 
 /home/sarahaguasvivas/esp/esp-idf/components/esp32/include/rom/ets_sys.h:
 
