@@ -18,7 +18,7 @@
  * 
  * */
 #include "HDF5Parser.h"
-// Callback functions:
+
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
@@ -33,6 +33,8 @@ void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["lstm"]= new LSTMFactory();
     this->BuilderMap["gru"]= new GRUFactory();
     this->BuilderMap["simplernn"]= new SimpleRNNFactory();
+
+    std::cout<< "Builder Map Built!"<<std::endl;
 
 }
 
@@ -55,20 +57,17 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     std::copy(odnn.lBV.begin(), odnn.lBV.end(), std::back_inserter(this->layerBuilderVector));
     std::copy(odnn.layer_edges.begin(), odnn.layer_edges.end(), std::back_inserter(this->layer_edges));
     std::copy(odnn.layer_ids.begin(), odnn.layer_ids.end(), std::back_inserter(this->layer_ids));
-
-    for (int i=0; i<this->layerBuilderVector.size(); ++i) {
-          cout<< this->layer_ids[i]<<endl;
-    }
+    std::cout<< "Neural Network Arch Parsed!" << std::endl;
 }
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
-            //cout<< it.key() << " | " << it.value() << endl;
-            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
+            cout<< it.key() << " | " << it.value() << endl;
+            //this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
             //cout << endl;
             i++;
         }
-   
+        std::cout<< "All Layers Built!" << std::endl;  
 }
 
 void HDF5Parser::buildEdges(){
@@ -81,6 +80,7 @@ void HDF5Parser::buildEdges(){
     for (int i=0; i<this->layer_edges.size(); ++i){
         cout<< this->layer_edges[i].first << " "<< this->layer_edges[i].second <<endl;
     }
+    std::cout<< "Edges built!"<<std::endl;
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -111,12 +111,13 @@ json HDF5Parser::parseModelConfig(){
       ss<< str;
 
       json j_filtered= json::parse(ss, cb);
-      std::cout<<j_filtered["class_name"]<<endl;
+     // std::cout<<j_filtered["class_name"]<<endl;
 
       delete type;
       delete attr;
       delete what;
       delete filefile;
+      std::cout<< "model_config Parsed!"<<std::endl; 
       return j_filtered;
 }
 
@@ -128,51 +129,46 @@ int HDF5Parser::parse()
   const H5std_string FILE_NAME( this->file_name );
   
   try
-   {
+   { 
+       // Wont exist soon
       Exception::dontPrint();
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
-     
+    cout<<"here"<<endl; 
       this->parseNeuralNetworkArchitecture();
       this->buildEdges();
-        
+       
+      // Wont exist soon
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
-   
+  cout<<"here1"<<endl; 
       //Parsing Model_Config:
       this->model_config= this->parseModelConfig();
       this->callLayerBuilders(); 
-
-    return 0;
+      std::cout<< "Parsing complete!"<<std::endl;
+    
+      return 0;
 
    }  // end of try block
 
-   // catch failure caused by the H5File operations
    catch( FileIException error )
    {
-      //error.printError();
       return -1;
    }
 
-   // catch failure caused by the DataSet operations
    catch( DataSetIException error )
    {
-      //error.printError();
       return -1;
    }
 
-   // catch failure caused by the DataSpace operations
    catch( DataSpaceIException error )
    {
-      //error.printError();
       return -1;
    }
 
-   // catch failure caused by the Attribute operations
    catch( AttributeIException error )
    {
-      //error.printError();
       return -1;
    }
 return 0; 
@@ -195,7 +191,6 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
         s.erase(0, pos+delimiter.length());
     }
     od->lBV.push_back(od->BM[token]);
-       // token is the layer type
     return 0;
 }
 
@@ -212,12 +207,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
     switch(infobuf.type){
         case H5O_TYPE_GROUP:{
-            cout << "Group : " << name << endl;
+            //cout << "Group : " << name << endl;
             break;
                             }
         case H5O_TYPE_DATASET:{
 
-            cout<< "Dataset: " << name;
+            //cout<< "Dataset: " << name;
             hid_t datatype, dataspace, cclass, order, size, rank; 
             hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
             datatype= H5Dget_type(dset);
@@ -229,12 +224,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
             std::vector<unsigned int> tensor_dims;
             
-            cout<<endl<< "Dimensions of the dataset:" <<endl;
+            //cout<<endl<< "Dimensions of the dataset:" <<endl;
             for (int i=0; i<rank; i++) {
-                cout<< dims[i] << "  ";            
+             //   cout<< dims[i] << "  ";            
                 tensor_dims.push_back((unsigned int)dims[i]);
             }
-            cout<<endl;
+            //cout<<endl;
              
             // TODO: handle the data type specific to the output type, 
             // not only <double>
@@ -288,7 +283,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
             }
             //link weights and biases to layer object
-            cout<<endl;
+            //cout<<endl;
               
             ret= H5Dclose(dset); 
             
@@ -296,7 +291,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             break;
                               }
         case H5O_TYPE_NAMED_DATATYPE:{
-            cout<< "DataType: " << name <<endl;
+            //cout<< "DataType: " << name <<endl;
             break;
                 }
         default:{
