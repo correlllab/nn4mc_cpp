@@ -26,7 +26,14 @@ int main()
   net.addEdge(&l1,&l3);
   net.addEdge(&l1,&l6);
 
-  net.BFSPrint();
-  std::cout << std::endl;
-  net.DFSPrint();
+  net.BFS();
+  //std::cout << std::endl;
+  //net.DFSPrint();
+  LayerNode* temp = net.getNextLayer();
+
+  while(temp!=NULL)
+  {
+    std::cout << temp->layer->identifier << std::endl;
+    temp = net.getNextLayer();
+  }
 }

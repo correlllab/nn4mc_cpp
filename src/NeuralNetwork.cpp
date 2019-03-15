@@ -2,7 +2,7 @@
 
 NeuralNetwork::NeuralNetwork()
 {
-
+  idx_n = idx_w = 0;
 }
 NeuralNetwork::~NeuralNetwork()
 {
@@ -24,6 +24,9 @@ void NeuralNetwork::setUnvisited()
   {
     (*i)->visited = false;
   }
+
+  idx_n = 0;
+  idx_w = 0;
 }
 
 LayerNode* NeuralNetwork::findNode(std::string ID)
@@ -57,9 +60,10 @@ void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
   newEdge->l = layer_2;
 
   layer_1->edges.push_back(*newEdge);
+  layer_2->inputs.push_back(layer_1);
 }
 
-void NeuralNetwork::BFSPrint()
+void NeuralNetwork::BFS()
 {
   setUnvisited();
 
@@ -70,12 +74,15 @@ void NeuralNetwork::BFSPrint()
   start->visited = true;
   nodeList.push_back(start);
 
-  std::cout << start->layer->identifier << std::endl;
+  //std::cout << start->layer->identifier << std::endl;
 
   while(!nodeList.empty())
   {
     start=nodeList.front();
     nodeList.pop_front();
+
+    nodes_ord.push_back(start); //Adding node order data.
+    //weights.push_back(start->layer->w); //Adding weight data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {
@@ -84,11 +91,12 @@ void NeuralNetwork::BFSPrint()
         i->l->visited = true;
         nodeList.push_back(i->l);
 
-        std::cout << i->l->layer->identifier<<std::endl;
+        //std::cout << i->l->layer->identifier<<std::endl;
       }
     }
   }
-
+  nodes_ord.push_back(NULL);
+  //weights.push_back(NULL);
 }
 
 void NeuralNetwork::DFS(LayerNode* start)
@@ -114,4 +122,20 @@ void NeuralNetwork::DFSPrint()
   LayerNode* start = layers.front(); //Should change to input
 
   DFS(start);
+}
+
+LayerNode* NeuralNetwork::getNextLayer()
+{
+  if(nodes_ord[idx_n] != NULL)
+    return nodes_ord[idx_n++];
+  else
+    return nodes_ord[idx_n];
+}
+
+Weights* NeuralNetwork::getNextWeight()
+{
+  if(nodes_ord[idx_w] != NULL)
+    return weights[idx_w++];
+  else
+    return weights[idx_w];
 }
