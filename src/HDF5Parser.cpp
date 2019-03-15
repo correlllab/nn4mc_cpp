@@ -24,15 +24,15 @@ extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_inf
 
 void HDF5Parser::constructBuilderMap(){
 
-    this->BuilderMap["conv1d"]= new Conv1DFactory();
-    this->BuilderMap["conv2d"]= new Conv2DFactory();
-    this->BuilderMap["flatten"]= new FlattenFactory();
-    this->BuilderMap["dense"]= new DenseFactory();
-    this->BuilderMap["maxpooling1d"]= new MaxPooling1DFactory();
-    this->BuilderMap["maxpooling2d"]= new MaxPooling2DFactory();
-    this->BuilderMap["lstm"]= new LSTMFactory();
-    this->BuilderMap["gru"]= new GRUFactory();
-    this->BuilderMap["simplernn"]= new SimpleRNNFactory();
+    this->BuilderMap["Conv1D"]= new Conv1DFactory();
+    this->BuilderMap["Conv2D"]= new Conv2DFactory();
+    this->BuilderMap["Flatten"]= new FlattenFactory();
+    this->BuilderMap["Dense"]= new DenseFactory();
+    this->BuilderMap["MaxPooling1D"]= new MaxPooling1DFactory();
+    this->BuilderMap["MaxPooling2D"]= new MaxPooling2DFactory();
+    this->BuilderMap["LSTM"]= new LSTMFactory();
+    this->BuilderMap["GRU"]= new GRUFactory();
+    this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();
 
     std::cout<< "Builder Map Built!"<<std::endl;
 
@@ -62,8 +62,11 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
-            cout<< it.key() << " | " << it.value() << endl;
-            //this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
+            //cout<< it.key() << " | " << it.value() << endl;
+            //TODO: Make the reading separate from the JSON
+            this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
+            this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
+            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
             //cout << endl;
             i++;
         }
@@ -124,7 +127,6 @@ json HDF5Parser::parseModelConfig(){
 
 int HDF5Parser::parse()
 {
- 
   this->constructBuilderMap();
   const H5std_string FILE_NAME( this->file_name );
   
@@ -134,15 +136,15 @@ int HDF5Parser::parse()
       Exception::dontPrint();
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
-    cout<<"here"<<endl; 
-      this->parseNeuralNetworkArchitecture();
-      this->buildEdges();
+      
+//      this->parseNeuralNetworkArchitecture();
+//      this->buildEdges();
        
       // Wont exist soon
       cerr << endl << "Parsing weights:" << endl;
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
       cerr << endl;
-  cout<<"here1"<<endl; 
+      
       //Parsing Model_Config:
       this->model_config= this->parseModelConfig();
       this->callLayerBuilders(); 

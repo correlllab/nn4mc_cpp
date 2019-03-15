@@ -59,9 +59,9 @@ void MaxPooling2DBuilder::create_from_json(json obj, std::string id){
 void DenseBuilder::create_from_json(json obj, std::string id){
     json object= obj["config"];
     this->layerObject.identifier.assign(id);
-   /* this->layerObject.units=object["units"];
-    this->layerObject.activation.assign(object["activation"]);
-    this->layerObject.use_bias = object["use_bias"];*/
+    this->layerObject.units=object["units"];
+    this->layerObject.activation.assign(object["activation"].get<std::string>());
+    this->layerObject.use_bias = object["use_bias"];
     std::cout<< "Dense Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
