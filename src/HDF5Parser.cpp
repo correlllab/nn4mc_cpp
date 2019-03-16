@@ -33,11 +33,20 @@ void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["LSTM"]= new LSTMFactory();
     this->BuilderMap["GRU"]= new GRUFactory();
     this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();
+}
 
-    std::cout<< "Builder Map Built!"<<std::endl;
+void HDF5Parser::parseWeights(){
+      const H5std_string FILE_NAME( this->file_name );
+      Exception::dontPrint();
+      H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
+      Group group = Group( file.openGroup( "model_weights" ));
+      struct opdataWeights od_weights;
+      
+      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
 
 }
 
+/*
 void HDF5Parser::parseNeuralNetworkArchitecture(){
 
     const H5std_string FILE_NAME( this->file_name );
@@ -58,24 +67,24 @@ void HDF5Parser::parseNeuralNetworkArchitecture(){
     std::copy(odnn.layer_edges.begin(), odnn.layer_edges.end(), std::back_inserter(this->layer_edges));
     std::copy(odnn.layer_ids.begin(), odnn.layer_ids.end(), std::back_inserter(this->layer_ids));
     std::cout<< "Neural Network Arch Parsed!" << std::endl;
-}
+
+} */
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
             //cout<< it.key() << " | " << it.value() << endl;
             //TODO: Make the reading separate from the JSON
+      
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
             this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
-            //cout << endl;
             i++;
         }
         std::cout<< "All Layers Built!" << std::endl;  
 }
 
 void HDF5Parser::buildEdges(){
-    // Vector of factories is layerBuilderVector
-    // Assuming Sequential:
+    // Vector of factories is layerBuilderVector. Not tested yet for non-sequential model
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
@@ -83,7 +92,7 @@ void HDF5Parser::buildEdges(){
     for (int i=0; i<this->layer_edges.size(); ++i){
         cout<< this->layer_edges[i].first << " "<< this->layer_edges[i].second <<endl;
     }
-    std::cout<< "Edges built!"<<std::endl;
+
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -96,7 +105,7 @@ json HDF5Parser::parseModelConfig(){
       DataType *type = new DataType (attr-> getDataType());
       attr->read(*type, &test);
       std::string str(test);
-     
+      delete [] test;     
         // define parser callback
         json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
@@ -114,13 +123,11 @@ json HDF5Parser::parseModelConfig(){
       ss<< str;
 
       json j_filtered= json::parse(ss, cb);
-     // std::cout<<j_filtered["class_name"]<<endl;
-
+   
       delete type;
       delete attr;
       delete what;
       delete filefile;
-      std::cout<< "model_config Parsed!"<<std::endl; 
       return j_filtered;
 }
 
@@ -128,26 +135,18 @@ json HDF5Parser::parseModelConfig(){
 int HDF5Parser::parse()
 {
   this->constructBuilderMap();
-  const H5std_string FILE_NAME( this->file_name );
-  
+    
   try
    { 
-       // Wont exist soon
-      Exception::dontPrint();
-      H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
-      Group group = Group( file.openGroup( "model_weights" ));
-      
-//      this->parseNeuralNetworkArchitecture();
-//      this->buildEdges();
-       
-      // Wont exist soon
-      cerr << endl << "Parsing weights:" << endl;
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
-      cerr << endl;
-      
-      //Parsing Model_Config:
+      // Parse Model Config: 
       this->model_config= this->parseModelConfig();
+
+      // Assign Config Builders:
       this->callLayerBuilders(); 
+      
+      // Parse Weights:
+      this->parseWeights();
+      
       std::cout<< "Parsing complete!"<<std::endl;
     
       return 0;
@@ -175,7 +174,7 @@ int HDF5Parser::parse()
    }
 return 0; 
 }
-
+/*
 herr_t
 network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *operator_data)
 {
@@ -195,7 +194,7 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
     od->lBV.push_back(od->BM[token]);
     return 0;
 }
-
+*/
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
