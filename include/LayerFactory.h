@@ -2,6 +2,7 @@
 #define __LAYER_FACTORY_H__
 
 #include "LayerBuilder.h"
+#include <string>
 
 class LayerFactory{
     // Abstract Factory that instantiates LayerFactory depending on the type.
@@ -11,17 +12,13 @@ class LayerFactory{
 // See src/LayerFactory.cpp for specific subclasses
 class Conv1DFactory : public LayerFactory {
               public:
-                     Conv1DBuilder* create(){return new Conv1DBuilder();};
-                                               
-                                          
+                     Conv1DBuilder* create(){return new Conv1DBuilder();}
 };
   
   
 class Conv2DFactory : public LayerFactory {
               public:
                      Conv2DBuilder* create(){return new Conv2DBuilder();}
-                                           
-                                           
                                       
 };
 
