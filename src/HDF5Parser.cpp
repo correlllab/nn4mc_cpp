@@ -41,8 +41,11 @@ void HDF5Parser::parseWeights(){
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
       struct opdataWeights od_weights;
+      od_weights.WM= this->weightsMap;      
       
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, NULL);
+      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
+
+      this->weightsMap= od_weights.WM;
 
 }
 
@@ -202,7 +205,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
     hid_t status;
     hid_t attribute;
     H5O_info_t infobuf;
-    
+    struct opdataWeights *od = (struct opdataWeights *) opdata;
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 
@@ -212,8 +215,20 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             break;
                             }
         case H5O_TYPE_DATASET:{
-
             //cout<< "Dataset: " << name;
+            // name is the layer_id
+            
+ // NEED TO PARSE EITHER WEIGHT OR BIAS 
+    std::string s(name);
+    std::string delimiter= "/";
+    std::string token;
+    size_t pos=0;
+    while ((pos=s.find(delimiter)) != std::string::npos){
+        token= s.substr(0, pos);
+        s.erase(0, pos+delimiter.length());
+    }
+    cout<<"layer_id: "<<token<<endl;
+            
             hid_t datatype, dataspace, cclass, order, size, rank; 
             hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
             datatype= H5Dget_type(dset);
@@ -227,10 +242,10 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             
             //cout<<endl<< "Dimensions of the dataset:" <<endl;
             for (int i=0; i<rank; i++) {
-             //   cout<< dims[i] << "  ";            
+                cout<< dims[i] << "  ";            
                 tensor_dims.push_back((unsigned int)dims[i]);
             }
-            //cout<<endl;
+            cout<<endl;
              
             // TODO: handle the data type specific to the output type, 
             // not only <double>
@@ -243,7 +258,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             }
             rbuf= new float [flat];
             ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
-           
+            
             //flattened parsed weights are in rbuf
             switch(rank){
                 case 1:
@@ -283,6 +298,10 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                     break;
 
             }
+
+            //Assign Tensors to Weights:
+            
+           
             //link weights and biases to layer object
             //cout<<endl;
               

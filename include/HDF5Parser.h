@@ -44,7 +44,8 @@ struct opdata{
             };
 
 struct opdataWeights{
-        std::map<std::string, Weights> weightsVector;
+        std::string layer_id;
+        std::map<std::string, Weights> WM;
                     };
 
 
@@ -57,7 +58,7 @@ class HDF5Parser : public Parser{
         std::vector<LayerFactory*> layerBuilderVector;
         std::vector<std::string> layer_ids; // layer_ids
         std::vector<std::pair<std::string, std::string>> layer_edges; // edge pairs
-        std::map<std::string, Weights> weightsVector;
+        std::map<std::string, Weights> weightsMap;
         json model_config;
         HDF5Parser(std::string file_name_str){
             this->file_name= file_name_str;
