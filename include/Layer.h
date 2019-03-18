@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Weights.h"
 #include <map>
 
 class Layer{

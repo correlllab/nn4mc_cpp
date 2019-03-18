@@ -21,8 +21,6 @@ class LayerBuilder{
     // Builder class for dynamic instantiation
     public: 
             std::string layer_id;
-            std::string layer_type;
-            NeuralNetwork NN;
             virtual void create_from_json(json obj, std::string id)=0;
             virtual ~LayerBuilder() = default;
 };
