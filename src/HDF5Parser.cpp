@@ -41,11 +41,11 @@ void HDF5Parser::parseWeights(){
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
       struct opdataWeights od_weights;
-      od_weights.WM= this->weightsMap;      
+      std::copy(this->weightsMap.begin(), this->weightsMap.end(), std::inserter(od_weights.WM, od_weights.WM.end()) );      
       
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
 
-      this->weightsMap= od_weights.WM;
+      std::copy(od_weights.WM.begin(), od_weights.WM.end(), std::inserter(this->weightsMap, this->weightsMap.end()) );      
 
 }
 
@@ -201,6 +201,7 @@ network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
+
     hid_t group;
     hid_t status;
     hid_t attribute;
@@ -218,16 +219,17 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             //cout<< "Dataset: " << name;
             // name is the layer_id
             
- // NEED TO PARSE EITHER WEIGHT OR BIAS 
+    // NEED TO PARSE EITHER WEIGHT OR BIAS 
     std::string s(name);
     std::string delimiter= "/";
-    std::string token;
+    std::string layer_id;
     size_t pos=0;
     while ((pos=s.find(delimiter)) != std::string::npos){
-        token= s.substr(0, pos);
+        layer_id= s.substr(0, pos);
         s.erase(0, pos+delimiter.length());
     }
-    cout<<"layer_id: "<<token<<endl;
+    cout<< "layer_id: "<<layer_id <<endl;
+    cout<<"bias/weight: "<<s<<endl;
             
             hid_t datatype, dataspace, cclass, order, size, rank; 
             hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
@@ -299,9 +301,13 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
             }
 
-            //Assign Tensors to Weights:
-            
-           
+            if (s.compare("kernel:0")){
+//                od->WM[layer_id]->W = &T;
+                cout << &T <<endl;                
+            } else{
+                //od->WM[layer_id]->b = &T;
+            }
+
             //link weights and biases to layer object
             //cout<<endl;
               
