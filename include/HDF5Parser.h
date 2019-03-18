@@ -45,7 +45,7 @@ struct opdata{
 
 struct opdataWeights{
         std::string layer_id;
-        std::map<std::string, Weights> WM;
+        std::map<std::string, Weights*> WM;
                     };
 
 
