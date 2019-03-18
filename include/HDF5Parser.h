@@ -58,6 +58,7 @@ class HDF5Parser : public Parser{
         std::vector<LayerFactory*> layerBuilderVector;
         std::vector<std::string> layer_ids; // layer_ids
         std::vector<std::pair<std::string, std::string>> layer_edges; // edge pairs
+        std::map<std::string, Layer*> layerMap;
         std::map<std::string, Weights> weightsMap;
         json model_config;
 

@@ -1,6 +1,6 @@
 #include "LayerBuilder.h"
 #include <string>
-void Conv1DBuilder::create_from_json(json obj, std::string id){
+void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     this->layerObject.identifier.assign(id);
     this->layerObject.filters= object["filters"];
@@ -11,10 +11,11 @@ void Conv1DBuilder::create_from_json(json obj, std::string id){
     this->layerObject.dilation_rate= object["dilation_rate"][0];
     this->layerObject.activation.assign(object["activation"].get<std::string>());
     this->layerObject.use_bias = object["use_bias"];
-    std::cout<< "Conv1D Layer "<< this->layerObject.identifier << " Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<< "LAYER_BUILDER: Conv1D Layer "<< this->layerObject.identifier << " Built!"<<std::endl;
 }
 
-void Conv2DBuilder::create_from_json(json obj, std::string id){
+void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     int dim_vars= 2;
     this->layerObject.identifier.assign(id);
@@ -28,10 +29,11 @@ void Conv2DBuilder::create_from_json(json obj, std::string id){
     this->layerObject.data_format.assign(object["data_format"].get<std::string>());
     this->layerObject.activation.assign(object["activation"].get<std::string>());
     this->layerObject.use_bias= object["use_bias"];
-    std::cout<< "Conv2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<< "LAYER_BUILDER: Conv2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
-void MaxPooling1DBuilder::create_from_json(json obj, std::string id){
+void MaxPooling1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
 
     json object= obj["config"];
     this->layerObject.identifier.assign(id);
@@ -39,11 +41,12 @@ void MaxPooling1DBuilder::create_from_json(json obj, std::string id){
     this->layerObject.strides = object["strides"][0];
     this->layerObject.padding.assign(object["padding"].get<std::string>());
     this->layerObject.data_format.assign(object["data_format"].get<std::string>());
-    std::cout<<"MaxPooling1D Layer Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<<"LAYER_BUILDER: MaxPooling1D Layer Built!"<<std::endl;
 
 }
 
-void MaxPooling2DBuilder::create_from_json(json obj, std::string id){
+void MaxPooling2DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     int dim_vars= 2;
     this->layerObject.identifier.assign(id);
@@ -53,30 +56,33 @@ void MaxPooling2DBuilder::create_from_json(json obj, std::string id){
     }
     this->layerObject.padding.assign(object["padding"].get<std::string>());
     this->layerObject.data_format.assign(object["data_format"].get<std::string>());
-    std::cout<< "MaxPooling2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<< "LAYER_BUILDER: MaxPooling2D Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
-void DenseBuilder::create_from_json(json obj, std::string id){
+void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     this->layerObject.identifier.assign(id);
     this->layerObject.units=object["units"];
     this->layerObject.activation.assign(object["activation"].get<std::string>());
     this->layerObject.use_bias = object["use_bias"];
-    std::cout<< "Dense Layer " << this->layerObject.identifier << " Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<< "LAYER_BUILDER: Dense Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 }
 
-void FlattenBuilder::create_from_json(json obj, std::string id){
+void FlattenBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     this->layerObject.identifier.assign(id);
-    std::cout<< "Flatten Layer " << this->layerObject.identifier << " Built!"<<std::endl;
+    layerMap[this->layerObject.identifier] = &this->layerObject;
+    std::cout<< "LAYER_BUILDER: Flatten Layer " << this->layerObject.identifier << " Built!"<<std::endl;
 
 }
 
-void GRUBuilder::create_from_json(json obj, std::string id){
+void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
 
 }
 
-void LSTMBuilder::create_from_json(json obj, std::string id){
+void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
 }
 
-void SimpleRNNBuilder::create_from_json(json obj, std::string id){
+void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
 }

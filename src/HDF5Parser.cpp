@@ -39,16 +39,14 @@ void HDF5Parser::parseWeights(){
     
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
-      H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
-      Group group = Group( file.openGroup( "model_weights" ));
+      H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
+      Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
       od_weights.WM = this->weightsMap;
       
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
 
       this->weightsMap= od_weights.WM;
-
-       
 }
 
 /*
@@ -82,10 +80,11 @@ void HDF5Parser::callLayerBuilders(){
       
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
-            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"]); 
+            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
+            
             i++;
         }
-        std::cout<< "All Layers Built!" << std::endl;  
+        std::cout<< "PARSER: All Layers Built!" << std::endl;  
 }
 
 void HDF5Parser::buildEdges(){
@@ -94,16 +93,16 @@ void HDF5Parser::buildEdges(){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
 
+    /*
     for (int i=0; i<this->layer_edges.size(); ++i){
         cout<< this->layer_edges[i].first << " "<< this->layer_edges[i].second <<endl;
-    }
+    }*/
 
 }
 
 json HDF5Parser::parseModelConfig(){
       // TODO: Also parse the size of this attribute so I don't have to hard code 
       char* test= new char[1000000]; 
-      cout<< "Attributes:"<<endl;
       H5File *filefile = new H5File( this->file_name, H5F_ACC_RDONLY );
       Group *what = new Group(filefile->openGroup("/"));
       Attribute *attr= new Attribute(what->openAttribute("model_config"));
@@ -152,7 +151,7 @@ int HDF5Parser::parse()
       // Parse Weights:
       this->parseWeights();
       
-      std::cout<< "Parsing complete!"<<std::endl;
+      std::cout<< "PARSER: Parsing complete!"<<std::endl;
     
       return 0;
 
@@ -230,9 +229,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
         layer_id= s.substr(0, pos);
         s.erase(0, pos+delimiter.length());
     }
-    cout<< "layer_id: "<<layer_id <<endl;
-    cout<<"bias/weight: "<<s<<endl;
-            
             hid_t datatype, dataspace, cclass, order, size, rank; 
             hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
             datatype= H5Dget_type(dset);
@@ -244,12 +240,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
             std::vector<unsigned int> tensor_dims;
             
-            //cout<<endl<< "Dimensions of the dataset:" <<endl;
+            //cout<< "PARSER: dimensions: ";
             for (int i=0; i<rank; i++) {
-                cout<< dims[i] << "  ";            
+             //   cout<< dims[i] << "  ";            
                 tensor_dims.push_back((unsigned int)dims[i]);
             }
-            cout<<endl;
+            //cout<<endl;
              
             // TODO: handle the data type specific to the output type, 
             // not only <double>
@@ -319,7 +315,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             break;
                 }
         default:{
-            cout<< "Unknown"<<endl;
+            cout<< "PARSER: Unknown"<<endl;
             
                 }       
     }
