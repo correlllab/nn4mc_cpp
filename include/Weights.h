@@ -10,8 +10,8 @@ class Weights {
     public:
         std::vector<int> weights_size;
         std::vector<int> bias_size;
-        Tensor<float>* W;
-        Tensor<float>* b;
+        Tensor<float> *W;
+        Tensor<float> *b;
 };
 
 #endif
