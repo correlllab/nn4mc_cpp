@@ -47,6 +47,7 @@ void HDF5Parser::parseWeights(){
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
 
       this->weightsMap= od_weights.WM;
+
 }
 
 /*
