@@ -36,17 +36,19 @@ void HDF5Parser::constructBuilderMap(){
 }
 
 void HDF5Parser::parseWeights(){
+    
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
       H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
       Group group = Group( file.openGroup( "model_weights" ));
       struct opdataWeights od_weights;
-      std::copy(this->weightsMap.begin(), this->weightsMap.end(), std::inserter(od_weights.WM, od_weights.WM.end()) );      
+      od_weights.WM = this->weightsMap;
       
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
 
-      std::copy(od_weights.WM.begin(), od_weights.WM.end(), std::inserter(this->weightsMap, this->weightsMap.end()) );      
+      this->weightsMap= od_weights.WM;
 
+       
 }
 
 /*
@@ -302,18 +304,14 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             }
 
             if (s.compare("kernel:0")){
-//                od->WM[layer_id]->W = &T;
-                cout << &T <<endl;                
+                od->WM[layer_id].W = &T;
+
             } else{
-                //od->WM[layer_id]->b = &T;
+                od->WM[layer_id].b = &T;
             }
 
-            //link weights and biases to layer object
-            //cout<<endl;
-              
             ret= H5Dclose(dset); 
             
-            //no toki:
             break;
                               }
         case H5O_TYPE_NAMED_DATATYPE:{
