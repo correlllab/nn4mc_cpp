@@ -12,9 +12,9 @@ int main(){
         std::cout << P.layer_ids[i]<< std::endl;
     }
 
-    // Printing map of Layers:
+    // Accessing layer objects
     for (int i=0; i<P.layer_ids.size(); i++){
-        //std::cout<< P.layerBuilderVector[i].layerObject<< std::endl;
+        std::cout<< P.layerMap[P.layer_ids[i]]->identifier <<std::endl;
     } 
 
     return 0;
