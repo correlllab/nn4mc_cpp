@@ -16,7 +16,7 @@ NeuralNetwork::~NeuralNetwork()
   }
 }
 
-void NeuralNetwork::setUnvisited()
+void NeuralNetwork::reset()
 {
   std::vector<LayerNode*>::iterator i;
 
@@ -47,13 +47,16 @@ void NeuralNetwork::addLayer(Layer* input_layer)
   LayerNode* newLayer = new LayerNode;
   newLayer->layer = input_layer;
 
+  if(input_layer->isInput() == true)
+    this->input.push_back(newLayer);
+
   layers.push_back(newLayer);
 }
 
-void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
+void NeuralNetwork::addEdge(Layer* start, Layer* end)
 {
-  LayerNode* layer_1 = findNode(l1->identifier);
-  LayerNode* layer_2 = findNode(l2->identifier);
+  LayerNode* layer_1 = findNode(start->identifier);
+  LayerNode* layer_2 = findNode(end->identifier);
 
   LayerEdge* newEdge = new LayerEdge;
 
@@ -65,24 +68,26 @@ void NeuralNetwork::addEdge(Layer* l1, Layer* l2)
 
 void NeuralNetwork::BFS()
 {
-  setUnvisited();
+  reset();
 
-  LayerNode* start = layers.front(); //Should change to input
+  LayerNode* start;
   std::list<LayerNode*> nodeList;
   std::vector<LayerEdge>::iterator i;
 
-  start->visited = true;
-  nodeList.push_back(start);
-
-  //std::cout << start->layer->identifier << std::endl;
+  for(int i=0; i<input.size(); i++) //Add the input layers first
+  {
+    input[i]->visited = true;
+    nodeList.push_back(input[i]);
+  }
 
   while(!nodeList.empty())
   {
     start=nodeList.front();
     nodeList.pop_front();
 
-    nodes_ord.push_back(start); //Adding node order data.
-    //weights.push_back(start->layer->w); //Adding weight data.
+    this->nodes_ord.push_back(start); //Adding node order data.
+    this->weights.push_back(start->layer->w); //Adding weight data.
+    this->weights.push_back(start->layer->b); //Adding bias data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {
@@ -95,8 +100,6 @@ void NeuralNetwork::BFS()
       }
     }
   }
-  nodes_ord.push_back(NULL);
-  //weights.push_back(NULL);
 }
 
 void NeuralNetwork::DFS(LayerNode* start)
@@ -118,24 +121,24 @@ void NeuralNetwork::DFS(LayerNode* start)
 
 void NeuralNetwork::DFSPrint()
 {
-  setUnvisited();
+  reset();
   LayerNode* start = layers.front(); //Should change to input
 
   DFS(start);
 }
 
-LayerNode* NeuralNetwork::getNextLayer()
+LayerNode* NeuralNetwork::getNextNode()
 {
-  if(nodes_ord[idx_n] != NULL)
+  if(idx_n < nodes_ord.size())
     return nodes_ord[idx_n++];
   else
-    return nodes_ord[idx_n];
+    return NULL;
 }
 
 Weights* NeuralNetwork::getNextWeight()
 {
-  if(nodes_ord[idx_w] != NULL)
+  if(idx_w < nodes_ord.size())
     return weights[idx_w++];
   else
-    return weights[idx_w];
+    return NULL;
 }

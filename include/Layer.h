@@ -13,6 +13,7 @@ class Layer{
         Weights * WB;
         virtual void setLayer() = 0;
         virtual ~Layer() {};
+        bool isInput() {return false;};
 };
 
 class Conv1D : public Layer{
@@ -40,7 +41,7 @@ class Conv2D : public Layer{
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-        void setLayer(){} 
+        void setLayer(){}
 };
 
 class Dense : public Layer{
@@ -112,6 +113,11 @@ class LSTM: public Layer{
         bool stateful;
         bool unroll;
         void setLayer(){}
+};
+
+class Input: public Layer{
+    public:
+      bool isInput() {return true;};
 };
 
 
