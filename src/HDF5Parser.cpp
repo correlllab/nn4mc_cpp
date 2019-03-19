@@ -50,6 +50,18 @@ void HDF5Parser::parseWeights(){
 
 }
 
+void HDF5Parser::linkWeightsToLayers(){
+    
+    cout<< "PARSER: Printing Layer Map: "<<endl;
+    for (auto const& x : layerMap){ 
+        //cout<< x.first << " "<< x.second->identifier <<endl;
+        x.second->WB= &this->weightsMap[x.first];
+    }
+
+    cout << "PARSER: Weights Linked! " << endl;
+
+}
+
 /*
 void HDF5Parser::parseNeuralNetworkArchitecture(){
 
@@ -151,7 +163,7 @@ int HDF5Parser::parse()
       
       // Parse Weights:
       this->parseWeights();
-      
+      this->linkWeightsToLayers(); 
       std::cout<< "PARSER: Parsing complete!"<<std::endl;
     
       return 0;
