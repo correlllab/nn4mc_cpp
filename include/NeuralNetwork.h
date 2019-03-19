@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include "Weights.h"
+//#include "Weights.h"
+#include "datastructures/weights.h"
 #include "Layer.h"
 #include <string>
 #include <list>
@@ -49,7 +50,7 @@ class NeuralNetwork
     std::vector<LayerNode> input; //Input layers for graph.
 
     std::vector<LayerNode*> nodes_ord; //Ordered list of nodes.
-    std::vector<Weights*> weights; //Weights
+    std::vector<Weight*> weights; //Weights
 
     void setUnvisited();
     LayerNode* findNode(std::string ID);
@@ -69,7 +70,7 @@ class NeuralNetwork
     void DFSPrint();
 
     LayerNode* getNextLayer();
-    Weights* getNextWeight();
+    Weight* getNextWeight();
 };
 
 #endif

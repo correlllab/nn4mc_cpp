@@ -48,8 +48,6 @@ class LayerGenerator
 		static std::string START_INITIALIZE_DELIMITER;
 		static std::string END_INITIALIZE_DELIMITER;
 
-		// Types of layers defined, and number of defined layers
-		static std::array<std::string, 9> layer_types;
 
 		// Location of templates
 		std::string include_template_path;
@@ -84,20 +82,10 @@ class LayerGenerator
 
 	public:
 
-		LayerGenerator(std::string, std::string, const char*, const char*);
+		LayerGenerator(std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
 
-		void addLayer(Conv1D*);
-		void addLayer(Conv2D*);
-		void addLayer(Dense*);
-		void addLayer(Flatten*);
-		void addLayer(MaxPooling1D*);
-		void addLayer(MaxPooling2D*);
-		void addLayer(SimpleRNN*);
-		void addLayer(GRU*);
-		void addLayer(LSTM*);
-
-
+		void addLayer(Layer*);
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
 };

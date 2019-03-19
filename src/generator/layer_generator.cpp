@@ -17,17 +17,7 @@ std::string LayerGenerator::END_CALL_DELIMITER = "<%END_CALL_TEMPLATE>";
 std::string LayerGenerator::START_INITIALIZE_DELIMITER = "<%BEGIN_INITIALIZE_TEMPLATE>";
 std::string LayerGenerator::END_INITIALIZE_DELIMITER = "<%END_INITIALIZE_TEMPLATE>";
 
-// Define the available layer types
-std::array<std::string, 9> LayerGenerator::layer_types = { 	std::string("conv1d"),
-															std::string("conv2d"),
-															std::string("dense"),
-															std::string("flatten"),
-															std::string("maxpool1d"),
-															std::string("maxpool2d"),
-															std::string("simpleRNN"),
-															std::string("gru"),
-															std::string("lstm")
-														 };
+
 
 /*******************
 * LayerGenerator(std::string template_header_directory, template_source_directory)
@@ -39,7 +29,7 @@ std::array<std::string, 9> LayerGenerator::layer_types = { 	std::string("conv1d"
 *   template_source_directory - Path to the files acting as a template for the layer source code.
 */
 LayerGenerator::LayerGenerator(std::string template_header_directory, std::string template_source_directory,
-							   const char* weight_datatype, const char* index_datatype)
+							   std::string weight_datatype, std::string index_datatype)
 {
 	// Where are all the template files located?
 	include_template_path = template_header_directory;
@@ -123,7 +113,7 @@ std::string LayerGenerator::processTemplate(std::string layer_template, std::str
 
 	while(delimiter_position != std::string::npos)
 	{
-		layer_template.replace(delimiter_position, INDEX_DATATYPE_DELIMITER.length(), weight_datatype_string);
+		layer_template.replace(delimiter_position, INDEX_DATATYPE_DELIMITER.length(), index_datatype_string);
 		delimiter_position = layer_template.find(INDEX_DATATYPE_DELIMITER);
 	}
 
@@ -229,10 +219,7 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 		fwd_calls.insert(std::pair<std::string, std::string>());
 
 		std::string initString = getInitString(src_template);
-		std::string callString = getCallString(src_template);
-
-		std::cout << initString;
-		std::cout << callString;
+		std::string callString = getCallString(src_template);;
 	}
 
 	// Store the layer for later use
@@ -240,64 +227,16 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 }
 
 
-
 /*******************
 * addLayer(Layer layer)
 *
 * Add the layer to the list of layers to create.
 */
-void LayerGenerator::addLayer(Conv1D* layer)
+void LayerGenerator::addLayer(Layer* layer)
 {
-	addLayer((Layer*) layer, "conv1d", "float");
+	addLayer(layer, layer->layer_type, "float");
 }
 
-
-void LayerGenerator::addLayer(Conv2D* layer)
-{ 
-
-}
-
-
-void LayerGenerator::addLayer(Dense* layer)
-{
-	addLayer((Layer*) layer, "dense", "float");
-}
-
-
-void LayerGenerator::addLayer(Flatten* layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(MaxPooling1D* layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(MaxPooling2D* layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(SimpleRNN* layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(GRU* layer)
-{
-
-}
-
-
-void LayerGenerator::addLayer(LSTM* layer)
-{
-
-}
 
 
 /*******************

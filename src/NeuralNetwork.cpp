@@ -132,7 +132,7 @@ LayerNode* NeuralNetwork::getNextLayer()
     return nodes_ord[idx_n];
 }
 
-Weights* NeuralNetwork::getNextWeight()
+Weight* NeuralNetwork::getNextWeight()
 {
   if(nodes_ord[idx_w] != NULL)
     return weights[idx_w++];

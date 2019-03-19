@@ -1,12 +1,12 @@
 #include "generator/code_generator.h"
 
-std::string LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
-std::string LAYER_TEMPLATE_SRC_DIR = "src/layers";
-std::string PARAMETER_TEMPLATE_PATH = "include";
-std::string PARAMETER_FILENAME = "neural_network_params.h"
-std::string PARAMETER_DATATYPE = "const float";
-std::string LAYER_OUTPUT_DATATYPE = "float";
-std::string INDEX_DATATYPE = "int";
+std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
+std::string CodeGenerator::LAYER_TEMPLATE_SRC_DIR = "src/layers";
+std::string CodeGenerator::PARAMETER_TEMPLATE_PATH = "include";
+std::string CodeGenerator::PARAMETER_FILENAME = "neural_network_params.h";
+std::string CodeGenerator::PARAMETER_DATATYPE = "const float";
+std::string CodeGenerator::LAYER_OUTPUT_DATATYPE = "float";
+std::string CodeGenerator::INDEX_DATATYPE = "int";
 
 /*******************
 * LayerGenerator(std::string template_header_directory, template_source_directory)
@@ -29,7 +29,7 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 	// Construct the paths for needed files
 	std::string network_param_template_path = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME + ".template";
 	std::string layer_include_template_path = template_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR;
-	std::string layer_src_template_path = template_folder + "/" + LAYER_TEMPLATE_SRC_DIR
+	std::string layer_src_template_path = template_folder + "/" + LAYER_TEMPLATE_SRC_DIR;
 
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
@@ -45,11 +45,25 @@ void CodeGenerator::generate()
 {
 	// Pull all weights from the neural network and add it to the weight code generator
 	// for (weight in neural_net)
-	// weight_generator->addWeight(weight);
+/*
+	Weight* weight = neural_net->getNextWeight();
+	std::cout << "    Weight: " << weight << std::endl;
 
+	while(weight != NULL)
+	{
+		weight_generator->addWeight(weight);
+		weight = neural_net->getNextWeight();
+	}
+*/
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
-	// layer_generator->addLayer(layer);
+	LayerNode* layer_node = neural_net->getNextLayer();
+
+	while(layer_node != NULL)
+	{
+		layer_generator->addLayer(layer_node->layer);
+		layer_node = neural_net->getNextLayer();
+	}
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
 }

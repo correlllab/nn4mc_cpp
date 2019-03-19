@@ -6,6 +6,7 @@
 #include "generator/weight_generator.h"
 #include "datastructures/weights.h"
 #include "generator/layer_generator.h"
+#include "generator/code_generator.h"
 
 #include "Layer.h"
 #include "NeuralNetwork.h"
@@ -44,8 +45,6 @@ NeuralNetwork* makeNet()
 	Conv1D* conv1d_layer = new Conv1D("layer0");
 	Dense* dense_layer = new Dense("layer1");
 
-	NeuralNetwork* nn = new NeuralNetwork();
-
 	nn->addLayer(conv1d_layer);
 	nn->addLayer(dense_layer);
 	nn->addEdge(conv1d_layer, dense_layer);
@@ -57,7 +56,14 @@ NeuralNetwork* makeNet()
 
 int main(int argc, char** argv)
 {
+	std::cout << "Making the Neural Network" << std::endl;
 	NeuralNetwork* nn = makeNet();
+	nn->BFS();
+	std::cout << "Making the Code Generator object" << std::endl;
 	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "./example_out");
+	std::cout << "Generating Layer and Weight stuff" << std::endl;
+	code_gen->generate();
+	std::cout << "Dumping the code" << std::endl;
+	code_gen->dump();
 
 }

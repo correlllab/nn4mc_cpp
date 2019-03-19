@@ -23,11 +23,10 @@ INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (include/cget/include)
 
-FILE (GLOB CORE_LIB src/datastructures/*.cpp)
+FILE (GLOB CORE_LIB src/LayerBuilder.cpp src/NeuralNetwork.cpp src/Layer.cpp)
 FILE (GLOB DATASTRUCTURE_LIB src/datastructures/*.cpp)
 FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 
-# Build libraries
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
 ADD_LIBRARY (nn4mp_datastructures SHARED ${DATASTRUCTURE_LIB})
