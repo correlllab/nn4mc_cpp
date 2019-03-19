@@ -10,6 +10,7 @@
 class Layer{
     public:
         std::string identifier;
+        Weights * WB;
         virtual void setLayer() = 0;
         virtual ~Layer() {};
 };
@@ -25,6 +26,7 @@ class Conv1D : public Layer{
         std::string activation;
         bool use_bias;
         void setLayer(){}
+
 };
 
 

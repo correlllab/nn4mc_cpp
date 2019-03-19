@@ -67,6 +67,7 @@ class HDF5Parser : public Parser{
         }
 
         json parseModelConfig();
+        void linkWeightsToLayers();
         void parseWeights();
         void constructBuilderMap();
         void callLayerBuilders();
