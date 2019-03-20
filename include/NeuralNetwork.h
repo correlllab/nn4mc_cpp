@@ -46,6 +46,7 @@ struct LayerNode //Struct for each node in the graph representing a layer in the
 class NeuralNetwork
 {
   private:
+  public:
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode*> input; //Input layers for graph.
 

@@ -86,8 +86,8 @@ void NeuralNetwork::BFS()
     nodeList.pop_front();
 
     this->nodes_ord.push_back(start); //Adding node order data.
-//    this->weights.push_back(start->layer->w); //Adding weight data.
-//    this->weights.push_back(start->layer->b); //Adding bias data.
+    this->weights.push_back(start->layer->w); //Adding weight data.
+    this->weights.push_back(start->layer->b); //Adding bias data.
 
     for(i=start->edges.begin(); i!=start->edges.end(); i++)
     {

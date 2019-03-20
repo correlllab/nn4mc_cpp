@@ -10,6 +10,7 @@ std::string MaxPooling2D::type = std::string("maxpool2d");
 std::string SimpleRNN::type = std::string("simpleRNN");
 std::string GRU::type = std::string("gru");
 std::string LSTM::type = std::string("lstm");
+std::string InputLayer::type = std::string("input");
 
 
 // Define the available layer types -- NOTE:  NOT ACTUALLY USING THIS!!!
@@ -73,4 +74,9 @@ GRU::GRU(std::string id) : Layer(id)
 LSTM::LSTM(std::string id) : Layer(id)
 {
 	layer_type = LSTM::type;
+}
+
+InputLayer::InputLayer(std::string id) : Layer(id)
+{
+	layer_type = InputLayer::type;
 }

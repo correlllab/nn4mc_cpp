@@ -17,11 +17,12 @@ class Layer{
         static std::string type;
         std::string layer_type;
         std::string identifier;
-        Weight * WB;
+        Weight* w;
+        Weight* b;
         virtual void setLayer() = 0;
         Layer(std::string);
         virtual ~Layer() {};
-        bool isInput() {return false;};
+        virtual bool isInput() = 0;
 };
 
 class Conv1D : public Layer{
@@ -41,6 +42,7 @@ class Conv1D : public Layer{
         static std::string type;
         Conv1D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 
 };
 
@@ -62,6 +64,7 @@ class Conv2D : public Layer{
         static std::string type;
         Conv2D(std::string);
         void setLayer(){} 
+        bool isInput() {return false;}
 };
 
 class Dense : public Layer{
@@ -76,6 +79,7 @@ class Dense : public Layer{
         static std::string type;
         Dense(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 
@@ -86,6 +90,7 @@ class Flatten : public Layer{
         static std::string type;
         Flatten(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class MaxPooling1D : public Layer{
@@ -101,6 +106,7 @@ class MaxPooling1D : public Layer{
         static std::string type;
         MaxPooling1D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 } ;
 
 class MaxPooling2D: public Layer{
@@ -116,6 +122,7 @@ class MaxPooling2D: public Layer{
         static std::string type;
         MaxPooling2D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class SimpleRNN : public Layer{
@@ -130,6 +137,7 @@ class SimpleRNN : public Layer{
         static std::string type;
         SimpleRNN(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class GRU: public Layer{
@@ -150,6 +158,7 @@ class GRU: public Layer{
 
         GRU(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 
@@ -173,10 +182,14 @@ class LSTM: public Layer{
           //this->identifier = id;
         LSTM(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
-class Input: public Layer{
+class InputLayer: public Layer{
     public:
+      static std::string type;
+      InputLayer(std::string);
+      void setLayer(){}
       bool isInput() {return true;};
 };
 

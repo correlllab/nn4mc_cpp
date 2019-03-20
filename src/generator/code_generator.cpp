@@ -1,4 +1,5 @@
 #include "generator/code_generator.h"
+#include <iostream>
 
 std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
 std::string CodeGenerator::LAYER_TEMPLATE_SRC_DIR = "src/layers";
@@ -45,22 +46,22 @@ void CodeGenerator::generate()
 {
 	// Pull all weights from the neural network and add it to the weight code generator
 	// for (weight in neural_net)
-/*
+
 	Weight* weight = neural_net->getNextWeight();
-	std::cout << "    Weight: " << weight << std::endl;
 
 	while(weight != NULL)
 	{
 		weight_generator->addWeight(weight);
 		weight = neural_net->getNextWeight();
 	}
-*/
+
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
 	LayerNode* layer_node = neural_net->getNextNode();
 
 	while(layer_node != NULL)
 	{
+		std::cout << layer_node->layer->identifier << std::endl;
 		layer_generator->addLayer(layer_node->layer);
 		layer_node = neural_net->getNextNode();
 	}
