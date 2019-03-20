@@ -42,6 +42,13 @@ struct opdata{
             std::vector<std::string> layer_ids;
             std::vector<std::pair<std::string, std::string>> layer_edges;
             };
+
+struct opdataWeights{
+        std::string layer_id;
+        std::map<std::string, Weights> WM;
+                    };
+
+
 class HDF5Parser : public Parser{
     public: 
         int parse();
@@ -49,18 +56,22 @@ class HDF5Parser : public Parser{
         typedef std::map<std::string, LayerFactory*> builder_map;
         builder_map BuilderMap;
         std::vector<LayerFactory*> layerBuilderVector;
-        std::vector<std::string> layer_ids;
-        std::vector<std::pair<std::string, std::string>> layer_edges;
+        std::vector<std::string> layer_ids; // layer_ids
+        std::vector<std::pair<std::string, std::string>> layer_edges; // edge pairs
+        std::map<std::string, Layer*> layerMap;
+        std::map<std::string, Weights> weightsMap;
         json model_config;
+
         HDF5Parser(std::string file_name_str){
             this->file_name= file_name_str;
         }
+
         json parseModelConfig();
-        void parseNeuralNetworkArchitecture();
+        void linkWeightsToLayers();
+        void parseWeights();
         void constructBuilderMap();
         void callLayerBuilders();
         void buildEdges();
-        void restructureLayerIds();
 };
 
 

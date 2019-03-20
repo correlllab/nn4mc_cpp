@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "datastructures/weights.h"
 #include <map>
 
 
@@ -16,9 +17,11 @@ class Layer{
         static std::string type;
         std::string layer_type;
         std::string identifier;
-        Layer(std::string);
+        Weight * WB;
         virtual void setLayer() = 0;
+        Layer(std::string);
         virtual ~Layer() {};
+        bool isInput() {return false;};
 };
 
 class Conv1D : public Layer{
@@ -38,6 +41,7 @@ class Conv1D : public Layer{
         static std::string type;
         Conv1D(std::string);
         void setLayer(){}
+
 };
 
 
@@ -169,6 +173,11 @@ class LSTM: public Layer{
           //this->identifier = id;
         LSTM(std::string);
         void setLayer(){}
+};
+
+class Input: public Layer{
+    public:
+      bool isInput() {return true;};
 };
 
 

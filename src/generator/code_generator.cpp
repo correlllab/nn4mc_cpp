@@ -57,12 +57,12 @@ void CodeGenerator::generate()
 */
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
-	LayerNode* layer_node = neural_net->getNextLayer();
+	LayerNode* layer_node = neural_net->getNextNode();
 
 	while(layer_node != NULL)
 	{
 		layer_generator->addLayer(layer_node->layer);
-		layer_node = neural_net->getNextLayer();
+		layer_node = neural_net->getNextNode();
 	}
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
