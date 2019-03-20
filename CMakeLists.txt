@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (include/cget/include)
 
-FILE (GLOB CORE_LIB src/LayerBuilder.cpp src/NeuralNetwork.cpp src/Layer.cpp)
+FILE (GLOB CORE_LIB src/*.cpp)
 FILE (GLOB DATASTRUCTURE_LIB src/datastructures/*.cpp)
 FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
 
@@ -34,8 +34,8 @@ ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
 
 # Add the executable
-ADD_EXECUTABLE (tensor_test src/tensor_test.cpp)
-ADD_EXECUTABLE (generator_test src/generator_test.cpp)
+ADD_EXECUTABLE (tensor_test examples/tensor_test.cpp)
+ADD_EXECUTABLE (generator_test examples/generator_test.cpp)
 
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
 
