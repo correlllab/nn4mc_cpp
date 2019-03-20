@@ -5,23 +5,21 @@
 extern "C" {
 #endif
 
-#define WINDOW_SIZE	    100	
+#define WINDOW_SIZE	    100
 #define NUM_ADC		    2
-#define NUM_OUTPUT      3
+#define NUM_OUTPUT      2
 #define V_REF			1100
 
 #include "esp_adc_cal.h"
-
 //uint16_t* buffer;
 
 volatile uint16_t buffer[WINDOW_SIZE*NUM_ADC];
 volatile float gradient;
 volatile bool event_detected;
-volatile float ** window;
-volatile float output[NUM_OUTPUT];
+float ** window;
+float output[NUM_OUTPUT];
 volatile int buffer_idx;
 volatile bool buffer_full;
-
 char* packet;
 volatile int packet_size;
 volatile bool packet_ready;

@@ -63,9 +63,6 @@ void init_buffer()
     // We start at index 0, and the buffer isn't full yet.
     // We are dynamically allocating the window of data that will be getting in the 
     // neural network. 
-    int HALF_WINDOW= (int)WINDOW_SIZE/2;
-    window= (float**)malloc(WINDOW_SIZE*sizeof(float*));
-    for (int i=0; i<WINDOW_SIZE; i++) window[i]= (float*)malloc(NUM_ADC*sizeof(float));
 	buffer_idx = 0;
 	buffer_full = false;
 
