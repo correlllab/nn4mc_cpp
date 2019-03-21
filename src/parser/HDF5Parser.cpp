@@ -17,7 +17,7 @@
  * Created on: Thu Feb 07 2019
  * 
  * */
-#include "HDF5Parser.h"
+#include "parser/HDF5Parser.h"
 
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);

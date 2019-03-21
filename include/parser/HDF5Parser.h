@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "NeuralNetwork.h"
+#include "datastructures/NeuralNetwork.h"
 #include <vector>
 #include <sstream>
-#include "LayerFactory.h"
+#include "parser/LayerFactory.h"
 #include <nlohmann/json.hpp>
 
 #else
@@ -26,10 +26,10 @@
 #endif
 
 #include "H5Cpp.h"
-#include "Parser.h"
+#include "parser/Parser.h"
 #include <iomanip>
 #include <sstream>
-#include "LayerBuilder.h"
+#include "parser/LayerBuilder.h"
 #ifndef H5_NO_NAMESPACE
 
 using namespace H5;

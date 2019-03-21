@@ -12,7 +12,7 @@ class Weight
 {
     public:
         std::string identifier;
-        Tensor<double>* values;// = Tensor<double>(std::vector<unsigned int>({1}));
+        Tensor<double>* values;
 
         Weight(std::string, std::vector<unsigned int>);
         ~Weight();

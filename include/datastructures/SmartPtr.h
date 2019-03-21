@@ -1,9 +1,9 @@
 #ifndef __PARSER_H__
 #define __PARSER_H__
 
-#include "NeuralNetwork.h"
-#include "Layer.h"
-#include "LayerBuilder.h"
+#include "datastructures/NeuralNetwork.h"
+#include "datastructures/Layer.h"
+#include "parser/LayerBuilder.h"
 
 /* Smart Pointer Class */
 

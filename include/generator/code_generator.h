@@ -22,7 +22,7 @@
 
 #include "generator/layer_generator.h"
 #include "generator/weight_generator.h"
-#include "NeuralNetwork.h"
+#include "datastructures/NeuralNetwork.h"
 
 #include <string>
 

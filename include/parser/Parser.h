@@ -4,11 +4,11 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "NeuralNetwork.h"
-#include "LayerBuilder.h"
+#include "datastructures/NeuralNetwork.h"
+#include "parser/LayerBuilder.h"
 #include <vector>
 #include <sstream>
-#include "LayerFactory.h"
+#include "parser/LayerFactory.h"
 #include <nlohmann/json.hpp>
 
 using json= nlohmann::json;

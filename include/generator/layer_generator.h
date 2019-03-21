@@ -28,7 +28,7 @@
 #include <map>
 #include <vector>
 
-#include "Layer.h"
+#include "datastructures/Layer.h"
 
 #ifndef __LAYER_GENERATOR_H__
 #define __LAYER_GENERATOR_H__

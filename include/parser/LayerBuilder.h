@@ -11,8 +11,8 @@ parsed object to the right layer.
 #include <iostream>
 #include <string>
 #include <map>
-#include "Layer.h"
-#include "NeuralNetwork.h"
+#include "datastructures/Layer.h"
+#include "datastructures/NeuralNetwork.h"
 #include <nlohmann/json.hpp>
 
 using json=nlohmann::json;

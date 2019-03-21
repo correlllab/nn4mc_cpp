@@ -1,5 +1,7 @@
-#include "LayerBuilder.h"
+#include "parser/LayerBuilder.h"
 #include <string>
+
+
 void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     this->layerObject.identifier.assign(id);
