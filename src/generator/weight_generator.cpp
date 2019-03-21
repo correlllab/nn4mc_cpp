@@ -5,6 +5,14 @@
 #include <string>
 #include <stdexcept>
 
+
+std::string WeightGenerator::TEMPLATE_BEGIN_DELIMITER =	"<%BEGIN_TEMPLATE>";
+std::string WeightGenerator::TEMPLATE_END_DELIMITER =	"<%END_TEMPLATE>";
+std::string WeightGenerator::DATATYPE_DELIMITER =		"<%WEIGHT_DATATYPE>";
+std::string WeightGenerator::NAME_DELIMITER =			"<%WEIGHT_NAME>";
+std::string WeightGenerator::INDEX_DELIMITER =			"<%WEIGHT_INDEX>";
+std::string WeightGenerator::DATA_DELIMITER =			"<%DATA>";
+
 /*******************
 * WeightGenerator(std::string template_path)
 *
@@ -13,7 +21,7 @@
 * Arguments:
 *   template_path - Path to the file acting as a template for the C code.
 */
-WeightGenerator::WeightGenerator(std::string template_path)
+WeightGenerator::WeightGenerator(std::string template_path, bool flatten)
 {
 	// Load the template from the provided path
 	std::ifstream template_file(template_path, std::ios::in);
@@ -46,8 +54,18 @@ WeightGenerator::WeightGenerator(std::string template_path)
 		throw std::runtime_error("Could not open file: " + template_path);
 	}
 
+	// Store whether to flatten the indices
+	flatArray = flatten;
+
 	// Make an object to generate representation of tensors
-	tensorRepresentation = new TensorRepresentation();
+	if(flatArray)
+	{
+		tensorRepresentation = new TensorRepresentation(" ","");
+	}
+	else
+	{
+		tensorRepresentation = new TensorRepresentation("{","}");
+	}
 }
 
 
@@ -85,6 +103,35 @@ void WeightGenerator::replaceDelimiter(std::string* content, std::string delimit
 }
 
 
+
+/*******************
+* getIndexRepresentation()
+*
+* Create a string representation of the indexing of the array.
+*/
+std::string WeightGenerator::getIndexRepresentation(Tensor<double> values)
+{
+	std::string indexRepresentation;
+
+
+	// If we are to generate a flat array, dump the sum of all the weights,
+	// otherwise, produce comma separated array
+	if(flatArray)
+	{
+		indexRepresentation += "[" + std::to_string(values.num_elements) + "]";
+	}
+	else
+	{
+		for(int i=0; i<values.shape.size(); i++)
+		{
+			indexRepresentation += "[" + std::to_string(values.shape[i]) + "]";
+		}
+	}
+
+	return indexRepresentation;
+}
+
+
 /*******************
 * addWeight(Weight* weight)
 *
@@ -109,11 +156,22 @@ void WeightGenerator::addWeight(Weight* weight)
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);
 
 	// Figure out what the index should look like, and then place in the delimiter
-	std::string index_string;
-	for(int i=0; i<values.shape.size(); i++)
+	std::string index_string; //= getIndexRepresentation(values);
+
+	// If we are to generate a flat array, dump the sum of all the weights,
+	// otherwise, produce comma separated array
+	if(flatArray)
 	{
-		index_string += "[" + std::to_string(values.shape[i]) + "]";
+		index_string += "[" + std::to_string(values.num_elements) + "]";
 	}
+	else
+	{
+		for(int i=0; i<values.shape.size(); i++)
+		{
+			index_string += "[" + std::to_string(values.shape[i]) + "]";
+		}
+	}
+
 	replaceDelimiter(&content, INDEX_DELIMITER, index_string);
 
 	// Finally, generate the contents of the tensor

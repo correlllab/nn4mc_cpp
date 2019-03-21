@@ -4,18 +4,30 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Weights.h"
+#include "datastructures/weights.h"
 #include <map>
 
+
 class Layer{
+
+    // Types of layers defined, and number of defined layers
+    static std::array<std::string, 9> layer_types;    
+
     public:
+        static std::string type;
+        std::string layer_type;
         std::string identifier;
-        Weights * WB;
+        Weight* w;
+        Weight* b;
         virtual void setLayer() = 0;
+        Layer(std::string);
         virtual ~Layer() {};
+        virtual bool isInput() = 0;
 };
 
 class Conv1D : public Layer{
+    
+
     public:
         int filters;
         std::vector<int> kernel_size;
@@ -25,12 +37,19 @@ class Conv1D : public Layer{
         int dilation_rate;
         std::string activation;
         bool use_bias;
+
+    public:
+        static std::string type;
+        Conv1D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 
 };
 
 
 class Conv2D : public Layer{
+    
+
     public:
         int filters;
         std::vector<int> kernel_size;
@@ -40,47 +59,85 @@ class Conv2D : public Layer{
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
+
+    public:
+        static std::string type;
+        Conv2D(std::string);
         void setLayer(){} 
+        bool isInput() {return false;}
 };
 
 class Dense : public Layer{
+    
+
     public:
         int units;
         std::string activation;
         bool use_bias;
+
+    public:
+        static std::string type;
+        Dense(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 
 class Flatten : public Layer{
+    
+
     public:
+        static std::string type;
+        Flatten(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class MaxPooling1D : public Layer{
+    
+
     public:
         int pool_size;
         int strides;
         std::string padding;
         std::string data_format;
+
+    public:
+        static std::string type;
+        MaxPooling1D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 } ;
 
 class MaxPooling2D: public Layer{
+    
+
     public:
         std::vector<int> pool_size;
         std::vector<int> strides;
         std::string padding;
         std::string data_format;
+
+    public:
+        static std::string type;
+        MaxPooling2D(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class SimpleRNN : public Layer{
+    
+
     public:
         int units;
         std::string activation;
         bool use_bias;
+
+    public:
+        static std::string type;
+        SimpleRNN(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 class GRU: public Layer{
@@ -95,11 +152,18 @@ class GRU: public Layer{
         bool stateful;
         bool unrool;
         bool reset_after;
+
+    public:
+        static std::string type;
+
+        GRU(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
 };
 
 
 class LSTM: public Layer{
+
     public:
         int units;
         std::string activation;
@@ -111,7 +175,22 @@ class LSTM: public Layer{
         bool go_backwards;
         bool stateful;
         bool unroll;
+
+    public:
+        static std::string type;
+
+          //this->identifier = id;
+        LSTM(std::string);
         void setLayer(){}
+        bool isInput() {return false;}
+};
+
+class InputLayer: public Layer{
+    public:
+      static std::string type;
+      InputLayer(std::string);
+      void setLayer(){}
+      bool isInput() {return true;};
 };
 
 

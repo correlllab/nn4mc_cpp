@@ -33,9 +33,11 @@ class TensorRepresentation
 {
 	private:
 		std::string pad;
+		std::string array_start, array_end;
 
 	public:
 		TensorRepresentation();
+		TensorRepresentation(const char*, const char*);
 		~TensorRepresentation();
 
 		void addPad(unsigned int);

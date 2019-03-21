@@ -60,12 +60,12 @@ class Tensor
 class BadIndexBoundsException : public std::exception
 {
 	public:
-		BadIndexBoundsException(unsigned int, unsigned int, unsigned int){}
-		virtual ~BadIndexBoundsException() throw(){}
+		BadIndexBoundsException(unsigned int, unsigned int, unsigned int);//{} <== WHO PUT THAT THERE?
+		virtual ~BadIndexBoundsException() throw();//{}
 		unsigned int dimension_number;
 		unsigned int index_bound;
 		unsigned int index;
-		virtual const char* what() const throw(){}
+		virtual const char* what() const throw();//{}
 };
 
 

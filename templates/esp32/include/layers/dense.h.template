@@ -1,0 +1,35 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/*************
+* dense.h
+*
+* Dense Layer Header
+* Hardware Plateform: ESP-32
+*
+* This file defines the datastructure needed to create a Dense (Fully Connected) layer.
+*/
+
+#ifndef __DENSE_H__
+#define __DENSE_H__
+
+#ifdef __cpluscplus
+extern "C" {
+#endif
+
+struct DENSE {
+	// Weights and biases defining the layer
+	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
+	<%WEIGHT_DATATYPE_DELIMITER>* bias;				// Pointer to constant bias
+
+	// Shape of the input and output
+	<%INDEX_DATATYPE_DELIMITER> input_size;
+	<%INDEX_DATATYPE_DELIMITER> output_size;
+};
+
+
+#ifdef __cplusplus
+}
+
+#endif
+#endif
+
+<%END_DEFINITION_TEMPLATE>

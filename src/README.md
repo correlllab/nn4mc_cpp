@@ -7,4 +7,3 @@ Before using it , I needed to do:
 
 
 > Also requires https://github.com/nlohmann/json
-> $h5c++ -std=c++11 program_name.cpp
