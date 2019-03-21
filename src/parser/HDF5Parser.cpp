@@ -33,6 +33,7 @@ void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["LSTM"]= new LSTMFactory();
     this->BuilderMap["GRU"]= new GRUFactory();
     this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();
+
 }
 
 void HDF5Parser::parseWeights(){
@@ -161,123 +162,110 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 {
 hid_t group;
     hid_t status;
-    hid_t attribute;
     H5O_info_t infobuf;
     struct opdataWeights *od = (struct opdataWeights *) opdata;
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 
-    switch(infobuf.type){
-        case H5O_TYPE_DATASET:{
+    if (infobuf.type== H5O_TYPE_DATASET){
             
-    // NEED TO PARSE EITHER WEIGHT OR BIAS 
-    std::string s(name);
-    std::string delimiter= "/";
-    std::string layer_id;
+        // NEED TO PARSE EITHER WEIGHT OR BIAS 
+        std::string s(name);
+        std::string delimiter= "/";
+        std::string layer_id;
 
-    // Parsing matching layer id:
-    size_t pos=0;
-    while ((pos=s.find(delimiter)) != std::string::npos){
-        layer_id= s.substr(0, pos);
-        s.erase(0, pos+delimiter.length());
-    }
-            hid_t datatype, dataspace, cclass, order, size, rank; 
-            hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
-            datatype= H5Dget_type(dset);
-            cclass = H5Tget_class(datatype); 
-            size= H5Tget_size(datatype);
-            dataspace = H5Dget_space(dset);
-            rank= H5Sget_simple_extent_ndims(dataspace); 
-            hsize_t dims[rank];
-            H5Sget_simple_extent_dims(dataspace, dims, NULL);
-            std::vector<unsigned int> tensor_dims;
-           
-            //Parsing dimensions for Tensor
-            for (int i=0; i<rank; i++) {
-                tensor_dims.push_back((unsigned int)dims[i]);
-            }
-            
-            Tensor<double> T(tensor_dims); //assuming float
-            float *rbuf;
-            herr_t ret;
-           
-            // getting dimensions of flat rbuf
-            // Dana TODO: Make a method that allows you to assign already flat 
-            // array into tensor without having to index and given the size so
-            int flat=1;
-            for (int i=0; i<rank; i++){
-                flat*= dims[i];
-            }
+        // Parsing matching layer id:
+        size_t pos=0;
+        while ((pos=s.find(delimiter)) != std::string::npos){
+            layer_id= s.substr(0, pos);
+            s.erase(0, pos+delimiter.length());
+        }
+        hid_t datatype, dataspace, rank; 
+                hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
+                datatype= H5Dget_type(dset);
+                dataspace = H5Dget_space(dset);
+                rank= H5Sget_simple_extent_ndims(dataspace); 
+                hsize_t dims[rank];
+                H5Sget_simple_extent_dims(dataspace, dims, NULL);
+                std::vector<unsigned int> tensor_dims;
+               
+                //Parsing dimensions for Tensor
+                for (int i=0; i<rank; i++) {
+                    tensor_dims.push_back((unsigned int)dims[i]);
+                }
+                
+                Tensor<double> T(tensor_dims); //assuming float
+                float *rbuf;
+                herr_t ret;
+               
+                // getting dimensions of flat rbuf
+                // Dana TODO: Make a method that allows you to assign already flat 
+                // array into tensor without having to index and given the size so
+                int flat=1;
+                for (int i=0; i<rank; i++){
+                    flat*= dims[i];
+                }
 
-            rbuf= new float [flat];
-            ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf);  // this is what populated rbuf
-            
-            //flattened parsed weights are in rbuf
-            //Dana TODO: Template that removes the need to do this
-            switch(rank){
-                case 1:
-                    {
-                        for (int i=0; i<dims[0]; i++){
-                            T(i) = rbuf[i];
-                        }
-
-                    break;
-                    }
-                case 2:
-                    {
-                        for (int i=0; i<tensor_dims[0]; i++){
-                            for (int j=0; j<tensor_dims[1]; j++){
-                                int idx= tensor_dims[1]*i+j;
-                                T(i, j) = rbuf[idx];
+                rbuf= new float [flat];
+                ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf);  // this is what populated rbuf
+                
+                //flattened parsed weights are in rbuf
+                //Dana TODO: Template that removes the need to do this
+                switch(rank){
+                    case 1:
+                        {
+                            for (int i=0; i<dims[0]; i++){
+                                T(i) = rbuf[i];
                             }
-                        }
+
                         break;
-                    }
-                case 3:
-                    {
-                        for (int i=0; i< tensor_dims[0]; i++){
-                            for (int j=0; j<tensor_dims[1]; j++){
-                                for (int k=0; k<tensor_dims[2]; k++){
-                                    int idx= tensor_dims[2]*tensor_dims[1]*i + tensor_dims[2]*j + k;
-                                    T(i, j, k)= rbuf[idx];
+                        }
+                    case 2:
+                        {
+                            for (int i=0; i<tensor_dims[0]; i++){
+                                for (int j=0; j<tensor_dims[1]; j++){
+                                    int idx= tensor_dims[1]*i+j;
+                                    T(i, j) = rbuf[idx];
                                 }
                             }
+                            break;
+                        }
+                    case 3:
+                        {
+                            for (int i=0; i< tensor_dims[0]; i++){
+                                for (int j=0; j<tensor_dims[1]; j++){
+                                    for (int k=0; k<tensor_dims[2]; k++){
+                                        int idx= tensor_dims[2]*tensor_dims[1]*i + tensor_dims[2]*j + k;
+                                        T(i, j, k)= rbuf[idx];
+                                    }
+                                }
+                            }
+
+                            break;
                         }
 
+
+                    default:
                         break;
-                    }
-
-
-                default:
-                    break;
-
-            }
-            delete rbuf; // not needed anymore
-
-            // Create weights:
-            Weight wb(layer_id, tensor_dims);
-            wb.values= &T;
-
-            if (s.compare("kernel:0")){
-                od->LM[layer_id]->w = &wb;
-
-            } else{
-                od->LM[layer_id]->b = &wb;
-            }
-
-            ret= H5Dclose(dset); 
-            
-            break;
-                              }
-        case H5O_TYPE_NAMED_DATATYPE:{
-            //cout<< "DataType: " << name <<endl;
-            break;
                 }
-        default:{
-            cout<< "PARSER: Unknown"<<endl;
-            
-                }       
-    }
+                
+                delete rbuf; 
+
+                // Create weights:
+                Weight wb(layer_id, tensor_dims);
+                wb.values= &T;
+
+                if (s.compare("kernel:0")){
+                    od->LM[layer_id]->w = &wb;
+
+                } else{
+                    od->LM[layer_id]->b = &wb;
+                }
+
+                ret= H5Dclose(dset); 
+                
+        }
+
              
     H5Gclose(group);
 
