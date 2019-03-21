@@ -27,59 +27,95 @@ class LayerBuilder{
 
 class Conv1DBuilder : public LayerBuilder {
     public:
-        Conv1D layerObject;
+        Conv1D * layerObject; 
+        Conv1DBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new Conv1D(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
 };
 class Conv2DBuilder : public LayerBuilder {
     public:
-        Conv2D layerObject;
+        Conv2D * layerObject;
+        Conv2DBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new Conv2D(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
 
 };
 
 class DenseBuilder : public LayerBuilder {
     public:
-        Dense layerObject;
+        Dense * layerObject;
+        DenseBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new Dense(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
 
 };
 
 class FlattenBuilder : public LayerBuilder {
     public:
-        Flatten layerObject;
+        Flatten * layerObject;
+        FlattenBuilder(std::string id){
+            this->layer_id= id;
+            layerObject= new Flatten(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
 
 };
 
 class GRUBuilder : public LayerBuilder {
     public:
-        GRU layerObject;
+        GRU * layerObject;
+        GRUBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new GRU(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
 };
 class LSTMBuilder : public LayerBuilder {
     public:
-        LSTM layerObject;
+        LSTM * layerObject;
+        LSTMBuilder(std::string id){
+            this->layer_id = id;
+            layerObject = new LSTM(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
 
 };
 
 class MaxPooling1DBuilder : public LayerBuilder {
     public:
-        MaxPooling1D layerObject;
+        MaxPooling1D * layerObject;
+        MaxPooling1DBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new MaxPooling1D(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
 
 };
 
 class MaxPooling2DBuilder : public LayerBuilder {
     public:
-        MaxPooling2D layerObject;
+        MaxPooling2D * layerObject;
+        MaxPooling2DBuilder(std::string id){
+            this->layer_id = id;
+            layerObject= new MaxPooling2D(id);
+        }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
 
 };
 
 class SimpleRNNBuilder : public LayerBuilder {
     public:
-        SimpleRNN layerObject;
+        SimpleRNN * layerObject;
+        SimpleRNNBuilder(std::string id){
+            this->layer_id= id;
+            layerObject= new SimpleRNN(id);
+        }
          void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
 
 };

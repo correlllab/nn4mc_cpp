@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <map>
 #include "datastructures/NeuralNetwork.h"
 #include <vector>
@@ -15,6 +16,7 @@
 #endif
 #include <string>
 #include "datastructures/tensor.h"
+#include "datastructures/weights.h"
 #include <vector>
 
 #ifndef H5_NO_NAMESPACE
@@ -45,7 +47,7 @@ struct opdata{
 
 struct opdataWeights{
         std::string layer_id;
-        std::map<std::string, Weights> WM;
+        std::map<std::string, Layer*> LM;
                     };
 
 
@@ -59,7 +61,6 @@ class HDF5Parser : public Parser{
         std::vector<std::string> layer_ids; // layer_ids
         std::vector<std::pair<std::string, std::string>> layer_edges; // edge pairs
         std::map<std::string, Layer*> layerMap;
-        std::map<std::string, Weights> weightsMap;
         json model_config;
 
         HDF5Parser(std::string file_name_str){
@@ -67,7 +68,6 @@ class HDF5Parser : public Parser{
         }
 
         json parseModelConfig();
-        void linkWeightsToLayers();
         void parseWeights();
         void constructBuilderMap();
         void callLayerBuilders();

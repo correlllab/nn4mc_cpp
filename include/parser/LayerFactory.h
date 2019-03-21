@@ -7,24 +7,24 @@
 class LayerFactory{
     // Abstract Factory that instantiates LayerFactory depending on the type.
     public:
-        virtual LayerBuilder * create()=0;
+        virtual LayerBuilder * create(std::string)=0;
 };
 // See src/LayerFactory.cpp for specific subclasses
 class Conv1DFactory : public LayerFactory {
               public:
-                     Conv1DBuilder* create(){return new Conv1DBuilder();}
+                     Conv1DBuilder* create(std::string id){return new Conv1DBuilder(id);}
 };
   
   
 class Conv2DFactory : public LayerFactory {
               public:
-                     Conv2DBuilder* create(){return new Conv2DBuilder();}
+                     Conv2DBuilder* create(std::string id){return new Conv2DBuilder(id);}
                                       
 };
 
 class DenseFactory : public LayerFactory {
           public:
-                 DenseBuilder* create(){return new DenseBuilder();} 
+                 DenseBuilder* create(std::string id){return new DenseBuilder(id);} 
                                            
                                            
                                       
@@ -32,42 +32,42 @@ class DenseFactory : public LayerFactory {
 
 class FlattenFactory : public LayerFactory {
           public:
-                                     FlattenBuilder* create(){return new FlattenBuilder();}
+                                     FlattenBuilder* create(std::string id){return new FlattenBuilder(id);}
                                            
                                       
 };
 
 class GRUFactory : public LayerFactory {
           public:
-                                     GRUBuilder* create(){return new GRUBuilder();}
+                                     GRUBuilder* create(std::string id){return new GRUBuilder(id);}
                                            
                                       
 };
 
 class LSTMFactory : public LayerFactory {
           public:
-                                     LSTMBuilder* create(){return new LSTMBuilder();}
+                                     LSTMBuilder* create(std::string id){return new LSTMBuilder(id);}
                                            
                                       
 };
 
 class MaxPooling1DFactory : public LayerFactory {
           public:
-                                     MaxPooling1DBuilder* create(){return new MaxPooling1DBuilder();}
+                                     MaxPooling1DBuilder* create(std::string id){return new MaxPooling1DBuilder(id);}
                                            
                                       
 };
 
 class MaxPooling2DFactory : public LayerFactory {
           public:
-                                     MaxPooling2DBuilder* create(){return new MaxPooling2DBuilder();}
+                                     MaxPooling2DBuilder* create(std::string id){return new MaxPooling2DBuilder(id);}
                                            
                                       
 };
 
 class SimpleRNNFactory : public LayerFactory {
           public:
-                                     SimpleRNNBuilder* create(){return new SimpleRNNBuilder();}
+                                     SimpleRNNBuilder* create(std::string id){return new SimpleRNNBuilder(id);}
                                            
                                       
 };

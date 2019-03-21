@@ -42,49 +42,14 @@ void HDF5Parser::parseWeights(){
       H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
       Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
-      od_weights.WM = this->weightsMap;
+      od_weights.LM = this->layerMap;
       
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
 
-      this->weightsMap= od_weights.WM;
+      this->layerMap= od_weights.LM;
 
 }
 
-void HDF5Parser::linkWeightsToLayers(){
-    
-    cout<< "PARSER: Printing Layer Map: "<<endl;
-    for (auto const& x : layerMap){ 
-        //cout<< x.first << " "<< x.second->identifier <<endl;
-        x.second->WB= &this->weightsMap[x.first];
-    }
-
-    cout << "PARSER: Weights Linked! " << endl;
-
-}
-
-/*
-void HDF5Parser::parseNeuralNetworkArchitecture(){
-
-    const H5std_string FILE_NAME( this->file_name );
-    H5File file = H5File( FILE_NAME, H5F_ACC_RDONLY );
-    Group group = Group( file.openGroup( "model_weights" ));
-    
-    struct opdata odnn; // local var
-    // Copying existing variables from object attribute:
-    odnn.BM = this->BuilderMap;
-    std::copy(this->layer_ids.begin(), this->layer_ids.end(), std::back_inserter(odnn.layer_ids));
-    std::copy(this->layer_edges.begin(), this->layer_edges.end(), std::back_inserter(odnn.layer_edges));
-    std::copy(this->layerBuilderVector.begin(), this->layerBuilderVector.end(), std::back_inserter(odnn.lBV));
-    
-    // This is what calls the callback function:
-    herr_t rat= H5Literate(group.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, network_callback, (void*)&odnn);
-    // My vector of factories if layerBuilderVector()    
-    std::copy(odnn.lBV.begin(), odnn.lBV.end(), std::back_inserter(this->layerBuilderVector));
-    std::copy(odnn.layer_edges.begin(), odnn.layer_edges.end(), std::back_inserter(this->layer_edges));
-    std::copy(odnn.layer_ids.begin(), odnn.layer_ids.end(), std::back_inserter(this->layer_ids));
-    std::cout<< "Neural Network Arch Parsed!" << std::endl;
-
-} */
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
@@ -93,7 +58,7 @@ void HDF5Parser::callLayerBuilders(){
       
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
-            this->layerBuilderVector[i]->create()->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
+            this->layerBuilderVector[i]->create(it.value()["config"]["name"])->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
             
             i++;
         }
@@ -163,7 +128,6 @@ int HDF5Parser::parse()
       
       // Parse Weights:
       this->parseWeights();
-      this->linkWeightsToLayers(); 
       std::cout<< "PARSER: Parsing complete!"<<std::endl;
     
       return 0;
@@ -191,32 +155,11 @@ int HDF5Parser::parse()
    }
 return 0; 
 }
-/*
-herr_t
-network_callback(hid_t loc_id, const char *name, const H5L_info_t *linfo, void *operator_data)
-{
 
-    // Neural Network Parsing:
-    struct opdata *od = (struct opdata *) operator_data;
-    
-    std::string s(name);
-    std::string delimiter= "_";
-    std::string token;
-    od->layer_ids.push_back(s);  
-    size_t pos=0;
-    while ((pos=s.find(delimiter)) != std::string::npos){
-        token= s.substr(0, pos);
-        s.erase(0, pos+delimiter.length());
-    }
-    od->lBV.push_back(od->BM[token]);
-    return 0;
-}
-*/
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
-
-    hid_t group;
+hid_t group;
     hid_t status;
     hid_t attribute;
     H5O_info_t infobuf;
@@ -225,18 +168,14 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 
     switch(infobuf.type){
-        case H5O_TYPE_GROUP:{
-            //cout << "Group : " << name << endl;
-            break;
-                            }
         case H5O_TYPE_DATASET:{
-            //cout<< "Dataset: " << name;
-            // name is the layer_id
             
     // NEED TO PARSE EITHER WEIGHT OR BIAS 
     std::string s(name);
     std::string delimiter= "/";
     std::string layer_id;
+
+    // Parsing matching layer id:
     size_t pos=0;
     while ((pos=s.find(delimiter)) != std::string::npos){
         layer_id= s.substr(0, pos);
@@ -252,27 +191,29 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             hsize_t dims[rank];
             H5Sget_simple_extent_dims(dataspace, dims, NULL);
             std::vector<unsigned int> tensor_dims;
-            
-            //cout<< "PARSER: dimensions: ";
+           
+            //Parsing dimensions for Tensor
             for (int i=0; i<rank; i++) {
-             //   cout<< dims[i] << "  ";            
                 tensor_dims.push_back((unsigned int)dims[i]);
             }
-            //cout<<endl;
-             
-            // TODO: handle the data type specific to the output type, 
-            // not only <double>
-            Tensor<float> T(tensor_dims); 
+            
+            Tensor<double> T(tensor_dims); //assuming float
             float *rbuf;
             herr_t ret;
+           
+            // getting dimensions of flat rbuf
+            // Dana TODO: Make a method that allows you to assign already flat 
+            // array into tensor without having to index and given the size so
             int flat=1;
             for (int i=0; i<rank; i++){
                 flat*= dims[i];
             }
+
             rbuf= new float [flat];
-            ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
+            ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf);  // this is what populated rbuf
             
             //flattened parsed weights are in rbuf
+            //Dana TODO: Template that removes the need to do this
             switch(rank){
                 case 1:
                     {
@@ -311,12 +252,17 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                     break;
 
             }
+            delete rbuf; // not needed anymore
+
+            // Create weights:
+            Weight wb(layer_id, tensor_dims);
+            wb.values= &T;
 
             if (s.compare("kernel:0")){
-                od->WM[layer_id].W = &T;
+                od->LM[layer_id]->w = &wb;
 
             } else{
-                od->WM[layer_id].b = &T;
+                od->LM[layer_id]->b = &wb;
             }
 
             ret= H5Dclose(dset); 
