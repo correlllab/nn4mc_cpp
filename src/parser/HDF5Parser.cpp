@@ -51,6 +51,19 @@ void HDF5Parser::parseWeights(){
 
 }
 
+void HDF5Parser::constructNeuralNetwork(){
+    
+    Layer* l= new InputLayer("input_1");
+    this->NN.addLayer(l);
+    this->NN.addEdge(l, this->layerMap.begin());
+    for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
+        this->NN.addLayer(it->second); // adding layers
+        this->NN.addEdge(l, it->second);
+        l= it->second;
+    }
+
+}
+
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
@@ -207,7 +220,7 @@ hid_t group;
                 }
 
                 rbuf= new float [flat];
-                ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf);  // this is what populated rbuf
+                ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
                 
                 //flattened parsed weights are in rbuf
                 //Dana TODO: Template that removes the need to do this
