@@ -13,11 +13,11 @@ int main(){
         std::cout << P.layer_ids[i]<< std::endl;
     }
     std::cout << "EXAMPLE: Calling layer.identifier"<<std::endl;
+
     // Access NeuralNetwork nodes with: P.NN
     
+    P.NN.BFS();
 
-    // The layer ids will map to layer objects. The way to obtain the weights and biases is through an 
-    //  object called WB of the Weights type. This type contains two tensor pointers: Weights (W) and biases (b)
 
     return 0;
 }
