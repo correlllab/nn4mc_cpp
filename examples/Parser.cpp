@@ -1,5 +1,3 @@
-#include <iostream>
-#include "parser/Parser.h"
 #include "parser/HDF5Parser.h"
 
 int main(){
@@ -7,10 +5,7 @@ int main(){
     HDF5Parser P("../data/weights.best.hdf5");
     P.parse();
 
-    // Access NeuralNetwork nodes with: P.NN
-    
-    P.NN.BFS(); // for example
-
+    P.NN.BFS(); // P.NN is the neural network with all the loaded nodes and (hopefully) correct information 
 
     return 0;
 }
