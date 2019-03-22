@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
-#include "datastructures/tensor.h"
+#include "tensor.h"
 
 
 class Weight
