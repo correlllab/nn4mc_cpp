@@ -4,14 +4,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "datastructures/weights.h"
+#include "weights.h"
 #include <map>
 
 
 class Layer{
 
     // Types of layers defined, and number of defined layers
-    static std::array<std::string, 9> layer_types; 
+    static std::array<std::string, 9> layer_types;
 
     public:
         static std::string type;
@@ -58,12 +58,12 @@ class Conv2D : public Layer{
     public:
         static std::string type;
         Conv2D(std::string id){this->identifier= id;}
-        void setLayer(){} 
+        void setLayer(){}
         bool isInput() {return false;}
 };
 
 class Dense : public Layer{
-    
+
 
     public:
         int units;
@@ -79,7 +79,7 @@ class Dense : public Layer{
 
 
 class Flatten : public Layer{
-    
+
 
     public:
         static std::string type;
@@ -89,7 +89,7 @@ class Flatten : public Layer{
 };
 
 class MaxPooling1D : public Layer{
-    
+
 
     public:
         int pool_size;
@@ -105,7 +105,7 @@ class MaxPooling1D : public Layer{
 } ;
 
 class MaxPooling2D: public Layer{
-    
+
 
     public:
         std::vector<int> pool_size;
@@ -121,7 +121,7 @@ class MaxPooling2D: public Layer{
 };
 
 class SimpleRNN : public Layer{
-    
+
 
     public:
         int units;

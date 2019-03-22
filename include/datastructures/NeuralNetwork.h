@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include "datastructures/weights.h"
-#include "datastructures/Layer.h"
+#include "weights.h"
+#include "Layer.h"
 #include <string>
 #include <list>
 
