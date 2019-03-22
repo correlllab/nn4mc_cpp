@@ -4,8 +4,7 @@ int main(){
     
     HDF5Parser P("../data/weights.best.hdf5");
     P.parse();
-
-    P.NN.BFS(); // P.NN is the neural network with all the loaded nodes and (hopefully) correct information 
+    P.NN.BFS();  
 
     return 0;
 }

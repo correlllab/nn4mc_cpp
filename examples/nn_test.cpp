@@ -1,4 +1,4 @@
-#include "../include/datastructures/NeuralNetwork.h"
+#include "datastructures/NeuralNetwork.h"
 #include <vector>
 
 int main()
@@ -50,7 +50,7 @@ int main()
   while(tempw != NULL)
   {
     std::cout<<tempw->identifier << std::endl;
-    tempw = net.getNextWeight;
+    tempw = net.getNextWeight();
   }
 
   //////////////////////////////////////////
