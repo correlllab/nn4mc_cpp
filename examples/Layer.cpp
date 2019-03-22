@@ -81,5 +81,3 @@ InputLayer::InputLayer(std::string id) : Layer(id)
 {
 	layer_type = InputLayer::type;
 }
-=======
->>>>>>> 8fdda17c0f1834e8ea1ae99b3c1420a82e1f6c1d:examples/Layer.cpp

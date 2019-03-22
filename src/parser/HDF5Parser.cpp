@@ -52,15 +52,15 @@ void HDF5Parser::parseWeights(){
 }
 
 void HDF5Parser::constructNeuralNetwork(){
-    
     Layer* l= new InputLayer("input_1");
     this->NN.addLayer(l);
-    this->NN.addEdge(l, this->layerMap.begin());
     for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         this->NN.addLayer(it->second); // adding layers
         this->NN.addEdge(l, it->second);
         l= it->second;
     }
+
+    cout<< "PARSER: Neural Network Nodes and Edges Built!"<<endl;
 
 }
 
@@ -84,12 +84,6 @@ void HDF5Parser::buildEdges(){
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
-
-    /*
-    for (int i=0; i<this->layer_edges.size(); ++i){
-        cout<< this->layer_edges[i].first << " "<< this->layer_edges[i].second <<endl;
-    }*/
-
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -142,6 +136,8 @@ int HDF5Parser::parse()
       
       // Parse Weights:
       this->parseWeights();
+
+      this->constructNeuralNetwork();
       std::cout<< "PARSER: Parsing complete!"<<std::endl;
     
       return 0;
