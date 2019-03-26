@@ -1,4 +1,4 @@
-#include "Layer.h"
+#include "datastructures/Layer.h"
 
 std::string Layer::type = std::string("abstract");
 std::string Conv1D::type = std::string("conv1d");

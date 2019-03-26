@@ -8,8 +8,8 @@
 #include "generator/layer_generator.h"
 #include "generator/code_generator.h"
 
-#include "Layer.h"
-#include "NeuralNetwork.h"
+#include "datastructures/Layer.h"
+#include "datastructures/NeuralNetwork.h"
 
 /** SIMPLE EXAMPLE
 **/

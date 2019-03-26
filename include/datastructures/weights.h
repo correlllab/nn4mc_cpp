@@ -14,10 +14,11 @@ class Weight
         std::string identifier;
         Tensor<double>* values;
 
-        Weight(std::string id, std::vector<unsigned int> v){
+        Weight(std::string id, std::vector<unsigned int> v);
+        /*{
             this->identifier= id;
-        }
-        ~Weight(){}
+        }*/
+        ~Weight();//{}
 
         Tensor<double>* get_weight_tensor();
 };

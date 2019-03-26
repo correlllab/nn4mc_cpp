@@ -21,6 +21,21 @@ gcc testing.c
 That will allow you to compile and even print partial results by typing `./a.out` for debugging purposes.
 
 
+### PREREQUISITES
+This code requires JSON C++ and H5C++, which should be downloaded into the `/lib` folder.  To get JSON C++, run the following commands:
+```
+mkdir lib
+cd lib
+git clone https://github.com/nlohmann/json
+```
+
+Within the `/lib` folder, the H5C++ library can be installed by the following commands:
+```
+TODO: GET INSTALLATION OF H5C++ WORKING WITH CMake
+```
+
+
+
 ### BUILDING
 Building is done using cmake.  From the main directory:
 

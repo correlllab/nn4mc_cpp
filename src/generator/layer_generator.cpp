@@ -1,5 +1,5 @@
 #include "generator/layer_generator.h"
-#include "Layer.h"
+#include "datastructures/Layer.h"
 
 #include <fstream>
 #include <string>

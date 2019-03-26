@@ -1,5 +1,6 @@
 # The name of the project
 PROJECT (nn4mp)
+
 # Minimum version of cmake required
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
@@ -21,31 +22,23 @@ SET (nn4mp_VERSION_MINOR 0)
 # Bring the headers and source files into the project
 INCLUDE_DIRECTORIES (src)
 INCLUDE_DIRECTORIES (include)
-INCLUDE_DIRECTORIES (include/cget/include)
+INCLUDE_DIRECTORIES (libraries)
 
-FILE (GLOB CORE_LIB src/*.cpp)
-FILE (GLOB DATASTRUCTURE_LIB src/datastructures/*.cpp)
-FILE (GLOB GENERATOR_LIB src/generator/*.cpp)
+# Add the directory for JSON
+ADD_SUBDIRECTORY(lib/json)
+
+FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp)# src/parser/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
-ADD_LIBRARY (nn4mp_datastructures SHARED ${DATASTRUCTURE_LIB})
-ADD_LIBRARY (nn4mp_code_generator SHARED ${GENERATOR_LIB})
 
+TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE nlohmann_json::nlohmann_json)
 
 # Add the executable
 ADD_EXECUTABLE (tensor_test examples/tensor_test.cpp)
 ADD_EXECUTABLE (generator_test examples/generator_test.cpp)
+ADD_EXECUTABLE (nn_test examples/nn_test.cpp)
 
-TARGET_LINK_LIBRARIES (tensor_test nn4mp_datastructures)
-
+TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
-TARGET_LINK_LIBRARIES (generator_test nn4mp_datastructures)
-TARGET_LINK_LIBRARIES (generator_test nn4mp_code_generator)
-#TARGET_LINK_LIBRARIES (generator_test nn4mp_layers)
-
-# Link the output files, and GTK+ libraries
-
-# add the install targets
-# add_executable(src HDF5Parser.cpp)
-# target_link_libraries(src h5cpp)
+TARGET_LINK_LIBRARIES (nn_test nn4mp_core)

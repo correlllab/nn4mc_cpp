@@ -19,6 +19,7 @@ class Layer{
         std::string identifier;
         Weight* w;
         Weight* b;
+        Layer(std::string id);
         virtual void setLayer() = 0;
         virtual ~Layer() {};
         virtual bool isInput() = 0;
@@ -37,7 +38,7 @@ class Conv1D : public Layer{
 
     public:
         static std::string type;
-        Conv1D(std::string id){this->identifier = id;}
+        Conv1D(std::string id);//{this->identifier = id;}
         void setLayer(){}
         bool isInput() {return false;}
 
@@ -57,7 +58,7 @@ class Conv2D : public Layer{
 
     public:
         static std::string type;
-        Conv2D(std::string id){this->identifier= id;}
+        Conv2D(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -72,7 +73,7 @@ class Dense : public Layer{
 
     public:
         static std::string type;
-        Dense(std::string id){this->identifier= id;}
+        Dense(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -83,7 +84,7 @@ class Flatten : public Layer{
 
     public:
         static std::string type;
-        Flatten(std::string id){this->identifier= id;}
+        Flatten(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -99,7 +100,7 @@ class MaxPooling1D : public Layer{
 
     public:
         static std::string type;
-        MaxPooling1D(std::string id){this->identifier=id;}
+        MaxPooling1D(std::string id);//{this->identifier=id;}
         void setLayer(){}
         bool isInput() {return false;}
 } ;
@@ -115,7 +116,7 @@ class MaxPooling2D: public Layer{
 
     public:
         static std::string type;
-        MaxPooling2D(std::string id){this->identifier= id;}
+        MaxPooling2D(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -130,7 +131,7 @@ class SimpleRNN : public Layer{
 
     public:
         static std::string type;
-        SimpleRNN(std::string id){this->identifier= id;}
+        SimpleRNN(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -151,7 +152,7 @@ class GRU: public Layer{
     public:
         static std::string type;
 
-        GRU(std::string id){this->identifier= id;}
+        GRU(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -174,7 +175,7 @@ class LSTM: public Layer{
     public:
         static std::string type;
 
-        LSTM(std::string id){this->identifier= id;}
+        LSTM(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
 };
@@ -183,7 +184,7 @@ class InputLayer: public Layer{
     public:
       static std::string type;
       std::vector<int> layer_size;
-      InputLayer(std::string id){this->identifier=id;}
+      InputLayer(std::string id);//{this->identifier=id;}
       void setLayer(){}
       bool isInput() {return true;};
 };

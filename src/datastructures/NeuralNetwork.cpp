@@ -1,4 +1,4 @@
-#include "../../include/datastructures/NeuralNetwork.h"
+#include "datastructures/NeuralNetwork.h"
 
 NeuralNetwork::NeuralNetwork()
 {
