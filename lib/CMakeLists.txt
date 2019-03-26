@@ -1,0 +1,6 @@
+if(NN4MP_USE_EXTERNAL_JSON)
+  FIND_PACKAGE(nlohmann_json 3.2.0 REQUIRED)
+else()
+  SET(JSON_BuildTests OFF CACHE INTERNAL "")
+  ADD_SUBDIRECTORY(nlohmann_json)
+endif()
