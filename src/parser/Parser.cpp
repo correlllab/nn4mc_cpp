@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Parser.h"
-#include "HDF5Parser.h"
+#include "parser/Parser.h"
+#include "parser/HDF5Parser.h"
 
 int main(){
     

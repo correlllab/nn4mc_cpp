@@ -1,0 +1,20 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+
+/*************
+* input.cpp
+*
+* Input Layer
+* Hardware Plateform: ESP-32
+*
+* This file defines the functions needed to build a 1D Convolutional layer, and perform a forward pass.
+*/
+
+#include "input.h"
+
+<%END_DEFINITION_TEMPLATE>
+
+<%BEGIN_INITIALIZE_TEMPLATE>
+<%END_INITIALIZE_TEMPLATE>
+
+<%BEGIN_CALL_TEMPLATE>
+<%END_CALL_TEMPLATE>

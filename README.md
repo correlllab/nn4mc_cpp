@@ -22,11 +22,17 @@ That will allow you to compile and even print partial results by typing `./a.out
 
 
 ### PREREQUISITES
-This code requires JSON C++ and H5C++, which should be downloaded into the `/lib` folder.  To get JSON C++, run the following commands, which will clone the JSON C++ tree into `lib/nlohmann_json`:
+This code requires JSON C++ and H5C++, which should be downloaded into the `/lib` folder.  
+
+#### JSON C++
+To get JSON C++, run the following commands, which will clone the JSON C++ tree into `lib/nlohmann_json`:
 ```
 cd lib
 git clone https://github.com/nlohmann/json nlohmann_json
 ```
+
+#### H5C++
+
 
 Within the `/lib` folder, the H5C++ library can be installed by the following commands:
 ```
