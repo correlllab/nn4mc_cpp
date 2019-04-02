@@ -1,5 +1,6 @@
 ﻿# nn4mp: Neural Networks for Microcontrollers
-### Started by Sarah Aguasvivas (January 2019)
+### Started by Sarah Aguasvivas, Dana Hughes and Cooper Simpson (January 2019)
+
 
 
 
@@ -22,6 +23,7 @@ That will allow you to compile and even print partial results by typing `./a.out
 
 
 ### PREREQUISITES
+
 This code requires JSON C++ and H5C++, which should be downloaded into the `/lib` folder.  
 
 #### JSON C++
@@ -33,12 +35,13 @@ git clone https://github.com/nlohmann/json nlohmann_json
 
 #### H5C++
 
+Go to the HDF5 Group [download website](https://www.hdfgroup.org/downloads/) and install HDF5. 
 
-Within the `/lib` folder, the H5C++ library can be installed by the following commands:
-```
-TODO: GET INSTALLATION OF H5C++ WORKING WITH CMake
-```
+`cd /usr/lib/x86_64-linux-gnu`
 
+`sudo ln -s libhdf5_serial.so.8.0.2 libhdf5.so`
+
+`sudo ln -s libhdf5_serial_hl.so.8.0.2 libhdf5_hl.so`
 
 
 ### BUILDING
