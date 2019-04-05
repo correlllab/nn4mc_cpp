@@ -16,7 +16,6 @@ using json= nlohmann::json;
 class Parser{
     // Concrete class for parser obejcts. 
     public: 
-            NeuralNetwork NN;     
             std::string file_format;
             std::string file_name;
             virtual int parse() = 0;

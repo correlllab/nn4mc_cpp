@@ -54,7 +54,6 @@ struct opdataWeights{
 class HDF5Parser : public Parser{
     public: 
         int parse();
-        NeuralNetwork NN;
         typedef std::map<std::string, LayerFactory*> builder_map;
         builder_map BuilderMap;
         std::vector<LayerFactory*> layerBuilderVector;
@@ -72,7 +71,7 @@ class HDF5Parser : public Parser{
         void constructBuilderMap();
         void callLayerBuilders();
         void buildEdges();
-        void constructNeuralNetwork();
+        NeuralNetwork* constructNeuralNetwork();
 };
 
 
