@@ -1,8 +1,8 @@
 #include "parser/HDF5Parser.h"
 
 int main(){
-    NeuralNetwork * NN; 
     HDF5Parser P("../data/weights.best.hdf5");
+    NeuralNetwork * NN; 
     P.parse();
     NN = P.constructNeuralNetwork();
     NN->BFS();

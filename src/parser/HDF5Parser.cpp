@@ -52,7 +52,7 @@ void HDF5Parser::parseWeights(){
 }
 
 NeuralNetwork* HDF5Parser::constructNeuralNetwork(){
-    NeuralNetwork* NN;
+    NeuralNetwork* NN = new NeuralNetwork();
     Layer* l= new InputLayer("input_1");
     NN->addLayer(l);
     for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  

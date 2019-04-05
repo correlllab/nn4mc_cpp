@@ -33,6 +33,7 @@ ADD_SUBDIRECTORY(lib)
 
 # Bring the headers and source files into the project
 INCLUDE_DIRECTORIES (src)
+INCLUDE_DIRECTORIES (data)
 INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (libraries)
 
