@@ -10,6 +10,7 @@
 
 struct LayerEdge;
 struct LayerNode;
+class nn_iterator;
 
 struct LayerEdge //Struct for edges in graph.
 {
@@ -45,6 +46,7 @@ struct LayerNode //Struct for each node in the graph representing a layer in the
 class NeuralNetwork
 {
   private:
+    friend class nn_iterator;
   public:
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode*> input; //Input layers for graph.
@@ -71,6 +73,10 @@ class NeuralNetwork
 
     LayerNode* getNextNode(); //Returns next layer
     Weight* getNextWeight(); //Returns next weight
+    iterator begin();
+    iterator end();
+
+    void fixedToFloat(int width, int size);
 };
 
 #endif

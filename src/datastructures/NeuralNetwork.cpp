@@ -142,3 +142,34 @@ Weight* NeuralNetwork::getNextWeight()
   else
     return NULL;
 }
+
+iterator begin()
+{
+
+}
+
+iterator end()
+{
+
+}
+
+void NeuralNetwork::fixedToFloat(int width, int size)
+{
+  int mask = (1<<width)-1;
+
+  BFS();
+  Weight* w;
+  Tensor<double>* t;
+  w = getNextWeight();
+
+  float pt;
+  while(w != NULL)
+  {
+    t = w.get_weight_tensor();
+
+    t.value_at(i)
+
+    w = getNextWeight();
+  }
+
+}
