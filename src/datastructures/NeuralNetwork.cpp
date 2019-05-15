@@ -143,19 +143,22 @@ Weight* NeuralNetwork::getNextWeight()
     return NULL;
 }
 
-iterator begin()
+iterator begin() //Returns and iterator to first input layer.
 {
-  
+  return nn_iterator(&this,input[0]);
 }
 
-iterator end()
+iterator end() //Returns iterator with layernode as null to indicate end.
 {
-
+  return nn_iterator(&this, NULL);
 }
 
+//Width is total word length (i.e. 32 bits)
+//Size is number of bits needed for integer part
 void NeuralNetwork::fixedToFloat(int width, int size)
 {
-  int mask = (1<<width)-1;
+  int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
+  int fraction = 1<<width-size
 
   BFS();
   Weight* w;
@@ -167,9 +170,11 @@ void NeuralNetwork::fixedToFloat(int width, int size)
   {
     t = w.get_weight_tensor();
 
-    t.value_at(i)
+    for(int i = 0; i<t->num_elements; i++)
+    {
+      t->value_at(i) = t->value_at(i)<<(width-size);
+    }
 
     w = getNextWeight();
   }
-
 }
