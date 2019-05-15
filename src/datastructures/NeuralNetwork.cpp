@@ -145,7 +145,7 @@ Weight* NeuralNetwork::getNextWeight()
 
 iterator begin()
 {
-
+  
 }
 
 iterator end()
