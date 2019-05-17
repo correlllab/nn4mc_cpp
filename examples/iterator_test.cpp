@@ -1,4 +1,6 @@
 #include "datastructures/NeuralNetwork.h"
+// #include "../include/datastructures/NeuralNetwork.h"
+#include <iostream>
 
 //Example usage for NeuralNetwork iterator.
 
@@ -34,6 +36,12 @@ int main()
 
   NeuralNetwork::iterator i;
 
+  for(i = nn.begin(); i != nn.end(); i++)
+  {
+    std::cout << (*i).layer->identifier << std::endl;
+  }
+
+  std::cout << "Hey Hey Hey" << std::endl;
 
   delete l1;
   delete l2;

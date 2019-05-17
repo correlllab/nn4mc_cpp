@@ -1,4 +1,5 @@
 #include "datastructures/NeuralNetwork.h"
+// #include "../../include/datastructures/NeuralNetwork.h"
 
 NeuralNetwork::NeuralNetwork()
 {
@@ -230,7 +231,7 @@ nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right
 
   if(node == nn->input[0]) //Only if this is the beginning.
   {
-    for(int i=0; i<nn->input.size(); i++) //Add the input layers first
+    for(int i=1; i<nn->input.size(); i++) //Add the input layers first
     {
       nn->input[i]->visited = true;
       nodeList.push_back(nn->input[i]);
@@ -239,7 +240,7 @@ nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right
 
   if(!nodeList.empty())
   {
-    node = nodeList.front();
+    // node = nodeList.front();
     nodeList.pop_front();
 
     // this->nodes_ord.push_back(start); //Adding node order data.
@@ -256,6 +257,8 @@ nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right
         //std::cout << i->l->layer->identifier<<std::endl;
       }
     }
+    node = nodeList.front();
+    // std::cout << node->layer->identifier << std::endl;
     return copy;
   }
   else
