@@ -143,38 +143,124 @@ Weight* NeuralNetwork::getNextWeight()
     return NULL;
 }
 
-iterator begin() //Returns and iterator to first input layer.
+nn_iterator NeuralNetwork::begin() //Returns and iterator to first input layer.
 {
-  return nn_iterator(&this,input[0]);
+  return nn_iterator(this,input[0]);
 }
 
-iterator end() //Returns iterator with layernode as null to indicate end.
+nn_iterator NeuralNetwork::end() //Returns iterator with layernode as null to indicate end.
 {
-  return nn_iterator(&this, NULL);
+  return nn_iterator(this, NULL);
 }
 
 //Width is total word length (i.e. 32 bits)
 //Size is number of bits needed for integer part
-void NeuralNetwork::fixedToFloat(int width, int size)
+// void NeuralNetwork::fixedToFloat(int width, int size)
+// {
+//   int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
+//   int fraction = 1<<width-size;
+//
+//   BFS();
+//   Weight* w;
+//   Tensor<double>* t;
+//   w = getNextWeight();
+//
+//   float pt;
+//   while(w != NULL)
+//   {
+//     t = w->get_weight_tensor();
+//
+//     for(int i = 0; i<t->num_elements; i++)
+//     {
+//       t->value_at(i) = int(t->value_at(i))<<(width-size);
+//     }
+//
+//     w = getNextWeight();
+//   }
+// }
+
+
+/////////////////////////////////////////////////////////////
+
+nn_iterator& nn_iterator::operator++() //Prefix
 {
-  int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
-  int fraction = 1<<width-size
+  std::vector<LayerEdge>::iterator i;
 
-  BFS();
-  Weight* w;
-  Tensor<double>* t;
-  w = getNextWeight();
-
-  float pt;
-  while(w != NULL)
+  if(node == nn->input[0]) //Only if this is the beginning.
   {
-    t = w.get_weight_tensor();
-
-    for(int i = 0; i<t->num_elements; i++)
+    for(int i=0; i<nn->input.size(); i++) //Add the input layers first
     {
-      t->value_at(i) = t->value_at(i)<<(width-size);
+      nn->input[i]->visited = true;
+      nodeList.push_back(nn->input[i]);
     }
+  }
 
-    w = getNextWeight();
+  if(!nodeList.empty())
+  {
+    node = nodeList.front();
+    nodeList.pop_front();
+
+    // this->nodes_ord.push_back(start); //Adding node order data.
+    // this->weights.push_back(start->layer->w); //Adding weight data.
+    // this->weights.push_back(start->layer->b); //Adding bias data.
+
+    for(i=node->edges.begin(); i!=node->edges.end(); i++)
+    {
+      if(i->l->visited == false)
+      {
+        i->l->visited = true;
+        nodeList.push_back(i->l);
+
+        //std::cout << i->l->layer->identifier<<std::endl;
+      }
+    }
+    return *this;
+  }
+  else
+  {
+    node = NULL;
+    return *this;
+  }
+}
+
+nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right.
+{
+  nn_iterator copy = *this; //Confused about this because of the way assignment operator works.
+  std::vector<LayerEdge>::iterator i;
+
+  if(node == nn->input[0]) //Only if this is the beginning.
+  {
+    for(int i=0; i<nn->input.size(); i++) //Add the input layers first
+    {
+      nn->input[i]->visited = true;
+      nodeList.push_back(nn->input[i]);
+    }
+  }
+
+  if(!nodeList.empty())
+  {
+    node = nodeList.front();
+    nodeList.pop_front();
+
+    // this->nodes_ord.push_back(start); //Adding node order data.
+    // this->weights.push_back(start->layer->w); //Adding weight data.
+    // this->weights.push_back(start->layer->b); //Adding bias data.
+
+    for(i=node->edges.begin(); i!=node->edges.end(); i++)
+    {
+      if(i->l->visited == false)
+      {
+        i->l->visited = true;
+        nodeList.push_back(i->l);
+
+        //std::cout << i->l->layer->identifier<<std::endl;
+      }
+    }
+    return copy;
+  }
+  else
+  {
+    node = NULL;
+    return copy;
   }
 }
