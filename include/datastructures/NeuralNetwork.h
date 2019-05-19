@@ -77,7 +77,7 @@ class NeuralNetwork
     iterator begin();
     iterator end();
 
-    // void fixedToFloat(int width, int size);
+    void fixedToFloat(int width, int size);
 };
 
 class nn_iterator

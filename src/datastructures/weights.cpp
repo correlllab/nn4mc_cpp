@@ -1,5 +1,7 @@
 #include "datastructures/weights.h"
 #include "datastructures/tensor.h"
+// #include "../../include/datastructures/weights.h"
+// #include "../../include/datastructures/tensor.h"
 
 Weight::Weight(std::string id, std::vector<unsigned int> shape)
 {

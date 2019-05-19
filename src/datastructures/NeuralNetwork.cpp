@@ -1,5 +1,5 @@
-#include "datastructures/NeuralNetwork.h"
-// #include "../../include/datastructures/NeuralNetwork.h"
+// #include "datastructures/NeuralNetwork.h"
+#include "../../include/datastructures/NeuralNetwork.h"
 
 NeuralNetwork::NeuralNetwork()
 {
@@ -154,32 +154,31 @@ nn_iterator NeuralNetwork::end() //Returns iterator with layernode as null to in
   return nn_iterator(this, NULL);
 }
 
-//Width is total word length (i.e. 32 bits)
-//Size is number of bits needed for integer part
-// void NeuralNetwork::fixedToFloat(int width, int size)
-// {
-//   int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
-//   int fraction = 1<<width-size;
-//
-//   BFS();
-//   Weight* w;
-//   Tensor<double>* t;
-//   w = getNextWeight();
-//
-//   float pt;
-//   while(w != NULL)
-//   {
-//     t = w->get_weight_tensor();
-//
-//     for(int i = 0; i<t->num_elements; i++)
-//     {
-//       t->value_at(i) = int(t->value_at(i))<<(width-size);
-//     }
-//
-//     w = getNextWeight();
-//   }
-// }
+// Width is total word length (i.e. 32 bits)
+// Size is number of bits needed for integer part
+void NeuralNetwork::fixedToFloat(int width, int size)
+{
+  int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
+  int fraction = 1<<width-size;
 
+  BFS();
+  Weight* w;
+  Tensor<double>* t;
+  w = getNextWeight();
+
+  float pt;
+  while(w != NULL)
+  {
+    t = w->get_weight_tensor();
+
+    for(int i = 0; i<t->num_elements; i++)
+    {
+      (*t)[i] = int(t->value_at(i))<<(width-size);
+    }
+
+    w = getNextWeight();
+  }
+}
 
 /////////////////////////////////////////////////////////////
 

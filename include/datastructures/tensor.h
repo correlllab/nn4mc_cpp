@@ -1,6 +1,6 @@
 /**
 * \file tensor.h
-* Header file defining the Tensor class and associated Exceptions 
+* Header file defining the Tensor class and associated Exceptions
 *
 * \class Tensor
 *
@@ -37,7 +37,7 @@ class Tensor
 {
 	private:
 
-	public:	
+	public:
 		std::vector<unsigned int> offsets;
 		unsigned int num_elements;
 
@@ -52,6 +52,8 @@ class Tensor
 
 		DataType& operator()(unsigned int, ...);
 		DataType operator() (unsigned int, ...) const;
+		Tensor<DataType>& operator=(const Tensor &rhs);
+		DataType& operator[](int idx) {return *(data+idx);}
 
 		DataType value_at(unsigned int);
 		std::string to_string();
@@ -77,7 +79,7 @@ class BadIndexBoundsException : public std::exception
 /*******************
 * Tensor(std::vector<unsigned int>)
 *
-* The constructor takes a variable number of arguments, and populates 
+* The constructor takes a variable number of arguments, and populates
 * the dimensions array and offset array.
 */
 template <class DataType>
@@ -90,7 +92,7 @@ Tensor<DataType>::Tensor(std::vector<unsigned int> _shape)
 	// Now calculate the offsets for each index - this will simply
 	// be the product of the dimensionality of all indices following
 	// the current one
-	// Also, calculate the total number of elements - this will 
+	// Also, calculate the total number of elements - this will
 	// be the product of the dimensionality of all indices
 	unsigned int offset = 1;
 	num_elements = 1;
@@ -111,7 +113,7 @@ Tensor<DataType>::Tensor(std::vector<unsigned int> _shape)
 /**********
 * ~Tensor()
 *
-* The destructor simply cleans up the data allocated to storing the 
+* The destructor simply cleans up the data allocated to storing the
 * actual tensor
 */
 template <class DataType>
@@ -188,6 +190,17 @@ DataType Tensor<DataType>::operator()(unsigned int idx_0, ...) const
 	va_end(arguments);
 
 	return data[index];
+}
+
+template <class DataType>
+Tensor<DataType>& Tensor<DataType>::operator=(const Tensor &rhs)
+{
+	offsets = rhs.offsets;
+	num_elements = rhs.num_elements;
+	data = rhs.data;
+	shape = rhs.shape;
+
+	return *this;
 }
 
 template <class DataType>
