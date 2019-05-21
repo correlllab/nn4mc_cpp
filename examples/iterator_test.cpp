@@ -1,5 +1,5 @@
-// #include "datastructures/NeuralNetwork.h"
-#include "../include/datastructures/NeuralNetwork.h"
+#include "datastructures/NeuralNetwork.h"
+// #include "../include/datastructures/NeuralNetwork.h"
 #include <iostream>
 
 //Example usage for NeuralNetwork iterator.
@@ -35,6 +35,13 @@ int main()
   //Now create an iterator
 
   NeuralNetwork::iterator i;
+  NeuralNetwork::iterator j;
+
+  i = nn.begin();
+  j = nn.begin();
+
+  if(i == j) std::cout << "They are equal." << std::endl;
+  if(!(i != j)) std::cout << "They are not not equal." << std::endl;
 
   for(i = nn.begin(); i != nn.end(); i++)
   {
