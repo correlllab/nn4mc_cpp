@@ -60,7 +60,7 @@ class NeuralNetwork
 
     void addLayer(Layer* layer); //Adds a layer
     void addEdge(Layer* start, Layer* end); //Adds an edge from start to end.
-    
+
     iterator begin();
     iterator end();
 
@@ -69,6 +69,7 @@ class NeuralNetwork
 
 class nn_iterator
 {
+  //Test
   public:
     typedef LayerNode value_type;
     typedef LayerNode& reference;
