@@ -52,14 +52,7 @@ class NeuralNetwork
     std::vector<LayerNode*> layers; //All layers in graph
     std::vector<LayerNode*> input; //Input layers for graph.
 
-    std::vector<LayerNode*> nodes_ord; //Ordered list of nodes.
-    std::vector<Weight*> weights; //Weights
-
     LayerNode* findNode(std::string ID); //Finds node in graph
-    void DFS(LayerNode* start); //Call to recursive DFS
-
-    int idx_n; //Current index for nodes_ord.
-    int idx_w; //Current index for weights.
 
   public:
     NeuralNetwork(); //Constructor
@@ -67,13 +60,7 @@ class NeuralNetwork
 
     void addLayer(Layer* layer); //Adds a layer
     void addEdge(Layer* start, Layer* end); //Adds an edge from start to end.
-
-    void reset(); //Resets indices and visited boolean.
-    void BFS(); //BFS traversal and builds ordered layer and weight vector
-    void DFSPrint(); //Recursive DFS
-
-    LayerNode* getNextNode(); //Returns next layer
-    Weight* getNextWeight(); //Returns next weight
+    
     iterator begin();
     iterator end();
 
