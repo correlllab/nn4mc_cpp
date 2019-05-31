@@ -1,5 +1,4 @@
 #include "datastructures/NeuralNetwork.h"
-// #include "../include/datastructures/NeuralNetwork.h"
 #include <iostream>
 
 //Example usage for NeuralNetwork iterator.
