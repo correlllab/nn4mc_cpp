@@ -69,7 +69,6 @@ class NeuralNetwork
 
 class nn_iterator
 {
-  //Test
   public:
     typedef LayerNode value_type;
     typedef LayerNode& reference;
@@ -87,6 +86,12 @@ class nn_iterator
     nn_iterator& operator=(const nn_iterator &rhs) {nn = rhs.nn; node = rhs.node; nodeList = rhs.nodeList; return *this;}
     bool operator==(const nn_iterator &rhs) {return (nn == rhs.nn && node == rhs.node);}
     bool operator!=(const nn_iterator &rhs) {return (nn != rhs.nn || node != rhs.node);}
+
+    //Functions for code generation
+    Weight* getWeight();
+    Weight* getBias();
+    getInputs();
+    Layer* getLayer();
 
   private:
     NeuralNetwork* nn;
