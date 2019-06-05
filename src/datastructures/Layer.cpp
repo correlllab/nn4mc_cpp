@@ -13,7 +13,7 @@ std::string LSTM::type = std::string("lstm");
 std::string InputLayer::type = std::string("input");
 
 
-// Define the available layer types -- NOTE:  NOT ACTUALLY USING THIS!!!
+/* Define the available layer types -- NOTE:  NOT ACTUALLY USING THIS!!!
 std::array<std::string, 9> Layer::layer_types = { 	std::string("conv1d"),
 													std::string("conv2d"),
 													std::string("dense"),
@@ -24,7 +24,7 @@ std::array<std::string, 9> Layer::layer_types = { 	std::string("conv1d"),
 													std::string("gru"),
 													std::string("lstm")
 												};
-
+*/
 Layer::Layer(std::string id)
 {
 	identifier = id;

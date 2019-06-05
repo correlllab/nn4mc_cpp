@@ -91,7 +91,7 @@ class nn_iterator
 
     nn_iterator(NeuralNetwork* nn_, LayerNode* node_) : nn(nn_), node(node_) {nodeList.push_back(node);}
     nn_iterator() {}
-
+    ~nn_iterator() {}
     nn_iterator& operator++(); //Prefix, increment return.
     nn_iterator operator++(int dummy); //Postfix, return increment.
     reference operator*() {return *node;} //Needs to be diferent

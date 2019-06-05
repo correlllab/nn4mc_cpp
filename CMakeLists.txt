@@ -57,6 +57,7 @@ ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
 
+TARGET_LINK_LIBRARIES (iterator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
