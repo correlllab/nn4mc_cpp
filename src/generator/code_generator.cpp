@@ -67,6 +67,13 @@ void CodeGenerator::generate()
 	}
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
+	NeuralNetwork::iterator it;
+	
+	for(it=neural_net->begin(); it!=neural_net->end(); it++)
+	{
+		//
+	}
+	
 }
 
 void CodeGenerator::dump()

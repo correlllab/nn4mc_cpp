@@ -215,11 +215,12 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 		src_files.insert(std::pair<std::string, std::string>(layer_type, src_contents));
 
 		// Pull out the code needed to initialize and call functions for this type of layer
-		init_calls.insert(std::pair<std::string, std::string>());
-		fwd_calls.insert(std::pair<std::string, std::string>());
-
 		std::string initString = getInitString(src_template);
-		std::string callString = getCallString(src_template);;
+		std::string callString = getCallString(src_template);
+		
+		init_calls.insert(std::pair<std::string, std::string>(layer_type, initString));
+		fwd_calls.insert(std::pair<std::string, std::string>(layer_type, callString));
+
 	}
 
 	// Store the layer for later use
