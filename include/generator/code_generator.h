@@ -36,13 +36,18 @@ class CodeGenerator
 	static std::string LAYER_TEMPLATE_SRC_DIR;
 	static std::string PARAMETER_TEMPLATE_PATH;
 	static std::string PARAMETER_FILENAME;
+	static std::string NEURAL_NETWORK_FILENAME;
 	static std::string PARAMETER_DATATYPE;
 	static std::string LAYER_OUTPUT_DATATYPE;
 	static std::string INDEX_DATATYPE;
+	std::string NEURAL_NETWORK_FILE_BEGIN;
+	std::string NEURAL_NETWORK_FILE_END;
 
 	private:
 		std::string template_folder;
 		std::string output_folder;
+		
+		std::string network_file;;
 
 		// Code generators for weights and individual layers
 		WeightGenerator* weight_generator;

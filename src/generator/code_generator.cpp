@@ -5,9 +5,12 @@ std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
 std::string CodeGenerator::LAYER_TEMPLATE_SRC_DIR = "src/layers";
 std::string CodeGenerator::PARAMETER_TEMPLATE_PATH = "include";
 std::string CodeGenerator::PARAMETER_FILENAME = "neural_network_params.h";
+std::string CodeGenerator::NEURAL_NETWORK_FILENAME = "neural_network.h";
 std::string CodeGenerator::PARAMETER_DATATYPE = "const float";
 std::string CodeGenerator::LAYER_OUTPUT_DATATYPE = "float";
 std::string CodeGenerator::INDEX_DATATYPE = "int";
+std::string CodeGenerator::NEURAL_NETWORK_FILE_START = "<%BEGIN_TEMPLATE>";
+std::string CodeGenerator::NEURAL_NETWORK_FILE_END = "<%END_TEMPLATE>";
 
 /*******************
 * LayerGenerator(std::string template_header_directory, template_source_directory)
@@ -29,17 +32,26 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 
 	// Construct the paths for needed files
 	std::string network_param_template_path = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME + ".template";
+	std::string neural_network_file = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
+NEURAL_NETWORK_FILENAME + ".template";
 	std::string layer_include_template_path = template_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR;
 	std::string layer_src_template_path = template_folder + "/" + LAYER_TEMPLATE_SRC_DIR;
 
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE);
+	
+	std::ifstream template(neural_network_file);
+	
+	if(template.is_open())
+		network_file.assign( (std::istreambuf_iterator<char>(template)),		(std::istreambuf_iterator<char>()) );
+
 }
 
 CodeGenerator::~CodeGenerator()
 {
-
+	delete weight_generator;
+	delete layer_generator;
 }
 
 void CodeGenerator::generate()
@@ -68,11 +80,20 @@ void CodeGenerator::generate()
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
 	NeuralNetwork::iterator it;
+	std::string filler = "";
 	
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
-		//
+		//For each layer extract call string and add to filler.
+		filler += layer_generator->getMapFwd((*it).layer->layer_type);
+		filler += "\n";
 	}
+	
+	size_t delimiter_position = network_file.find(NEURAL_NETWORK_FILE_START);
+	network_file.replace(delimiter_position, NEURAL_NETWORK_FILE_START.length(), filler);
+	
+	delimiter_position = network_file.find(NEURAL_NETWORK_FILE_END);
+	network_file.replace(delimiter_position, NEURAL_NETWORK_FILE_END.length(), "");
 	
 }
 
@@ -84,4 +105,13 @@ void CodeGenerator::dump()
 	// Write all of the layer header and source
 	layer_generator->dumpLayerHeaders(output_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR);
 	layer_generator->dumpLayerSources(output_folder + "/" + LAYER_TEMPLATE_SRC_DIR);
+	
+	std::ofstream outfile(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + NEURAL_NETWORK_FILENAME);
+	
+	if(outfile.is_open())
+	{
+		outfile << network_file;
+		outfile.close();
+	}
+	
 }

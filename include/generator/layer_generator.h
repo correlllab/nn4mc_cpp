@@ -88,6 +88,27 @@ class LayerGenerator
 		void addLayer(Layer*);
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
+		
+		std::string getMapInit(std::string type)
+		{
+			std::map<std::string, std::string>::iterator it = init_calls.find(type);
+			
+			if(it != init_calls.end())
+				return *it;
+				
+			else
+				return "";
+		}
+		std::string getMapFwd(std::string type)
+		{
+			std::map<std::string, std::string>::iterator it = fwd_calls.find(type);
+			
+			if(it != fwd_calls.end())
+				return *it;
+				
+			else
+				return "";
+		}
 };
 
 
