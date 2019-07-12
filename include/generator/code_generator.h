@@ -20,6 +20,7 @@
 *
 */
 
+#include "generator/neural_network_generator.h"
 #include "generator/layer_generator.h"
 #include "generator/weight_generator.h"
 #include "datastructures/NeuralNetwork.h"
@@ -36,12 +37,9 @@ class CodeGenerator
 	static std::string LAYER_TEMPLATE_SRC_DIR;
 	static std::string PARAMETER_TEMPLATE_PATH;
 	static std::string PARAMETER_FILENAME;
-	static std::string NEURAL_NETWORK_FILENAME;
 	static std::string PARAMETER_DATATYPE;
 	static std::string LAYER_OUTPUT_DATATYPE;
 	static std::string INDEX_DATATYPE;
-	std::string NEURAL_NETWORK_FILE_BEGIN;
-	std::string NEURAL_NETWORK_FILE_END;
 
 	private:
 		std::string template_folder;
@@ -52,6 +50,7 @@ class CodeGenerator
 		// Code generators for weights and individual layers
 		WeightGenerator* weight_generator;
 		LayerGenerator* layer_generator;
+		NNGenerator* nn_generator;
 
 		NeuralNetwork* neural_net;
 

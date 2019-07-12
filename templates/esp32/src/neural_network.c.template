@@ -1,0 +1,11 @@
+#include "neural_network.h"
+
+void buildNN()
+{
+    <%BUILD_FUNCTION>
+{
+
+Void fwdNN(<%WEIGHT_DATATYPE>* input, <%WEIGHT_DATATYPE>* output)
+{
+    <%FWD_FUNCTION>
+}
