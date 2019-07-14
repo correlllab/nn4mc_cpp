@@ -11,6 +11,7 @@ class NNGenerator
     	//Delimiters
     	static std::string INIT; 
     	static std::string FWD;
+    	std::map<std::string, std::string> delimiters;
     
     	//Paths to header and source file for neural_network.
         std::string header_template_path;
@@ -26,6 +27,8 @@ class NNGenerator
     
     	//Loads the templates using the paths into the header and source.
         void loadTemplates();
+        
+        //Takes delimiter and 
         
     public:
     

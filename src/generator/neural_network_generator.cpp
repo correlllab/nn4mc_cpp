@@ -15,6 +15,16 @@ NNGenerator::NNGenerator(std::string header_path, std::string src_path)
 	header_template_path = header_path;
 	source_template_path = src_path;
 	
+	delimiters.insert(std::pair<std::string,std::string>("<%LAYER_NAME","identifier"));
+	delimiters.insert(std::pair<std::string,std::string>("<%WEIGHT_NAME>","w->identifier"));
+	delimiters.insert(std::pair<std::string,std::string>("<%BIAS_NAME>","b->identifier"));
+	delimiters.insert(std::pair<std::string,std::string>("<%KERNEL_SIZE>",""));
+	delimiters.insert(std::pair<std::string,std::string>("<%STRIDE_SIZE>","strides"));
+	delimiters.insert(std::pair<std::string,std::string>("<%INPUT_CHANNELS>",""));
+	delimiters.insert(std::pair<std::string,std::string>("<%OUTPUT_CHANNELS>",""));
+	delimiters.insert(std::pair<std::string,std::string>("<%INPUT_SIZE>",""));
+	delimiters.insert(std::pair<std::string,std::string>("<%OUTPUT_SIZE>",""));
+	
 	loadTemplates();
 }
 NNGenerator::~NNGenerator()
