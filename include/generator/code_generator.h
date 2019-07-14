@@ -36,7 +36,10 @@ class CodeGenerator
 	static std::string LAYER_TEMPLATE_INCLUDE_DIR;
 	static std::string LAYER_TEMPLATE_SRC_DIR;
 	static std::string PARAMETER_TEMPLATE_PATH;
+	static std::string SOURCE_TEMPLATE_PATH;
 	static std::string PARAMETER_FILENAME;
+	static std::string HEADER_FILENAME;
+	static std::string SOURCE_FILENAME;
 	static std::string PARAMETER_DATATYPE;
 	static std::string LAYER_OUTPUT_DATATYPE;
 	static std::string INDEX_DATATYPE;

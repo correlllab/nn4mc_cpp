@@ -84,10 +84,21 @@ class LayerGenerator
 
 		LayerGenerator(std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
+		
+		std::map<std::string, std::string> getInitMap()
+		{
+			return init_calls;
+		}
+		std::map<std::string, std::string> getSrcMap()
+		{
+			return fwd_calls;
+		}
 
 		void addLayer(Layer*);
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
+		
+		friend class NNGenerator;
 };
 
 

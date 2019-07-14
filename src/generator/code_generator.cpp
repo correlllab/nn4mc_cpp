@@ -4,7 +4,10 @@
 std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
 std::string CodeGenerator::LAYER_TEMPLATE_SRC_DIR = "src/layers";
 std::string CodeGenerator::PARAMETER_TEMPLATE_PATH = "include";
+std::string CodeGenerator::SOURCE_TEMPLATE_PATH = "src";
 std::string CodeGenerator::PARAMETER_FILENAME = "neural_network_params.h";
+std::string CodeGenerator::HEADER_FILENAME = "neural_network.h";
+std::string CodeGenerator::SOURCE_FILENAME = "neural_network.c";
 std::string CodeGenerator::PARAMETER_DATATYPE = "const float";
 std::string CodeGenerator::LAYER_OUTPUT_DATATYPE = "float";
 std::string CodeGenerator::INDEX_DATATYPE = "int";
@@ -29,15 +32,17 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 
 	// Construct the paths for needed files
 	std::string network_param_template_path = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME + ".template";
-	std::string neural_network_file = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
-NEURAL_NETWORK_FILENAME + ".template";
+	std::string neural_network_header = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
+HEADER_FILENAME + ".template";
+	std::string neural_network_source = template_folder + "/" + SOURCE_TEMPLATE_PATH + "/" +
+SOURCE_FILENAME + ".template";
 	std::string layer_include_template_path = template_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR;
 	std::string layer_src_template_path = template_folder + "/" + LAYER_TEMPLATE_SRC_DIR;
 
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE);
-	nn_generator = new NNGenerator //Finish this
+	nn_generator = new NNGenerator(neural_network_header, neural_network_source); //Finish this
 	
 }
 
