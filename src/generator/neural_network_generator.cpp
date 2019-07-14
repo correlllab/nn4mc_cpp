@@ -84,8 +84,37 @@ void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from
 		std::string init_string = it->second; //Unedited initialization string.
 		
 	//Take init string and replace delimiters.
-		
+	string delim;
+	int start = 0;
+	int end = 0;
 	
+	size_t start = init_string.find_first_of("<%",start);
+	size_t end = init_string.find_first_of(">",start);
+	
+	//Replace all delimiters in the string.
+	while(size_t != string::npos)
+	{
+		delim = init_string.substr(start+1,end-start-2);
+		
+		//Do stuff with the delimiter.
+		
+		
+		//Replace the delimiter.
+		init_string.replace(start,end-start,delim);
+		
+		
+		//Reset start and end positions.
+		start = init_string.find_first_of("<%",end);
+		end = init_string.find_first_of(">", start);
+	}
+	init_string += '\n';
+	
+	//Insert initialization string into the source file.
+	start = source.find(INIT);
+	
+	source.insert(start-1,init_string);
+	
+	return
 	
 }
 void NNGenerator::addLayer_Fwd(Layer* layer)
