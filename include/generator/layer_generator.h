@@ -98,7 +98,7 @@ class LayerGenerator
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
 		
-		friend class NNGenerator;
+		friend class NNGenerator; //So NNGenerator can access the maps.
 };
 
 

@@ -9,7 +9,7 @@ class NNGenerator
 {
     private:
     	//Delimiters
-    	static std::string INIT;
+    	static std::string INIT; 
     	static std::string FWD;
     
     	//Paths to header and source file for neural_network.
@@ -34,9 +34,12 @@ class NNGenerator
         
         //void addMaps(std::map<std::string, std::string>, std::map<std::string, std::string>);
         
+        //Adds layer to file in appropriate place and with replaced delimiters.
         void addLayer_Header();
         void addLayer_Init();
         void addLayer_Fwd();
+        
+        //Dumps edited templates.
         void dump();
 
 };
