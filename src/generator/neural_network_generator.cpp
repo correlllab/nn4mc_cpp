@@ -32,12 +32,13 @@ void addMaps(std::map<std::string, std::string> init, std::map<std::string, std:
 }
 **/
 
-void NNGenerator::loadTemplates()
+void NNGenerator::loadTemplates() //Load the templates for the neural_network header and source.
 {
 	std::ifstream infile(header_template_path);
 	
 	if(infile.is_open())
 	{
+		//Stored in header string
 		header.assign ( (std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()) );
 
 		infile.close();
@@ -49,6 +50,7 @@ void NNGenerator::loadTemplates()
 	
 	if(infile.is_open())
 	{
+		//Stored in source string.
 		source.assign ( (std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()) );
 
 		infile.close();
@@ -63,13 +65,15 @@ void NNGenerator::addLayer_Header(Layer* layer)
 {
 
 }
-void NNGenerator::addLayer_Init(Layer* layer)
+void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from code_generator.
 {
-	std::map<std::string, std::string>::iterator it;
-	it = init_calls.find(layer->layer_type);
+	std::map<std::string, std::string>::iterator it; 
+	it = init_calls.find(layer->layer_type); //Access the map from layer_generator.
 	
 	if(it != init_calls.end())
 		std::string init_string = it->second; //Unedited initialization string.
+		
+	//Take init string and replace delimiters.
 		
 	
 	

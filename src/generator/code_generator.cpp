@@ -82,7 +82,7 @@ void CodeGenerator::generate()
 	
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
-		
+		//For each layer call addLayer from NNGenerator for header, init, and forward.
 	}
 	
 }
