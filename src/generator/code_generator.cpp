@@ -83,6 +83,9 @@ void CodeGenerator::generate()
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
 		//For each layer call addLayer from NNGenerator for header, init, and forward.
+		nn_generator->addLayer_Header(it->layer); //it->layer may need to be different
+		nn_generator->addLayer_Init(it->layer); //may need to pass whole layernode.
+		nn_generator->addLayer_Fwd(it-Layer);
 	}
 	
 }

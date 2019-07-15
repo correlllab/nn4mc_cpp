@@ -28,7 +28,8 @@ class NNGenerator
     	//Loads the templates using the paths into the header and source.
         void loadTemplates();
         
-        //Takes delimiter and 
+        //Takes delimiter and extracts corresponding data from layer as a string.
+        std::string convertDelimiter(Layer* layer, std::string delimiter);
         
     public:
     

@@ -71,9 +71,58 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 	return;
 		
 }
+
+std::string NNGenerator::convertDelimiter(Layer* layer, std::string delim)
+{
+	if(delim == "LAYER_NAME")
+	{
+		return layer->identifier;
+	}
+	
+	else if(delim == "WEIGHT_NAME")
+	{
+		return layer->w->identifier;
+	}
+	
+	else if(delim == "BIAS_NAME")
+	{
+		return layer->b->identifier;
+	}
+	
+	else if(delim == "KERNEL_SIZE")
+	{
+		
+	}
+	
+	else if(delim == "STRIDE_SIZE")
+	{
+		return std::to_string(layer->strides);
+	}
+	
+	else if(delim == "INPUT_CHANNELS")
+	{
+	
+	}
+	
+	else if(delim == "OUTPUT_CHANNELS")
+	{
+	
+	}
+	
+	else if(delim == "INPUT_SIZE")
+	{
+	
+	}
+	
+	else if(delim == "OUTPUT_SIZE")
+	{
+	
+	}
+}
+
 void NNGenerator::addLayer_Header(Layer* layer)
 {
-
+	
 }
 void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from code_generator.
 {
@@ -97,7 +146,7 @@ void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from
 		delim = init_string.substr(start+1,end-start-2);
 		
 		//Do stuff with the delimiter.
-		
+		delim = convertDelimiter(layer, delim);
 		
 		//Replace the delimiter.
 		init_string.replace(start,end-start,delim);
