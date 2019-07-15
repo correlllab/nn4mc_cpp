@@ -6,8 +6,9 @@
 
 
 
-std::string LayerGenerator::INIT = <%BUILD_FUNCTION>;
-std::string LayerGenerator::FWD = <%FWD_FUNCTION>;
+std::string LayerGenerator::INIT = "<%BUILD_FUNCTION>";
+std::string LayerGenerator::FWD = "<%FWD_FUNCTION>";
+std::string LayerGenerator::INC = "<%INCLUDE>"
 
 
 NNGenerator::NNGenerator(std::string header_path, std::string src_path)
@@ -15,6 +16,7 @@ NNGenerator::NNGenerator(std::string header_path, std::string src_path)
 	header_template_path = header_path;
 	source_template_path = src_path;
 	
+	/**
 	delimiters.insert(std::pair<std::string,std::string>("<%LAYER_NAME","identifier"));
 	delimiters.insert(std::pair<std::string,std::string>("<%WEIGHT_NAME>","w->identifier"));
 	delimiters.insert(std::pair<std::string,std::string>("<%BIAS_NAME>","b->identifier"));
@@ -24,6 +26,7 @@ NNGenerator::NNGenerator(std::string header_path, std::string src_path)
 	delimiters.insert(std::pair<std::string,std::string>("<%OUTPUT_CHANNELS>",""));
 	delimiters.insert(std::pair<std::string,std::string>("<%INPUT_SIZE>",""));
 	delimiters.insert(std::pair<std::string,std::string>("<%OUTPUT_SIZE>",""));
+	**/
 	
 	loadTemplates();
 }
@@ -52,6 +55,16 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 		header.assign ( (std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()) );
 
 		infile.close();
+		
+		std::map<std::string, std::string>::iterator it;
+		std::string include;
+		for(it = map.begin(); i != map.end(); i++)
+		{
+			include += '"layers/' + it->first + '.h"\n';
+		}
+		
+		size_t pos = header.find(INC);
+		header.replace(pos,INC.len(),include);
 	}
 	else
 		throw std::runtime_error("Could not open file: " + header_template_path);
@@ -94,6 +107,23 @@ std::string NNGenerator::convertDelimiter(LayerNode* node, std::string delim)
 		std::vector<int> kernel = node->layer->kernel_size;
 		
 		if(kernel.size() > 1)
+		{
+			int* data = kernel.data();
+			
+			//Assuming the vector is of size 2.
+			std::string arr = "int* data = (int*) malloc(2 * sizeof(int));\n";
+			arr += "data[0] = " + to_string(data[0]) + ";\n";
+			arr += "data[1] = " + to_string(data[1]) + ";\n";
+			
+			std::string del = "free(data);";
+			
+			size_t pos = source.find(INIT);
+			
+			source.insert(pos-1,arr);
+			source.insert(pos+INIT.len(),del);
+			
+			return;
+		}
 			
 		else
 			return to_string(kernel[0]);
@@ -129,7 +159,7 @@ std::string NNGenerator::convertDelimiter(LayerNode* node, std::string delim)
 
 void NNGenerator::addLayer_Header(Layer* layer)
 {
-	size_t pos =  header.find("<%BEGIN_TEMPLATE>");
+	size_t pos =  header.find("<%STRUCTS>");
 	
 	string init = layer.layer_type + " " + layer.identifier + ";\n";
 	
