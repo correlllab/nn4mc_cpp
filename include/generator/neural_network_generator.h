@@ -29,7 +29,7 @@ class NNGenerator
         void loadTemplates();
         
         //Takes delimiter and extracts corresponding data from layer as a string.
-        std::string convertDelimiter(Layer* layer, std::string delimiter);
+        std::string convertDelimiter(LayerNode* node, std::string delimiter);
         
     public:
     
@@ -39,9 +39,9 @@ class NNGenerator
         //void addMaps(std::map<std::string, std::string>, std::map<std::string, std::string>);
         
         //Adds layer to file in appropriate place and with replaced delimiters.
-        void addLayer_Header();
-        void addLayer_Init();
-        void addLayer_Fwd();
+        void addLayer_Header(Layer*);
+        void addLayer_Init(LayerNode*);
+        void addLayer_Fwd(Layer*);
         
         //Dumps edited templates.
         void dump();

@@ -72,41 +72,48 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 		
 }
 
-std::string NNGenerator::convertDelimiter(Layer* layer, std::string delim)
+std::string NNGenerator::convertDelimiter(LayerNode* node, std::string delim)
 {
 	if(delim == "LAYER_NAME")
 	{
-		return layer->identifier;
+		return node->layer->identifier;
 	}
 	
 	else if(delim == "WEIGHT_NAME")
 	{
-		return layer->w->identifier;
+		return node->layer->w->identifier;
 	}
 	
 	else if(delim == "BIAS_NAME")
 	{
-		return layer->b->identifier;
+		return node->layer->b->identifier;
 	}
 	
 	else if(delim == "KERNEL_SIZE")
 	{
+		std::vector<int> kernel = node->layer->kernel_size;
 		
+		if(kernel.size() > 1)
+			
+		else
+			return to_string(kernel[0]);
 	}
 	
 	else if(delim == "STRIDE_SIZE")
 	{
-		return std::to_string(layer->strides);
+		//This needs to be fixed as well, need to be able to handle a vector.
+	
+		return std::to_string(node->layer->strides);
 	}
 	
 	else if(delim == "INPUT_CHANNELS")
 	{
-	
+		return node->inputs.size();
 	}
 	
 	else if(delim == "OUTPUT_CHANNELS")
 	{
-	
+		return node->edges.size();
 	}
 	
 	else if(delim == "INPUT_SIZE")
@@ -122,12 +129,18 @@ std::string NNGenerator::convertDelimiter(Layer* layer, std::string delim)
 
 void NNGenerator::addLayer_Header(Layer* layer)
 {
+	size_t pos =  header.find("<%BEGIN_TEMPLATE>");
 	
+	string init = layer.layer_type + " " + layer.identifier + ";\n";
+	
+	header.insert(pos-1,init);
+	
+	return
 }
-void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from code_generator.
+void NNGenerator::addLayer_Init(LayerNode* node) //To be called for each layer from code_generator.
 {
 	std::map<std::string, std::string>::iterator it; 
-	it = init_calls.find(layer->layer_type); //Access the map from layer_generator.
+	it = init_calls.find(node->layer->layer_type); //Access the map from layer_generator.
 	
 	if(it != init_calls.end())
 		std::string init_string = it->second; //Unedited initialization string.
@@ -146,7 +159,7 @@ void NNGenerator::addLayer_Init(Layer* layer) //To be called for each layer from
 		delim = init_string.substr(start+1,end-start-2);
 		
 		//Do stuff with the delimiter.
-		delim = convertDelimiter(layer, delim);
+		delim = convertDelimiter(node, delim);
 		
 		//Replace the delimiter.
 		init_string.replace(start,end-start,delim);

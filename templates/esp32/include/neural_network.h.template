@@ -7,7 +7,4 @@ volatile int num_layers = <%NUMBER_OF_LAYERS>;
 
 <%BEGIN_TEMPLATE>
 
-<%END_TEMPLATE>
-
-
 #endif

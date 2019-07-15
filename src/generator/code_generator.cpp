@@ -84,7 +84,7 @@ void CodeGenerator::generate()
 	{
 		//For each layer call addLayer from NNGenerator for header, init, and forward.
 		nn_generator->addLayer_Header(it->layer); //it->layer may need to be different
-		nn_generator->addLayer_Init(it->layer); //may need to pass whole layernode.
+		nn_generator->addLayer_Init(*it); //may need to pass whole layernode.
 		nn_generator->addLayer_Fwd(it-Layer);
 	}
 	
