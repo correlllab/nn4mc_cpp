@@ -15,7 +15,7 @@ std::string CodeGenerator::INDEX_DATATYPE = "int";
 /*******************
 * LayerGenerator(std::string template_header_directory, template_source_directory)
 *
-* Create a new object for generating C code for layer representation.  
+* Create a new object for generating C code for layer representation.
 *
 * Arguments:
 *   template_header_directory - Path to the files acting as a template for the layer header code.
@@ -43,7 +43,7 @@ SOURCE_FILENAME + ".template";
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE);
 	nn_generator = new NNGenerator(neural_network_header, neural_network_source); //Finish this
-	
+
 }
 
 CodeGenerator::~CodeGenerator()
@@ -79,7 +79,7 @@ void CodeGenerator::generate()
 	}
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
-	
+
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
 		//For each layer call addLayer from NNGenerator for header, init, and forward.
@@ -87,7 +87,7 @@ void CodeGenerator::generate()
 		nn_generator->addLayer_Init(*it); //may need to pass whole layernode.
 		nn_generator->addLayer_Fwd(it-Layer);
 	}
-	
+
 }
 
 void CodeGenerator::dump()
@@ -98,5 +98,11 @@ void CodeGenerator::dump()
 	// Write all of the layer header and source
 	layer_generator->dumpLayerHeaders(output_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR);
 	layer_generator->dumpLayerSources(output_folder + "/" + LAYER_TEMPLATE_SRC_DIR);
-	
+
+	//Write out header file and source file for neural_network
+	nn_generator->dumpHeader(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
+HEADER_FILENAME);
+	nn_generator->dumpSource(output_folder + + "/" + SOURCE_TEMPLATE_PATH + "/" +
+SOURCE_FILENAME);
+
 }
