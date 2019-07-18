@@ -1,16 +1,17 @@
 #include "generator/neural_network_generator.h"
-#include "datastructures/Layer.h"
 
 #include <string>
 #include <fstream>
 
-#define INIT "<%BUILD_FUNCTION>";
-#define FWD "<%FWD_FUNCTION>";
-#define INC "<%INCLUDE>"
+std::string NNGenerator::INIT = "<%BUILD_FUNCTION>";
+std::string NNGenerator::FWD  = "<%FWD_FUNCTION>";
+std::string NNGenerator::INC = "<%INCLUDE>";
 
 
-NNGenerator::NNGenerator(std::string header_path, std::string src_path)
+NNGenerator::NNGenerator(std::string header_path, std::string src_path, LayerGenerator* lg)
 {
+	layer_gen = lg;
+
 	header_template_path = header_path;
 	source_template_path = src_path;
 
@@ -36,13 +37,13 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 
 		std::map<std::string, std::string>::iterator it;
 		std::string include;
-		for(it = map.begin(); i != map.end(); i++)
+		for(it = layer_gen->include_files.begin(); it != layer_gen->include_files.end(); it++)
 		{
-			include += '"layers/' + it->first + '.h"\n';
+			include += "layers/" + it->first + ".h\n";
 		}
 
 		size_t pos = header.find(INC);
-		header.replace(pos,INC.len(),include);
+		header.replace(pos,INC.length(),include);
 	}
 	else
 		throw std::runtime_error("Could not open file: " + header_template_path);
@@ -57,7 +58,7 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 		infile.close();
 	}
 	else
-		throw std::runtime_error("Could not open file: " + src_template_path);
+		throw std::runtime_error("Could not open file: " + source_template_path);
 
 	return;
 
@@ -65,26 +66,26 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 
 
 
-std::string NNGenerator::convertDelimiter(LayerNode* node, std::string delim)
+std::string NNGenerator::convertDelimiter(LayerNode& node, std::string delim)
 {
 	if(delim == "LAYER_NAME")
 	{
-		return node->layer->identifier;
+		return node.layer->identifier;
 	}
 
 	else if(delim == "WEIGHT_NAME")
 	{
-		return node->layer->w->identifier;
+		return node.layer->w->identifier;
 	}
 
 	else if(delim == "BIAS_NAME")
 	{
-		return node->layer->b->identifier;
+		return node.layer->b->identifier;
 	}
 
 	else if(delim == "KERNEL_SIZE")
 	{
-		std::vector<int> kernel = node->layer->kernel_size;
+		std::vector<int> kernel = node.layer->kernel_size;
 
 		if(kernel.size() > 1)
 		{
@@ -92,38 +93,38 @@ std::string NNGenerator::convertDelimiter(LayerNode* node, std::string delim)
 
 			//Assuming the vector is of size 2.
 			std::string arr = "int* data = (int*) malloc(2 * sizeof(int));\n";
-			arr += "data[0] = " + to_string(data[0]) + ";\n";
-			arr += "data[1] = " + to_string(data[1]) + ";\n";
+			arr += "data[0] = " + std::to_string(data[0]) + ";\n";
+			arr += "data[1] = " + std::to_string(data[1]) + ";\n";
 
 			std::string del = "free(data);";
 
 			size_t pos = source.find(INIT);
 
 			source.insert(pos-1,arr);
-			source.insert(pos+INIT.len(),del);
+			source.insert(pos+INIT.length(),del);
 
 			return;
 		}
 
 		else
-			return to_string(kernel[0]);
+			return std::to_string(kernel[0]);
 	}
 
 	else if(delim == "STRIDE_SIZE")
 	{
 		//This needs to be fixed as well, need to be able to handle a vector.
 
-		return std::to_string(node->layer->strides);
+		return std::to_string(node.layer->strides);
 	}
 
 	else if(delim == "INPUT_CHANNELS")
 	{
-		return node->inputs.size();
+		return std::to_string(node.inputs.size());
 	}
 
 	else if(delim == "OUTPUT_CHANNELS")
 	{
-		return node->edges.size();
+		return std::to_string(node.edges.size());
 	}
 
 	else if(delim == "INPUT_SIZE")
@@ -141,31 +142,33 @@ void NNGenerator::addLayer_Header(Layer* layer)
 {
 	size_t pos =  header.find("<%STRUCTS>");
 
-	string init = layer.layer_type + " " + layer.identifier + ";\n";
+	std::string init = layer->layer_type + " " + layer->identifier + ";\n";
 
 	header.insert(pos-1,init);
 
-	return
+	return;
 }
 
-void NNGenerator::addLayer_Init(LayerNode* node) //To be called for each layer from code_generator.
+void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer from code_generator.
 {
 	std::map<std::string, std::string>::iterator it;
-	it = init_calls.find(node->layer->layer_type); //Access the map from layer_generator.
+	it = layer_gen->init_calls.find(node.layer->layer_type); //Access the map from layer_generator.
 
-	if(it != init_calls.end())
-		std::string init_string = it->second; //Unedited initialization string.
+	std::string init_string;
+
+	if(it != layer_gen->init_calls.end())
+		init_string = it->second; //Unedited initialization string.
 
 	//Take init string and replace delimiters.
-	string delim;
-	int start = 0;
-	int end = 0;
+	std::string delim;
+	size_t start = 0;
+	size_t end = 0;
 
-	size_t start = init_string.find_first_of("<%",start);
-	size_t end = init_string.find_first_of(">",start);
+	start = init_string.find_first_of("<%",start);
+	end = init_string.find_first_of(">",start);
 
 	//Replace all delimiters in the string.
-	while(size_t != string::npos)
+	while(start != std::string::npos)
 	{
 		delim = init_string.substr(start+1,end-start-2);
 
@@ -187,8 +190,7 @@ void NNGenerator::addLayer_Init(LayerNode* node) //To be called for each layer f
 
 	source.insert(start-1,init_string);
 
-	return
-
+	return;
 }
 void NNGenerator::addLayer_Fwd(Layer* layer)
 {

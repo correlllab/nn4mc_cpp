@@ -7,7 +7,7 @@
 * \brief Code generator for header and source files for layers.
 *
 * This class is used to generate a portion of the microcontroller code.
-* Specifically, this code is used to generate header files containing 
+* Specifically, this code is used to generate header files containing
 * definitions of layer structures, and source files for layer creation
 * and calling.
 *
@@ -32,7 +32,6 @@
 
 #ifndef __LAYER_GENERATOR_H__
 #define __LAYER_GENERATOR_H__
-
 
 class LayerGenerator
 {
@@ -79,12 +78,13 @@ class LayerGenerator
 		void dump(std::string, std::map<std::string,std::string>, std::string);
 		void addLayer(Layer*, std::string, std::string);
 
+		friend class NNGenerator; //So NNGenerator can access the maps.
 
 	public:
 
 		LayerGenerator(std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
-		
+
 		std::map<std::string, std::string> getInitMap()
 		{
 			return init_calls;
@@ -97,8 +97,7 @@ class LayerGenerator
 		void addLayer(Layer*);
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
-		
-		friend class NNGenerator; //So NNGenerator can access the maps.
+
 };
 
 

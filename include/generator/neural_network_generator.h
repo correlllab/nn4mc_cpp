@@ -1,3 +1,7 @@
+#include "datastructures/Layer.h"
+#include "datastructures/NeuralNetwork.h"
+#include "layer_generator.h"
+
 #include <string>
 #include <map>
 
@@ -8,6 +12,9 @@
 class NNGenerator
 {
     private:
+      //LayerGenerator pointer
+      LayerGenerator* layer_gen;
+
     	//Delimiters
     	static std::string INIT;
     	static std::string FWD;
@@ -25,18 +32,18 @@ class NNGenerator
       void loadTemplates();
 
       //Takes delimiter and extracts corresponding data from layer as a string.
-      std::string convertDelimiter(LayerNode* node, std::string delimiter);
+      std::string convertDelimiter(LayerNode& node, std::string delimiter);
 
     public:
 
-      NNGenerator(std::string, std::string);
+      NNGenerator(std::string, std::string, LayerGenerator*);
       ~NNGenerator();
 
       //void addMaps(std::map<std::string, std::string>, std::map<std::string, std::string>);
 
       //Adds layer to file in appropriate place and with replaced delimiters.
       void addLayer_Header(Layer*);
-      void addLayer_Init(LayerNode*);
+      void addLayer_Init(LayerNode&);
       void addLayer_Fwd(Layer*);
 
       //Dumps edited templates.

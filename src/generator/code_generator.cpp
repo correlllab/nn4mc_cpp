@@ -42,7 +42,7 @@ SOURCE_FILENAME + ".template";
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE);
-	nn_generator = new NNGenerator(neural_network_header, neural_network_source); //Finish this
+	nn_generator = new NNGenerator(neural_network_header, neural_network_source, layer_generator); //Finish this
 
 }
 
@@ -85,7 +85,7 @@ void CodeGenerator::generate()
 		//For each layer call addLayer from NNGenerator for header, init, and forward.
 		nn_generator->addLayer_Header(it->layer); //it->layer may need to be different
 		nn_generator->addLayer_Init(*it); //may need to pass whole layernode.
-		nn_generator->addLayer_Fwd(it-Layer);
+		nn_generator->addLayer_Fwd(it->layer);
 	}
 
 }
