@@ -1,3 +1,10 @@
+/*
+ * Neural Network Generator
+ *
+ * by Cooper Simpson
+ *
+ *
+ */
 #include "generator/neural_network_generator.h"
 
 #include <string>
