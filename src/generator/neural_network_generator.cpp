@@ -103,7 +103,7 @@ std::string NNGenerator::convertDelimiter(LayerNode& node, std::string delim)
 			source.insert(pos-1,arr);
 			source.insert(pos+INIT.length(),del);
 
-			return;
+			return "data";
 		}
 
 		else
@@ -119,20 +119,15 @@ std::string NNGenerator::convertDelimiter(LayerNode& node, std::string delim)
 
 	else if(delim == "INPUT_CHANNELS")
 	{
-		return std::to_string(node.inputs.size());
+
 	}
 
 	else if(delim == "OUTPUT_CHANNELS")
 	{
-		return std::to_string(node.edges.size());
+		return std::to_string(node.layer->filters);
 	}
 
-	else if(delim == "INPUT_SIZE")
-	{
-
-	}
-
-	else if(delim == "OUTPUT_SIZE")
+	else if(delim == "INPUT_SIZE") //Needs to be able to handle an array
 	{
 
 	}
