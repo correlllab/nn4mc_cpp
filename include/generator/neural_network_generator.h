@@ -32,7 +32,7 @@ class NNGenerator
       void loadTemplates();
 
       //Takes delimiter and extracts corresponding data from layer as a string.
-      std::string convertDelimiter(LayerNode& node, std::string delimiter);
+      //std::string convertDelimiter(LayerNode& node, std::string delimiter);
 
     public:
 

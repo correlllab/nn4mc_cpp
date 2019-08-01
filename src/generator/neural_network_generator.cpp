@@ -6,6 +6,7 @@
  *
  */
 #include "generator/neural_network_generator.h"
+#include "generator/layer_writer.h"
 
 #include <string>
 #include <fstream>
@@ -72,72 +73,72 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 
 
 
-std::string NNGenerator::convertDelimiter(LayerNode& node, std::string delim)
-{
-	if(delim == "LAYER_NAME")
-	{
-		return node.layer->identifier;
-	}
-
-	else if(delim == "WEIGHT_NAME")
-	{
-		return node.layer->w->identifier;
-	}
-
-	else if(delim == "BIAS_NAME")
-	{
-		return node.layer->b->identifier;
-	}
-
-	else if(delim == "KERNEL_SIZE")
-	{
-		std::vector<int> kernel = node.layer->kernel_size;
-
-		if(kernel.size() > 1)
-		{
-			int* data = kernel.data();
-
-			//Assuming the vector is of size 2.
-			std::string arr = "int* data = (int*) malloc(2 * sizeof(int));\n";
-			arr += "data[0] = " + std::to_string(data[0]) + ";\n";
-			arr += "data[1] = " + std::to_string(data[1]) + ";\n";
-
-			std::string del = "free(data);";
-
-			size_t pos = source.find(INIT);
-
-			source.insert(pos-1,arr);
-			source.insert(pos+INIT.length(),del);
-
-			return "data";
-		}
-
-		else
-			return std::to_string(kernel[0]);
-	}
-
-	else if(delim == "STRIDE_SIZE")
-	{
-		//This needs to be fixed as well, need to be able to handle a vector.
-
-		return std::to_string(node.layer->strides);
-	}
-
-	else if(delim == "INPUT_CHANNELS")
-	{
-
-	}
-
-	else if(delim == "OUTPUT_CHANNELS")
-	{
-		return std::to_string(node.layer->filters);
-	}
-
-	else if(delim == "INPUT_SIZE") //Needs to be able to handle an array
-	{
-
-	}
-}
+// std::string NNGenerator::convertDelimiter(LayerNode& node, std::string delim)
+// {
+// 	if(delim == "LAYER_NAME")
+// 	{
+// 		return node.layer->identifier;
+// 	}
+//
+// 	else if(delim == "WEIGHT_NAME")
+// 	{
+// 		return node.layer->w->identifier;
+// 	}
+//
+// 	else if(delim == "BIAS_NAME")
+// 	{
+// 		return node.layer->b->identifier;
+// 	}
+//
+// 	else if(delim == "KERNEL_SIZE")
+// 	{
+// 		std::vector<int> kernel = node.layer->kernel_size;
+//
+// 		if(kernel.size() > 1)
+// 		{
+// 			int* data = kernel.data();
+//
+// 			//Assuming the vector is of size 2.
+// 			std::string arr = "int* data = (int*) malloc(2 * sizeof(int));\n";
+// 			arr += "data[0] = " + std::to_string(data[0]) + ";\n";
+// 			arr += "data[1] = " + std::to_string(data[1]) + ";\n";
+//
+// 			std::string del = "free(data);";
+//
+// 			size_t pos = source.find(INIT);
+//
+// 			source.insert(pos-1,arr);
+// 			source.insert(pos+INIT.length(),del);
+//
+// 			return "data";
+// 		}
+//
+// 		else
+// 			return std::to_string(kernel[0]);
+// 	}
+//
+// 	else if(delim == "STRIDE_SIZE")
+// 	{
+// 		//This needs to be fixed as well, need to be able to handle a vector.
+//
+// 		return std::to_string(node.layer->strides);
+// 	}
+//
+// 	else if(delim == "INPUT_CHANNELS")
+// 	{
+//
+// 	}
+//
+// 	else if(delim == "OUTPUT_CHANNELS")
+// 	{
+// 		return std::to_string(node.layer->filters);
+// 	}
+//
+// 	else if(delim == "INPUT_SIZE") //Needs to be able to handle an array
+// 	{
+//
+// 	}
+// }
 
 void NNGenerator::addLayer_Header(Layer* layer)
 {
@@ -159,36 +160,41 @@ void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer f
 	if(it != layer_gen->init_calls.end())
 		init_string = it->second; //Unedited initialization string.
 
-	//Take init string and replace delimiters.
-	std::string delim;
-	size_t start = 0;
-	size_t end = 0;
 
-	start = init_string.find_first_of("<%",start);
-	end = init_string.find_first_of(">",start);
-
-	//Replace all delimiters in the string.
-	while(start != std::string::npos)
-	{
-		delim = init_string.substr(start+1,end-start-2);
-
-		//Do stuff with the delimiter.
-		delim = convertDelimiter(node, delim);
-
-		//Replace the delimiter.
-		init_string.replace(start,end-start,delim);
+	//Take init string and give it to LayerWriter to return edited string.
+	LayerWriter* writer = LayerWriter::make_writer(node.layer, init_string);
 
 
-		//Reset start and end positions.
-		start = init_string.find_first_of("<%",end);
-		end = init_string.find_first_of(">", start);
-	}
-	init_string += '\n';
-
-	//Insert initialization string into the source file.
-	start = source.find(INIT);
-
-	source.insert(start-1,init_string);
+	// //Take init string and replace delimiters.
+	// std::string delim;
+	// size_t start = 0;
+	// size_t end = 0;
+	//
+	// start = init_string.find_first_of("<%",start);
+	// end = init_string.find_first_of(">",start);
+	//
+	// //Replace all delimiters in the string.
+	// while(start != std::string::npos)
+	// {
+	// 	delim = init_string.substr(start+1,end-start-2);
+	//
+	// 	//Do stuff with the delimiter.
+	// 	delim = convertDelimiter(node, delim);
+	//
+	// 	//Replace the delimiter.
+	// 	init_string.replace(start,end-start,delim);
+	//
+	//
+	// 	//Reset start and end positions.
+	// 	start = init_string.find_first_of("<%",end);
+	// 	end = init_string.find_first_of(">", start);
+	// }
+	// init_string += '\n';
+	//
+	// //Insert initialization string into the source file.
+	// start = source.find(INIT);
+	//
+	// source.insert(start-1,init_string);
 
 }
 void NNGenerator::addLayer_Fwd(Layer* layer)
