@@ -1,3 +1,10 @@
+/*
+ * Neural Network Generator
+ *
+ * by Cooper Simpson
+ *
+ *
+ */
 #include "generator/neural_network_generator.h"
 
 #include <string>
@@ -60,7 +67,6 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 	else
 		throw std::runtime_error("Could not open file: " + source_template_path);
 
-	return;
 
 }
 
@@ -141,7 +147,6 @@ void NNGenerator::addLayer_Header(Layer* layer)
 
 	header.insert(pos-1,init);
 
-	return;
 }
 
 void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer from code_generator.
@@ -185,7 +190,6 @@ void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer f
 
 	source.insert(start-1,init_string);
 
-	return;
 }
 void NNGenerator::addLayer_Fwd(Layer* layer)
 {
