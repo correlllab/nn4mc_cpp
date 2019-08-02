@@ -1,0 +1,25 @@
+/*************
+* neural_net_params.h
+*
+* Neural Network Parameters
+* Hardware Plateform: ESP-32
+*
+* This file defines the weights used by the neural network implementation.  Weight representations were
+* created automatically using nn4mp.
+*/
+
+#ifndef __NEURAL_NET_PARAMS_H__
+#define __NEURAL_NET_PARAMS_H__
+
+#ifdef __cpluscplus
+extern "C" {
+#endif
+
+
+
+
+#ifdef __cplusplus
+}
+
+#endif
+#endif

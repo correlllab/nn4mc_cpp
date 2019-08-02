@@ -16,7 +16,7 @@ std::string WeightGenerator::DATA_DELIMITER =			"<%DATA>";
 /*******************
 * WeightGenerator(std::string template_path)
 *
-* Create a new object for generating C code for weight representation.  
+* Create a new object for generating C code for weight representation.
 *
 * Arguments:
 *   template_path - Path to the file acting as a template for the C code.
@@ -135,7 +135,7 @@ std::string WeightGenerator::getIndexRepresentation(Tensor<double> values)
 /*******************
 * addWeight(Weight* weight)
 *
-* Create a string representation of a provided weight to be placed in the 
+* Create a string representation of a provided weight to be placed in the
 * generated C code.
 *
 * Arguments:

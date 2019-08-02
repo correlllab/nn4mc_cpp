@@ -36,9 +36,9 @@ void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[KERNEL_SIZE] = std::to_string((int)layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
-    mapping[INPUT_SIZE] =
+    mapping[INPUT_SIZE] = "1"; //Fake
 
-    mapping[INPUT_CHANNELS] = 
+    mapping[INPUT_CHANNELS] = "1"; //Also fake
     mapping[OUTPUT_CHANNELS] = std::to_string((int)layer->filters);
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
@@ -85,7 +85,7 @@ std::string Conv2DGenerator::write_init()
 
 void DenseGenerator::build_map(std::string prev_id){
 
-    mapping[INPUT_SIZE] =
+    mapping[INPUT_SIZE] = "1"; //Fake
     mapping[OUTPUT_SIZE] = layer->units;
 
     mapping[WEIGHT_NAME] = layer->w->identifier;
