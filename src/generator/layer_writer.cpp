@@ -33,23 +33,46 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 }
 
 void Conv1DGenerator::build_map(std::string prev_id){
-    // takes in pointer to the layer and previous layer id
-    // if previous layer is none then call prev_id is window
-    mapping[PREVIOUS_LAYER_ID] = prev_id;
-    mapping[LAYER_ID] = layer->identifier;
-    mapping[KERNEL_SIZE]= std::to_string((int)layer->kernel_size[0]);
-    mapping[FILTERS]= std::to_string((int)layer->filters);
-    mapping[WEIGHT_VAR]= layer->identifier.append("_W"); //e.g. conv1d_1_b
-    mapping[BIAS_VAR]= layer->identifier.append("_b"); //e.g. conv1d_1_b
-    mapping[WEIGHT_SHAPE0]= std::to_string((int)layer->filters);
-    //mapping[WEIGHT_SHAPE1]= second dimension of input dim
-    mapping[WEIGHT_SHAPE2] = std::to_string((int)layer->kernel_size[0]);
-    //mapping[INPUT_SHAPE_0]=
-    //mapping[INPUT_SHAPE_1]=
+
+    mapping[KERNEL_SIZE] = std::to_string((int)layer->kernel_size[0]);
+    mapping[STRIDE_SIZE] = std::to_string(layer->strides);
+    mapping[INPUT_SIZE] =
+
+    mapping[INPUT_CHANNELS] = 
+    mapping[OUTPUT_CHANNELS] = std::to_string((int)layer->filters);
+
+    mapping[WEIGHT_NAME]= layer->w->identifier;
+    mapping[BIAS_NAME]= layer->b->identifier;
 }
 std::string Conv1DGenerator::write_init()
 {
+  //Take init string and replace delimiters.
+	std::string delim;
+	size_t start = 0;
+	size_t end = 0;
 
+	start = init_template.find_first_of("<%",start);
+	end = init_template.find_first_of(">",start);
+
+	//Replace all delimiters in the string.
+	while(start != std::string::npos)
+	{
+		delim = init_template.substr(start+1,end-start-2);
+
+		//Do stuff with the delimiter.
+		delim = mapping[delim];
+
+		//Replace the delimiter.
+		init_template.replace(start,end-start,delim);
+
+
+		//Reset start and end positions.
+		start = init_template.find_first_of("<%",end);
+		end = init_template.find_first_of(">", start);
+	}
+	init_template += '\n';
+
+  return init_template;
 }
 
 void Conv2DGenerator::build_map(std::string prev_id){
@@ -62,19 +85,41 @@ std::string Conv2DGenerator::write_init()
 
 void DenseGenerator::build_map(std::string prev_id){
 
-    mapping[LAYER_ID]= layer->identifier;
-    mapping[PREVIOUS_LAYER_ID] = prev_id;
-    //mapping[INPUT_SIZE] =
+    mapping[INPUT_SIZE] =
     mapping[OUTPUT_SIZE] = layer->units;
-    //mapping[WEIGHT_SHAPE0]=
-    mapping[WEIGHT_SHAPE1] = layer->units;
-    mapping[ACTIVATION] = layer->activation;
-    mapping[WEIGHT_VAR] = layer->identifier.append("_W");
-    mapping[BIAS_VAR] = layer->identifier.append("_b");
+
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
 }
 std::string DenseGenerator::write_init()
 {
+  //Take init string and replace delimiters.
+	std::string delim;
+	size_t start = 0;
+	size_t end = 0;
 
+	start = init_template.find_first_of("<%",start);
+	end = init_template.find_first_of(">",start);
+
+	//Replace all delimiters in the string.
+	while(start != std::string::npos)
+	{
+		delim = init_template.substr(start+1,end-start-2);
+
+		//Do stuff with the delimiter.
+		delim = mapping[delim];
+
+		//Replace the delimiter.
+		init_template.replace(start,end-start,delim);
+
+
+		//Reset start and end positions.
+		start = init_template.find_first_of("<%",end);
+		end = init_template.find_first_of(">", start);
+	}
+	init_template += '\n';
+
+  return init_template;
 }
 
 void FlattenGenerator::build_map(std::string prev_id){

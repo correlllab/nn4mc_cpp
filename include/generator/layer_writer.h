@@ -32,19 +32,15 @@ class Conv1DGenerator : public LayerWriter{
         // e.g. <%INPUT_SHAPE_0> --> str(layer.input_sh1);
         std::map<std::string, std::string> mapping;
 
-        std::string BEGIN_CALL_TEMPLATE = "<%BEGIN_CALL_TEMPLATE>";
-        std::string END_CALL_TEMPLATE = "<%END_CALL_TEMPLATE>";
-        std::string LAYER_ID = "<%LAYER_ID>";
-        std::string PREVIOUS_LAYER_ID= "<%PREVIOUS_LAYER_ID>";
-        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
-        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
-        std::string KERNEL_SIZE= "<%KERNEL_SIZE>";
-        std::string FILTERS= "<%FILTERS>";
-        std::string WEIGHT_SHAPE0= "<%WEIGHT_SHAPE0>";
-        std::string WEIGHT_SHAPE1= "<%WEIGHT_SHAPE1>";
-        std::string WEIGHT_SHAPE2= "<%WEIGHT_SHAPE2>";
-        std::string WEIGHT_VAR = "<%WEIGHT_VAR>";
-        std::string BIAS_VAR= "<%BIAS_VAR>";
+        std::string INPUT_CHANNELS= "<%INPUT_CHANNELS>";
+        std::string OUTPUT_CHANNELS= "<%OUTPUT_CHANNELS>";
+
+        std::string STRIDE_SIZE = "<%STRIDE_SIZE>";
+        std::string KERNEL_SIZE = "<%KERNEL_SIZE>";
+        std::string INPUT_SIZE = "<%INPUT_SIZE>";
+
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string BIAS_NAME = "<%BIAS_NAME>";
 
         Conv1D* layer;
         Conv1DGenerator(Conv1D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
@@ -53,35 +49,29 @@ class Conv1DGenerator : public LayerWriter{
     std::string write_init();
 };
 
-class DenseGenerator : public LayerWriter{
+class Conv2DGenerator : public LayerWriter{
     public:
-        std::map<std::string, std::string> mapping;
-        std::string BEGIN_CALL_TEMPLATE = "<%BEGIN_CALL_TEMPLATE>";
-        std::string END_CALL_TEMPLATE = "<%END_CALL_TEMPLATE>";
-        std::string LAYER_ID = "<%LAYER_ID>";
-        std::string PREVIOUS_LAYER_ID = "<%PREVIOUS_LAYER_ID>";
-        std::string INPUT_SIZE= "<%INPUT_SIZE>";
-        std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
-        std::string WEIGHT_SHAPE0= "<%WEIGHT_SHAPE0>";
-        std::string WEIGHT_SHAPE1= "<%WEIGHT_SHAPE1>";
-        std::string WEIGHT_SHAPE2= "<%WEIGHT_SHAPE2>";
-        std::string ACTIVATION = "<%ACTIVATION>";
-        std::string WEIGHT_VAR = "<%WEIGHT_VAR>";
-        std::string BIAS_VAR= "<%BIAS_VAR>";
 
-        Dense* layer;
-        DenseGenerator(Dense* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
+        Conv2D* layer;
+        Conv2DGenerator(Conv2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 
     void build_map(std::string);
     std::string write_init();
 
 };
 
-class Conv2DGenerator : public LayerWriter{
+class DenseGenerator : public LayerWriter{
     public:
+        std::map<std::string, std::string> mapping;
+        
+        std::string INPUT_SIZE= "<%INPUT_SIZE>";
+        std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
 
-        Conv2D* layer;
-        Conv2DGenerator(Conv2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string BIAS_NAME = "<%BIAS_NAME>";
+
+        Dense* layer;
+        DenseGenerator(Dense* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 
     void build_map(std::string);
     std::string write_init();
