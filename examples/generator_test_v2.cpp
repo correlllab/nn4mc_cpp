@@ -64,6 +64,8 @@ NeuralNetwork* makeNet()
   dense_layer->b = w2;
   dense_layer->units = 5;
 
+  input_layer->layer_type = "InputLayer";
+
 	nn->addLayer(input_layer);
 	nn->addLayer(conv1d_layer);
 	nn->addLayer(dense_layer);
@@ -85,6 +87,8 @@ int main(int argc, char** argv)
 	std::cout << "  Num Ordered Layers: " << (nn->nodes_ord).size() << std::endl;
 	std::cout << "  Num Input Layers: " << (nn->input).size() << std::endl;
 	std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
+
+  nn->reset();
 
 	std::cout << "Making the Code Generator object" << std::endl;
 	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");

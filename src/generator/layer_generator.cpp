@@ -22,7 +22,7 @@ std::string LayerGenerator::END_INITIALIZE_DELIMITER = "<%END_INITIALIZE_TEMPLAT
 /*******************
 * LayerGenerator(std::string template_header_directory, template_source_directory)
 *
-* Create a new object for generating C code for layer representation.  
+* Create a new object for generating C code for layer representation.
 *
 * Arguments:
 *   template_header_directory - Path to the files acting as a template for the layer header code.
@@ -134,7 +134,7 @@ std::string LayerGenerator::processTemplate(std::string layer_template, std::str
 /*******************
 * getFunctionString(std::string layer_template, std::string start_delimiter, std::string end_delimiter)
 *
-* 
+*
 */
 std::string LayerGenerator::getFunctionString(std::string layer_template, std::string start_delimiter, std::string end_delimiter)
 {
@@ -148,14 +148,14 @@ std::string LayerGenerator::getFunctionString(std::string layer_template, std::s
 
 	layer_template = layer_template.substr(start_position, end_position-start_position);
 
-	return layer_template;	
+	return layer_template;
 }
 
 
 /*******************
 * getInitString(std::string layer_template)
 *
-* 
+*
 */
 std::string LayerGenerator::getInitString(std::string layer_template)
 {
@@ -167,7 +167,7 @@ std::string LayerGenerator::getInitString(std::string layer_template)
 /*******************
 * getCallString(std::string layer_template)
 *
-* 
+*
 */
 std::string LayerGenerator::getCallString(std::string layer_template)
 {
@@ -205,7 +205,7 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 	if(iter == include_files.end())
 	{
 		std::string include_contents = processTemplate(include_template, layer_datatype);
-		include_files.insert( std::pair<std::string, std::string>(layer_type, include_contents));	
+		include_files.insert( std::pair<std::string, std::string>(layer_type, include_contents));
 	}
 
 	iter = src_files.find(layer_type);
@@ -217,14 +217,14 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 		// Pull out the code needed to initialize and call functions for this type of layer
 		std::string initString = getInitString(src_template);
 		std::string callString = getCallString(src_template);
-		
+
 		init_calls.insert(std::pair<std::string, std::string>(layer_type, initString));
 		fwd_calls.insert(std::pair<std::string, std::string>(layer_type, callString));
 
 	}
 
 	// Store the layer for later use
-	layers.push_back(layer);	
+	layers.push_back(layer);
 }
 
 
@@ -243,7 +243,7 @@ void LayerGenerator::addLayer(Layer* layer)
 /*******************
 * dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 *
-* 
+*
 *
 * Arguments:
 *   directory - path to the directory to write code to\
@@ -252,11 +252,29 @@ void LayerGenerator::addLayer(Layer* layer)
 */
 void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
+	std::cout << file_map.size() << std::endl;
 	// Loop through the include files and dump into the provided directory with appropriate paths
-	for(std::map<std::string, std::string>::iterator iter = file_map.begin(); iter != file_map.end(); iter++)
-	{
-		std::string path = directory + "/" + iter->first + extension;
+	std::map<std::string, std::string>::iterator iter;
 
+	for(iter = file_map.begin(); iter != file_map.end(); iter++)
+	{
+		std::string path = directory;
+
+		path.append("/");
+		path.append(iter->first);
+		path.append(extension);
+
+		//This is so fucking annoying and its all fake bullshit.
+		// path.append(directory);
+		// std::cout << "here" << std::endl;
+		// path.append("/");
+		// std::cout << "here" << std::endl;
+		// path.append(iter->first);
+		// path.append(extension);
+		// std::cout << "here" << std::endl;
+		// std::cout << path << std::endl;
+		// std::cout << "here1" << std::endl;
+		std::cout << path << std::endl;
 		// Load the template from the provided path
 		std::ofstream output_file(path, std::ios::out);
 
@@ -282,6 +300,7 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 */
 void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 {
+	std::cout << "Hereh" << std::endl;
 	dump(layer_header_directory, include_files, ".h");
 }
 
@@ -296,5 +315,6 @@ void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 */
 void LayerGenerator::dumpLayerSources(std::string layer_src_directory)
 {
+	std::cout << "Heres" << std::endl;
 	dump(layer_src_directory, src_files, ".cpp");
 }
