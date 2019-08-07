@@ -37,9 +37,9 @@ INCLUDE_DIRECTORIES (data)
 INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (libraries)
 
-#INCLUDE_DIRECTORIES (${HDF5_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${HDF5_INCLUDE_DIRS})
 
-FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp)# src/parser/*.cpp)
+FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp src/parser/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
@@ -56,12 +56,10 @@ ADD_EXECUTABLE (json_test examples/json_test.cpp)
 ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
-ADD_EXECUTABLE (generator_test_v2 examples/generator_test_v2.cpp)
 
 TARGET_LINK_LIBRARIES (iterator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
-TARGET_LINK_LIBRARIES (generator_test_v2 nn4mp_core)
 TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nlohmann_json::nlohmann_json)
