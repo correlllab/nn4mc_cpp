@@ -9,15 +9,15 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 OPTION(NN4MP_USE_EXTERNAL_JSON "Use an external JSON library" OFF)
 
 # Packages needed for this project
-#FIND_PACKAGE (HDF5 REQUIRED)
+FIND_PACKAGE (HDF5 REQUIRED)
 
 
-#MESSAGE(STATUS "HDF5 INCLUDE LOCATION:  " ${HDF5_INCLUDE_DIRS})
-#MESSAGE(STATUS "HDF5 LIBRARIES:  " ${HDF5_LIBRARIES})
-#MESSAGE(STATUS "HDF5 HL LIBRARIES:  " ${HDF5_HL_LIBRARIES})
-#MESSAGE(STATUS "HDF5_CXX_LIBRARIES:  " ${HDF5_CXX_LIBRARIES})
+MESSAGE(STATUS "HDF5 INCLUDE LOCATION:  " ${HDF5_INCLUDE_DIRS})
+MESSAGE(STATUS "HDF5 LIBRARIES:  " ${HDF5_LIBRARIES})
+MESSAGE(STATUS "HDF5 HL LIBRARIES:  " ${HDF5_HL_LIBRARIES})
+MESSAGE(STATUS "HDF5_CXX_LIBRARIES:  " ${HDF5_CXX_LIBRARIES})
 
-#MESSAGE(STATUS "version" ${HDF5_VERSION})
+MESSAGE(STATUS "version" ${HDF5_VERSION})
 
 
 # Add other flags to the compiler
@@ -45,16 +45,16 @@ FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp)# src
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
 
 TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE nlohmann_json::nlohmann_json)
-#TARGET_LINK_LIBRARIES(nn4mp_core PUBLIC ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
-#TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE hdf5 hdf5_cpp)
+TARGET_LINK_LIBRARIES(nn4mp_core PUBLIC ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
+TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE hdf5 hdf5_cpp)
 
 # Add the executable
 ADD_EXECUTABLE (tensor_test examples/tensor_test.cpp)
 ADD_EXECUTABLE (generator_test examples/generator_test.cpp)
 ADD_EXECUTABLE (nn_test examples/nn_test.cpp)
 ADD_EXECUTABLE (json_test examples/json_test.cpp)
-#ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
-#ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
+ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
+ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
 ADD_EXECUTABLE (generator_test_v2 examples/generator_test_v2.cpp)
 
@@ -65,9 +65,9 @@ TARGET_LINK_LIBRARIES (generator_test_v2 nn4mp_core)
 TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nlohmann_json::nlohmann_json)
-#TARGET_LINK_LIBRARIES (parser_test nn4mp_core)
-#TARGET_LINK_LIBRARIES (parser_test nlohmann_json::nlohmann_json)
-#TARGET_LINK_LIBRARIES (parser_test hdf5 hdf5_cpp)
-#TARGET_LINK_LIBRARIES (parser_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
-#TARGET_LINK_LIBRARIES (h5cpp_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
-#TARGET_LINK_LIBRARIES (h5cpp_test hdf5 hdf5_cpp)
+TARGET_LINK_LIBRARIES (parser_test nn4mp_core)
+TARGET_LINK_LIBRARIES (parser_test nlohmann_json::nlohmann_json)
+TARGET_LINK_LIBRARIES (parser_test hdf5 hdf5_cpp)
+TARGET_LINK_LIBRARIES (parser_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
+TARGET_LINK_LIBRARIES (h5cpp_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
+TARGET_LINK_LIBRARIES (h5cpp_test hdf5 hdf5_cpp)
