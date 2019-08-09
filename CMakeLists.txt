@@ -1,3 +1,4 @@
+
 # The name of the project
 PROJECT (nn4mp)
 
@@ -51,12 +52,12 @@ TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE hdf5 hdf5_cpp)
 # Add the executable
 ADD_EXECUTABLE (tensor_test examples/tensor_test.cpp)
 ADD_EXECUTABLE (generator_test examples/generator_test.cpp)
+ADD_EXECUTABLE (generator_test_v2 examples/generator_test_v2.cpp)
 ADD_EXECUTABLE (nn_test examples/nn_test.cpp)
 ADD_EXECUTABLE (json_test examples/json_test.cpp)
 ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
-ADD_EXECUTABLE (generator_test_v2 examples/generator_test_v2.cpp)
 
 TARGET_LINK_LIBRARIES (iterator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
