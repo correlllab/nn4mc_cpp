@@ -82,13 +82,13 @@ int main(int argc, char** argv)
 
 	nn->BFS();
 
-	std::cout << "Neural Network: " << std::endl;
+	std::cout << "  Neural Network: " << std::endl;
 	std::cout << "  Num Layers: " << (nn->layers).size() << std::endl;
 	std::cout << "  Num Ordered Layers: " << (nn->nodes_ord).size() << std::endl;
 	std::cout << "  Num Input Layers: " << (nn->input).size() << std::endl;
 	std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
 
-  nn->reset();
+    nn->reset();
 
 	std::cout << "Making the Code Generator object" << std::endl;
 	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");

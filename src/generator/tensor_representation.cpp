@@ -78,12 +78,9 @@ void TensorRepresentation::addPad(unsigned int pad_size)
 std::string TensorRepresentation::getString(Tensor<double>* values)
 {
 	std::cout << "In getString - " << array_start << " " << array_end << std::endl;
-
 	std::stringstream ss;	
-
 	std::vector<unsigned int> offsets = values->offsets;
 	unsigned int num_elements = values->num_elements;
-
 	ss << "{";
 
 	if(values->shape.size() == 1)
@@ -127,6 +124,5 @@ std::string TensorRepresentation::getString(Tensor<double>* values)
 	}
 
 	ss << "}";
-
 	return ss.str();
 }
