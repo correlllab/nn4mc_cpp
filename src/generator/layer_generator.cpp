@@ -258,8 +258,16 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
+		std::cout << "directory:" << std::endl;
 		std::cout << directory << std::endl;
-		std::string path = directory;
+
+		std::cout << typeid(directory).name() << std::endl;
+
+		std::string path;
+		std::cout << typeid(path).name() << std::endl;
+		path = directory.c_str();
+
+		std::cout << "path:" << std::endl;
 		std::cout << path << std::endl;
 
 		path.append("/");

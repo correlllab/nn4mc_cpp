@@ -22,6 +22,7 @@ MESSAGE(STATUS "version" ${HDF5_VERSION})
 
 
 # Add other flags to the compiler
+SET (CMAKE_CXX_FLAGS "-g")
 
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
