@@ -1,10 +1,10 @@
 #include "generator/layer_generator.h"
 #include "datastructures/Layer.h"
-
 #include <fstream>
 #include <string>
 #include <array>
 #include <stdexcept>
+#include <sys/stat.h>
 
 // Define the delimiters used
 std::string LayerGenerator::WEIGHT_DATATYPE_DELIMITER =	"<%WEIGHT_DATATYPE_DELIMITER>";
@@ -142,7 +142,7 @@ std::string LayerGenerator::getFunctionString(std::string layer_template, std::s
 	size_t start_position = layer_template.find(start_delimiter);
 	size_t end_position = layer_template.find(end_delimiter);
 
-	// TODO: Do the delimiters actually exist?
+	// TODO : Do the delimiters actually exist?
 
 	start_position += start_delimiter.length();
 
@@ -252,25 +252,33 @@ void LayerGenerator::addLayer(Layer* layer)
 */
 void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
-    // FIXME: Fix this.
-	std::cout << file_map.size() << std::endl;
 	// Loop through the include files and dump into the provided directory with appropriate paths
 	std::map<std::string, std::string>::iterator iter;
-
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
-        std::cout<< "STARTING AT THE DUMP FUNCTION"<<std::endl;
-		std::string path = directory;
-        
+        // FIXME: These paths compatible with MacOS and Linux not Windows
+        // use boost library to make compatible
+       
+        std::string path = directory;
+        // TODO: boost/filesystem 
+        // if layer/ does not exist create it
+        //if (mkdir(directory.append("/layers/")) != 0){
+        //    std::cout << "not created" <<std::endl;
+        //} else std::cout <<"created" <<std::endl;
+
+
 		path.append("/");
 		path.append(iter->first);
-		path.append(extension);
-		
-        std::cout << path << std::endl;
+        path.append(extension);
+
+        std::cout << path << std::endl; 
+        int size_path = path.length();
+        char open_path[size_path + 1];
+        std::strcpy(open_path, path.c_str());
         
         // Load the template from the provided path
 		std::ofstream output_file;
-        output_file.open(directory, std::ios::out);
+        output_file.open(open_path, std::ios::out);
         
         if(output_file.is_open())
 		{
@@ -294,7 +302,6 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 */
 void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 {
-	std::cout << "dumpLayerHeader: " << layer_header_directory  << std::endl;
 	dump(layer_header_directory, include_files, ".h");
 }
 
@@ -309,6 +316,5 @@ void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 */
 void LayerGenerator::dumpLayerSources(std::string layer_src_directory)
 {
-	std::cout << "Heres" << std::endl;
 	dump(layer_src_directory, src_files, ".cpp");
 }

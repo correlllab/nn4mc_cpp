@@ -56,7 +56,6 @@ CodeGenerator::~CodeGenerator()
 void CodeGenerator::generate()
 {
 	NeuralNetwork::iterator it;
-    std::cout<< "here0"<<std::endl;
 	// Pull all weights from the neural network and add it to the weight code generator
 	// for (weight in neural_net)
     
@@ -64,28 +63,22 @@ void CodeGenerator::generate()
 	{
         if(it->layer->layer_type != "InputLayer")
 		{
-            std::cout<< "here0.0005"<< std::endl;
 		//	weight_generator->addWeight(it->layer->w);
-            std::cout<< "addWeight?" <<std::endl;
 		//	weight_generator->addWeight(it->layer->b);
 		}
 	}
     
-    std::cout <<"here0.5" <<std::endl;
 	neural_net->reset();
-    std::cout<<"here1"<<std::endl;
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
 		if(it->layer->layer_type != "InputLayer")
 		{
-			std::cout << it->layer->identifier << std::endl;
 			layer_generator->addLayer(it->layer);
 		}
 	}
     
-    std::cout<< "here2"<<std::endl;
 	neural_net->reset();
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
@@ -94,7 +87,6 @@ void CodeGenerator::generate()
 	{
 		if(it->layer->layer_type != "InputLayer")
 		{
-			std::cout << it->layer->identifier << std::endl;
 			//For each layer call addLayer from NNGenerator for header, init, and forward.
 			nn_generator->addLayer_Header(it->layer); //it->layer may need to be different
 			nn_generator->addLayer_Init(*it); //may need to pass whole layernode.
@@ -102,21 +94,17 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-    std::cout<< "here3"<<std::endl;
    
     
 }
 
 void CodeGenerator::dump()
 {
-    std::cout<< output_folder <<std::endl;
 	// Write all of the code to the output directory
 	weight_generator->dump(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME);
-	std::cout << "Here" << std::endl;
 	// Write all of the layer header and source
 	layer_generator->dumpLayerHeaders(output_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR);
 	layer_generator->dumpLayerSources(output_folder + "/" + LAYER_TEMPLATE_SRC_DIR);
-	std::cout << "Here" << std::endl;
 	//Write out header file and source file for neural_network
 	nn_generator->dumpHeader(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
 HEADER_FILENAME);
