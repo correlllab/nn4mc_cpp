@@ -274,7 +274,6 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 		path.append(iter->first);
 		path.append(extension);
 
-		//This is so fucking annoying and its all fake bullshit.
 		// path.append(directory);
 		// std::cout << "here" << std::endl;
 		// path.append("/");
