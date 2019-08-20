@@ -86,7 +86,6 @@ void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer f
 	if(it != layer_gen->init_calls.end())
 		init_string = it->second; //Unedited initialization string.
 
-	std::cout << init_string << std::endl;
 	//Take init string and give it to LayerWriter to return edited string.
 	LayerWriter* writer = LayerWriter::make_writer(node.layer, init_string);
 
@@ -126,6 +125,9 @@ void NNGenerator::dumpHeader(std::string output_path)
 
 void NNGenerator::dumpSource(std::string output_path)
 {
+	source.erase(source.find(INIT), INIT.length());
+	source.erase(source.find(FWD), FWD.length());
+
 	std::ofstream outfile(output_path);
 
 	if(outfile.is_open())

@@ -11,11 +11,11 @@
 * TensorRepresentation
 */
 TensorRepresentation::TensorRepresentation()
-{	
+{
 	// Initially assume no padding after newline
 	std::cout << "In default constructor" << std::endl;
 
-	// Assume that C / C++ arrays are being used, and the dimensionality of 
+	// Assume that C / C++ arrays are being used, and the dimensionality of
 	// the array matches that of the tensor
 	array_start = std::string("{");
 	array_end = std::string("}");
@@ -54,7 +54,7 @@ TensorRepresentation::~TensorRepresentation()
 * a string
 *
 * Arguments:
-*   pad_size - how many spaces to add to the pad 
+*   pad_size - how many spaces to add to the pad
 */
 void TensorRepresentation::addPad(unsigned int pad_size)
 {
@@ -73,12 +73,12 @@ void TensorRepresentation::addPad(unsigned int pad_size)
 * array in C
 *
 * Arguments:
-*   values - the Tensor to convert 
+*   values - the Tensor to convert
 */
 std::string TensorRepresentation::getString(Tensor<double>* values)
 {
-	std::cout << "In getString - " << array_start << " " << array_end << std::endl;
-	std::stringstream ss;	
+	//std::cout << "In getString - " << array_start << " " << array_end << std::endl;
+	std::stringstream ss;
 	std::vector<unsigned int> offsets = values->offsets;
 	unsigned int num_elements = values->num_elements;
 	ss << "{";

@@ -48,6 +48,8 @@ void Conv1DGenerator::build_map(std::string prev_id){
 }
 std::string Conv1DGenerator::write_init()
 {
+  build_map("");
+
   //Take init string and replace delimiters.
 	std::string delim;
 	size_t start = 0;
@@ -59,20 +61,19 @@ std::string Conv1DGenerator::write_init()
 	//Replace all delimiters in the string.
 	while(start != std::string::npos)
 	{
-		delim = init_template.substr(start,end-start);
+		delim = init_template.substr(start,end-start+1);
 
 		//Do stuff with the delimiter.
 		delim = mapping[delim];
 
 		//Replace the delimiter.
-		init_template.replace(start,end-start,delim);
+		init_template.replace(start,end-start+1,delim);
 
 
 		//Reset start and end positions.
 		start = init_template.find_first_of("<%",end);
 		end = init_template.find_first_of(">", start);
 	}
-	init_template += '\n';
 
   return init_template;
 }
@@ -97,6 +98,8 @@ void DenseGenerator::build_map(std::string prev_id){
 }
 std::string DenseGenerator::write_init()
 {
+  build_map("");
+
   //Take init string and replace delimiters.
 	std::string delim;
 	size_t start = 0;
@@ -108,20 +111,17 @@ std::string DenseGenerator::write_init()
 	//Replace all delimiters in the string.
 	while(start != std::string::npos)
 	{
-		delim = init_template.substr(start,end-start);
-
+		delim = init_template.substr(start,end-start+1);
 		//Do stuff with the delimiter.
 		delim = mapping[delim];
-
 		//Replace the delimiter.
-		init_template.replace(start,end-start,delim);
+		init_template.replace(start,end-start+1,delim);
 
 
 		//Reset start and end positions.
 		start = init_template.find_first_of("<%",end);
 		end = init_template.find_first_of(">", start);
 	}
-	init_template += '\n';
 
   return init_template;
 }

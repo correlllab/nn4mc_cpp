@@ -3,15 +3,13 @@
 void buildNN()
 {
    
-Conv1D > = buildConv1D(>, <%BIAS_NAME>, >, <%STRIDE_SIZE>, >, <%OUTPUT_CHANNELS>, >);
+Conv1D layer1 = buildConv1D(conv1_weight, conv1_bias, 5, <%STRIDE_SIZE>, 1, <%OUTPUT_CHANNELS>, 1);
 
-
-Dense > = buildDense(>, <%BIAS_NAME>, >, <%OUTPUT_SIZE>);
-
- <%BUILD_FUNCTION>
+Dense layer2 = buildDense(conv1_weight, conv1_bias, 1, <%OUTPUT_SIZE>);
+ 
 }
 
 void fwdNN(<%WEIGHT_DATATYPE>* input, <%WEIGHT_DATATYPE>* output)
 {
-    <%FWD_FUNCTION>
+    
 }

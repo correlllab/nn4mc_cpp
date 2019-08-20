@@ -153,7 +153,7 @@ void WeightGenerator::addWeight(Weight* weight)
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
 
 	// Replace the data name delimiter with this weight's id
-	std::cout << weight->identifier << std::endl;
+	//std::cout << weight->identifier << std::endl;
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);
 
 	// Figure out what the index should look like, and then place in the delimiter

@@ -61,15 +61,15 @@ void CodeGenerator::generate()
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-        if(it->layer->layer_type != "InputLayer")
+    if(it->layer->layer_type != "InputLayer")
 		{
-		//	weight_generator->addWeight(it->layer->w);
-		//	weight_generator->addWeight(it->layer->b);
+			weight_generator->addWeight(it->layer->w);
+			//weight_generator->addWeight(it->layer->b); //Something here
 		}
 	}
 
 	neural_net->reset();
-	
+
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
@@ -105,8 +105,10 @@ void CodeGenerator::dump()
 	weight_generator->dump(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME);
 	// Write all of the layer header and source
 	layer_generator->dumpLayerHeaders(output_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR);
+	std::cout << "Here" << std::endl;
 	layer_generator->dumpLayerSources(output_folder + "/" + LAYER_TEMPLATE_SRC_DIR);
 	//Write out header file and source file for neural_network
+	std::cout << "Here" << std::endl;
 	nn_generator->dumpHeader(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
 HEADER_FILENAME);
 	nn_generator->dumpSource(output_folder + "/" + SOURCE_TEMPLATE_PATH + "/" +
