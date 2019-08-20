@@ -59,16 +59,18 @@ void CodeGenerator::generate()
     std::cout<< "here0"<<std::endl;
 	// Pull all weights from the neural network and add it to the weight code generator
 	// for (weight in neural_net)
+    
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
         if(it->layer->layer_type != "InputLayer")
 		{
             std::cout<< "here0.0005"<< std::endl;
-			weight_generator->addWeight(it->layer->w);
+		//	weight_generator->addWeight(it->layer->w);
             std::cout<< "addWeight?" <<std::endl;
-			weight_generator->addWeight(it->layer->b);
+		//	weight_generator->addWeight(it->layer->b);
 		}
 	}
+    
     std::cout <<"here0.5" <<std::endl;
 	neural_net->reset();
     std::cout<<"here1"<<std::endl;
@@ -82,6 +84,7 @@ void CodeGenerator::generate()
 			layer_generator->addLayer(it->layer);
 		}
 	}
+    
     std::cout<< "here2"<<std::endl;
 	neural_net->reset();
 
@@ -100,6 +103,8 @@ void CodeGenerator::generate()
 	}
 	neural_net->reset();
     std::cout<< "here3"<<std::endl;
+   
+    
 }
 
 void CodeGenerator::dump()

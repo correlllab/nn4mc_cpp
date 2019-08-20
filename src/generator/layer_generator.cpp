@@ -252,21 +252,20 @@ void LayerGenerator::addLayer(Layer* layer)
 */
 void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
+    // FIXME: Fix this.
 	std::cout << file_map.size() << std::endl;
 	// Loop through the include files and dump into the provided directory with appropriate paths
 	std::map<std::string, std::string>::iterator iter;
 
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
-		std::cout << directory << std::endl;
-		std::string path = directory;
-		std::cout << path << std::endl;
 
+        std::cout<< "STARTING AT THE DUMP FUNCTION"<<std::endl;
+		std::string path = directory;
+        
 		path.append("/");
 		path.append(iter->first);
 		path.append(extension);
-
-		//This is so fucking annoying and its all fake bullshit.
 		// path.append(directory);
 		// std::cout << "here" << std::endl;
 		// path.append("/");
@@ -277,10 +276,11 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 		// std::cout << path << std::endl;
 		// std::cout << "here1" << std::endl;
 		std::cout << path << std::endl;
-		// Load the template from the provided path
+        
+        // Load the template from the provided path
 		std::ofstream output_file(path, std::ios::out);
-
-		if(output_file.is_open())
+        
+        if(output_file.is_open())
 		{
 			output_file << iter->second;
 			output_file.close();

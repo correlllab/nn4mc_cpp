@@ -106,8 +106,6 @@ class MaxPooling1D : public Layer{
 } ;
 
 class MaxPooling2D: public Layer{
-
-
     public:
         std::vector<int> pool_size;
         std::vector<int> strides;
