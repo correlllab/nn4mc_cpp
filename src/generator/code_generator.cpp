@@ -109,6 +109,7 @@ void CodeGenerator::generate()
 
 void CodeGenerator::dump()
 {
+    std::cout<< output_folder <<std::endl;
 	// Write all of the code to the output directory
 	weight_generator->dump(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME);
 	std::cout << "Here" << std::endl;

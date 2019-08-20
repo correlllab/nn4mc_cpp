@@ -90,8 +90,8 @@ int main(int argc, char** argv)
 
     nn->reset();
 
-	std::cout << "Making the Code Generator object" << std::endl;
-	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");
+    std::cout << "Making the Code Generator object" << std::endl;
+	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "/Users/sarahaguasvivas/neural_networks_for_microprocessors/example_out");
 	std::cout << "Generating Layer and Weight stuff" << std::endl;
 	code_gen->generate();
 	std::cout << "Dumping the code" << std::endl;

@@ -24,6 +24,8 @@ MESSAGE(STATUS "version" ${HDF5_VERSION})
 # Add other flags to the compiler
 SET (CMAKE_CXX_FLAGS "-g")
 
+add_definitions (-DDUMP_PATH=${PROJECT_SOURCE_DIR}/example_out)
+
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
 # Version Number

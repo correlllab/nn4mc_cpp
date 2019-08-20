@@ -259,26 +259,18 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
-
         std::cout<< "STARTING AT THE DUMP FUNCTION"<<std::endl;
 		std::string path = directory;
         
 		path.append("/");
 		path.append(iter->first);
 		path.append(extension);
-		// path.append(directory);
-		// std::cout << "here" << std::endl;
-		// path.append("/");
-		// std::cout << "here" << std::endl;
-		// path.append(iter->first);
-		// path.append(extension);
-		// std::cout << "here" << std::endl;
-		// std::cout << path << std::endl;
-		// std::cout << "here1" << std::endl;
-		std::cout << path << std::endl;
+		
+        std::cout << path << std::endl;
         
         // Load the template from the provided path
-		std::ofstream output_file(path, std::ios::out);
+		std::ofstream output_file;
+        output_file.open(directory, std::ios::out);
         
         if(output_file.is_open())
 		{
@@ -302,7 +294,7 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 */
 void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 {
-	std::cout << "Hereh" << std::endl;
+	std::cout << "dumpLayerHeader: " << layer_header_directory  << std::endl;
 	dump(layer_header_directory, include_files, ".h");
 }
 
