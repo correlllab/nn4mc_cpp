@@ -5,7 +5,6 @@
 #include <string>
 #include <stdexcept>
 
-
 std::string WeightGenerator::TEMPLATE_BEGIN_DELIMITER =	"<%BEGIN_TEMPLATE>";
 std::string WeightGenerator::TEMPLATE_END_DELIMITER =	"<%END_TEMPLATE>";
 std::string WeightGenerator::DATATYPE_DELIMITER =		"<%WEIGHT_DATATYPE>";
@@ -145,13 +144,11 @@ void WeightGenerator::addWeight(Weight* weight)
 {
 	// Pull out the weight's tensor for simplicity
 	Tensor<double> values = *(weight->get_weight_tensor());
-
 	// Make a copy of the content template
 	std::string content(template_contents);
-
 	// Replace the datatype delimiter with the defined datatype
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
-
+    
 	// Replace the data name delimiter with this weight's id
 	//std::cout << weight->identifier << std::endl;
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);
@@ -182,7 +179,6 @@ void WeightGenerator::addWeight(Weight* weight)
 	tensorRepresentation->addPad((unsigned int) content.find(DATA_DELIMITER));
 	std::string data_string = tensorRepresentation->getString(weight->get_weight_tensor());
 	replaceDelimiter(&content, DATA_DELIMITER, data_string);
-
 	// And push this into the contents
 	contents.push_back(content);
 }
