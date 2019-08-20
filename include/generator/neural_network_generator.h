@@ -19,6 +19,7 @@ class NNGenerator
     	static std::string INIT;
     	static std::string FWD;
     	static std::string INC;
+      static std::string STRUC;
 
     	//Paths to header and source file for neural_network.
       std::string header_template_path;

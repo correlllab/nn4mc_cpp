@@ -256,31 +256,28 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 	std::map<std::string, std::string>::iterator iter;
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
-        // FIXME: These paths compatible with MacOS and Linux not Windows
-        // use boost library to make compatible
-       
-        std::string path = directory;
-        // TODO: boost/filesystem 
-        // if layer/ does not exist create it
-        //if (mkdir(directory.append("/layers/")) != 0){
-        //    std::cout << "not created" <<std::endl;
-        //} else std::cout <<"created" <<std::endl;
+    // FIXME: These paths compatible with MacOS and Linux not Windows
+    // use boost library to make compatible
+
+    std::string path = directory;
+    // TODO: boost/filesystem
+    // if layer/ does not exist create it
+    //if (mkdir(directory.append("/layers/")) != 0){
+    //    std::cout << "not created" <<std::endl;
+    //} else std::cout <<"created" <<std::endl;
 
 
 		path.append("/");
 		path.append(iter->first);
-        path.append(extension);
+    path.append(extension);
 
-        std::cout << path << std::endl; 
-        int size_path = path.length();
-        char open_path[size_path + 1];
-        std::strcpy(open_path, path.c_str());
-        
-        // Load the template from the provided path
+    //std::cout << path << std::endl;
+
+    // Load the template from the provided path
 		std::ofstream output_file;
-        output_file.open(open_path, std::ios::out);
-        
-        if(output_file.is_open())
+    output_file.open(path, std::ios::out);
+
+    if(output_file.is_open())
 		{
 			output_file << iter->second;
 			output_file.close();

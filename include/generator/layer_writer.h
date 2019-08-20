@@ -24,6 +24,8 @@ class LayerWriter{
         virtual std::string write_init()=0;
         virtual void build_map(std::string)=0;
         virtual ~LayerWriter() = default;
+
+        std::string LAYER_NAME = "<%LAYER_NAME>";
 };
 
 class Conv1DGenerator : public LayerWriter{
@@ -63,7 +65,7 @@ class Conv2DGenerator : public LayerWriter{
 class DenseGenerator : public LayerWriter{
     public:
         std::map<std::string, std::string> mapping;
-        
+
         std::string INPUT_SIZE= "<%INPUT_SIZE>";
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
 

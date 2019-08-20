@@ -58,7 +58,7 @@ void CodeGenerator::generate()
 	NeuralNetwork::iterator it;
 	// Pull all weights from the neural network and add it to the weight code generator
 	// for (weight in neural_net)
-    
+
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
         if(it->layer->layer_type != "InputLayer")
@@ -67,8 +67,9 @@ void CodeGenerator::generate()
 		//	weight_generator->addWeight(it->layer->b);
 		}
 	}
-    
+
 	neural_net->reset();
+	
 	// Pull all the layers from the neural network and add it to the layer code generator
 	// for (layer in neural_net)
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
@@ -78,11 +79,11 @@ void CodeGenerator::generate()
 			layer_generator->addLayer(it->layer);
 		}
 	}
-    
+
 	neural_net->reset();
 
 	// Pull the layer evaluation order from the neural network, and generate the neural net code
-    
+
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
 		if(it->layer->layer_type != "InputLayer")
@@ -94,8 +95,8 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-   
-    
+
+
 }
 
 void CodeGenerator::dump()

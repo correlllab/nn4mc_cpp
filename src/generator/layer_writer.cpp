@@ -34,6 +34,8 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 
 void Conv1DGenerator::build_map(std::string prev_id){
 
+    mapping[LAYER_NAME] = layer->identifier;
+
     mapping[KERNEL_SIZE] = std::to_string((int)layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
     mapping[INPUT_SIZE] = "1"; //Fake
@@ -57,7 +59,7 @@ std::string Conv1DGenerator::write_init()
 	//Replace all delimiters in the string.
 	while(start != std::string::npos)
 	{
-		delim = init_template.substr(start+1,end-start-2);
+		delim = init_template.substr(start,end-start);
 
 		//Do stuff with the delimiter.
 		delim = mapping[delim];
@@ -85,6 +87,8 @@ std::string Conv2DGenerator::write_init()
 
 void DenseGenerator::build_map(std::string prev_id){
 
+    mapping[LAYER_NAME] = layer->identifier;
+
     mapping[INPUT_SIZE] = "1"; //Fake
     mapping[OUTPUT_SIZE] = layer->units;
 
@@ -104,7 +108,7 @@ std::string DenseGenerator::write_init()
 	//Replace all delimiters in the string.
 	while(start != std::string::npos)
 	{
-		delim = init_template.substr(start+1,end-start-2);
+		delim = init_template.substr(start,end-start);
 
 		//Do stuff with the delimiter.
 		delim = mapping[delim];
