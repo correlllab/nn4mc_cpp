@@ -22,7 +22,8 @@ MESSAGE(STATUS "version" ${HDF5_VERSION})
 
 
 # Add other flags to the compiler
-SET (CMAKE_CXX_FLAGS "-g")
+#SET (CMAKE_CXX_FLAGS "-g")
+#set(CMAKE_BUILD_TYPE Debug)
 
 add_definitions (-DDUMP_PATH=${PROJECT_SOURCE_DIR}/example_out)
 

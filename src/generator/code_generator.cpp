@@ -64,7 +64,7 @@ void CodeGenerator::generate()
     if(it->layer->layer_type != "InputLayer")
 		{
 			weight_generator->addWeight(it->layer->w);
-			//weight_generator->addWeight(it->layer->b); //Something here
+			weight_generator->addWeight(it->layer->b); //Something here
 		}
 	}
 
