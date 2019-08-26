@@ -31,7 +31,7 @@
 #include <exception>
 #include <vector>
 #include <string>
-
+#include <iostream>
 template <class DataType>
 class Tensor
 {
@@ -121,11 +121,10 @@ Tensor<DataType>::~Tensor()
 {
 	// Delete the allocated memory and free up the memory, and set it
 	// to NULL so it won't be de-allocated again by accident (somehow)
-	delete[] data;
+    
 	shape.clear();
 	offsets.clear();
-
-	data = NULL;
+	data = NULL; // No need to deallocate if we do that TODO find out if it is true.
 }
 
 
