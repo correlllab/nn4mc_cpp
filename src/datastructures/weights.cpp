@@ -9,7 +9,7 @@ Weight::Weight(std::string id, std::vector<unsigned int> shape)
 
 Weight::~Weight()
 {
-//	delete values;
+	delete values; //Changed by Cooper
 }
 
 Tensor<double>* Weight::get_weight_tensor()
