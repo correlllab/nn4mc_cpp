@@ -5,8 +5,8 @@
 * existence of a file.
 */
 
-#include <string>
 #include "boost/filesystem.hpp"
+#include <string>
 
 #ifndef __FILE_CREATOR_H__
 #define __FILE_CREATOR_H__
@@ -14,17 +14,14 @@
 class FileCreator
 {
 	private:
-	std::string FILE_PATH;
-        boost::filesystem::path convertStringToPath(std::string);
+        boost::filesystem::path boost_path;
 
 	public:
-		FileCreator(std::string);
-		~FileCreator();
+        FileCreator(std::string);
+        ~FileCreator();
 
-        bool checkFileExists(std::string); //overloaded for string path
-        bool checkFileExists(boost::filesystem::path); //overloaded for boost path
-        void createFile(std::string);
-        void createFile(boost::filesystem::path);
+        bool checkExists(); 
+        void createFile();
 };
 
 #endif

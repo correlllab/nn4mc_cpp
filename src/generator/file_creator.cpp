@@ -1,37 +1,36 @@
+#include <iostream>
 #include "generator/file_creator.h"
 
+/*
+FileCreator::FileCreator()
+{
+    std::cout << "file_creator.cpp: zero argument constructor" << std::endl;
+}
+*/
 FileCreator::FileCreator(std::string path_string){
+    boost::filesystem::path path{path_string};
+    boost_path = path;
+}
 
+FileCreator::~FileCreator()
+{
 
 }
 
-
-bool FileCreator::checkFileExists(std::string path_string){
-
-     
+bool FileCreator::checkExists(){
+    // checks if exists wrt to directory that is building
+    // won't be a problem cause will make environment variable
+    // with root of nn4mc
+    
+    return (bool)boost::filesystem::exists(boost_path);
 }
 
-
-bool FileCreator::checkFileExists(boost::filesystem::path boost_path){
-
-
-
-}
-
-
-void FileCreator::createFile(std::string path_string){
-
-
-
+void FileCreator::createFile(){
+    
+            
 
 }
 
-
-void FileCreator::createFile(boost::filesystem::path path_boost){
-
-
-
-}
 
 
 

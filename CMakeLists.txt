@@ -30,7 +30,7 @@ MESSAGE(STATUS "Boost version: ${Boost_VERSION}")
 # Add other flags to the compiler
 SET (CMAKE_CXX_FLAGS "-g")
 
-add_definitions (-DDUMP_PATH=${PROJECT_SOURCE_DIR}/example_out)
+add_definitions (-DDUMP_PATH_ROOT=${PROJECT_SOURCE_DIR})
 
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
@@ -53,7 +53,7 @@ INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIR})
 
 SET(LIBS_TO_LINK ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp src/parser/*.cpp)
+FILE (GLOB CORE_LIB src/generator/*.cpp src/*.cpp src/datastructures/*.cpp src/parser/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
@@ -62,7 +62,6 @@ TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE nlohmann_json::nlohmann_json)
 TARGET_LINK_LIBRARIES(nn4mp_core PUBLIC ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE hdf5 hdf5_cpp)
 TARGET_LINK_LIBRARIES(nn4mp_core PRIVATE ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
-
 
 # Add the executable
 ADD_EXECUTABLE (tensor_test examples/tensor_test.cpp)
@@ -73,9 +72,9 @@ ADD_EXECUTABLE (json_test examples/json_test.cpp)
 ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
-
 ADD_EXECUTABLE (file_creator_test examples/file_creator_test.cpp)
 
+#TARGET_LINK_LIBRARIES (file_creator_test ${Boost_LIBRARIES})
 TARGET_LINK_LIBRARIES (iterator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
@@ -89,5 +88,5 @@ TARGET_LINK_LIBRARIES (parser_test hdf5 hdf5_cpp)
 TARGET_LINK_LIBRARIES (parser_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES (h5cpp_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES (h5cpp_test hdf5 hdf5_cpp)
-TARGET_LINK_LIBRARIES (file_creator_test ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES (file_creator_test nn4mp_core ${Boost_LIBRARIES})
 
