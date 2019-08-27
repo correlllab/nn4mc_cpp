@@ -30,10 +30,6 @@ MESSAGE(STATUS "Boost version: ${Boost_VERSION}")
 # Add other flags to the compiler
 SET (CMAKE_CXX_FLAGS "-g")
 
-# Trying to set the package root file
-#ADD_DEFINITIONS( -DDUMP_PATH_ROOT=${PROJECT_SOURCE_DIR})
-SET (ENV{NN4MC_ROOT} ${PROJECT_SOURCE_DIR})
-
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
 
