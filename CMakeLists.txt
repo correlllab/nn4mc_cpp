@@ -11,6 +11,7 @@ OPTION(NN4MP_USE_EXTERNAL_JSON "Use an external JSON library" OFF)
 
 # Packages needed for this project
 FIND_PACKAGE (HDF5 REQUIRED)
+FIND_PACKAGE (Boost 1.40 COMPONENTS program_options REQUIRED)
 
 
 MESSAGE(STATUS "HDF5 INCLUDE LOCATION:  " ${HDF5_INCLUDE_DIRS})
@@ -42,6 +43,7 @@ INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (libraries)
 
 INCLUDE_DIRECTORIES (${HDF5_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIR})
 
 FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/generator/*.cpp src/parser/*.cpp)
 
@@ -61,6 +63,8 @@ ADD_EXECUTABLE (json_test examples/json_test.cpp)
 ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
+ADD_EXECUTABLE (file_creator examples/file_creator.cpp)
+
 
 TARGET_LINK_LIBRARIES (iterator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (tensor_test nn4mp_core)
@@ -75,3 +79,4 @@ TARGET_LINK_LIBRARIES (parser_test hdf5 hdf5_cpp)
 TARGET_LINK_LIBRARIES (parser_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES (h5cpp_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES (h5cpp_test hdf5 hdf5_cpp)
+TARGET_LINK_LIBRARIES (file_creator LINK_PUBLIC ${Boost_LIBRARIES})
