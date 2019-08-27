@@ -6,7 +6,7 @@
 */
 
 #include <string>
-#include <boost/filesystem.hpp>
+#include "boost/filesystem.hpp"
 
 #ifndef __FILE_CREATOR_H__
 #define __FILE_CREATOR_H__
@@ -22,7 +22,7 @@ class FileCreator
 		~FileCreator();
 
         bool checkFileExists(std::string); //overloaded for string path
-        bool checkFileExists(boost:filesystem::path); //overloaded for boost path
+        bool checkFileExists(boost::filesystem::path); //overloaded for boost path
         void createFile(std::string);
         void createFile(boost::filesystem::path);
 };

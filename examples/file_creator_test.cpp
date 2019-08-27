@@ -1,10 +1,8 @@
+#include <iostream>
 #include "generator/file_creator.h"
 
-using namespace H5;
-
-int main(int argc, char** argv)
+int main()
 {
-	const H5std_string FILE_NAME("blah.h5");	
-	H5File file(FILE_NAME, H5F_ACC_RDONLY);
+    std::cout<< "Imported file creator!" <<std::endl;
 	return 0;
 }

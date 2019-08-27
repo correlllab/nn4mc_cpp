@@ -1,6 +1,5 @@
 #include "generator/file_creator.h"
 
-
 FileCreator::FileCreator(std::string path_string){
 
 
