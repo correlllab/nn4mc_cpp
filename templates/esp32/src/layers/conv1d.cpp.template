@@ -58,10 +58,10 @@ void fwdConv1D(Conv1D* layer, <%LAYER_DATATYPE_DELIMITER>* input, <%LAYER_DATATY
 			<%INDEX_DATATYPE_DELIMITER> input_position = output_position * L.stride;
 			for(<%INDEX_DATATYPE_DELIMITER> kernel_position = 0; kernel_position < L.kernel_shape[0]; kernel_position++)
 			{
-				for(<%INDEX_DATATYPE_DELIMITER> input_channel = 0; input_channel < L.kernek_shape[1]; kernel_shape++)
+				for(<%INDEX_DATATYPE_DELIMITER> input_channel = 0; input_channel < L.kernel_shape[1]; kernel_shape++)
 				{
 					// What are the flattened indices of the weight matrix and input
-					weight_idx = L.kernel_shape[1] * L.kernel_shape[2] * kernel_position + 
+					weight_idx = L.kernel_shape[1] * L.kernel_shape[2] * kernel_position +
 					             L.kernel_shape[2] * input_channel + output_channel;
 					input_idx = (input_position + kernel_position) * L.kernel_shape[1] + input_channel;
 

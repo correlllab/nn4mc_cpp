@@ -9,7 +9,11 @@ Dense layer2 = buildDense(dense_weight, dense_bias, 1, <%OUTPUT_SIZE>);
  
 }
 
-void fwdNN(<%WEIGHT_DATATYPE>* input, <%WEIGHT_DATATYPE>* output)
+void fwdNN(<%WEIGHT_DATATYPE>* input)
 {
-    
+   
+input = fwdConv1D(layer1, input, <%OUTPUT>);
+
+input = fwdDense(layer2, input, <%OUTPUT>);
+ 
 }
