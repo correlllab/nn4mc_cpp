@@ -25,9 +25,9 @@ bool FileCreator::checkExists(){
     return (bool)boost::filesystem::exists(boost_path);
 }
 
-void FileCreator::createFile(){
+void FileCreator::createDirectory(){
     
-            
+    boost::filesystem::create_directory(boost_path);                
 
 }
 
