@@ -21,7 +21,7 @@ class FileCreator
         ~FileCreator();
 
         bool checkExists(); 
-        void createFile();
+        void createDirectory();
 };
 
 #endif
