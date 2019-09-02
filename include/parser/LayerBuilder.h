@@ -25,6 +25,17 @@ class LayerBuilder{
             virtual ~LayerBuilder() = default;
 };
 
+class InputBuilder : public LayerBuilder{
+    public:
+        Input * layerObject;
+        InputBuilder(std::string id){
+            this->layer_id = id;
+            layerObject = new InputLayer(id);
+        }
+        void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
+}
+
+
 class Conv1DBuilder : public LayerBuilder {
     public:
         Conv1D * layerObject; 
