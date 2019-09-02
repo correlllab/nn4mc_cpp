@@ -1,4 +1,5 @@
 #include "generator/code_generator.h"
+#include "generator/file_creator.h"
 #include <iostream>
 
 std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
@@ -26,6 +27,11 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 	// Store the template and output folders, and the neural network to process
 	template_folder = template_directory;
 	output_folder = output_directory;
+
+    // Creating folder tree necessary for nn4mc:
+    FileCreator file_creator(output_directory);
+    file_creator.create_codegen_file_tree();
+
 
 	// Store the neural network
 	neural_net = neural_network;
@@ -63,8 +69,9 @@ void CodeGenerator::generate()
 	{
     if(it->layer->layer_type != "InputLayer")
 		{
-            std::cout<< it->layer->w <<std::endl;
+	    std::cout<< it->layer->w->identifier << std::endl;
 			weight_generator->addWeight(it->layer->w);
+			std::cout<< it->layer->b->identifier << std::endl;
 			weight_generator->addWeight(it->layer->b); //Something here
 		}
 	}
@@ -92,11 +99,10 @@ void CodeGenerator::generate()
 			//For each layer call addLayer from NNGenerator for header, init, and forward.
 			nn_generator->addLayer_Header(it->layer); //it->layer may need to be different
 			nn_generator->addLayer_Init(*it); //may need to pass whole layernode.
-			//nn_generator->addLayer_Fwd(it->layer);
+			nn_generator->addLayer_Fwd(it->layer);
 		}
 	}
 	neural_net->reset();
-
 
 }
 

@@ -9,7 +9,7 @@ int main()
     std::cout << path << std::endl; 
     FileCreator file_creator(path);
     std::cout << file_creator.checkExists() << std::endl;
-    file_creator.createDirectory();
+    file_creator.createNewDirectory();
     std::cout << "FileCreator: end of file creator example " << std::endl;
 	return 0;
 }

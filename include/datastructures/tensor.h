@@ -121,10 +121,11 @@ Tensor<DataType>::~Tensor()
 {
 	// Delete the allocated memory and free up the memory, and set it
 	// to NULL so it won't be de-allocated again by accident (somehow)
-    delete [] data; 
 	shape.clear();
 	offsets.clear();
+	delete [] data;
 	data = NULL; 
+
 }
 
 

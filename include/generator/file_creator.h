@@ -21,7 +21,8 @@ class FileCreator
         ~FileCreator();
 
         bool checkExists(); 
-        void createDirectory();
+        void createNewDirectory();
+        void create_codegen_file_tree();
 };
 
 #endif
