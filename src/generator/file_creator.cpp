@@ -1,6 +1,8 @@
 #include <iostream>
 #include "generator/file_creator.h"
 #include <sstream>
+#include <string>
+
 /*
 FileCreator::FileCreator()
 {
@@ -26,10 +28,9 @@ bool FileCreator::checkExists(){
     return (bool)boost::filesystem::exists(boost_path);
 }
 
-void FileCreator::createDirectory(){
+void FileCreator::createNewDirectory(){
 
     if (this->checkExists() == true){
-        std::cout << "file existed so created new file!" <<std::endl;
         int i=0;
         while (boost::filesystem::exists(boost_path)){
             i++;
@@ -40,6 +41,16 @@ void FileCreator::createDirectory(){
     }
     boost::filesystem::create_directory(boost_path);                
     
+}
+
+void FileCreator::create_codegen_file_tree(){
+    
+    boost::filesystem::create_directory(boost_path);
+    boost::filesystem::create_directory(boost_path / "include");
+    boost::filesystem::create_directory(boost_path / "src");
+    boost::filesystem::create_directory(boost_path / "include" / "layers");
+    boost::filesystem::create_directory(boost_path / "/src" / "layers");
+
 }
 
 
