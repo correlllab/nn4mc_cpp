@@ -23,13 +23,4 @@ class Parser{
 };
 
 
-class JSONParser : public Parser{
-    public:
-        int parse();
-        JSONParser(std::string file_name_str){
-            this->file_name= file_name_str;
-        }
-        
-};
-
 #endif

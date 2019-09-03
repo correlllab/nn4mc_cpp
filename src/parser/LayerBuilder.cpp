@@ -19,7 +19,7 @@ void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::str
 void InputBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
     
-
+   // TODO: Figure out if I actually need this 
 
 
 }
