@@ -34,13 +34,6 @@ int main(int argc, char** argv)
 	std::cout << "Dumping the code" << std::endl;
 	code_gen->dump();
 
-  // delete w1;
-  // delete w2;
-  // delete w3;
-  // delete w4;
-  // delete input_layer;
-  // delete conv1d_layer;
-  // delete dense_layer;
   delete nn;
 
 }

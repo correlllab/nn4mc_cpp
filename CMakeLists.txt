@@ -1,4 +1,3 @@
-
 # The name of the project
 PROJECT (nn4mp)
 
@@ -29,7 +28,6 @@ MESSAGE(STATUS "Boost version: ${Boost_VERSION}")
 
 # Add other flags to the compiler
 SET (CMAKE_CXX_FLAGS "-g")
-#SET (CMAKE_CXX_FLAGS "-g")
 #set(CMAKE_BUILD_TYPE Debug)
 
 # Use C++11
@@ -53,7 +51,7 @@ INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIR})
 
 SET(LIBS_TO_LINK ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-FILE (GLOB CORE_LIB src/generator/*.cpp src/*.cpp src/datastructures/*.cpp src/parser/*.cpp)
+FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/parser/*.cpp src/generator/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
@@ -73,7 +71,7 @@ ADD_EXECUTABLE (parser_test examples/parser_example.cpp)
 ADD_EXECUTABLE (h5cpp_test examples/h5cpp_test.cpp)
 ADD_EXECUTABLE (iterator_test examples/iterator_test.cpp)
 ADD_EXECUTABLE (file_creator_test examples/file_creator_test.cpp)
-ADD_EXECUTABLE (generator_test_file examples/generator_test_actual_file.cpp)
+#ADD_EXECUTABLE (generator_test_file examples/generator_test_actual_file.cpp)
 
 
 #TARGET_LINK_LIBRARIES (file_creator_test ${Boost_LIBRARIES})
@@ -83,7 +81,7 @@ TARGET_LINK_LIBRARIES (generator_test nn4mp_core)
 TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test_v2 nn4mp_core)
-TARGET_LINK_LIBRARIES (generator_test_file nn4mp_core)
+#TARGET_LINK_LIBRARIES (generator_test_file nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nlohmann_json::nlohmann_json)
 TARGET_LINK_LIBRARIES (parser_test nn4mp_core)
 TARGET_LINK_LIBRARIES (parser_test nlohmann_json::nlohmann_json)
