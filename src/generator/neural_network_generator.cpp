@@ -99,10 +99,33 @@ void NNGenerator::addLayer_Init(LayerNode& node) //To be called for each layer f
 }
 void NNGenerator::addLayer_Fwd(Layer* layer)
 {
+	std::map<std::string, std::string>::iterator it;
+	it = layer_gen->fwd_calls.find(layer->layer_type); //Access the map from layer_generator.
 
+	std::string fwd_string;
+
+	if(it != layer_gen->fwd_calls.end())
+		fwd_string = it->second;
+
+	size_t start;
+	std::string name = "<%LAYER_NAME>";
+	std::string input = "<%INPUT>";
+	std::string output = "<%OUTPUT>";
+
+	fwd_string.insert(1,"input = ");
+
+	start = fwd_string.find(name);
+	fwd_string.replace(start,name.length(),layer->identifier);
+
+	start = fwd_string.find(input);
+	fwd_string.replace(start,input.length(),"input");
+
+	//fwd_string.find(output)
+
+	start = source.find(FWD);
+
+	source.insert(start-1,fwd_string);
 }
-
-
 
 void NNGenerator::dumpHeader(std::string output_path)
 {

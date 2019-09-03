@@ -48,6 +48,30 @@ NeuralNetwork* makeNet()
 		(*v2)(i) = (double)rand() / RAND_MAX;
 	}
 
+  Weight* w3 = new Weight("dense_weight", vec1);
+  Weight* w4 = new Weight("dense_bias", vec2);
+
+  Tensor<double>* v3 = w3->get_weight_tensor();
+  Tensor<double>* v4 = w4->get_weight_tensor();
+
+  // Populate with random doubles
+  for(int i=0; i<2; i++)
+  {
+    for(int j=0; j<3; j++)
+    {
+      for(int k=0; k<4; k++)
+      {
+        (*v3)(i,j,k) = (double)rand() / RAND_MAX;
+      }
+    }
+  }
+
+  for(int i=0; i<4; i++)
+  {
+
+    (*v4)(i) = (double)rand() / RAND_MAX;
+  }
+
 	NeuralNetwork* nn = new NeuralNetwork();
 
 	InputLayer* input_layer = new InputLayer("layer0");
@@ -60,8 +84,8 @@ NeuralNetwork* makeNet()
   conv1d_layer->kernel_size.push_back(5);
   conv1d_layer->strides = 3;
 
-  dense_layer->w = w1;
-  dense_layer->b = w2;
+  dense_layer->w = w3;
+  dense_layer->b = w4;
   dense_layer->units = 5;
 
   input_layer->layer_type = "InputLayer";
@@ -96,5 +120,14 @@ int main(int argc, char** argv)
 	code_gen->generate();
 	std::cout << "Dumping the code" << std::endl;
 	code_gen->dump();
+
+  // delete w1;
+  // delete w2;
+  // delete w3;
+  // delete w4;
+  // delete input_layer;
+  // delete conv1d_layer;
+  // delete dense_layer;
+  delete nn;
 
 }

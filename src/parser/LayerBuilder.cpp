@@ -1,7 +1,6 @@
 #include "parser/LayerBuilder.h"
 #include <string>
 
-
 void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     this->layerObject->identifier.assign(id);
@@ -15,6 +14,14 @@ void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::str
     this->layerObject->use_bias = object["use_bias"];
     layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Conv1D Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
+}
+
+void InputBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    json object = obj["config"];
+    
+   // TODO: Figure out if I actually need this 
+
+
 }
 
 void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
