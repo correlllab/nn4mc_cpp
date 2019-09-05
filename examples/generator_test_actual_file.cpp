@@ -17,7 +17,7 @@ int main()
     HDF5Parser P("../data/weights.best.hdf5");
     P.parse();
     std::cout <<" HERE__________________________________" <<std::endl;
-    NeuralNetwork* nn = P.constructNeuralNetwork();
+    NeuralNetwork* nn = P.get_neural_network();
     nn->BFS();
 
     std::cout << "  Neural Network: " << std::endl;

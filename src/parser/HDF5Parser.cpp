@@ -49,7 +49,7 @@ void HDF5Parser::parseWeights(){
 
 }
 
-NeuralNetwork* HDF5Parser::constructNeuralNetwork(){
+NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l= new InputLayer("input_1");
     NN->addLayer(l);
@@ -66,13 +66,10 @@ NeuralNetwork* HDF5Parser::constructNeuralNetwork(){
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
-            //cout<< it.key() << " | " << it.value() << endl;
             //TODO: Make the reading separate from the JSON
-      
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
             this->layerBuilderVector[i]->create(it.value()["config"]["name"])->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
-            
             i++;
         }
 }
@@ -85,16 +82,15 @@ void HDF5Parser::buildEdges(){
 }
 
 json HDF5Parser::parseModelConfig(){
-      
-    // TODO: Also parse the size of this attribute so I don't have to hard code 
+    
       H5File filefile = H5File( this->file_name, H5F_ACC_RDONLY );
       Group what = Group(filefile.openGroup("/"));
       Attribute attr= Attribute(what.openAttribute("model_config"));
       DataType type = DataType (attr.getDataType());
-      char* test= new char[1000000]; 
-      attr.read(type, &test);
-      std::string str(test);
-           
+    
+        std::string test;
+        attr.read(type, test);
+
         // define parser callback
         json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
@@ -110,11 +106,11 @@ json HDF5Parser::parseModelConfig(){
         };
       
       std::stringstream ss;
-      ss << str;
-
+      ss << test;
+      
       json j_filtered = json::parse(ss, cb);
 
-      delete []test; // valgrind told me that test is not allocated at this point
+      //delete []test; // valgrind told me that test is not allocated at this point
       
       return j_filtered;
 }

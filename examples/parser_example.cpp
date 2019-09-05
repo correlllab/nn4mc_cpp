@@ -5,7 +5,7 @@ int main(){
     NeuralNetwork * NN; 
     std::cout <<"____PARSER_EXAMPLE_:: HERE_____"<< std::endl;
     P.parse();
-    NN = P.constructNeuralNetwork();
+    NN = P.get_neural_network();
     NN->BFS();
     return 0;
 }

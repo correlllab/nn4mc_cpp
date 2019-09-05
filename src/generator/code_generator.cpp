@@ -69,9 +69,7 @@ void CodeGenerator::generate()
 	{
     if(it->layer->layer_type != "InputLayer")
 		{
-	    std::cout<< it->layer->w->identifier << std::endl;
 			weight_generator->addWeight(it->layer->w);
-			std::cout<< it->layer->b->identifier << std::endl;
 			weight_generator->addWeight(it->layer->b); //Something here
 		}
 	}
