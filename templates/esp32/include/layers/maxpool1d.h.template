@@ -17,8 +17,8 @@ extern "C" {
 
 struct MaxPool1D {
 	// Kernel size
-	<%INDEX_DATATYPE_DELIMITER> kernel_size;	// How many entries to consider
-	<%INDEX_DATATYPE_DELIMITER> stride;			// How many to skip	
+	<%INDEX_DATATYPE_DELIMITER> pool_size;	// How many entries to consider
+	<%INDEX_DATATYPE_DELIMITER> strides;			// How many to skip	
 
 	// Shape of the input and output
 	<%INDEX_DATATYPE_DELIMITER> input_shape[2];		// (INPUT_SIZE x NUM_INPUT_CHANNELS)
