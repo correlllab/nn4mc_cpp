@@ -5,7 +5,13 @@ void buildNN()
     <%BUILD_FUNCTION>
 }
 
-void fwdNN(<%WEIGHT_DATATYPE>* input)
+void fwdNN(<%WEIGHT_DATATYPE>* input, <%WEIGHT_DATATYPE> *output)
 {
+
+    <%WEIGHT_DATATYPE> * data;
+
     <%FWD_FUNCTION>
+
+
+    free(data);
 }

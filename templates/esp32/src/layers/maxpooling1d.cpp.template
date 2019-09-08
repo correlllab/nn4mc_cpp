@@ -1,7 +1,7 @@
 <%BEGIN_DEFINITION_TEMPLATE>
 
 /*************
-* conv1d.cpp
+* maxpooling1d.cpp
 *
 * Conv1D Layer
 * Hardware Plateform: ESP-32
@@ -9,11 +9,11 @@
 * This file defines the functions needed to build a 1D Convolutional layer, and perform a forward pass.
 */
 
-#include "conv1d.h"
+#include "maxpooling1d.h"
 #include <math.h>
 
 struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b,
-				   <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides,
+				   <%INDEX_DATATYPE_DELIMITER> pool_size, <%INDEX_DATATYPE_DELIMITER> strides,
 				   <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters)
 {
 	Conv1D layer;
