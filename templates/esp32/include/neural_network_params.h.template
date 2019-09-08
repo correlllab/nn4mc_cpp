@@ -19,7 +19,6 @@ extern "C" {
 <%BEGIN_TEMPLATE>
 const <%WEIGHT_DATATYPE> W_<%WEIGHT_NAME><%WEIGHT_INDEX> = <%DATA>;
 
-
 <%END_TEMPLATE>
 
 #ifdef __cplusplus
