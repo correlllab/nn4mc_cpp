@@ -16,7 +16,7 @@ std::string LayerGenerator::START_CALL_DELIMITER = "<%BEGIN_CALL_TEMPLATE>";
 std::string LayerGenerator::END_CALL_DELIMITER = "<%END_CALL_TEMPLATE>";
 std::string LayerGenerator::START_INITIALIZE_DELIMITER = "<%BEGIN_INITIALIZE_TEMPLATE>";
 std::string LayerGenerator::END_INITIALIZE_DELIMITER = "<%END_INITIALIZE_TEMPLATE>";
-
+std::string LayerGenerator::ACTIVATION_DATATYPE_DELIMITER = "<%ACTIVATION_DATATYPE_DELIMITER>";
 
 
 /*******************
@@ -29,7 +29,7 @@ std::string LayerGenerator::END_INITIALIZE_DELIMITER = "<%END_INITIALIZE_TEMPLAT
 *   template_source_directory - Path to the files acting as a template for the layer source code.
 */
 LayerGenerator::LayerGenerator(std::string template_header_directory, std::string template_source_directory,
-							   std::string weight_datatype, std::string index_datatype)
+							   std::string weight_datatype, std::string index_datatype, std::string activation_datatype)
 {
 	// Where are all the template files located?
 	include_template_path = template_header_directory;
@@ -38,7 +38,7 @@ LayerGenerator::LayerGenerator(std::string template_header_directory, std::strin
 	// String to replace in each template file
 	weight_datatype_string = weight_datatype;
 	index_datatype_string = index_datatype;
-
+    activation_datatype_string = activation_datatype;
 }
 
 
@@ -123,6 +123,14 @@ std::string LayerGenerator::processTemplate(std::string layer_template, std::str
 	{
 		layer_template.replace(delimiter_position, LAYER_DATATYPE_DELIMITER.length(), layer_datatype);
 		delimiter_position = layer_template.find(LAYER_DATATYPE_DELIMITER);
+	}
+
+    delimiter_position = layer_template.find(ACTIVATION_DATATYPE_DELIMITER);
+
+	while(delimiter_position != std::string::npos)
+	{
+		layer_template.replace(delimiter_position, ACTIVATION_DATATYPE_DELIMITER.length(), activation_datatype_string);
+		delimiter_position = layer_template.find(ACTIVATION_DATATYPE_DELIMITER);
 	}
 
 

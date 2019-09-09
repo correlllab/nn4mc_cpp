@@ -92,7 +92,6 @@ void DenseGenerator::build_map(std::string prev_id){
 
     mapping[INPUT_SIZE] = "1"; //Fake
     mapping[OUTPUT_SIZE] = layer->units;
-
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
 }
@@ -128,8 +127,6 @@ std::string DenseGenerator::write_init()
 
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;
-   //mapping[INPUT_SIZE_0] =
-   //mapping[INPUT_SIZE_1] =
    mapping[PREVIOUS_LAYER_ID] = prev_id;
 }
 std::string FlattenGenerator::write_init()

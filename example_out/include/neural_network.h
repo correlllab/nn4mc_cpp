@@ -13,6 +13,6 @@ dense layer2;
 
 
 void buildNN();
-void fwdNN(<%WEIGHT_DATATYPE>*, <%WEIGHT_DATATYPE>*);
+<%LAYER_DATATYPE_DELIMITER> fwdNN(<%WEIGHT_DATATYPE>*);
 
 #endif

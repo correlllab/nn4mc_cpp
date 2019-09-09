@@ -2,18 +2,23 @@
 
 void buildNN()
 {
+    // how can we return the series of structs, volatile structs? Maybe build in fwd function
    
-Conv1D layer1 = buildConv1D(conv1_weight, conv1_bias, 5, <%STRIDE_SIZE>, 1, <%OUTPUT_CHANNELS>, 1);
+struct Conv1D layer1 = buildConv1D(&conv1_weight[0][0][0], conv1_bias, 5, <%STRIDE_SIZE>, ,  <%INPUT_SHAPE_1>, );
 
-Dense layer2 = buildDense(dense_weight, dense_bias, 1, <%OUTPUT_SIZE>);
+struct Dense layer2 = buildDense(&dense_weight[0][0], dense_bias, 1, <%OUTPUT_SIZE>, );
  
 }
 
-void fwdNN(<%WEIGHT_DATATYPE>* input)
+<%WEIGHT_DATATYPE> * fwdNN(<%WEIGHT_DATATYPE>* data)
 {
-   
-input = fwdConv1D(layer1, input, <%OUTPUT>);
+ // <$BUILD_FUNCTION>
 
-input = fwdDense(layer2, input, <%OUTPUT>);
+   
+data = fwdConv1D(layer1, data);
+
+data = fwdDense(layer2, data);
  
+
+    return data;
 }

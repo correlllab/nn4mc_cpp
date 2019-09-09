@@ -43,8 +43,9 @@ class CodeGenerator
 	static std::string PARAMETER_DATATYPE;
 	static std::string LAYER_OUTPUT_DATATYPE;
 	static std::string INDEX_DATATYPE;
-
-	private:
+    static std::string ACTIVATION_DATATYPE;
+	
+    private:
 		std::string template_folder;
 		std::string output_folder;
 		

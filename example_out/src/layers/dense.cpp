@@ -9,42 +9,57 @@
 */
 
 #include "dense.h"
+#include <math.h> 
+
+#define max(a, b) (((a)>(b) ? (a) : (b)))
+#define min(a, b) (((a)<(b) ? (a) : (b)))
 
 
-Dense buildDense(const float* W, const float* b,
-				 int input_size, int output_size)
+struct Dense buildDense(const float* W, const float* b, int input_size, int output_size, char activation)
 {
-	Dense layer;
+	struct Dense layer;
 
 	layer.weights = W;
-	layer.bias = b;
+	layer.biases = b;
 
-	layer.input_size = input_size;
-	layer.output_size = output_size;
-
+	layer.input_shape[0] = input_size;
+	layer.output_shape[0] = output_size;
+    layer.weight_shape[0] = input_size;
+    layer.weight_shape[1] = output_size;
+    layer.activation = activation;
+    num_layers++;
 	return layer;
 }
 
 
-void fwdDense(Dense* layer, float* input, float* output)
+float * fwdDense(struct Dense L, float* input)
 {
-	// Dereference the provided layer to simplify the code
-	Dense L = (*layer);
+   
+    float * h = (float*)malloc(L.output_shape[0] * sizeof(float));
 
 	// Loop through to calculate the output at each point
-	for(int output_idx = 0; output_idx < L.output_size; output_idx++)
+	for(int i = 0; i < L.output_shape[0]; i++)
 	{
 		// Start with the bias
-		output[output_idx] = L.bias[output_idx];
+		h[i] = L.biases[i];
 
-		for(int input_idx = 0; input_idx < L.input_size; input_idx++)
+		for(int j = 0; j < L.input_shape[0]; j++)
 		{
-			int weight_idx = input_idx * L.output_size + output_idx;
-
-			output[output_idx] += L.weights[weight_idx] * input[input_idx];
+            h[i] += *(L.weights + j*L.weight_shape[1] + i)*input[j];
 		}
 
-		// Now perform the activation function
-		// NOTE: NEED TO IMPLEMENT
+
+        // TODO: Actual lookup table
+         if (L.activation=='r'){
+             h[i]= max(h[i], 0.0);
+         }
+ 
+         if (L.activation== 't'){
+             h[i]=tanh(h[i]);
+         }
 	}
+
+    free(input);
+    return h;
+
 }

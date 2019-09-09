@@ -112,13 +112,14 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 	std::string input = "<%INPUT>";
 	std::string output = "<%OUTPUT>";
 
-	fwd_string.insert(1,"input = ");
+	//fwd_string.insert(1,"data = ");
 
+    // TODO: Exception handling for when we cannot find these delimiter
 	start = fwd_string.find(name);
 	fwd_string.replace(start,name.length(),layer->identifier);
 
 	start = fwd_string.find(input);
-	fwd_string.replace(start,input.length(),"input");
+	fwd_string.replace(start,input.length(), "data");
 
 	//fwd_string.find(output)
 

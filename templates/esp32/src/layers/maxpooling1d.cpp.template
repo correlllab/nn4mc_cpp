@@ -63,5 +63,5 @@ struct MaxPooling1D <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SIZE>, <%STRIDE_SIZ
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-data = fwdMaxPooling1D(<%LAYER_NAME>, data);
+data = fwdMaxPooling1D(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

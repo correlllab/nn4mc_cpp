@@ -18,12 +18,12 @@ extern "C" {
 struct Conv1D {
 	// Weights and biases defining the layer
 	const float* weights;			// Pointer to constant weight array
-	const float* bias;				// Pointer to constant bias
+	const float* biases;				// Pointer to constant bias
 
 	// Kernel information
-	int kernel_shape[3];	// (NUM_INPUT_CHANNELS x KERNEL_SIZE x NUM_OUTPUT_CHANNELS)
-	int stride;				
-
+	int strides;				
+    int kernel_shape[1];
+    int weight_shape[3];
 
 	// Shape of the input and output
 	int input_shape[2];		// (INPUT_SIZE x NUM_INPUT_CHANNELS)

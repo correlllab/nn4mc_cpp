@@ -10,62 +10,54 @@
 */
 
 #include "conv1d.h"
+#include <math.h>
 
-
-Conv1D buildConv1D(const float* W, const float* b,
-				   int kernel_size, int stride,
-				   int input_channels, int output_channels,
-				   int input_size)
+struct Conv1D buildConv1D(const float* W, const float* b,
+				   int kernel_size, int strides,
+				   int input_sh0, int input_sh1, int filters)
 {
 	Conv1D layer;
 
 	layer.weights = W;
-	layer.bias = b;
+	layer.biases = b;
 
-	layer.kernel_shape[0] = kernel_size;
-	layer.kernel_shape[1] = input_channels;
-	layer.kernel_shape[2] = output_channels;
+	layer.weight_shape[0] = kernel_size;
+	layer.weight_shape[1] = input_sh0;
+	layer.weight_shape[2] = filters;
 
-	layer.stride = 1;				// NOTE: NOT YET IMPLEMENTED
+	layer.strides = strides;		
+    layer.kernel_size[0] = kernel_size;
+	layer.input_shape[0] = input_sh0;
+	layer.input_shape[1] = input_sh1;
+    
+    layer.filters= filters;
 
-	layer.input_shape[0] = input_size;
-	layer.input_shape[1] = input_channels;
-
-	layer.output_shape[0] = layer.input_shape[0] - layer.kernel_shape[1] + 1;
-	layer.output_shape[1] = layer.kernel_shape[2];
+	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_size[0] + 1);
+	layer.output_shape[1] = layer.filters;
 
 	return layer;
 }
 
 
-void fwdConv1D(Conv1D* layer, float* input, float* output)
+<%LAYER_DATAYPE_DELIMITER> * fwdConv1D(struct Conv1D L, float* input)
 {
-	// Dereference the provided layer to simplify the code
-	Conv1D L = (*layer);
+
+     float * h = (float*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(float);
 
 	// Loop through to calculate the output at each point
-	for(int output_position = 0; output_position < L.output_shape[0]; output_position++)
+	for(int i = 0; i < L.output_shape[0]; i++)
 	{
-		for(int output_channel = 0; output_channel < L.output_shape[1]; output_channel++)
+		for(int j = 0; j < L.output_shape[1]; j++)
 		{
-			// Convert the 2D output index (i,j) to the 1D index in the provided array
-			output_idx = output_position*L.kernel_shape[2] + output_channel;
+            int idx = i*L.output_shape[1] + j;
 
-			// Start with the bias
-			output[output_idx] = L.bias[output_channel];
+			h[idx] = L.biases[j];
 
-			// Now multiply the input by the weight matrix
-			int input_position = output_position * L.stride;
-			for(int kernel_position = 0; kernel_position < L.kernel_shape[0]; kernel_position++)
+			for(int x = 0; x < L.kernel_shape[0]; x++)
 			{
-				for(int input_channel = 0; input_channel < L.kernel_shape[1]; kernel_shape++)
+				for(int y = 0; y < L.weight_shape[1]; y++)
 				{
-					// What are the flattened indices of the weight matrix and input
-					weight_idx = L.kernel_shape[1] * L.kernel_shape[2] * kernel_position +
-					             L.kernel_shape[2] * input_channel + output_channel;
-					input_idx = (input_position + kernel_position) * L.kernel_shape[1] + input_channel;
-
-					output[output_idx] += L.weights[weight_idx] * input[input_idx];
+                    h[idx] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[(i+x)*L.input_shape[1] +  y]; 
 				}
 			}
 
@@ -73,5 +65,8 @@ void fwdConv1D(Conv1D* layer, float* input, float* output)
 			// NOTE: NEED TO IMPLEMENT
 		}
 	}
+
+    free(input); 
+    return h;
 }
 

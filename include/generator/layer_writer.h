@@ -71,7 +71,7 @@ class DenseGenerator : public LayerWriter{
 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
-
+        
         Dense* layer;
         DenseGenerator(Dense* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 

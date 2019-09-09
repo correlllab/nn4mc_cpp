@@ -17,12 +17,16 @@ extern "C" {
 
 struct DENSE {
 	// Weights and biases defining the layer
-	const float* weights;			// Pointer to constant weight array
-	const float* bias;				// Pointer to constant bias
+	const float* weights;			// Pointer to first element of weights array (should be 'const float' in weight.best.hdf5)
+	const float* biases;				// Pointer to constant bias
+
+    char activation;  // in our case this delimiter is a char that indicates which activation function to call
+
+    int weight_shape[2];
 
 	// Shape of the input and output
-	int input_size;
-	int output_size;
+	int input_shape[1];
+	int output_shape[1];
 };
 
 
