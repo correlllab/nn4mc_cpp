@@ -39,30 +39,25 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 }
 
 
-float ** fwdConv1D(Conv1D* layer, <%LAYER_DATATYPE_DELIMITER>** input)
+<%LAYER_DATAYPE_DELIMITER> * fwdConv1D(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
-	// Dereference the provided layer to simplify the code
-	struct Conv1D L = (*layer);
 
-    // Data array:
-     float ** h;
-     h= (float**)malloc((int)L.output_shape[0] * sizeof(float*));
-     for (int i=0; i<(int)L.output_shape[0]; i++){
-         h[i]= (float*)malloc((int)L.output_shape[1] * sizeof(float));
-     }
+     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>);
 
 	// Loop through to calculate the output at each point
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
 	{
 		for(<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[1]; j++)
 		{
-			h[i][j] = L.biases[j];
+            <%INDEX_DATATYPE_DELIMITER> idx = i*L.output_shape[1] + j;
+
+			h[idx] = L.biases[j];
 
 			for(<%INDEX_DATATYPE_DELIMITER> x = 0; x < L.kernel_shape[0]; x++)
 			{
 				for(<%INDEX_DATATYPE_DELIMITER> y = 0; y < L.weight_shape[1]; y++)
 				{
-                    h[i][j] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[i+x][y]; 
+                    h[idx] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[(i+x)*L.input_shape[1] +  y]; 
 				}
 			}
 
@@ -71,12 +66,7 @@ float ** fwdConv1D(Conv1D* layer, <%LAYER_DATATYPE_DELIMITER>** input)
 		}
 	}
 
-    for (int i=0; i < L.input_shape[0] ; i++){
-          float * ptr = input[i];
-          free(ptr);
-    }   
-
-    *layer = L;
+    free(input); 
     return h;
 }
 
@@ -87,5 +77,5 @@ struct Conv1D <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-data2D = fwdConv1D(&<%LAYER_NAME>, <%INPUT>);
+data = fwdConv1D(<%LAYER_NAME>, data);
 <%END_CALL_TEMPLATE>

@@ -9,6 +9,6 @@ volatile int num_layers = <%NUMBER_OF_LAYERS>;
 <%STRUCTS>
 
 void buildNN();
-void fwdNN(<%WEIGHT_DATATYPE>*, <%WEIGHT_DATATYPE>*);
+<%LAYER_DATATYPE_DELIMITER> fwdNN(<%WEIGHT_DATATYPE>*);
 
 #endif

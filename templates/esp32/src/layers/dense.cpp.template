@@ -9,6 +9,10 @@
 */
 
 #include "dense.h"
+#include <math.h> 
+
+#define max(a, b) (((a)>(b) ? (a) : (b)))
+#define min(a, b) (((a)<(b) ? (a) : (b)))
 
 
 struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> input_size, <%INDEX_DATATYPE_DELIMITER> output_size, <%ACTIVATION_DATATYPE_DELIMITER> activation)
@@ -28,12 +32,10 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 }
 
 
-float * fwdDense(Dense* layer, <%LAYER_DATATYPE_DELIMITER>* input)
+<%LAYER_DATATYPE_DELIMITER> * fwdDense(struct Dense L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
-	// Dereference the provided layer to simplify the code
-	struct Dense L = *layer;
    
-    float * h = (float*)malloc(L.output_shape[0] * sizeof(float));
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
 	// Loop through to calculate the output at each point
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
@@ -58,7 +60,6 @@ float * fwdDense(Dense* layer, <%LAYER_DATATYPE_DELIMITER>* input)
 	}
 
     free(input);
-    *layer = L;
     return h;
 
 }
@@ -70,5 +71,5 @@ struct Dense <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0][0], <%BIAS_NAME>, <%I
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-data1D = fwdDense(&<%LAYER_NAME>, <%INPUT>);
+data = fwdDense(<%LAYER_NAME>, data);
 <%END_CALL_TEMPLATE>
