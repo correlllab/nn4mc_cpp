@@ -4,11 +4,12 @@
 #include "neural_network_params.h"
 <%INCLUDE>
 
-volatile int num_layers = <%NUMBER_OF_LAYERS>;
+volatile int num_layers = 0;
 
+/*
 <%STRUCTS>
+*/
 
-void buildNN();
-<%LAYER_DATATYPE_DELIMITER> fwdNN(<%WEIGHT_DATATYPE>*);
+<%WEIGHT_DATATYPE> fwdNN(<%WEIGHT_DATATYPE>*);
 
 #endif

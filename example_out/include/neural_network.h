@@ -6,13 +6,14 @@
 #include "layers/dense.h"
 
 
-volatile int num_layers = <%NUMBER_OF_LAYERS>;
+volatile int num_layers = 0;
 
+/*
 conv1d layer1;
 dense layer2;
 
+*/
 
-void buildNN();
-<%LAYER_DATATYPE_DELIMITER> fwdNN(<%WEIGHT_DATATYPE>*);
+<%WEIGHT_DATATYPE> fwdNN(<%WEIGHT_DATATYPE>*);
 
 #endif

@@ -1,14 +1,8 @@
 #include "neural_network.h"
 
-void buildNN()
-{
-    // how can we return the series of structs, volatile structs? Maybe build in fwd function
-    <%BUILD_FUNCTION>
-}
-
 <%WEIGHT_DATATYPE> * fwdNN(<%WEIGHT_DATATYPE>* data)
 {
- // <$BUILD_FUNCTION>
+   <%BUILD_FUNCTION>
 
     <%FWD_FUNCTION>
 

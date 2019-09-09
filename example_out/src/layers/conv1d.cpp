@@ -39,7 +39,7 @@ struct Conv1D buildConv1D(const float* W, const float* b,
 }
 
 
-<%LAYER_DATAYPE_DELIMITER> * fwdConv1D(struct Conv1D L, float* input)
+float * fwdConv1D(struct Conv1D L, float* input)
 {
 
      float * h = (float*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(float);
