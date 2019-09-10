@@ -67,9 +67,9 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-struct Dense <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0][0], <%BIAS_NAME>, <%INPUT_SIZE>, <%OUTPUT_SIZE>, '<%ACTIVATION>');
+        struct Dense <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0][0], <%BIAS_NAME>, <%INPUT_SIZE>, <%OUTPUT_SIZE>, '<%ACTIVATION>');
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-data = fwdDense(<%LAYER_NAME>, <%INPUT>);
+        data = fwdDense(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

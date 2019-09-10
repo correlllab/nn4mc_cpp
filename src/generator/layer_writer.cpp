@@ -3,7 +3,6 @@
  * Sarah Aguasvivas Manzano
  *
  */
-
 #include "generator/layer_writer.h"
 #include <string>
 #include <map>
@@ -36,18 +35,17 @@ void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[KERNEL_SIZE] = std::to_string((int)layer->kernel_size[0]);
+    mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
+
     mapping[INPUT_SHAPE_0] = "1"; //Fake
     mapping[INPUT_SHAPE_1] = "2"; //Fake
-
-//    mapping[OUTPUT_CHANNELS] = std::to_string((int)layer->filters);
 
     mapping[ACTIVATION] = "l"; // Fake
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
-    mapping[FILTERS] = layer->filters;
+    mapping[FILTERS] = std::to_string(layer->filters);
 }
 
 std::string Conv1DGenerator::write_init()
@@ -94,12 +92,15 @@ void DenseGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[INPUT_SIZE] = "1"; //Fake
+    mapping[INPUT_SHAPE_0] = "1"; //Fake
+    mapping[INPUT_SHAPE_1] = "2";
+    
     mapping[OUTPUT_SIZE] = layer->units;
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     mapping[ACTIVATION] = "l"; // Fake
 }
+
 std::string DenseGenerator::write_init()
 {
   build_map("");

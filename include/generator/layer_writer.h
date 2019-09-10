@@ -68,7 +68,9 @@ class DenseGenerator : public LayerWriter{
     public:
         std::map<std::string, std::string> mapping;
 
-        std::string INPUT_SIZE= "<%INPUT_SIZE>";
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";

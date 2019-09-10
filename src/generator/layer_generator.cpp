@@ -260,14 +260,12 @@ void LayerGenerator::addLayer(Layer* layer)
 */
 void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
-	std::cout << "Here" << std::endl;
 	// Loop through the include files and dump into the provided directory with appropriate paths
 	std::map<std::string, std::string>::iterator iter;
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
     // FIXME: These paths compatible with MacOS and Linux not Windows
     // use boost library to make compatible
-		std::cout << "Here" << std::endl;
 		std::cout << directory << std::endl;
     std::string path = directory;
 		std::cout << path << std::endl;

@@ -1,6 +1,6 @@
 #include "neural_network.h"
 
-<%WEIGHT_DATATYPE> * fwdNN(<%WEIGHT_DATATYPE>* data)
+<%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
 {
    <%BUILD_FUNCTION>
 

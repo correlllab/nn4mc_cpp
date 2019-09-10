@@ -1,4 +1,4 @@
-#ifndef __NEURAL_NETWORK_H__
+_
 #define __NEURAL_NETWORK_H__
 
 #include "neural_network_params.h"
@@ -14,6 +14,6 @@ dense layer2;
 
 */
 
-<%WEIGHT_DATATYPE> fwdNN(<%WEIGHT_DATATYPE>*);
+const float fwdNN(const float*);
 
 #endif

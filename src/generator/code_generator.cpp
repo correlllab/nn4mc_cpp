@@ -98,7 +98,6 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-    std::cout <<"HERE3"<<std::endl;
 }
 
 void CodeGenerator::dump()

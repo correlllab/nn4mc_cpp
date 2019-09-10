@@ -10,6 +10,6 @@ volatile int num_layers = 0;
 <%STRUCTS>
 */
 
-<%WEIGHT_DATATYPE> fwdNN(<%WEIGHT_DATATYPE>*);
+<%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
 
 #endif
