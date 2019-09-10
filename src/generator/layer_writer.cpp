@@ -88,8 +88,8 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
 
-    mapping[INPUT_SHAPE_0] = "1"; //Fake
-    mapping[INPUT_SHAPE_1] = "2"; //Fake
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); //Fake
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); //Fake
 
     mapping[ACTIVATION] = "l"; // TODO: Need to make activation lookup
 
@@ -106,7 +106,7 @@ void DenseGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[INPUT_SHAPE_0] = "1"; //Fake
+    mapping[INPUT_SHAPE_0] = layer->input_shape[0]; //Fake
     
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
