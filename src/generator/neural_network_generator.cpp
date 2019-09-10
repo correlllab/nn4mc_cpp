@@ -127,8 +127,6 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 	source.insert(start-1,fwd_string);
 }
 
-
-
 void NNGenerator::dumpHeader(std::string output_path)
 {
 	header.erase(header.find(STRUC), STRUC.length());

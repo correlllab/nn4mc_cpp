@@ -1,4 +1,5 @@
 #include "generator/code_generator.h"
+#include "generator/file_creator.h"
 #include <iostream>
 
 std::string CodeGenerator::LAYER_TEMPLATE_INCLUDE_DIR = "include/layers";
@@ -26,6 +27,11 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 	// Store the template and output folders, and the neural network to process
 	template_folder = template_directory;
 	output_folder = output_directory;
+
+    // Creating folder tree necessary for nn4mc:
+    FileCreator file_creator(output_directory);
+    file_creator.create_codegen_file_tree();
+
 
 	// Store the neural network
 	neural_net = neural_network;
@@ -97,7 +103,6 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-
 
 }
 

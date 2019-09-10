@@ -2,14 +2,13 @@
 ### Started by Sarah Aguasvivas, Dana Hughes and Cooper Simpson (January 2019)
 
 
-
-
 This repo is a generalization of the neural network created by Dana Hughes https://github.com/danathughes/esp32_neural_net 
 
 In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we want to be able to flash a microcontroller with our trained neural network model (which we trained offline, in another computer) with a code that is easy to use and reusable.  
 
 
-This package is intended to be used in any microcontroller programmed in C after the neural network has been trained in a machine with Keras, Tensorflow, etc. and the parameters are saved. This enables the microcontroller to make online predictions. It is compatible with any freeRTOS code, the ESP32 and Arduino systems.
+This library is intended to be used in any microcontroller programmed in C after the neural network has been trained in a machine with Keras, Tensorflow, etc. and the parameters are saved. This enables the microcontroller to make online predictions. It is compatible with any freeRTOS code, the ESP32 and Arduino systems.
+
 
 `example_usage` contains `testing.c`, which shows a sample case of usage of the neural network. Right now the usage is a little rough around the edges but the dream is that we can just call those functions just like we declare keras layer objects. 
 
@@ -43,6 +42,15 @@ Go to the HDF5 Group [download website](https://www.hdfgroup.org/downloads/) and
 
 `sudo ln -s libhdf5_serial_hl.so.8.0.2 libhdf5_hl.so`
 
+#### Boost Library:
+
+**Linux:**
+
+`sudo apt-get install libboost-all-dev`
+
+**MacOS:**
+
+`brew install boost `
 
 ### BUILDING
 Building is done using cmake.  From the main directory:
