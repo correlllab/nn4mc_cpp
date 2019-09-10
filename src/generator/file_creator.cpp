@@ -9,7 +9,6 @@ FileCreator::FileCreator()
     std::cout << "file_creator.cpp: zero argument constructor" << std::endl;
 }
 */
-
 FileCreator::FileCreator(std::string path_string){
     boost::filesystem::path path{path_string};
     boost_path = path;

@@ -1,4 +1,3 @@
-
 # The name of the project
 PROJECT (nn4mp)
 
@@ -51,7 +50,7 @@ INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIR})
 
 SET(LIBS_TO_LINK ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-FILE (GLOB CORE_LIB src/generator/*.cpp src/*.cpp src/datastructures/*.cpp src/parser/*.cpp)
+FILE (GLOB CORE_LIB src/*.cpp src/datastructures/*.cpp src/parser/*.cpp src/generator/*.cpp)
 
 # Build libraries
 ADD_LIBRARY (nn4mp_core SHARED ${CORE_LIB})
@@ -81,6 +80,9 @@ TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
 TARGET_LINK_LIBRARIES (json_test nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test_v2 nn4mp_core)
 TARGET_LINK_LIBRARIES (generator_test_file nn4mp_core)
+TARGET_LINK_LIBRARIES (generator_test_file nlohmann_json::nlohmann_json)
+TARGET_LINK_LIBRARIES (generator_test_file hdf5 hdf5_cpp)
+TARGET_LINK_LIBRARIES (generator_test_file ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 TARGET_LINK_LIBRARIES (json_test nlohmann_json::nlohmann_json)
 TARGET_LINK_LIBRARIES (parser_test nn4mp_core)
 TARGET_LINK_LIBRARIES (parser_test nlohmann_json::nlohmann_json)

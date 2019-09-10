@@ -30,6 +30,8 @@ class Conv1D : public Layer{
         int filters;
         std::vector<int> kernel_size;
         int strides;
+        int input_shape[2];
+        int output_shape[2];
         std::string padding;
         std::string data_format;
         int dilation_rate;
@@ -51,6 +53,8 @@ class Conv2D : public Layer{
         std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
+        int input_shape[3];
+        int output_shape[3];
         std::string data_format;
         std::vector<int> dilation_rate;
         std::string activation;
@@ -68,6 +72,8 @@ class Dense : public Layer{
 
     public:
         int units;
+        int input_shape[2];
+        int output_shape[2];
         std::string activation;
         bool use_bias;
 
@@ -95,6 +101,8 @@ class MaxPooling1D : public Layer{
     public:
         int pool_size;
         int strides;
+        int input_shape[2];
+        int output_shape[2];
         std::string padding;
         std::string data_format;
 
@@ -110,6 +118,8 @@ class MaxPooling2D: public Layer{
         std::vector<int> pool_size;
         std::vector<int> strides;
         std::string padding;
+        int input_shape[3];
+        int output_shape[3];
         std::string data_format;
 
     public:

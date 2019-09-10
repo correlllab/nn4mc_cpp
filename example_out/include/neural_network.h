@@ -1,4 +1,4 @@
-###########################/********************
+/********************
 
     NEURAL_NETWORK_H
 
@@ -15,14 +15,18 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-<%INCLUDE>
+#include "layers/conv1d.h"
+#include "layers/dense.h"
+
 
 volatile int num_layers = 0;
 
 /*
-<%STRUCTS>
+conv1d layer1;
+dense layer2;
+
 */
 
-<%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
+float fwdNN(float*);
 
 #endif

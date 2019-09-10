@@ -46,7 +46,7 @@ class LayerGenerator
 		static std::string END_CALL_DELIMITER;
 		static std::string START_INITIALIZE_DELIMITER;
 		static std::string END_INITIALIZE_DELIMITER;
-
+        static std::string ACTIVATION_DATATYPE_DELIMITER;
 
 		// Location of templates
 		std::string include_template_path;
@@ -55,6 +55,8 @@ class LayerGenerator
 		// Datatypes to replace in template files
 		std::string weight_datatype_string;
 		std::string index_datatype_string;
+        std::string activation_datatype_string;
+        std::string data_datatype_string;
 
 		// Types of layers to actually include in the generated files
 		std::map<std::string, std::string> include_files;
@@ -82,7 +84,7 @@ class LayerGenerator
 
 	public:
 
-		LayerGenerator(std::string, std::string, std::string, std::string);//const char*, const char*);
+		LayerGenerator(std::string, std::string, std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
 
 		std::map<std::string, std::string> getInitMap()

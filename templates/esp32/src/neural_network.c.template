@@ -1,11 +1,10 @@
-#include "neural_network.h"
+############################include "neural_network.h"
 
-void buildNN()
+<%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
 {
-    <%BUILD_FUNCTION>
-}
+   <%BUILD_FUNCTION>
 
-void fwdNN(<%WEIGHT_DATATYPE>* input)
-{
     <%FWD_FUNCTION>
+
+    return data;
 }

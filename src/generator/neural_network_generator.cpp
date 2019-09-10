@@ -112,13 +112,14 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 	std::string input = "<%INPUT>";
 	std::string output = "<%OUTPUT>";
 
-	fwd_string.insert(1,"input = ");
+	//fwd_string.insert(1,"data = ");
 
+    // TODO: Exception handling for when we cannot find these delimiter
 	start = fwd_string.find(name);
 	fwd_string.replace(start,name.length(),layer->identifier);
 
 	start = fwd_string.find(input);
-	fwd_string.replace(start,input.length(),"input");
+	fwd_string.replace(start,input.length(), "data");
 
 	//fwd_string.find(output)
 
@@ -129,10 +130,12 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 
 void NNGenerator::dumpHeader(std::string output_path)
 {
-	header.erase(header.find(STRUC), STRUC.length());
-	header.erase(header.find(INC), INC.length());
+	header.erase(header.find(STRUC) , STRUC.length());
+	header.erase(header.find(INC) , INC.length());
 
 	std::ofstream outfile(output_path);
+   
+    header = layer_gen->processTemplate(header, layer_gen->data_datatype_string);
 
 	if(outfile.is_open())
 	{
@@ -150,8 +153,10 @@ void NNGenerator::dumpSource(std::string output_path)
 {
 	source.erase(source.find(INIT), INIT.length());
 	source.erase(source.find(FWD), FWD.length());
-
+     
 	std::ofstream outfile(output_path);
+
+    source = layer_gen->processTemplate(source, layer_gen->data_datatype_string);
 
 	if(outfile.is_open())
 	{

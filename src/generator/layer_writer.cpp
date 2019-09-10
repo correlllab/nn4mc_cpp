@@ -3,10 +3,13 @@
  * Sarah Aguasvivas Manzano
  *
  */
-
 #include "generator/layer_writer.h"
 #include <string>
 #include <map>
+ 
+/****************************
+*   LAYER WRITER METHODS:
+*****************************/
 
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
@@ -32,22 +35,14 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
     return NULL;
 }
 
-void Conv1DGenerator::build_map(std::string prev_id){
 
-    mapping[LAYER_NAME] = layer->identifier;
-
-    mapping[KERNEL_SIZE] = std::to_string((int)layer->kernel_size[0]);
-    mapping[STRIDE_SIZE] = std::to_string(layer->strides);
-    mapping[INPUT_SIZE] = "1"; //Fake
-
-    mapping[INPUT_CHANNELS] = "1"; //Also fake
-    mapping[OUTPUT_CHANNELS] = std::to_string((int)layer->filters);
-
-    mapping[WEIGHT_NAME]= layer->w->identifier;
-    mapping[BIAS_NAME]= layer->b->identifier;
-}
-std::string Conv1DGenerator::write_init()
+std::string LayerWriter::write_init()
 {
+  /*
+  * This function is to be used by all generators
+  * that derive from LayerWriter
+  */
+  
   build_map("");
 
   //Take init string and replace delimiters.
@@ -63,14 +58,17 @@ std::string Conv1DGenerator::write_init()
 	{
 		delim = init_template.substr(start,end-start+1);
 
-		//Do stuff with the delimiter.
+        int size_delim = delim.length();
+
+        //Do stuff with the delimiter.
 		delim = mapping[delim];
 
 		//Replace the delimiter.
 		init_template.replace(start,end-start+1,delim);
 
+        end -= abs(size_delim); // added this line because some delimiters were skipped
 
-		//Reset start and end positions.
+        //Reset start and end positions.
 		start = init_template.find_first_of("<%",end);
 		end = init_template.find_first_of(">", start);
 	}
@@ -78,11 +76,29 @@ std::string Conv1DGenerator::write_init()
   return init_template;
 }
 
-void Conv2DGenerator::build_map(std::string prev_id){
 
+/****************************
+*   BUILD_MAP METHODS:
+*****************************/
+
+void Conv1DGenerator::build_map(std::string prev_id){
+
+    mapping[LAYER_NAME] = layer->identifier;
+
+    mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
+    mapping[STRIDE_SIZE] = std::to_string(layer->strides);
+
+    mapping[INPUT_SHAPE_0] = "1"; //Fake
+    mapping[INPUT_SHAPE_1] = "2"; //Fake
+
+    mapping[ACTIVATION] = "l"; // TODO: Need to make activation lookup
+
+    mapping[WEIGHT_NAME]= layer->w->identifier;
+    mapping[BIAS_NAME]= layer->b->identifier;
+    mapping[FILTERS] = std::to_string(layer->filters);
 }
-std::string Conv2DGenerator::write_init()
-{
+
+void Conv2DGenerator::build_map(std::string prev_id){
 
 }
 
@@ -90,67 +106,25 @@ void DenseGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[INPUT_SIZE] = "1"; //Fake
-    mapping[OUTPUT_SIZE] = layer->units;
-
+    mapping[INPUT_SHAPE_0] = "1"; //Fake
+    
+    mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
-}
-std::string DenseGenerator::write_init()
-{
-  build_map("");
-
-  //Take init string and replace delimiters.
-	std::string delim;
-	size_t start = 0;
-	size_t end = 0;
-
-	start = init_template.find_first_of("<%",start);
-	end = init_template.find_first_of(">",start);
-
-	//Replace all delimiters in the string.
-	while(start != std::string::npos)
-	{
-		delim = init_template.substr(start,end-start+1);
-		//Do stuff with the delimiter.
-		delim = mapping[delim];
-		//Replace the delimiter.
-		init_template.replace(start,end-start+1,delim);
-
-
-		//Reset start and end positions.
-		start = init_template.find_first_of("<%",end);
-		end = init_template.find_first_of(">", start);
-	}
-
-  return init_template;
+    mapping[ACTIVATION] = "l"; // Fake // TODO: Need to make activation lookup
 }
 
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;
-   //mapping[INPUT_SIZE_0] =
-   //mapping[INPUT_SIZE_1] =
    mapping[PREVIOUS_LAYER_ID] = prev_id;
-}
-std::string FlattenGenerator::write_init()
-{
-
 }
 
 void MaxPooling1DGenerator::build_map(std::string prev_id){
 
 
 }
-std::string MaxPooling1DGenerator::write_init()
-{
-
-}
 
 void MaxPooling2DGenerator::build_map(std::string prev_id){
 
-
-}
-std::string MaxPooling2DGenerator::write_init()
-{
 
 }
