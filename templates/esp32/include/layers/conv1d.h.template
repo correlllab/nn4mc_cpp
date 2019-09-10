@@ -3,6 +3,7 @@
 * conv1d.h
 *
 * Conv1D Layer Header
+* Code Generated using nn4mc
 * Hardware Plateform: ESP-32
 *
 * This file defines the datastructure needed to create a 1D Convolutional layer.

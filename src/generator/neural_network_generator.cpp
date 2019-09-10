@@ -130,8 +130,8 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 
 void NNGenerator::dumpHeader(std::string output_path)
 {
-	header.erase(header.find(STRUC), STRUC.length());
-	header.erase(header.find(INC), INC.length());
+	header.erase(header.find(STRUC) , STRUC.length());
+	header.erase(header.find(INC) , INC.length());
 
 	std::ofstream outfile(output_path);
    
@@ -155,8 +155,6 @@ void NNGenerator::dumpSource(std::string output_path)
 	source.erase(source.find(FWD), FWD.length());
      
 	std::ofstream outfile(output_path);
-
-   //layer_gen 
 
     source = layer_gen->processTemplate(source, layer_gen->data_datatype_string);
 
