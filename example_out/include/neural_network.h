@@ -1,3 +1,4 @@
+
 /********************
 
     NEURAL_NETWORK_H
@@ -30,3 +31,4 @@ dense layer2;
 float fwdNN(float*);
 
 #endif
+
