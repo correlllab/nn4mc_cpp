@@ -123,8 +123,8 @@ Tensor<DataType>::~Tensor()
 	// to NULL so it won't be de-allocated again by accident (somehow)
 	shape.clear();
 	offsets.clear();
-	delete [] data;
-	data = NULL; 
+	delete []data;
+	data = NULL;
 
 }
 

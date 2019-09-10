@@ -37,21 +37,19 @@ void HDF5Parser::constructBuilderMap(){
 }
 
 void HDF5Parser::parseWeights(){
-    
+       
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
       H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
       Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
       od_weights.LM = this->layerMap;
-      
       herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
-
       this->layerMap= od_weights.LM;
 
 }
 
-NeuralNetwork* HDF5Parser::constructNeuralNetwork(){
+NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l= new InputLayer("input_1");
     NN->addLayer(l);
@@ -68,16 +66,12 @@ NeuralNetwork* HDF5Parser::constructNeuralNetwork(){
 void HDF5Parser::callLayerBuilders(){
         int i=0; 
         for (auto it: this->model_config["config"]["layers"].items()){
-            //cout<< it.key() << " | " << it.value() << endl;
             //TODO: Make the reading separate from the JSON
-      
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
             this->layerBuilderVector[i]->create(it.value()["config"]["name"])->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
-            
             i++;
         }
-        std::cout<< "PARSER: All Layers Built!" << std::endl;  
 }
 
 void HDF5Parser::buildEdges(){
@@ -88,15 +82,15 @@ void HDF5Parser::buildEdges(){
 }
 
 json HDF5Parser::parseModelConfig(){
-      // TODO: Also parse the size of this attribute so I don't have to hard code 
-      char* test= new char[1000000]; 
-      H5File *filefile = new H5File( this->file_name, H5F_ACC_RDONLY );
-      Group *what = new Group(filefile->openGroup("/"));
-      Attribute *attr= new Attribute(what->openAttribute("model_config"));
-      DataType *type = new DataType (attr-> getDataType());
-      attr->read(*type, &test);
-      std::string str(test);
-      delete [] test;     
+    
+      H5File filefile = H5File( this->file_name, H5F_ACC_RDONLY );
+      Group what = Group(filefile.openGroup("/"));
+      Attribute attr= Attribute(what.openAttribute("model_config"));
+      DataType type = DataType (attr.getDataType());
+    
+        std::string test;
+        attr.read(type, test);
+
         // define parser callback
         json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
@@ -110,15 +104,14 @@ json HDF5Parser::parseModelConfig(){
                 return true;
             }
         };
-          std::stringstream ss;
-      ss<< str;
+      
+      std::stringstream ss;
+      ss << test;
+      
+      json j_filtered = json::parse(ss, cb);
 
-      json j_filtered= json::parse(ss, cb);
-   
-      delete type;
-      delete attr;
-      delete what;
-      delete filefile;
+      //delete []test; // valgrind told me that test is not allocated at this point
+      
       return j_filtered;
 }
 
@@ -138,8 +131,7 @@ int HDF5Parser::parse()
       // Parse Weights:
       this->parseWeights();
 
-      //this->constructNeuralNetwork();
-      std::cout<< "PARSER: Parsing complete!"<<std::endl;
+      std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;
 
@@ -170,13 +162,15 @@ return 0;
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
-hid_t group;
+
+    hid_t group;
     hid_t status;
     H5O_info_t infobuf;
     struct opdataWeights *od = (struct opdataWeights *) opdata;
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 
+    
     if (infobuf.type== H5O_TYPE_DATASET){
             
         // NEED TO PARSE EITHER WEIGHT OR BIAS 
@@ -190,6 +184,7 @@ hid_t group;
             layer_id= s.substr(0, pos);
             s.erase(0, pos+delimiter.length());
         }
+
         hid_t datatype, dataspace, rank; 
                 hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
                 datatype= H5Dget_type(dset);
@@ -225,7 +220,7 @@ hid_t group;
                     case 1:
                         {
                             for (int i=0; i<dims[0]; i++){
-                                T(i) = rbuf[i];
+                                T(i) = (double)rbuf[i];
                             }
 
                         break;
@@ -235,7 +230,7 @@ hid_t group;
                             for (int i=0; i<tensor_dims[0]; i++){
                                 for (int j=0; j<tensor_dims[1]; j++){
                                     int idx= tensor_dims[1]*i+j;
-                                    T(i, j) = rbuf[idx];
+                                    T(i, j) = (double)rbuf[idx];
                                 }
                             }
                             break;
@@ -246,7 +241,7 @@ hid_t group;
                                 for (int j=0; j<tensor_dims[1]; j++){
                                     for (int k=0; k<tensor_dims[2]; k++){
                                         int idx= tensor_dims[2]*tensor_dims[1]*i + tensor_dims[2]*j + k;
-                                        T(i, j, k)= rbuf[idx];
+                                        T(i, j, k)= (double)rbuf[idx];
                                     }
                                 }
                             }
@@ -254,29 +249,26 @@ hid_t group;
                             break;
                         }
 
-
                     default:
                         break;
                 }
                 
-                delete rbuf; 
+                delete []rbuf; 
 
                 // Create weights:
                 Weight wb(layer_id, tensor_dims);
                 wb.values= &T;
-
-                if (s.compare("kernel:0")){
+                
+                if (s.compare("kernel:0")){ // it's a weight
                     od->LM[layer_id]->w = &wb;
 
-                } else{
+                } else{ // it's a bias
                     od->LM[layer_id]->b = &wb;
                 }
 
                 ret= H5Dclose(dset); 
-                
         }
 
-             
     H5Gclose(group);
 
     return 0;

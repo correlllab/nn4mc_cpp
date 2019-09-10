@@ -1,4 +1,4 @@
-<%BEGIN_DEFINITION_TEMPLATE>
+
 /*************
 * dense.h
 *
@@ -17,12 +17,16 @@ extern "C" {
 
 struct DENSE {
 	// Weights and biases defining the layer
-	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
-	<%WEIGHT_DATATYPE_DELIMITER>* bias;				// Pointer to constant bias
+	const float* weights;			// Pointer to first element of weights array (should be 'const float' in weight.best.hdf5)
+	const float* biases;				// Pointer to constant bias
+
+    char activation;  // in our case this delimiter is a char that indicates which activation function to call
+
+    int weight_shape[2];
 
 	// Shape of the input and output
-	<%INDEX_DATATYPE_DELIMITER> input_size;
-	<%INDEX_DATATYPE_DELIMITER> output_size;
+	int input_shape[1];
+	int output_shape[1];
 };
 
 
@@ -32,4 +36,3 @@ struct DENSE {
 #endif
 #endif
 
-<%END_DEFINITION_TEMPLATE>
