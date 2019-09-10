@@ -112,7 +112,7 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 	std::string input = "<%INPUT>";
 	std::string output = "<%OUTPUT>";
 
-	fwd_string.insert(1,"input = ");
+	//fwd_string.insert(1,"input = ");
 
 	start = fwd_string.find(name);
 	fwd_string.replace(start,name.length(),layer->identifier);
