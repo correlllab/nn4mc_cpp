@@ -6,6 +6,10 @@
 #include "generator/layer_writer.h"
 #include <string>
 #include <map>
+ 
+/****************************
+*   LAYER WRITER METHODS:
+*****************************/
 
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
@@ -34,7 +38,11 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 
 std::string LayerWriter::write_init()
 {
-// this function should be independent of the generator
+  /*
+  * This function is to be used by all generators
+  * that derive from LayerWriter
+  */
+  
   build_map("");
 
   //Take init string and replace delimiters.
@@ -68,6 +76,11 @@ std::string LayerWriter::write_init()
   return init_template;
 }
 
+
+/****************************
+*   BUILD_MAP METHODS:
+*****************************/
+
 void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
@@ -78,7 +91,7 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = "1"; //Fake
     mapping[INPUT_SHAPE_1] = "2"; //Fake
 
-    mapping[ACTIVATION] = "l"; // Fake
+    mapping[ACTIVATION] = "l"; // TODO: Need to make activation lookup
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
@@ -94,12 +107,11 @@ void DenseGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
 
     mapping[INPUT_SHAPE_0] = "1"; //Fake
-    mapping[INPUT_SHAPE_1] = "2";
     
-    mapping[OUTPUT_SIZE] = layer->units;
+    mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
-    mapping[ACTIVATION] = "l"; // Fake
+    mapping[ACTIVATION] = "l"; // Fake // TODO: Need to make activation lookup
 }
 
 void FlattenGenerator::build_map(std::string prev_id){
