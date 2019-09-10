@@ -75,7 +75,7 @@ WeightGenerator::WeightGenerator(std::string template_path, bool flatten)
 */
 WeightGenerator::~WeightGenerator()
 {
-    // This line was causing a deallocation problem. 
+    // This line was causing a deallocation problem in generator_test_v2. 
     // Maybe let's just try to delete the weight generator
     // object instead of the tensor representation
 	//delete tensorRepresentation;

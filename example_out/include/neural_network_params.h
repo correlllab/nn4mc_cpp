@@ -2,6 +2,7 @@
 * neural_net_params.h
 *
 * Neural Network Parameters
+* Code Generated using nn4mc
 * Hardware Plateform: ESP-32
 *
 * This file defines the weights used by the neural network implementation.  Weight representations were

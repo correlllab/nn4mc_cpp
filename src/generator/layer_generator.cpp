@@ -29,7 +29,7 @@ std::string LayerGenerator::ACTIVATION_DATATYPE_DELIMITER = "<%ACTIVATION_DATATY
 *   template_source_directory - Path to the files acting as a template for the layer source code.
 */
 LayerGenerator::LayerGenerator(std::string template_header_directory, std::string template_source_directory,
-							   std::string weight_datatype, std::string index_datatype, std::string activation_datatype)
+							   std::string weight_datatype, std::string index_datatype, std::string activation_datatype, std::string data_datatype)
 {
 	// Where are all the template files located?
 	include_template_path = template_header_directory;
@@ -39,6 +39,7 @@ LayerGenerator::LayerGenerator(std::string template_header_directory, std::strin
 	weight_datatype_string = weight_datatype;
 	index_datatype_string = index_datatype;
     activation_datatype_string = activation_datatype;
+    data_datatype_string = data_datatype;
 }
 
 
@@ -260,14 +261,12 @@ void LayerGenerator::addLayer(Layer* layer)
 */
 void LayerGenerator::dump(std::string directory, std::map<std::string,std::string> file_map, std::string extension)
 {
-	std::cout << "Here" << std::endl;
 	// Loop through the include files and dump into the provided directory with appropriate paths
 	std::map<std::string, std::string>::iterator iter;
 	for(iter = file_map.begin(); iter != file_map.end(); iter++)
 	{
     // FIXME: These paths compatible with MacOS and Linux not Windows
     // use boost library to make compatible
-		std::cout << "Here" << std::endl;
 		std::cout << directory << std::endl;
     std::string path = directory;
 		std::cout << path << std::endl;

@@ -47,7 +47,7 @@ SOURCE_FILENAME + ".template";
 
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
-	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE, ACTIVATION_DATATYPE);
+	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE, ACTIVATION_DATATYPE, LAYER_OUTPUT_DATATYPE);
 	nn_generator = new NNGenerator(neural_network_header, neural_network_source, layer_generator); //Finish this
 
 }
@@ -98,7 +98,6 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-    std::cout <<"HERE3"<<std::endl;
 }
 
 void CodeGenerator::dump()
