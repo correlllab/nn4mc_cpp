@@ -88,7 +88,7 @@ NeuralNetwork* makeNet()
   dense_layer->b = w4;
   dense_layer->units = 5;
 
-  input_layer->layer_type = "InputLayer";
+  input_layer->layer_type = "input";
 
 	nn->addLayer(input_layer);
 	nn->addLayer(conv1d_layer);

@@ -19,7 +19,7 @@ using json=nlohmann::json;
 
 class LayerBuilder{
     // Builder class for dynamic instantiation
-    public: 
+    public:
             std::string layer_id;
             virtual void create_from_json(json obj, std::string id, std::map<std::string, Layer*>&)=0;
             virtual ~LayerBuilder() = default;
@@ -53,7 +53,6 @@ class Conv2DBuilder : public LayerBuilder {
             layerObject= new Conv2D(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
-
 };
 
 class DenseBuilder : public LayerBuilder {
@@ -64,7 +63,6 @@ class DenseBuilder : public LayerBuilder {
             layerObject= new Dense(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
-
 };
 
 class FlattenBuilder : public LayerBuilder {
@@ -75,7 +73,6 @@ class FlattenBuilder : public LayerBuilder {
             layerObject= new Flatten(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
-
 };
 
 class GRUBuilder : public LayerBuilder {
@@ -95,7 +92,6 @@ class LSTMBuilder : public LayerBuilder {
             layerObject = new LSTM(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
-
 };
 
 class MaxPooling1DBuilder : public LayerBuilder {
@@ -106,7 +102,6 @@ class MaxPooling1DBuilder : public LayerBuilder {
             layerObject= new MaxPooling1D(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
-
 };
 
 class MaxPooling2DBuilder : public LayerBuilder {
@@ -117,7 +112,6 @@ class MaxPooling2DBuilder : public LayerBuilder {
             layerObject= new MaxPooling2D(id);
         }
         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&); 
-
 };
 
 class SimpleRNNBuilder : public LayerBuilder {
@@ -127,7 +121,6 @@ class SimpleRNNBuilder : public LayerBuilder {
             this->layer_id= id;
             layerObject= new SimpleRNN(id);
         }
-         void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
-
+        void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
 };
 #endif

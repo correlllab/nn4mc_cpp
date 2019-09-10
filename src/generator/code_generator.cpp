@@ -66,8 +66,9 @@ void CodeGenerator::generate()
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-    if(it->layer->layer_type != "InputLayer") // TODO: Find out why we need InputLayer
+    if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten") // TODO: Find out why we need input
 		{
+            std::cout << "================" << it->layer->layer_type << std::endl;
 			weight_generator->addWeight(it->layer->w);
 			weight_generator->addWeight(it->layer->b); 
 		}
@@ -78,7 +79,7 @@ void CodeGenerator::generate()
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "InputLayer")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
 		{
 			layer_generator->addLayer(it->layer);
 		}
@@ -90,7 +91,7 @@ void CodeGenerator::generate()
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "InputLayer")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
 		{
 			nn_generator->addLayer_Header(it->layer);
 			nn_generator->addLayer_Init(*it); 

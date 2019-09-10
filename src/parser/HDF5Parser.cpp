@@ -51,16 +51,33 @@ void HDF5Parser::parseWeights(){
 
 NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
-    Layer* l= new InputLayer("input_1");
+    Layer* l = new InputLayer("input_1");
     NN->addLayer(l);
     for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         NN->addLayer(it->second); // adding layers
         NN->addEdge(l, it->second);
         l= it->second;
     }
-
     cout<< "PARSER: Neural Network Nodes and Edges Built!"<<endl;
     return NN;
+}
+
+void HDF5Parser::build_layer_shapes(){
+   // TODO 
+    Layer* prev = this->layerMap.begin()->second;
+
+    //iterating through this->layerMap:
+    //std::vector<LayerFactory*> lBV;
+    int i=1;
+    for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
+        // it is a LayerFactory
+        for (int i=0; i<prev->output_shape.size(); i++){
+            it->second->input_shape.push_back(prev->output_shape[i]);
+            this->layerMap[it->first]->compute_output_shapes();
+        }
+        prev = it->second;
+    }
+    i++;
 }
 
 void HDF5Parser::callLayerBuilders(){
@@ -115,7 +132,7 @@ json HDF5Parser::parseModelConfig(){
       return j_filtered;
 }
 
-
+// PARSE FUNCTION
 int HDF5Parser::parse()
 {
   this->constructBuilderMap();
@@ -127,6 +144,9 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
+      
+      // Populate the layer types:
+      this->build_layer_shapes(); 
       
       // Parse Weights:
       this->parseWeights();
