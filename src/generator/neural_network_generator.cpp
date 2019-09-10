@@ -135,7 +135,7 @@ void NNGenerator::dumpHeader(std::string output_path)
 
 	std::ofstream outfile(output_path);
    
-    header = layer_gen->processTemplate(header, layer_gen->weight_datatype_string);
+    header = layer_gen->processTemplate(header, layer_gen->data_datatype_string);
 
 	if(outfile.is_open())
 	{
@@ -158,7 +158,7 @@ void NNGenerator::dumpSource(std::string output_path)
 
    //layer_gen 
 
-    source = layer_gen->processTemplate(source, layer_gen->weight_datatype_string);
+    source = layer_gen->processTemplate(source, layer_gen->data_datatype_string);
 
 	if(outfile.is_open())
 	{

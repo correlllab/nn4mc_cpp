@@ -29,7 +29,7 @@ std::string LayerGenerator::ACTIVATION_DATATYPE_DELIMITER = "<%ACTIVATION_DATATY
 *   template_source_directory - Path to the files acting as a template for the layer source code.
 */
 LayerGenerator::LayerGenerator(std::string template_header_directory, std::string template_source_directory,
-							   std::string weight_datatype, std::string index_datatype, std::string activation_datatype)
+							   std::string weight_datatype, std::string index_datatype, std::string activation_datatype, std::string data_datatype)
 {
 	// Where are all the template files located?
 	include_template_path = template_header_directory;
@@ -39,6 +39,7 @@ LayerGenerator::LayerGenerator(std::string template_header_directory, std::strin
 	weight_datatype_string = weight_datatype;
 	index_datatype_string = index_datatype;
     activation_datatype_string = activation_datatype;
+    data_datatype_string = data_datatype;
 }
 
 

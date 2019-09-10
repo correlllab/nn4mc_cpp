@@ -14,6 +14,6 @@ dense layer2;
 
 */
 
-const float fwdNN(const float*);
+float fwdNN(float*);
 
 #endif

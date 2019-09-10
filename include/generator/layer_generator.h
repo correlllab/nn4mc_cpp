@@ -56,6 +56,7 @@ class LayerGenerator
 		std::string weight_datatype_string;
 		std::string index_datatype_string;
         std::string activation_datatype_string;
+        std::string data_datatype_string;
 
 		// Types of layers to actually include in the generated files
 		std::map<std::string, std::string> include_files;
@@ -83,7 +84,7 @@ class LayerGenerator
 
 	public:
 
-		LayerGenerator(std::string, std::string, std::string, std::string, std::string);//const char*, const char*);
+		LayerGenerator(std::string, std::string, std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
 
 		std::map<std::string, std::string> getInitMap()
