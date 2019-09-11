@@ -49,20 +49,42 @@ float * fwdDense(struct Dense L, float* input)
 		}
 
 
-        // TODO: Actual lookup table
+        // TODO: Make more elegant:
+        // linear not here cause no action
 
         if (L.activation==0x08){ //sigmoid
             h[i] = exp(h[i])/(exp(h[i]) + 1);
         }
 
+        if (L.activation==0x04){ //softplus
+            h[i] = log(exp(h[i]) + 1);
+        }
+
+        if (L.activation==0x05){ //softsign
+            h[i] = h[i] / (abs(h[i]) + 1);
+        }
+
+        if (L.activation==0x09){ //hard_sigmoid
+            if (h[i] < -2.5){
+                h[i] = 0.0;
+            } else if (h[i] > 2.5){
+                h[i] = 1.0;
+            } else{
+                h[i] = 0.2*h[i] + 0.5;
+            }
+        }
+
+        if (L.activation==0xA){ //exponential
+            h[i] = (float)expf((float)h[i]);
+        }
+        
          if (L.activation==0x06){ //relu
              h[i]= max(h[i], 0.0);
          }
- 
+
          if (L.activation== 0x07){ //tanh
              h[i]=tanh(h[i]);
          }
-
          if (L.activation==0x00){ //softmax
              float sum_exp = 0.0;
              for (int i=0; i<L.output_shape[0]; i++){
@@ -75,8 +97,6 @@ float * fwdDense(struct Dense L, float* input)
                  } else h[i] = (float)(expf(h[i]) / sum_exp);
              }
          }
-
-
 
 	}
 

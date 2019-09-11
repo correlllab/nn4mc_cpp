@@ -50,15 +50,38 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 
 
         // TODO: Make more elegant:
+        // linear not here cause no action
 
         if (L.activation==0x08){ //sigmoid
             h[i] = exp(h[i])/(exp(h[i]) + 1);
         }
 
+        if (L.activation==0x04){ //softplus
+            h[i] = log(exp(h[i]) + 1);
+        }
+
+        if (L.activation==0x05){ //softsign
+            h[i] = h[i] / (abs(h[i]) + 1);
+        }
+
+        if (L.activation==0x09){ //hard_sigmoid
+            if (h[i] < -2.5){
+                h[i] = 0.0;
+            } else if (h[i] > 2.5){
+                h[i] = 1.0;
+            } else{
+                h[i] = 0.2*h[i] + 0.5;
+            }
+        }
+
+        if (L.activation==0xA){ //exponential
+            h[i] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[i]);
+        }
+        
          if (L.activation==0x06){ //relu
              h[i]= max(h[i], 0.0);
          }
- 
+
          if (L.activation== 0x07){ //tanh
              h[i]=tanh(h[i]);
          }
