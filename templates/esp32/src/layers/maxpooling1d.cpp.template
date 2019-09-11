@@ -59,7 +59,8 @@ struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%I
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        struct MaxPooling1D <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>);
+        <%LAYER_NAME> = malloc(sizeof(struct MaxPooling1D));
+        <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

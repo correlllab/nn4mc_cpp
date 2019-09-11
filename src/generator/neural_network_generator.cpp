@@ -26,6 +26,7 @@ NNGenerator::NNGenerator(std::string header_path, std::string src_path, LayerGen
 
 	loadTemplates();
 }
+
 NNGenerator::~NNGenerator()
 {
 
@@ -64,14 +65,14 @@ void NNGenerator::addLayer_Header(Layer* layer)
 {
 	size_t pos = header.find(INC);
 	//TODO: This should be put somewhere else or there will be duplicates.
-	std::string file = "#include \"layers/" + layer->layer_type + ".h\"\n";
+	
+    std::string file = "#include \"layers/" + layer->layer_type + ".h\"\n";
 
 	header.insert(pos,file);
-
+        
 	pos =  header.find(STRUC,pos);
 
-	std::string init = layer->layer_type + " " + layer->identifier + ";\n";
-
+	std::string init = "struct " +  layer->layer_type + " *" + layer->identifier + ";\n";
 	header.insert(pos,init);
 
 }
@@ -134,10 +135,8 @@ void NNGenerator::dumpHeader(std::string output_path)
 	header.erase(header.find(INC) , INC.length());
 
 	std::ofstream outfile(output_path);
-std::cout << header << std::endl;
     header = layer_gen->processTemplate(header, layer_gen->data_datatype_string);
 
-	std::cout << header << std::endl;
 
 	if(outfile.is_open())
 	{

@@ -22,11 +22,10 @@ extern "C" {
 
 volatile int num_layers = 0;
 
-/*
-conv1d layer1;
-dense layer2;
+struct conv1d *layer1;
+struct dense *layer2;
 
-*/
+
 
 float fwdNN(float*);
 
