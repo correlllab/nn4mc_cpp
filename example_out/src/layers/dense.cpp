@@ -62,6 +62,7 @@ float * fwdDense(struct Dense L, float* input)
          if (L.activation== 0x07){ //tanh
              h[i]=tanh(h[i]);
          }
+
          if (L.activation==0x00){ //softmax
              float sum_exp = 0.0;
              for (int i=0; i<L.output_shape[0]; i++){

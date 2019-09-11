@@ -49,7 +49,7 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 		}
 
 
-        // TODO: Actual lookup table
+        // TODO: Make more elegant:
 
         if (L.activation==0x08){ //sigmoid
             h[i] = exp(h[i])/(exp(h[i]) + 1);
