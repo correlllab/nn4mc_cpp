@@ -1,14 +1,20 @@
 
-include "neural_network.h"
+#include "neural_network.h"
 
 void buildLayers(){
 
    
-        layer1 = malloc(sizeof(struct Conv1D));  
-        layer1 = buildConv1D(&conv1_weight[0][0][0], conv1_bias, 5, 3, 1, 2, 1);
+        dense_1 = malloc(sizeof(struct Dense));
+        dense_1 = buildDense(&dense_1[0][0], dense_1, 
+, 10, 'l');
 
-        layer2 = malloc(sizeof(struct Dense));
-        layer2 = buildDense(&dense_weight[0][0], dense_bias, , 5, 'l');
+        dense_2 = malloc(sizeof(struct Dense));
+        dense_2 = buildDense(&dense_2[0][0], dense_2, 
+, 10, 'l');
+
+        dense_3 = malloc(sizeof(struct Dense));
+        dense_3 = buildDense(&dense_3[0][0], dense_3, 
+, 3, 'l');
  
 
 }
@@ -18,9 +24,11 @@ float * fwdNN(float* data)
 {
   
    
-        data = fwdConv1D(layer1, data);
+        data = fwdDense(dense_1, data);
 
-        data = fwdDense(layer2, data);
+        data = fwdDense(dense_2, data);
+
+        data = fwdDense(dense_3, data);
  
 
     return data;

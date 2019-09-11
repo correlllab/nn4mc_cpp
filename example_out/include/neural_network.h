@@ -16,14 +16,16 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-#include "layers/conv1d.h"
+#include "layers/dense.h"
+#include "layers/dense.h"
 #include "layers/dense.h"
 
 
 volatile int num_layers = 0;
 
-struct conv1d *layer1;
-struct dense *layer2;
+struct dense *dense_1;
+struct dense *dense_2;
+struct dense *dense_3;
 
 
 

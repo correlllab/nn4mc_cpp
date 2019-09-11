@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/weights.best.hdf5");
+    HDF5Parser P("../data/configurationB.hdf5");
     P.parse();
     std::cout <<" HERE__________________________________" <<std::endl;
     NeuralNetwork* nn = P.get_neural_network();
@@ -25,8 +25,6 @@ int main()
     std::cout << "  Num Ordered Layers: " << (nn->nodes_ord).size() << std::endl;
     std::cout << "  Num Input Layers: " << (nn->input).size() << std::endl;
     std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
-
-    
 
     nn->reset();
 
