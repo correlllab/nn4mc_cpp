@@ -65,19 +65,16 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 void HDF5Parser::build_layer_shapes(){
    // TODO 
     Layer* prev = this->layerMap.begin()->second;
-
-    //iterating through this->layerMap:
-    //std::vector<LayerFactory*> lBV;
-    int i=1;
+    this->layerMap.begin()->second->compute_output_shapes();
+    
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
-        // it is a LayerFactory
-        for (int i=0; i<prev->output_shape.size(); i++){
-            it->second->input_shape.push_back(prev->output_shape[i]);
+        std::cout << (int)prev->input_shape.size() << std::endl;
+        for (int i=0; i<2 ; i++  ){
+            this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
             this->layerMap[it->first]->compute_output_shapes();
         }
-        prev = it->second;
+        prev = this->layerMap[it->first];
     }
-    i++;
 }
 
 void HDF5Parser::callLayerBuilders(){
@@ -144,13 +141,13 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-      
+    
       // Populate the layer types:
       this->build_layer_shapes(); 
-      
+       
       // Parse Weights:
       this->parseWeights();
-
+     
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;
@@ -238,7 +235,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 
                 //flattened parsed weights are in rbuf
                 //Dana TODO: Template that removes the need to do this
-                std::cout << rank << std::endl;
 
                 switch(rank){
                     case 1:
@@ -272,6 +268,24 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
                             break;
                         }
+
+                     case 4:
+                        {
+                            for (int i=0; i< tensor_dims[0]; i++){
+                                for (int j=0; j<tensor_dims[1]; j++){
+                                    for (int k=0; k<tensor_dims[2]; k++){
+                                        for (int l=0; l<tensor_dims[3]; l++){
+                                        int idx= tensor_dims[2]*tensor_dims[1]*tensor_dims[3]*i + tensor_dims[2]*tensor_dims[3]*j + k*tensor_dims[3] + l;
+                                        (*T)(i, j, k, l)= (double)rbuf[idx];
+                                        }
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+
+
 
                     default:
                         break;

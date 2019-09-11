@@ -145,38 +145,29 @@ std::string WeightGenerator::getIndexRepresentation(Tensor<double> values)
 */
 void WeightGenerator::addWeight(Weight* weight)
 {
-    std::cout << "HERE int he function" << std::endl;
-    std::cout << weight->values->data << std::endl;
 	// Pull out the weight's tensor for simplicity
 	Tensor<double> values = *(weight->get_weight_tensor());
 	// Make a copy of the content template
-    std::cout << "here0" << std::endl;
 	std::string content(template_contents);
 	// Replace the datatype delimiter with the defined datatype
     //
-    std::cout << "here1" << std::endl;
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
     
 	// Replace the data name delimiter with this weight's id
 	//std::cout << weight->identifier << std::endl;
-    std::cout << "here2" << std::endl;
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);
 
 	// Figure out what the index should look like, and then place in the delimiter
-    std::cout << "here3" << std::endl;
 	std::string index_string; //= getIndexRepresentation(values);
 
 	// If we are to generate a flat array, dump the sum of all the weights,
 	// otherwise, produce comma separated array
-    std::cout << "here4"<< std::endl;
 	if(flatArray)
 	{
-        std::cout << "this"<< std::endl;
 		index_string += "[" + std::to_string(values.num_elements) + "]";
 	}
 	else
 	{
-        std::cout << "that" << std::endl;
 		for(int i=0; i<values.shape.size(); i++)
 		{
 			index_string += "[" + std::to_string(values.shape[i]) + "]";

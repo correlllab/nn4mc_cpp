@@ -70,7 +70,8 @@ void CodeGenerator::generate()
 		{
             std::cout << "================" << it->layer->layer_type << std::endl;
 			weight_generator->addWeight(it->layer->w);
-			weight_generator->addWeight(it->layer->b); 
+			weight_generator->addWeight(it->layer->b);
+
 		}
 	}
 

@@ -81,7 +81,7 @@ class DenseGenerator : public LayerWriter{
 
 };
 
-class FlattenGenerator : public LayerWriter{
+/*class FlattenGenerator : public LayerWriter{
     public:
         std::string BEGIN_CALL_TEMPLATE= "<%BEGIN_CALL_TEMPLATE>";
         std::string END_CALL_TEMPLATE= "<%END_CALL_TEMPLATE>";
@@ -96,7 +96,7 @@ class FlattenGenerator : public LayerWriter{
     void build_map(std::string);
 
 };
-
+*/
 class MaxPooling1DGenerator : public LayerWriter{
     public:
 
