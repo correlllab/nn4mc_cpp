@@ -50,13 +50,34 @@ float * fwdDense(struct Dense L, float* input)
 
 
         // TODO: Actual lookup table
-         if (L.activation=='r'){
+
+        if (L.activation==0x08){ //sigmoid
+            h[i] = exp(h[i])/(exp(h[i]) + 1);
+        }
+
+         if (L.activation==0x06){ //relu
              h[i]= max(h[i], 0.0);
          }
  
-         if (L.activation== 't'){
+         if (L.activation== 0x07){ //tanh
              h[i]=tanh(h[i]);
          }
+
+         if (L.activation==0x00){ //softmax
+             float sum_exp = 0.0;
+             for (int i=0; i<L.output_shape[0]; i++){
+                 sum_exp+= expf(h[i]);
+             }
+             for (int i=0; i<L.output_shape[0];i++){
+                 float calc = expf(h[i]) / sum_exp;
+                 if isnan(calc){
+                     h[i] = 1.0;
+                 } else h[i] = (float)(expf(h[i]) / sum_exp);
+             }
+         }
+
+
+
 	}
 
     free(input);

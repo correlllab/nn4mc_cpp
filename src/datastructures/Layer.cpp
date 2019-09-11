@@ -23,9 +23,19 @@ Conv1D::Conv1D(std::string id) : Layer(id)
 	layer_type = Conv1D::type;
 }
 
+void Conv1D::compute_output_shapes(){
+        this->output_shape.push_back(this->input_shape[0] - this->kernel_size[0] + 1); 
+        this->output_shape.push_back(this->filters);
+}
+ 
+
 Conv2D::Conv2D(std::string id) : Layer(id)
 {
 	layer_type = Conv2D::type;
+}
+
+void Conv2D::compute_output_shapes(){
+    //TODO
 }
 
 Dense::Dense(std::string id) : Layer(id)
@@ -33,14 +43,25 @@ Dense::Dense(std::string id) : Layer(id)
 	layer_type = Dense::type;
 }
 
+void Dense::compute_output_shapes(){
+}
+
 Flatten::Flatten(std::string id) : Layer(id)
 {
 	layer_type = Flatten::type;
 }
 
+void Flatten::compute_output_shapes(){}
+
 MaxPooling1D::MaxPooling1D(std::string id) : Layer(id)
 {
 	layer_type = MaxPooling1D::type;
+}
+
+void MaxPooling1D::compute_output_shapes(){
+    this->output_shape.push_back(this->pool_size);
+    this->output_shape.push_back(this->input_shape[0]);
+               
 }
 
 MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
@@ -48,22 +69,32 @@ MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
 	layer_type = MaxPooling2D::type;
 }
 
+void MaxPooling2D::compute_output_shapes(){}
+
 SimpleRNN::SimpleRNN(std::string id) : Layer(id)
 {
 	layer_type = SimpleRNN::type;
 }
+
+void SimpleRNN::compute_output_shapes(){}
 
 GRU::GRU(std::string id) : Layer(id)
 {
 	layer_type = GRU::type;
 }
 
+void GRU::compute_output_shapes(){}
+
 LSTM::LSTM(std::string id) : Layer(id)
 {
 	layer_type = LSTM::type;
 }
 
+void LSTM::compute_output_shapes(){}
+
 InputLayer::InputLayer(std::string id) : Layer(id)
 {
 	layer_type = InputLayer::type;
 }
+
+void InputLayer::compute_output_shapes(){}

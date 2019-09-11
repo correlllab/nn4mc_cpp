@@ -23,7 +23,7 @@ bool FileCreator::checkExists(){
     // checks if exists wrt to directory that is building
     // won't be a problem cause will make environment variable
     // with root of nn4mc
-    
+
     return (bool)boost::filesystem::exists(boost_path);
 }
 
@@ -38,12 +38,12 @@ void FileCreator::createNewDirectory(){
             boost_path = ss.str();
         }
     }
-    boost::filesystem::create_directory(boost_path);                
-    
+    boost::filesystem::create_directory(boost_path);
+
 }
 
 void FileCreator::create_codegen_file_tree(){
-    
+
     boost::filesystem::create_directory(boost_path);
     boost::filesystem::create_directory(boost_path / "include");
     boost::filesystem::create_directory(boost_path / "src");
@@ -51,7 +51,3 @@ void FileCreator::create_codegen_file_tree(){
     boost::filesystem::create_directory(boost_path / "/src" / "layers");
 
 }
-
-
-
-

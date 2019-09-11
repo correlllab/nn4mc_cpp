@@ -13,6 +13,7 @@
 
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
+
   if(Conv1D* ptr = dynamic_cast<Conv1D*>(layer))
     return new Conv1DGenerator(ptr, init_string);
 
@@ -22,9 +23,9 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
   else if(Dense* ptr = dynamic_cast<Dense*>(layer))
     return new DenseGenerator(ptr, init_string);
 
-  else if(Flatten* ptr = dynamic_cast<Flatten*>(layer))
+  /*else if(Flatten* ptr = dynamic_cast<Flatten*>(layer))
     return new FlattenGenerator(ptr, init_string);
-
+*/
   else if(MaxPooling1D* ptr = dynamic_cast<MaxPooling1D*>(layer))
     return new MaxPooling1DGenerator(ptr, init_string);
 
@@ -33,6 +34,23 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 
   else
     return NULL;
+}
+
+
+void LayerWriter::build_activation_lookup(){
+
+    this->activation_lookup["softmax"] = "0x00";
+    this->activation_lookup["elu"]= "0x02";
+    this->activation_lookup["selu"] = "0x03";
+    this->activation_lookup["softplus"] = "0x04";
+    this->activation_lookup["softsign"] = "0x05";
+    this->activation_lookup["relu"] = "0x06";
+    this->activation_lookup["tanh"] = "0x07";
+    this->activation_lookup["sigmoid"] = "0x08";
+    this->activation_lookup["hard_sigmoid"] = "0x09";
+    this->activation_lookup["exponential"] = "0xA";
+    this->activation_lookup["linear"] = "0xB";
+    this->activation_lookup["custom"] = "0xC";
 }
 
 
@@ -72,6 +90,7 @@ std::string LayerWriter::write_init()
 		start = init_template.find_first_of("<%",end);
 		end = init_template.find_first_of(">", start);
 	}
+    
 
   return init_template;
 }
@@ -88,10 +107,10 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
 
-    mapping[INPUT_SHAPE_0] = "1"; //Fake
-    mapping[INPUT_SHAPE_1] = "2"; //Fake
-
-    mapping[ACTIVATION] = "l"; // TODO: Need to make activation lookup
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];// "l"; // TODO: Need to make activation lookup
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
@@ -103,21 +122,23 @@ void Conv2DGenerator::build_map(std::string prev_id){
 }
 
 void DenseGenerator::build_map(std::string prev_id){
-
+    
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[INPUT_SHAPE_0] = "1"; //Fake
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); //Fake
     
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
-    mapping[ACTIVATION] = "l"; // Fake // TODO: Need to make activation lookup
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; // Fake // TODO: Need to make activation lookup
 }
 
+/*
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;
    mapping[PREVIOUS_LAYER_ID] = prev_id;
-}
+}*/
 
 void MaxPooling1DGenerator::build_map(std::string prev_id){
 

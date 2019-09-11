@@ -83,12 +83,15 @@ NeuralNetwork* makeNet()
   conv1d_layer->filters = 1;
   conv1d_layer->kernel_size.push_back(5);
   conv1d_layer->strides = 3;
-
+  conv1d_layer->input_shape.push_back(1);
+  conv1d_layer->input_shape.push_back(2);
   dense_layer->w = w3;
   dense_layer->b = w4;
+  dense_layer->input_shape.push_back(1);
+  dense_layer->input_shape.push_back(2);
   dense_layer->units = 5;
 
-  input_layer->layer_type = "InputLayer";
+  input_layer->layer_type = "input";
 
 	nn->addLayer(input_layer);
 	nn->addLayer(conv1d_layer);

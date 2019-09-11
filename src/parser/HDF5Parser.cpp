@@ -51,16 +51,30 @@ void HDF5Parser::parseWeights(){
 
 NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
-    Layer* l= new InputLayer("input_1");
+    Layer* l = new InputLayer("input_1");
     NN->addLayer(l);
     for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         NN->addLayer(it->second); // adding layers
         NN->addEdge(l, it->second);
         l= it->second;
     }
-
     cout<< "PARSER: Neural Network Nodes and Edges Built!"<<endl;
     return NN;
+}
+
+void HDF5Parser::build_layer_shapes(){
+   // TODO 
+    Layer* prev = this->layerMap.begin()->second;
+    this->layerMap.begin()->second->compute_output_shapes();
+     
+    for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
+        int rank = (int)prev->input_shape.size();
+        for (int i=0; i < rank ; i++  ){
+            this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
+            this->layerMap[it->first]->compute_output_shapes();
+        }
+        prev = this->layerMap[it->first];
+    }
 }
 
 void HDF5Parser::callLayerBuilders(){
@@ -115,7 +129,7 @@ json HDF5Parser::parseModelConfig(){
       return j_filtered;
 }
 
-
+// PARSE FUNCTION
 int HDF5Parser::parse()
 {
   this->constructBuilderMap();
@@ -127,10 +141,13 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-      
+    
+      // Populate the layer types:
+      this->build_layer_shapes(); 
+       
       // Parse Weights:
       this->parseWeights();
-
+     
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;
@@ -198,8 +215,10 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 for (int i=0; i<rank; i++) {
                     tensor_dims.push_back((unsigned int)dims[i]);
                 }
-                
-                Tensor<double> T(tensor_dims); //assuming float
+
+                Weight * wb = new Weight(layer_id, tensor_dims);
+                Tensor<double>* T = wb->get_weight_tensor(); //assuming float
+
                 float *rbuf;
                 herr_t ret;
                
@@ -216,11 +235,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 
                 //flattened parsed weights are in rbuf
                 //Dana TODO: Template that removes the need to do this
+
                 switch(rank){
                     case 1:
                         {
                             for (int i=0; i<dims[0]; i++){
-                                T(i) = (double)rbuf[i];
+                                (*T)(i) = (double)rbuf[i];
                             }
 
                         break;
@@ -230,7 +250,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                             for (int i=0; i<tensor_dims[0]; i++){
                                 for (int j=0; j<tensor_dims[1]; j++){
                                     int idx= tensor_dims[1]*i+j;
-                                    T(i, j) = (double)rbuf[idx];
+                                    (*T)(i, j) = (double)rbuf[idx];
                                 }
                             }
                             break;
@@ -241,13 +261,31 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                                 for (int j=0; j<tensor_dims[1]; j++){
                                     for (int k=0; k<tensor_dims[2]; k++){
                                         int idx= tensor_dims[2]*tensor_dims[1]*i + tensor_dims[2]*j + k;
-                                        T(i, j, k)= (double)rbuf[idx];
+                                        (*T)(i, j, k)= (double)rbuf[idx];
                                     }
                                 }
                             }
 
                             break;
                         }
+
+                     case 4:
+                        {
+                            for (int i=0; i< tensor_dims[0]; i++){
+                                for (int j=0; j<tensor_dims[1]; j++){
+                                    for (int k=0; k<tensor_dims[2]; k++){
+                                        for (int l=0; l<tensor_dims[3]; l++){
+                                        int idx= tensor_dims[2]*tensor_dims[1]*tensor_dims[3]*i + tensor_dims[2]*tensor_dims[3]*j + k*tensor_dims[3] + l;
+                                        (*T)(i, j, k, l)= (double)rbuf[idx];
+                                        }
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+
+
 
                     default:
                         break;
@@ -256,14 +294,12 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 delete []rbuf; 
 
                 // Create weights:
-                Weight wb(layer_id, tensor_dims);
-                wb.values= &T;
                 
                 if (s.compare("kernel:0")){ // it's a weight
-                    od->LM[layer_id]->w = &wb;
+                    od->LM[layer_id]->w = wb;
 
                 } else{ // it's a bias
-                    od->LM[layer_id]->b = &wb;
+                    od->LM[layer_id]->b = wb;
                 }
 
                 ret= H5Dclose(dset); 

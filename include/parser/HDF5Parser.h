@@ -71,6 +71,8 @@ class HDF5Parser : public Parser{
         void constructBuilderMap();
         void callLayerBuilders();
         void buildEdges();
+        void build_layer_shapes();
+
         NeuralNetwork* get_neural_network();
 };
 

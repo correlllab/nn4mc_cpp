@@ -1,4 +1,5 @@
-###########################/********************
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
 
     NEURAL_NETWORK_H
 
@@ -19,10 +20,11 @@ extern "C" {
 
 volatile int num_layers = 0;
 
-/*
 <%STRUCTS>
-*/
+
 
 <%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
 
 #endif
+
+<%END_DEFINITION_TEMPLATE>

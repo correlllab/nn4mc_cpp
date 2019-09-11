@@ -150,6 +150,7 @@ void WeightGenerator::addWeight(Weight* weight)
 	// Make a copy of the content template
 	std::string content(template_contents);
 	// Replace the datatype delimiter with the defined datatype
+    //
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
     
 	// Replace the data name delimiter with this weight's id
