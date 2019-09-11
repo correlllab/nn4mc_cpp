@@ -1,4 +1,5 @@
-###########################/********************
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
 
     NEURAL_NETWORK_H
 
@@ -26,3 +27,5 @@ volatile int num_layers = 0;
 <%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
 
 #endif
+
+<%END_DEFINITION_TEMPLATE>

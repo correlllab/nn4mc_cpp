@@ -40,7 +40,7 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 	if(infile.is_open())
 	{
 		//Stored in header string
-		header.assign ( (std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()) );
+		header.assign ((std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()));
 
 		infile.close();
 	}
@@ -63,7 +63,7 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 void NNGenerator::addLayer_Header(Layer* layer)
 {
 	size_t pos = header.find(INC);
-
+	//TODO: This should be put somewhere else or there will be duplicates.
 	std::string file = "#include \"layers/" + layer->layer_type + ".h\"\n";
 
 	header.insert(pos,file);
@@ -134,8 +134,10 @@ void NNGenerator::dumpHeader(std::string output_path)
 	header.erase(header.find(INC) , INC.length());
 
 	std::ofstream outfile(output_path);
-   
+std::cout << header << std::endl;
     header = layer_gen->processTemplate(header, layer_gen->data_datatype_string);
+
+	std::cout << header << std::endl;
 
 	if(outfile.is_open())
 	{
@@ -153,7 +155,7 @@ void NNGenerator::dumpSource(std::string output_path)
 {
 	source.erase(source.find(INIT), INIT.length());
 	source.erase(source.find(FWD), FWD.length());
-     
+
 	std::ofstream outfile(output_path);
 
     source = layer_gen->processTemplate(source, layer_gen->data_datatype_string);

@@ -124,7 +124,7 @@ Tensor<DataType>::~Tensor()
 	shape.clear();
 	offsets.clear();
 	delete []data;
-	data = NULL; 
+	data = NULL;
 
 }
 

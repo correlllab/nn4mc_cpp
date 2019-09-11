@@ -1,4 +1,5 @@
-#include "neural_network.h"
+
+include "neural_network.h"
 
 float * fwdNN(float* data)
 {
@@ -16,3 +17,4 @@ float * fwdNN(float* data)
 
     return data;
 }
+

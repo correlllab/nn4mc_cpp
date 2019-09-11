@@ -1,4 +1,5 @@
-############################include "neural_network.h"
+<%BEGIN_DEFINITION_TEMPLATE>
+include "neural_network.h"
 
 <%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
 {
@@ -8,3 +9,5 @@
 
     return data;
 }
+
+<%END_DEFINITION_TEMPLATE>
