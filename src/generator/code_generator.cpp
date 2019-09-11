@@ -68,7 +68,6 @@ void CodeGenerator::generate()
 	{
     if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten") // TODO: Find out why we need input
 		{
-            std::cout << "================" << it->layer->layer_type << std::endl;
 			weight_generator->addWeight(it->layer->w);
 			weight_generator->addWeight(it->layer->b);
 

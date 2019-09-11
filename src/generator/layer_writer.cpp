@@ -74,7 +74,6 @@ std::string LayerWriter::write_init()
 		end = init_template.find_first_of(">", start);
 	}
     
-    std::cout << "HERE" << std::endl;
 
   return init_template;
 }
@@ -90,9 +89,6 @@ void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
-
-    std::cout << layer->output_shape[0] << std::endl;
-    std::cout << "here" << std::endl; 
 
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
