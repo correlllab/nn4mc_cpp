@@ -37,6 +37,23 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 }
 
 
+void LayerWriter::build_activation_lookup(){
+
+    this->activation_lookup["softmax"] = "0x00";
+    this->activation_lookup["elu"]= "0x02";
+    this->activation_lookup["selu"] = "0x03";
+    this->activation_lookup["softplus"] = "0x04";
+    this->activation_lookup["softsign"] = "0x05";
+    this->activation_lookup["relu"] = "0x06";
+    this->activation_lookup["tanh"] = "0x07";
+    this->activation_lookup["sigmoid"] = "0x08";
+    this->activation_lookup["hard_sigmoid"] = "0x09";
+    this->activation_lookup["exponential"] = "0xA";
+    this->activation_lookup["linear"] = "0xB";
+    this->activation_lookup["custom"] = "0xC";
+}
+
+
 std::string LayerWriter::write_init()
 {
   /*
@@ -92,8 +109,8 @@ void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
-
-    mapping[ACTIVATION] = "l"; // TODO: Need to make activation lookup
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];// "l"; // TODO: Need to make activation lookup
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
@@ -105,7 +122,7 @@ void Conv2DGenerator::build_map(std::string prev_id){
 }
 
 void DenseGenerator::build_map(std::string prev_id){
-
+    
     mapping[LAYER_NAME] = layer->identifier;
 
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); //Fake
@@ -113,7 +130,8 @@ void DenseGenerator::build_map(std::string prev_id){
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
-    mapping[ACTIVATION] = "l"; // Fake // TODO: Need to make activation lookup
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; // Fake // TODO: Need to make activation lookup
 }
 
 /*

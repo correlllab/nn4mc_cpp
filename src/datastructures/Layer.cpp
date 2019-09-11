@@ -43,7 +43,8 @@ Dense::Dense(std::string id) : Layer(id)
 	layer_type = Dense::type;
 }
 
-void Dense::compute_output_shapes(){}
+void Dense::compute_output_shapes(){
+}
 
 Flatten::Flatten(std::string id) : Layer(id)
 {

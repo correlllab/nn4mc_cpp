@@ -18,7 +18,7 @@ extern "C" {
 
 
 <%BEGIN_TEMPLATE>
-
+// weight name needs to contain whether it is a weight or a bias
 const <%WEIGHT_DATATYPE> W_<%WEIGHT_NAME><%WEIGHT_INDEX> = <%DATA>;
 
 <%END_TEMPLATE>

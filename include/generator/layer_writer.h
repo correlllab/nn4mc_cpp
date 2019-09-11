@@ -20,12 +20,16 @@
 class LayerWriter{
     public:
         std::string init_template;
+        std::map<std::string, std::string> activation_lookup;
+        
         static LayerWriter* make_writer(Layer*, std::string);
         std::string write_init();
         std::map<std::string, std::string> mapping;
         virtual void build_map(std::string)=0;
         virtual ~LayerWriter() = default;
 
+
+        void build_activation_lookup();
         std::string LAYER_NAME = "<%LAYER_NAME>";
 };
 
