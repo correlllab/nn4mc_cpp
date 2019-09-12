@@ -5,16 +5,34 @@ void buildLayers(){
 
    
         conv1d_1 = malloc(sizeof(struct Conv1D));  
-        conv1d_1 = buildConv1D(&conv1d_1[0][0][0], conv1d_1, 4, 1, 197, 8, 8);
+        conv1d_1 = buildConv1D(&conv1d_1[0][0][0], conv1d_1, 4, 1, 50, 2, 8);
+
+        conv1d_2 = malloc(sizeof(struct Conv1D));  
+        conv1d_2 = buildConv1D(&conv1d_2[0][0][0], conv1d_2, 4, 1, 47, 8, 8);
 
         dense_1 = malloc(sizeof(struct Dense));
-        dense_1 = buildDense(&dense_1[0][0], dense_1, 1576, 20, 0x06);
+        dense_1 = buildDense(&dense_1[0][0], dense_1, 352, 64, 0x06);
 
         dense_2 = malloc(sizeof(struct Dense));
-        dense_2 = buildDense(&dense_2[0][0], dense_2, 20, 10, 0xB);
+        dense_2 = buildDense(&dense_2[0][0], dense_2, 64, 42, 0x06);
 
         dense_3 = malloc(sizeof(struct Dense));
-        dense_3 = buildDense(&dense_3[0][0], dense_3, 10, 2, 0xB);
+        dense_3 = buildDense(&dense_3[0][0], dense_3, 42, 28, 0x06);
+
+        dense_4 = malloc(sizeof(struct Dense));
+        dense_4 = buildDense(&dense_4[0][0], dense_4, 28, 18, 0x06);
+
+        dense_5 = malloc(sizeof(struct Dense));
+        dense_5 = buildDense(&dense_5[0][0], dense_5, 18, 12, 0x06);
+
+        dense_6 = malloc(sizeof(struct Dense));
+        dense_6 = buildDense(&dense_6[0][0], dense_6, 12, 8, 0x06);
+
+        dense_7 = malloc(sizeof(struct Dense));
+        dense_7 = buildDense(&dense_7[0][0], dense_7, 8, 5, 0x06);
+
+        dense_8 = malloc(sizeof(struct Dense));
+        dense_8 = buildDense(&dense_8[0][0], dense_8, 5, 3, 0xB);
  
 
 }
@@ -26,11 +44,23 @@ float * fwdNN(float* data)
    
         data = fwdConv1D(conv1d_1, data);
 
+        data = fwdConv1D(conv1d_2, data);
+
         data = fwdDense(dense_1, data);
 
         data = fwdDense(dense_2, data);
 
         data = fwdDense(dense_3, data);
+
+        data = fwdDense(dense_4, data);
+
+        data = fwdDense(dense_5, data);
+
+        data = fwdDense(dense_6, data);
+
+        data = fwdDense(dense_7, data);
+
+        data = fwdDense(dense_8, data);
  
 
     return data;

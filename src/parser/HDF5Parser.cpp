@@ -72,9 +72,11 @@ void HDF5Parser::build_layer_shapes(){
     this->layerMap.begin()->second->compute_output_shapes();
 
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
+        
+        int rank = prev->output_shape.size();
 
-        this->layerMap[it->first]->input_shape = prev->output_shape;
-
+        for (int i=0; i<rank; i++) this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
+        
         this->layerMap[it->first]->compute_output_shapes();        
         
         prev = this->layerMap[it->first];
