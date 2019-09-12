@@ -63,19 +63,20 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 }
 
 void HDF5Parser::build_layer_shapes(){
-   // TODO 
     Layer* prev = this->layerMap.begin()->second;
-    if (nn_input_shape.size()>0){ // for the neural networks that have input somewhere else
-        this->layerMap.begin()->second->input_shape = nn_input_shape; 
+    
+    if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
+        this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
+    
     this->layerMap.begin()->second->compute_output_shapes();
 
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
-        int rank = (int)prev->input_shape.size();
-        for (int i=0; i < rank ; i++  ){
-            this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
-            this->layerMap[it->first]->compute_output_shapes();
-        }
+
+        this->layerMap[it->first]->input_shape = prev->output_shape;
+
+        this->layerMap[it->first]->compute_output_shapes();        
+        
         prev = this->layerMap[it->first];
     }
 }
