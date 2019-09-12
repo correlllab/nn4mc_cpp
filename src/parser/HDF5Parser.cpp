@@ -65,8 +65,11 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 void HDF5Parser::build_layer_shapes(){
    // TODO 
     Layer* prev = this->layerMap.begin()->second;
+    if (nn_input_shape.size()>0){ // for the neural networks that have input somewhere else
+        this->layerMap.begin()->second->input_shape = nn_input_shape; 
+    }
     this->layerMap.begin()->second->compute_output_shapes();
-     
+
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
         int rank = (int)prev->input_shape.size();
         for (int i=0; i < rank ; i++  ){
@@ -78,7 +81,15 @@ void HDF5Parser::build_layer_shapes(){
 }
 
 void HDF5Parser::callLayerBuilders(){
-        int i=0; 
+        int i=0;
+
+        int model_build_size = this->model_config["config"]["build_input_shape"].size();
+        if (model_build_size>0){
+            for (int i=0; i<model_build_size-1; i++){
+                nn_input_shape.push_back(this->model_config["config"]["build_input_shape"][i+1]);
+            }  
+        }
+
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
