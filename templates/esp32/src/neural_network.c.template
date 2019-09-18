@@ -10,10 +10,15 @@ void buildLayers(){
 
 <%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
 {
-  
+
     <%FWD_FUNCTION>
 
     return data;
+}
+
+void data_flatten()
+{
+  
 }
 
 <%END_DEFINITION_TEMPLATE>

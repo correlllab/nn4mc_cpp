@@ -44,6 +44,18 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 		header.assign ((std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()));
 
 		infile.close();
+
+		//Doing this here to avoid duplicates.
+		std::map<std::string, std::string>::iterator it;
+		size_t pos = 0;
+		for(it = layer_gen->init_calls.begin(); it != layer_gen->init_calls.end(); it++)
+		{
+			pos = header.find(INC,pos);
+
+		  std::string include = "#include \"layers/" + it->first + ".h\"\n";
+
+			header.insert(pos,include);
+		}
 	}
 	else
 		throw std::runtime_error("Could not open file: " + header_template_path);
@@ -63,14 +75,7 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 
 void NNGenerator::addLayer_Header(Layer* layer)
 {
-	size_t pos = header.find(INC);
-	//TODO: This should be put somewhere else or there will be duplicates.
-	
-    std::string file = "#include \"layers/" + layer->layer_type + ".h\"\n";
-
-	header.insert(pos,file);
-        
-	pos =  header.find(STRUC,pos);
+	size_t pos =  header.find(STRUC);
 
 	std::string init = "struct " +  layer->layer_type + " *" + layer->identifier + ";\n";
 	header.insert(pos,init);
