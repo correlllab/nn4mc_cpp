@@ -5,34 +5,34 @@ void buildLayers(){
 
    
         conv1d_1 = malloc(sizeof(struct Conv1D));  
-        conv1d_1 = buildConv1D(&conv1d_1[0][0][0], conv1d_1, 4, 1, 50, 2, 8);
+        conv1d_1 = buildConv1D(&conv1d_1_W[0][0][0], conv1d_1_b, 4, 1, 50, 2, 8);
 
         conv1d_2 = malloc(sizeof(struct Conv1D));  
-        conv1d_2 = buildConv1D(&conv1d_2[0][0][0], conv1d_2, 4, 1, 47, 8, 8);
+        conv1d_2 = buildConv1D(&conv1d_2_W[0][0][0], conv1d_2_b, 4, 1, 47, 8, 8);
 
         dense_1 = malloc(sizeof(struct Dense));
-        dense_1 = buildDense(&dense_1[0][0], dense_1, 352, 64, 0x06);
+        dense_1 = buildDense(&dense_1_W[0][0], dense_1_b, 352, 64, 0x06);
 
         dense_2 = malloc(sizeof(struct Dense));
-        dense_2 = buildDense(&dense_2[0][0], dense_2, 64, 42, 0x06);
+        dense_2 = buildDense(&dense_2_W[0][0], dense_2_b, 64, 42, 0x06);
 
         dense_3 = malloc(sizeof(struct Dense));
-        dense_3 = buildDense(&dense_3[0][0], dense_3, 42, 28, 0x06);
+        dense_3 = buildDense(&dense_3_W[0][0], dense_3_b, 42, 28, 0x06);
 
         dense_4 = malloc(sizeof(struct Dense));
-        dense_4 = buildDense(&dense_4[0][0], dense_4, 28, 18, 0x06);
+        dense_4 = buildDense(&dense_4_W[0][0], dense_4_b, 28, 18, 0x06);
 
         dense_5 = malloc(sizeof(struct Dense));
-        dense_5 = buildDense(&dense_5[0][0], dense_5, 18, 12, 0x06);
+        dense_5 = buildDense(&dense_5_W[0][0], dense_5_b, 18, 12, 0x06);
 
         dense_6 = malloc(sizeof(struct Dense));
-        dense_6 = buildDense(&dense_6[0][0], dense_6, 12, 8, 0x06);
+        dense_6 = buildDense(&dense_6_W[0][0], dense_6_b, 12, 8, 0x06);
 
         dense_7 = malloc(sizeof(struct Dense));
-        dense_7 = buildDense(&dense_7[0][0], dense_7, 8, 5, 0x06);
+        dense_7 = buildDense(&dense_7_W[0][0], dense_7_b, 8, 5, 0x06);
 
         dense_8 = malloc(sizeof(struct Dense));
-        dense_8 = buildDense(&dense_8[0][0], dense_8, 5, 3, 0xB);
+        dense_8 = buildDense(&dense_8_W[0][0], dense_8_b, 5, 3, 0xB);
  
 
 }

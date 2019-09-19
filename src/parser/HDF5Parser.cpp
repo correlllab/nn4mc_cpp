@@ -310,9 +310,11 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 // Create weights:
                 
                 if (s.compare("kernel:0")){ // it's a weight
+                    wb->identifier = wb->identifier.append("_W");
                     od->LM[layer_id]->w = wb;
 
                 } else{ // it's a bias
+                    wb->identifier=wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
                 }
 
@@ -320,6 +322,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
         }
 
     H5Gclose(group);
-
+    
     return 0;
  }
