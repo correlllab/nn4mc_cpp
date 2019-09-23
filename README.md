@@ -1,12 +1,13 @@
-﻿# nn4mc: Neural Networks for Microcontrollers
+﻿<img src="docs/img/nn4mcArt.png" align="right" width=25%/>
+<img align="right" src="docs/img/MFM-logo.png" width="25%"/>
+
+# nn4mc: Neural Networks for Microcontrollers
 
 [![Docs](https://readthedocs.org/projects/nn4mc/badge)](https://nn4mc.readthedocs.io/en/latest/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)
 
 ### By Sarah Aguasvivas, Dana Hughes and Cooper Simpson 
 
-<img src="doc/img/nn4mcArt.png" align="right" width=25%/>
-<img align="right" src="doc/img/MFM-logo.png" width="25%"/>
 
 This repository is a generalization of the [esp 32 neural network](https://github.com/danathughes/esp32_neural_net) created by Dana Hughes.
 
