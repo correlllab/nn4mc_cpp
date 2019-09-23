@@ -38,15 +38,7 @@ We encourage to use the following citation references for academic use of nn4mc.
 **BibTeX citation:**
 
 ```
-@article{correll_nn4mc,
-author = {Sarah {Aguasvivas Manzano} and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
-title = {Embedded Neural Networks for Robot Autonomy},
-journal = {International Symposium on Robotics Research},
-volume = {},
-year = {2019},
-number = {},
-pages = {}
-}
+TBD
 ```
 
 **APA Format:**
@@ -58,7 +50,7 @@ Aguasvivas Manzano, S., Hughes, D., Simpson, C., Patel, R., Correll, N., (2019).
 
 ### Contributors:
 
-<img src="docs/img/afosr-logo.JPG" align="right" width=25%/>
+<img src="docs/img/afosr-logo.JPG" align="right" width=10%/>
 
 nn4mc is supported by the [Correll Lab](http://correll.cs.colorado.edu/) at the University of Colorado Boulder. The specific contributors will be listed in a website somewhere in the near future. We also receive support from the Airforce Office of Scientific Research (AFOSR), we are very grateful for this support. 
 
