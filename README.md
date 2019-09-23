@@ -5,7 +5,7 @@
 
 ### By Sarah Aguasvivas, Dana Hughes and Cooper Simpson 
 
-<img align="left" src="doc/img/nn4mcArt.png" width=25%/>
+<img src="doc/img/nn4mcArt.png" align="right" width=25%/>
 <img align="right" src="doc/img/MFM-logo.png" width="25%"/>
 
 This repository is a generalization of the [esp 32 neural network](https://github.com/danathughes/esp32_neural_net) created by Dana Hughes.
