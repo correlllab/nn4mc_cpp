@@ -1,13 +1,18 @@
-﻿# nn4mp: Neural Networks for Microcontrollers
-### Started by Sarah Aguasvivas, Dana Hughes and Cooper Simpson (January 2019)
+﻿# nn4mc: Neural Networks for Microcontrollers
 
+[![Docs](https://nn4mc.readthedocs.io/en/latest/)]
+[![License](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)]
 
-This repo is a generalization of the neural network created by Dana Hughes https://github.com/danathughes/esp32_neural_net 
+### By Sarah Aguasvivas, Dana Hughes and Cooper Simpson 
 
-In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we want to be able to flash a microcontroller with our trained neural network model (which we trained offline, in another computer) with a code that is easy to use and reusable.  
+<img align="left" src="doc/img/nn4mcArt.png" width=25%/>
+<img align="right" src="doc/img/MFM-logo.png" width="25%"/>
 
+This repository is a generalization of the [esp 32 neural network](https://github.com/danathughes/esp32_neural_net) created by Dana Hughes.
 
-This library is intended to be used in any microcontroller programmed in C after the neural network has been trained in a machine with Keras, Tensorflow, etc. and the parameters are saved. This enables the microcontroller to make online predictions. It is compatible with any freeRTOS code, the ESP32 and Arduino systems.
+In multiple areas of our research, we become interested in online estimation through regression or classification. Specifically, we found the need to be able to flash a microcontroller with a neural network model (which we trained offline, in a more capable computer) with a code that is easy to use, reusable and high performance for a microcontroller.  
+
+This library is intended to be used in any microcontroller that supports C code after the neural network has been trained in a machine with Keras, Tensorflow, etc. and the parameters are saved. This enables the microcontroller to make online predictions. It is compatible with any freeRTOS code, the ESP32 and Arduino systems.
 
 
 `example_usage` contains `testing.c`, which shows a sample case of usage of the neural network. Right now the usage is a little rough around the edges but the dream is that we can just call those functions just like we declare keras layer objects. 
