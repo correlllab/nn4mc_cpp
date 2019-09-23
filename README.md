@@ -1,7 +1,7 @@
 ﻿# nn4mc: Neural Networks for Microcontrollers
 
 [![Docs](https://readthedocs.org/projects/nn4mc/badge)](https://nn4mc.readthedocs.io/en/latest/)
-[![License](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)]
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)
 
 ### By Sarah Aguasvivas, Dana Hughes and Cooper Simpson 
 
