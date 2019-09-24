@@ -86,11 +86,21 @@ Then type:
     sudo ln -s libhdf5_serial.so.8.0.2 libhdf5.so
     sudo ln -s libhdf5_serial_hl.so.8.0.2 libhdf5_hl.so
 
+
 Installing the boost library
 ============================
+
+From Linux:
+
 ::
 
     sudo apt-get install libboost-all-dev
+
+From MacOS:
+
+::
+
+    brew install boost
 
 Installing nlohmann/json
 =========================
