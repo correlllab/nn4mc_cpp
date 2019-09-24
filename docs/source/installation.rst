@@ -38,7 +38,7 @@ Installing HDF5 >=1.10.4 from conda
 If you are a conda user, the simplest way to obtain a version of hdf5 that is stable across platforms is using conda. The command to type is:
 
 ::
- conda install -c anaconda hdf5
+     conda install -c anaconda hdf5
 
 
 Installing HDF5 < 1.8.16 from HDF5 Group 
