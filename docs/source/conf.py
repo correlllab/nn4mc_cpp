@@ -36,7 +36,6 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['numpydoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -160,8 +159,3 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 class_members_toctree=False
-numpydoc_use_plotsv = True
-numpydoc_show_class_members = False
-numpydoc_show_inherited_class_members = True
-numpydoc_class_members_toctree = True
-numpydoc_use_blockquotes = Trueautodoc_mock_imports = ["django"]
