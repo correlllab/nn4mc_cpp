@@ -7,13 +7,14 @@ Welcome to nn4mc: Neural Networks for Microcontrollers
 =======================================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    :caption: Contents:
-    license
-    installation
-    nn4mc_examples
-    tutorials
-    modules
+        intro 
+        license 
+        installation
+        nn4mc_examples
+        tutorials
+        modules
 
 .. Citing nn4mc:
 .. =============
