@@ -311,11 +311,11 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 
                 if (s.compare("kernel:0")){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
-                    od->LM[layer_id]->w = wb;
+                    od->LM[layer_id]->b = wb;
 
                 } else{ // it's a weight
                     wb->identifier=wb->identifier.append("_W");
-                    od->LM[layer_id]->b = wb;
+                    od->LM[layer_id]->w = wb;
                 }
 
                 ret= H5Dclose(dset); 
