@@ -3,18 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to nn4mc: Neural Networks for Microcontrollers
-=======================================================
+.. nn4mc: Neural Networks for Microcontrollers
+.. ============================================
+
+`nn4mc` is a C++ library that compiles C code for neural networks to run on off-the-shelf microcontrollers!
 
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
-        intro
-        license
-        installation
-        nn4mc_examples
-        tutorials
-        modules
+
+   introduction 
+   installation
+   nn4mc_examples
+   tutorials
+   dev
 
 .. Citing nn4mc:
 .. =============
