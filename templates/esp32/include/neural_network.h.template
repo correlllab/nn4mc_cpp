@@ -23,7 +23,9 @@ volatile int num_layers = 0;
 <%STRUCTS>
 
 
-<%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
+<%LAYER_DATATYPE_DELIMITER>* fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
+void buildLayers();
+
 
 #endif
 
