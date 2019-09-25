@@ -50,7 +50,5 @@ Aguasvivas Manzano, S., Hughes, D., Simpson, C., Patel, R., Correll, N., (2019).
 
 ### Contributors:
 
-<img src="docs/img/afosr-logo.JPG" align="right" width=10%/>
-
 nn4mc is supported by the [Correll Lab](http://correll.cs.colorado.edu/) at the University of Colorado Boulder. The specific contributors will be listed in a website somewhere in the near future. We also receive support from the Airforce Office of Scientific Research (AFOSR), we are very grateful for this support. 
 
