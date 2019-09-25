@@ -11,9 +11,6 @@
 #ifndef __DENSE_H__
 #define __DENSE_H__
 
-#ifdef __cpluscplus
-extern "C" {
-#endif
 
 struct DENSE {
 	// Weights and biases defining the layer
@@ -29,11 +26,6 @@ struct DENSE {
 	<%INDEX_DATATYPE_DELIMITER> output_shape[1];
 };
 
-
-#ifdef __cplusplus
-}
-
-#endif
 #endif
 
 <%END_DEFINITION_TEMPLATE>

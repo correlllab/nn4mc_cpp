@@ -12,10 +12,6 @@
 #ifndef __CONV1D_H__
 #define __CONV1D_H__
 
-#ifdef __cpluscplus
-extern "C" {
-#endif
-
 struct Conv1D {
 	// Weights and biases defining the layer
 	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
@@ -32,10 +28,6 @@ struct Conv1D {
 };
 
 
-#ifdef __cplusplus
-}
-
-#endif
 #endif
 
 <%END_DEFINITION_TEMPLATE>

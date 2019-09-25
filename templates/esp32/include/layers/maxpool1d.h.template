@@ -11,10 +11,6 @@
 #ifndef __MAXPOOL1D_H__
 #define __MAXPOOL1D_H__
 
-#ifdef __cpluscplus
-extern "C" {
-#endif
-
 struct MaxPool1D {
 	// Kernel size
 	<%INDEX_DATATYPE_DELIMITER> pool_size;	// How many entries to consider
@@ -26,10 +22,6 @@ struct MaxPool1D {
 };
 
 
-#ifdef __cplusplus
-}
-
-#endif
 #endif
 
 <%END_DEFINITION_TEMPLATE>
