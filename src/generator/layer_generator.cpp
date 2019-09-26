@@ -297,6 +297,7 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 			throw std::runtime_error("Could not open file: " + path);
 		}
 	}
+
 }
 
 /*******************

@@ -14,6 +14,11 @@ class LayerWriterFactory{
         virtual LayerWriter * create(std::string)=0;
 };
 
+class ActivationFactory : public LayerWriterFactory{
+    public:
+        ActivationWriter* create(std::string template_path){return new ActivationWriter(template_path);}
+}
+
 // See src/LayerWriterFactory.cpp for specific subclasses
 class Conv1DWriterFactory : public LayerWriterFactory {
               public:

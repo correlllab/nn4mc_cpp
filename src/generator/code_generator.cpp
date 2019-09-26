@@ -63,23 +63,22 @@ void CodeGenerator::generate()
 {
 	NeuralNetwork::iterator it;
 
-
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-    if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten") // TODO: Find out why we need input
+    
+    if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation" && it->layer->layer_type != "maxpool1d" && it->layer->layer_type != "maxpool2d") // TODO: Find out why we need input
 		{
 			weight_generator->addWeight(it->layer->w);
 			weight_generator->addWeight(it->layer->b);
-
-		}
+		} 
 	}
 
 	neural_net->reset();
-
+    std::cout << "here" << std::endl;
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation")
 		{
 			layer_generator->addLayer(it->layer);
 		}
@@ -87,11 +86,11 @@ void CodeGenerator::generate()
 
 	neural_net->reset();
 
-
+    std::cout << "here1" << std::endl;
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation")
 		{
 			nn_generator->addLayer_Header(it->layer);
 			nn_generator->addLayer_Init(*it); 
@@ -99,6 +98,7 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
+    std::cout << "here2" << std::endl;
 }
 
 void CodeGenerator::dump()

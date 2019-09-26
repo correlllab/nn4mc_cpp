@@ -26,7 +26,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	layer.weight_shape[2] = filters;
 
 	layer.strides = strides;		
-    layer.kernel_size[0] = kernel_size;
+    layer.kernel_shape[0] = kernel_size;
 	layer.input_shape[0] = input_sh0;
 	layer.input_shape[1] = input_sh1;
     

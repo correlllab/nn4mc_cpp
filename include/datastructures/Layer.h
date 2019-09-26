@@ -31,6 +31,17 @@ class Layer{
         virtual void compute_output_shapes()=0;
 };
 
+
+class Activation: public Layer{
+    public:
+        std::string activation;
+        Activation(std::string id);
+        static std::string type;
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
+};
+
 class Conv1D : public Layer{
     public:
         int filters;
@@ -78,8 +89,6 @@ class Conv2D : public Layer{
 };
 
 class Dense : public Layer{
-
-
     public:
         int units;
        

@@ -23,7 +23,7 @@ extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_inf
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
 void HDF5Parser::constructBuilderMap(){
-
+    this->BuilderMap["Activation"] = new ActivationFactory();
     this->BuilderMap["Conv1D"]= new Conv1DFactory();
     this->BuilderMap["Conv2D"]= new Conv2DFactory();
     this->BuilderMap["Flatten"]= new FlattenFactory();
@@ -63,6 +63,7 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 }
 
 void HDF5Parser::build_layer_shapes(){
+    
     Layer* prev = this->layerMap.begin()->second;
     
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
@@ -74,7 +75,7 @@ void HDF5Parser::build_layer_shapes(){
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
         
         int rank = prev->output_shape.size();
-
+        std::cout << rank << std::endl;
         for (int i=0; i<rank; i++) this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
         
         this->layerMap[it->first]->compute_output_shapes();        
@@ -92,6 +93,8 @@ void HDF5Parser::callLayerBuilders(){
                 nn_input_shape.push_back(this->model_config["config"]["build_input_shape"][i+1]);
             }  
         }
+        
+        std::cout << this->model_config["config"]["layers"] << std::endl;
 
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
@@ -118,7 +121,7 @@ json HDF5Parser::parseModelConfig(){
     
         std::string test;
         attr.read(type, test);
-
+        
         // define parser callback
         json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
@@ -155,13 +158,13 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-    
+      
       // Populate the layer types:
       this->build_layer_shapes(); 
-       
+      
       // Parse Weights:
       this->parseWeights();
-     
+       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;
@@ -224,7 +227,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 hsize_t dims[rank];
                 H5Sget_simple_extent_dims(dataspace, dims, NULL);
                 std::vector<unsigned int> tensor_dims;
-               
+
                 //Parsing dimensions for Tensor
                 for (int i=0; i<rank; i++) {
                     tensor_dims.push_back((unsigned int)dims[i]);
@@ -318,9 +321,9 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                     od->LM[layer_id]->w = wb;
                 }
 
+                        
                 ret= H5Dclose(dset); 
         }
-
     H5Gclose(group);
     
     return 0;

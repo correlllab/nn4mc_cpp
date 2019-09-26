@@ -1,0 +1,16 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+
+#ifndef __ACTIVATION__
+#define __ACTIVATION__
+
+
+struct Activation{
+
+     <%ACTIVATION_DATATYPE_DELIMITER> activation;  
+     <%INDEX_DATATYPE_DELIMITER> input_shape;
+     <%INDEX_DATATYPE_DELIMITER> output_shape;
+};
+
+
+#endif
+<%END_DEFINITION_TEMPLATE>

@@ -1,6 +1,14 @@
 #include "parser/LayerBuilder.h"
 #include <string>
 
+
+void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    json object = obj["config"];
+    this->layerObject->identifier.assign(id);
+    std::cout<< "LAYER_BUILDER: Activation Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
+}
+
+
 void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     

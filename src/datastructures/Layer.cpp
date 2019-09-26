@@ -2,6 +2,7 @@
 
 std::string Layer::type = std::string("abstract");
 std::string Conv1D::type = std::string("conv1d");
+std::string Activation::type = std::string("activation");
 std::string Conv2D::type = std::string("conv2d");
 std::string Dense::type = std::string("dense");
 std::string Flatten::type = std::string("flatten");
@@ -15,6 +16,15 @@ std::string InputLayer::type = std::string("input");
 Layer::Layer(std::string id)
 {
 	identifier = id;
+}
+
+Activation::Activation(std::string id) : Layer(id)
+{
+    layer_type = Activation::type;
+}
+
+void Activation::compute_output_shapes(){
+    this->output_shape.push_back(this->input_shape[0]); 
 }
 
 
@@ -36,6 +46,9 @@ Conv2D::Conv2D(std::string id) : Layer(id)
 
 void Conv2D::compute_output_shapes(){
     //TODO
+    this->output_shape.push_back(5);
+    this->output_shape.push_back(5);
+    this->output_shape.push_back(5);
 }
 
 Dense::Dense(std::string id) : Layer(id)
@@ -76,7 +89,12 @@ MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
 	layer_type = MaxPooling2D::type;
 }
 
-void MaxPooling2D::compute_output_shapes(){}
+void MaxPooling2D::compute_output_shapes(){
+    //TODO
+    this->output_shape.push_back(5);
+    this->output_shape.push_back(5);
+    this->output_shape.push_back(5);
+}
 
 SimpleRNN::SimpleRNN(std::string id) : Layer(id)
 {

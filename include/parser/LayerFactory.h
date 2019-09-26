@@ -10,6 +10,16 @@ class LayerFactory{
         virtual LayerBuilder * create(std::string)=0;
 };
 
+class ActivationFactory : public LayerFactory{
+    public:
+        ActivationBuilder * layer_builder;
+        ActivationBuilder * create(std::string id){
+        layer_builder = new ActivationBuilder(id);
+        return layer_builder;
+        }
+
+};
+
 class Conv1DFactory : public LayerFactory {
             
               public:
