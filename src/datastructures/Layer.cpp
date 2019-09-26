@@ -24,7 +24,9 @@ Activation::Activation(std::string id) : Layer(id)
 }
 
 void Activation::compute_output_shapes(){
-    this->output_shape.push_back(this->input_shape[0]); 
+    for (int i=0; i<this->input_shape.size(); i++){
+        this->output_shape.push_back(this->input_shape[i]); 
+    }
 }
 
 
@@ -63,6 +65,8 @@ void Dense::compute_output_shapes(){
         this->input_shape[0] = this->input_shape[0] * this->input_shape.back();
         this->input_shape.pop_back();
     }
+
+    this->output_shape.push_back(this->input_shape[1]);
 
 }
 

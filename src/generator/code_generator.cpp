@@ -74,11 +74,10 @@ void CodeGenerator::generate()
 	}
 
 	neural_net->reset();
-    std::cout << "here" << std::endl;
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
 		{
 			layer_generator->addLayer(it->layer);
 		}
@@ -86,11 +85,10 @@ void CodeGenerator::generate()
 
 	neural_net->reset();
 
-    std::cout << "here1" << std::endl;
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
-		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation")
+		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten")
 		{
 			nn_generator->addLayer_Header(it->layer);
 			nn_generator->addLayer_Init(*it); 
@@ -98,7 +96,6 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-    std::cout << "here2" << std::endl;
 }
 
 void CodeGenerator::dump()

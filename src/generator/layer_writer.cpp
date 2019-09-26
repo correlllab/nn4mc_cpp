@@ -107,6 +107,7 @@ void ActivationGenerator::build_map(std::string prev_id){
     mapping[INPUT_SIZE] = layer->input_shape[0];
     mapping[OUTPUT_SIZE] = layer->output_shape[0];
     mapping[ACTIVATION] = this->activation_lookup[layer->activation];
+    this->build_activation_lookup();    
 }
 
 
@@ -169,11 +170,11 @@ void MaxPooling1DGenerator::build_map(std::string prev_id){
 }
 
 void MaxPooling2DGenerator::build_map(std::string prev_id){
-
+    
     mapping[LAYER_NAME] = layer->identifier;
-    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
-    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
-    mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
+    mapping[INPUT_SHAPE_0] =  "1"; //std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = "2"; // std::to_string(layer->input_shape[1]);
+    mapping[INPUT_SHAPE_2] = "3";//std::to_string(layer->input_shape[2]);
 
     mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
