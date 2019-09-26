@@ -25,11 +25,11 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	layer.weight_shape[1] = input_sh0;
 	layer.weight_shape[2] = filters;
 
-	layer.strides = strides;		
+	layer.strides = strides;
     layer.kernel_size[0] = kernel_size;
 	layer.input_shape[0] = input_sh0;
 	layer.input_shape[1] = input_sh1;
-    
+
     layer.filters= filters;
 
 	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_size[0] + 1);
@@ -57,23 +57,23 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 			{
 				for(<%INDEX_DATATYPE_DELIMITER> y = 0; y < L.weight_shape[1]; y++)
 				{
-                    h[idx] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[(i+x)*L.input_shape[1] +  y]; 
+                    h[idx] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[(i+x)*L.input_shape[1] +  y];
 				}
 			}
 
-			// Now perform the activation function
-			// NOTE: NEED TO IMPLEMENT
+			if(L.activation != 0xB)
+				h[i] = activate(h[i],output_shape[0],L.activation);
 		}
 	}
 
-    free(input); 
+    free(input);
     return h;
 }
 
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = malloc(sizeof(struct Conv1D));  
+        <%LAYER_NAME> = malloc(sizeof(struct Conv1D));
         <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>);
 <%END_INITIALIZE_TEMPLATE>
 

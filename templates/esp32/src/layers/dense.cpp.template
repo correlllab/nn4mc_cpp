@@ -48,7 +48,8 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
             h[i] += *(L.weights + j*L.weight_shape[1] + i)*input[j];
 		}
 
-		h[i] = activate(h[i],L.activation);
+		if(L.activation != 0xB)
+			h[i] = activate(h[i],output_shape[0],L.activation);
 
 	}
 

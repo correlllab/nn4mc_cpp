@@ -16,10 +16,6 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-#include "layers/conv1d.h"
-#include "layers/dense.h"
-#include "layers/dense.h"
-#include "layers/dense.h"
 
 
 volatile int num_layers = 0;

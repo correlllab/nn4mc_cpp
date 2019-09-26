@@ -72,16 +72,16 @@
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> activate(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape, int type)
+<%LAYER_DATATYPE_DELIMITER> activate(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape, char type)
 {
   if (type == 0x00)
     return softmax(input, output_shape);
 
-  else if (type == 0x02)
-    return elu();
+  /* else if (type == 0x02)
+    return elu(); */
 
-  else if (type == 0x03)
-    return selu();
+  /* else if (type == 0x03)
+    return selu(); */
 
   else if (type == 0x04)
     return softplus(input);
@@ -104,11 +104,8 @@
   else if (type == 0xA)
     return exponential(input);
 
-  else if (type == 0xB)
-    return linear(input);
-
-  else if (type == 0xC)
-    return custom(input);
+  /* else if (type == 0xC)
+    return custom(input); */
 
   return input;
 }

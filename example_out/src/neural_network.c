@@ -22,7 +22,7 @@ void buildLayers(){
 
 float * fwdNN(float* data)
 {
-  
+
    
         data = fwdConv1D(conv1d_1, data);
 
@@ -34,5 +34,45 @@ float * fwdNN(float* data)
  
 
     return data;
+}
+
+float* data_flatten(float *data, int dims)
+{
+  if (dims == 2)
+  {
+    int size = sizeof(data)/sizeof(data[0][0]);
+    int c = sizeof(data[0])/sizeof(data[0][0]);
+    int r = size/c;
+    float* flat = new float[size];
+
+    for(int i=0; i<r; i++)
+    {
+      for(int j=0; j<c; j++)
+      {
+        flat[i*j] = data[i][j];
+      }
+    }
+  }
+  else if (dims == 3)
+  {
+    int size = sizeof(array2d)/sizeof(array2d[0][0][0]);
+    int d = sizeof(array2d[0][0])/sizeof(array2d[0][0][0]);
+    int c = sizeof(array2d[0])/sizeof(array2d[0][0]);
+    int r = size/c/d;
+    float* flat = new float[size];
+
+    for(int i=0; i<r; i++)
+    {
+      for(int j=0; j<c; j++)
+      {
+        for(int k=0; k<d; k++)
+        {
+          flat[i*j*k] = data[i][j][k];
+        }
+      }
+    }
+  }
+
+  return flat;
 }
 

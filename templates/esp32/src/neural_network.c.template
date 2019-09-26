@@ -16,38 +16,35 @@ void buildLayers(){
     return data;
 }
 
-<%LAYER_DATATYPE_DELIMITER>* data_flatten(<%LAYER_DATATYPE_DELIMITER> *data, int dims)
+<%LAYER_DATATYPE_DELIMITER>* data_flatten(<%LAYER_DATATYPE_DELIMITER>& data, int dims[], int num_dims)
 {
-  if (dims == 2)
+  if (num_dims == 2)
   {
-    int size = sizeof(data)/sizeof(data[0][0]);
-    int c = sizeof(data[0])/sizeof(data[0][0]);
-    int r = size/c;
-    <%LAYER_DATATYPE_DELIMITER>* flat = new <%LAYER_DATATYPE_DELIMITER>[size];
+    int size = dims[0]*dims[1];
+    <%LAYER_DATATYPE_DELIMITER> flat[size];
 
-    for(int i=0; i<r; i++)
+    for(int i=0; i<dims[0]; i++)
     {
-      for(int j=0; j<c; j++)
+      for(int j=0; j<dims[1]; j++)
       {
-        flat[i*j] = data[i][j];
+        offset = i * dims[1] + j;
+        flat[offset] = *(data + offset);
       }
     }
   }
-  else if (dims == 3)
+  else if (num_dims == 3)
   {
-    int size = sizeof(array2d)/sizeof(array2d[0][0][0]);
-    int d = sizeof(array2d[0][0])/sizeof(array2d[0][0][0]);
-    int c = sizeof(array2d[0])/sizeof(array2d[0][0]);
-    int r = size/c/d;
-    <%LAYER_DATATYPE_DELIMITER>* flat = new <%LAYER_DATATYPE_DELIMITER>[size];
+    int size = dims[0]*dims[1]*dims[2];
+    <%LAYER_DATATYPE_DELIMITER> flat[size];
 
-    for(int i=0; i<r; i++)
+    for(int i=0; i<dims[0]; i++)
     {
-      for(int j=0; j<c; j++)
+      for(int j=0; j<dims[1]; j++)
       {
-        for(int k=0; k<d; k++)
+        for(int k=0; k<dims[2]; k++)
         {
-          flat[i*j*k] = data[i][j][k];
+          int offset = i * dims[1] * dims[2] + j * dims[2] + k;
+          flat[offset] = *(data + offset);
         }
       }
     }
