@@ -18,7 +18,6 @@ struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%I
 				   <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1)
 {
 	Conv1D layer;
-
 	layer.strides = strides;		
     layer.pool_size = pool_size;
     layer.input_shape[0] = input_sh0;

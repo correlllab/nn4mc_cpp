@@ -23,8 +23,8 @@ Conv2D buildConv2D(const float* W, const float* b,
 	layer.weights = W;
 	layer.bias = b;
 
-	layer.kernel_shape[0] = kernel_size[0];
-	layer.kernel_shape[1] = kernel_size[1];
+	layer.kernel_shape[0] = kernel_shape[0];
+	layer.kernel_shape[1] = kernel_shape[1];
 	layer.kernel_shape[2] = input_channels;
 	layer.kernel_shape[3] = output_channels;
 

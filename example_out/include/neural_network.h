@@ -16,20 +16,8 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-#include "layers/conv2d.h"
-#include "layers/conv2d.h"
-#include "layers/dense.h"
-#include "layers/dense.h"
-#include "layers/maxpool2d.h"
-#include "layers/maxpool2d.h"
 
 
-struct conv2d *conv2d_1;
-struct conv2d *conv2d_2;
-struct dense *dense_1;
-struct dense *dense_2;
-struct maxpool2d *max_pooling2d_1;
-struct maxpool2d *max_pooling2d_2;
 
 
 

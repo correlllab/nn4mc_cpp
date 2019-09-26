@@ -19,7 +19,7 @@ struct Activation buildActivation(<%INDEX_DATATYPE_DELIMITER> input_size, <%INDE
 }
 
 
-<%LAYER_DATATYPE_DELIMITER> * fwdDense(struct Dense L, <%LAYER_DATATYPE_DELIMITER>* input)
+<%LAYER_DATATYPE_DELIMITER> * fwdActivation(struct Activation L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
    
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>));

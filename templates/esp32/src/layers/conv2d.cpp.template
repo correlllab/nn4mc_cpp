@@ -11,7 +11,7 @@
 */
 
 #include "conv2d.h"
-
+#include <stdlib.h>
 
 Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b,
 				   <%INDEX_DATATYPE_DELIMITER>* kernel_shape, <%INDEX_DATATYPE_DELIMITER>* stride,
@@ -23,8 +23,8 @@ Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>
 	layer.weights = W;
 	layer.bias = b;
 
-	layer.kernel_shape[0] = kernel_size[0];
-	layer.kernel_shape[1] = kernel_size[1];
+	layer.kernel_shape[0] = kernel_shape[0];
+	layer.kernel_shape[1] = kernel_shape[1];
 	layer.kernel_shape[2] = input_channels;
 	layer.kernel_shape[3] = output_channels;
 

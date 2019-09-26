@@ -27,7 +27,6 @@ struct Dense buildDense(const float* W, const float* b, int input_size, int outp
     layer.weight_shape[0] = input_size;
     layer.weight_shape[1] = output_size;
     layer.activation = activation;
-    num_layers++;
 	return layer;
 }
 
@@ -92,7 +91,7 @@ float * fwdDense(struct Dense L, float* input)
              }
              for (int i=0; i<L.output_shape[0];i++){
                  float calc = expf(h[i]) / sum_exp;
-                 if isnan(calc){
+                 if (isnan(calc)){
                      h[i] = 1.0;
                  } else h[i] = (float)(expf(h[i]) / sum_exp);
              }

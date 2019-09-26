@@ -10,6 +10,7 @@
 
 #include "dense.h"
 #include <math.h> 
+#include <stdlib.h>
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -27,7 +28,6 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
     layer.weight_shape[0] = input_size;
     layer.weight_shape[1] = output_size;
     layer.activation = activation;
-    num_layers++;
 	return layer;
 }
 
@@ -92,7 +92,7 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
              }
              for (int i=0; i<L.output_shape[0];i++){
                  float calc = expf(h[i]) / sum_exp;
-                 if isnan(calc){
+                 if (isnan(calc)){
                      h[i] = 1.0;
                  } else h[i] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[i]) / sum_exp);
              }
@@ -111,7 +111,7 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 
 <%BEGIN_INITIALIZE_TEMPLATE>
         <%LAYER_NAME> = malloc(sizeof(struct Dense));
-        <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0][0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
