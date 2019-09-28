@@ -110,12 +110,6 @@ void MaxPooling2DBuilder::create_from_json(json obj, std::string id, std::map<st
     this->layerObject->padding.assign(object["padding"].get<std::string>());
     this->layerObject->data_format.assign(object["data_format"].get<std::string>());
     layerMap[this->layerObject->identifier] =this->layerObject;
-
-    if (object["batch_input_shape"].size() > 0){
-        this->layerObject->output_shape.push_back(-2); // TODO: work on this
-        this->layerObject->output_shape.push_back(-2); // TODO : work on this
-        this->layerObject->output_shape.push_back(-2); // TODO: work on this
-    }     
     
     std::cout<< "LAYER_BUILDER: MaxPooling2D Layer " << this->layerObject->identifier << " Built!"<<std::endl;
 }

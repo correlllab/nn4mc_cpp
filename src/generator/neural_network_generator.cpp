@@ -71,8 +71,17 @@ void NNGenerator::addLayer_Header(Layer* layer)
 	header.insert(pos,file);
         
 	pos =  header.find(STRUC,pos);
-
-	std::string init = "struct " +  layer->layer_type + " *" + layer->identifier + ";\n";
+  
+    // FIXME: Do this in a better way
+    std::map<std::string, std::string> TYPE;
+    TYPE["conv1d"] = "Conv1D";
+    TYPE["dense"] = "Dense";
+    TYPE["conv2d"] = "Conv2D";
+    TYPE["maxpool1d"] = "MaxPooling1D";
+    TYPE["maxpool2d"] = "MaxPooling2D";
+    TYPE["activation"] = "Activation";
+    //
+	std::string init = "struct " +  TYPE[layer->layer_type] + " *" + layer->identifier + ";\n";
 	header.insert(pos,init);
 
 }

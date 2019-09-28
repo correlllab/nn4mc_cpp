@@ -1,5 +1,6 @@
 <%BEGIN_DEFINITION_TEMPLATE>
 #include "neural_network.h"
+#include <stdlib.h>
 
 void buildLayers(){
 

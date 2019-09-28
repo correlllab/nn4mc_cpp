@@ -63,7 +63,7 @@ inp= model.input
 outputs = [layer.output for layer in model.layers]          # all layer outputs
 functors = [K.function([inp] , [out]) for out in outputs]   # evaluation function
 
-test = np.ones((1, 40, 1))
+test = np.ones((1, 28,28, 1))
 layer_outs = [func([test]) for func in functors]
 print("layer outputs:")
 print(layer_outs[layer])

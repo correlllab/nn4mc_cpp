@@ -11,6 +11,7 @@
 
 #include "conv1d.h"
 #include <math.h>
+#include <stdlib.h>
 
 struct Conv1D buildConv1D(const float* W, const float* b,
 				   int kernel_size, int strides,
