@@ -45,7 +45,7 @@ void HDF5Parser::parseWeights(){
       Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
       od_weights.LM = this->layerMap;
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
+      H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
       this->layerMap= od_weights.LM;
 
 }
@@ -65,7 +65,7 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 
 void HDF5Parser::build_layer_shapes(){
     
-    Layer* prev = this->layerMap.begin()->second;
+    //Layer* prev = this->layerMap.begin()->second;
     
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap.begin()->second->input_shape = nn_input_shape;
@@ -77,20 +77,12 @@ void HDF5Parser::build_layer_shapes(){
         int rank = this->layerMap[it->first]->output_shape.size();
          
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
-
+        
+        std::cout << it->first << " "  << it->second << std::endl;
+        
         this->layerMap[it->second]->compute_output_shapes();
 
     }
-
-    /*for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
-        int rank = prev->output_shape.size();
-       
-        for (int i=0; i<rank; i++) this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
-        
-        this->layerMap[it->first]->compute_output_shapes();        
-        
-        prev = this->layerMap[it->first];
-    }*/
 }
 
 void HDF5Parser::callLayerBuilders(){
