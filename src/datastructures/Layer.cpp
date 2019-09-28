@@ -86,7 +86,7 @@ Flatten::Flatten(std::string id) : Layer(id)
 	layer_type = Flatten::type;
 }
 
-void Flatten::compute_output_shapes(){}
+void Flatten::compute_output_shapes(){ this->output_shape = this->input_shape; }
 
 MaxPooling1D::MaxPooling1D(std::string id) : Layer(id)
 {

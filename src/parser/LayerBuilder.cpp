@@ -4,12 +4,15 @@
 void DropoutBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
     this->layerObject->identifier.assign(id);
+    layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Dropout Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
 }
 
 void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
     this->layerObject->identifier.assign(id);
+
+    layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Activation Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
 }
 

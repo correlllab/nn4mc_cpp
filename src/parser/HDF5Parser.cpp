@@ -70,7 +70,6 @@ void HDF5Parser::build_layer_shapes(){
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
-
        
     this->layerMap.begin()->second->compute_output_shapes();
 
