@@ -73,7 +73,16 @@ void HDF5Parser::build_layer_shapes(){
        
     this->layerMap.begin()->second->compute_output_shapes();
 
-    for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
+    for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
+        int rank = this->layerMap[it->first]->output_shape.size();
+         
+        for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
+
+        this->layerMap[it->second]->compute_output_shapes();
+
+    }
+
+    /*for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
         int rank = prev->output_shape.size();
        
         for (int i=0; i<rank; i++) this->layerMap[it->first]->input_shape.push_back(prev->output_shape[i]);
@@ -81,7 +90,7 @@ void HDF5Parser::build_layer_shapes(){
         this->layerMap[it->first]->compute_output_shapes();        
         
         prev = this->layerMap[it->first];
-    }
+    }*/
 }
 
 void HDF5Parser::callLayerBuilders(){
@@ -109,6 +118,10 @@ void HDF5Parser::buildEdges(){
     // Vector of factories is layerBuilderVector. Not tested yet for non-sequential model
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
+    }
+
+    for (int i=0; i<this->layer_edges.size(); i++){
+        std::cout << this->layer_edges[i].first << " " << this->layer_edges[i].second << std::endl;
     }
 }
 
@@ -158,13 +171,15 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-      std::cout << "about to build shapes"  << std::endl; 
+            
       // Populate the layer types:
+      this->buildEdges();
       this->build_layer_shapes(); 
-    std::cout << "about to parse weights" << std::endl; 
+    
       // Parse Weights:
       this->parseWeights();
-       
+        
+            
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;

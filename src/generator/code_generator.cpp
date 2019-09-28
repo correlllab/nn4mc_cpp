@@ -72,11 +72,9 @@ void CodeGenerator::generate()
 			weight_generator->addWeight(it->layer->b);
 		} 
 	}
-    std::cout << "hhhere" << std::endl;
 
 	neural_net->reset();
 
-    std::cout << "here" << std::endl;
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
@@ -87,7 +85,6 @@ void CodeGenerator::generate()
 	}
 
 	neural_net->reset();
-    std::cout << "HERE" << std::endl;
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
@@ -99,7 +96,6 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
-    std::cout << "HEEERE" << std::endl;
 }
 
 void CodeGenerator::dump()
