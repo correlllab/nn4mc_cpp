@@ -134,7 +134,8 @@ void Conv2DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
     mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
-
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);
 
     mapping[STRIDE_SHAPE_0] = std::to_string(layer->strides[0]);
