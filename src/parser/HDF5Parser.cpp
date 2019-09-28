@@ -70,7 +70,8 @@ void HDF5Parser::build_layer_shapes(){
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
-    
+
+       
     this->layerMap.begin()->second->compute_output_shapes();
 
     for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
@@ -158,10 +159,10 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-      
+      std::cout << "about to build shapes"  << std::endl; 
       // Populate the layer types:
       this->build_layer_shapes(); 
-      
+    std::cout << "about to parse weights" << std::endl; 
       // Parse Weights:
       this->parseWeights();
        
