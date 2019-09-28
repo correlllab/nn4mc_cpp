@@ -30,6 +30,7 @@ void HDF5Parser::constructBuilderMap(){
     this->BuilderMap["Dense"]= new DenseFactory();
     this->BuilderMap["MaxPooling1D"]= new MaxPooling1DFactory();
     this->BuilderMap["MaxPooling2D"]= new MaxPooling2DFactory();
+    this->BuilderMap["Dropout"] = new DropoutFactory();
     this->BuilderMap["LSTM"]= new LSTMFactory();
     this->BuilderMap["GRU"]= new GRUFactory();
     this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();

@@ -1,6 +1,11 @@
 #include "parser/LayerBuilder.h"
 #include <string>
 
+void DropoutBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    json object = obj["config"];
+    this->layerObject->identifier.assign(id);
+    std::cout<< "LAYER_BUILDER: Dropout Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
+}
 
 void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
@@ -76,7 +81,7 @@ void MaxPooling1DBuilder::create_from_json(json obj, std::string id, std::map<st
     json object= obj["config"];
     int dim_vars = 2;
     if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
-        for (int i=0; i<(dim_vars+1);i++){
+        for (int i=0; i<(dim_vars);i++){
             this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
         }
     }  

@@ -13,9 +13,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-struct Conv1D buildConv1D(const float* W, const float* b,
-				   int kernel_size, int strides,
-				   int input_sh0, int input_sh1, int filters)
+struct Conv1D buildConv1D(const float* W, const float* b, int kernel_size, int strides, int input_sh0, int input_sh1, int filters)
 {
 	Conv1D layer;
 

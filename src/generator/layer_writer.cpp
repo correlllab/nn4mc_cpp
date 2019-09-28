@@ -135,9 +135,14 @@ void Conv2DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
     mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
 
-    mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
-    mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
-    mapping[OUTPUT_SHAPE_2] = std::to_string(layer->output_shape[2]);
+    mapping[FILTERS] = std::to_string(layer->filters);
+
+    mapping[STRIDE_SHAPE_0] = std::to_string(layer->strides[0]);
+    mapping[STRIDE_SHAPE_1] = std::to_string(layer->strides[1]);
+
+    mapping[KERNEL_SHAPE_0] = std::to_string(layer->kernel_size[0]);
+    mapping[KERNEL_SHAPE_1] = std::to_string(layer->kernel_size[1]);
+
 }
 
 void DenseGenerator::build_map(std::string prev_id){
@@ -172,9 +177,9 @@ void MaxPooling1DGenerator::build_map(std::string prev_id){
 void MaxPooling2DGenerator::build_map(std::string prev_id){
     
     mapping[LAYER_NAME] = layer->identifier;
-    mapping[INPUT_SHAPE_0] =  "1"; //std::to_string(layer->input_shape[0]);
-    mapping[INPUT_SHAPE_1] = "2"; // std::to_string(layer->input_shape[1]);
-    mapping[INPUT_SHAPE_2] = "3";//std::to_string(layer->input_shape[2]);
+    mapping[INPUT_SHAPE_0] =  std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] =  std::to_string(layer->input_shape[1]);
+    mapping[INPUT_SHAPE_2] =  std::to_string(layer->input_shape[2]);
 
     mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);

@@ -8,6 +8,7 @@ std::string Dense::type = std::string("dense");
 std::string Flatten::type = std::string("flatten");
 std::string MaxPooling1D::type = std::string("maxpool1d");
 std::string MaxPooling2D::type = std::string("maxpool2d");
+std::string Dropout::type = std::string("dropout");
 std::string SimpleRNN::type = std::string("simpleRNN");
 std::string GRU::type = std::string("gru");
 std::string LSTM::type = std::string("lstm");
@@ -21,6 +22,16 @@ Layer::Layer(std::string id)
 Activation::Activation(std::string id) : Layer(id)
 {
     layer_type = Activation::type;
+}
+
+Dropout::Dropout(std::string id) : Layer(id)
+{
+    layer_type = Dropout::type;
+}
+
+void Dropout::compute_output_shapes(){
+    for (int i=0; i<this->input_shape.size(); i++) 
+        this->output_shape.push_back(this->input_shape[i]);
 }
 
 void Activation::compute_output_shapes(){
@@ -95,9 +106,9 @@ MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
 
 void MaxPooling2D::compute_output_shapes(){
     //TODO
-    this->output_shape.push_back(5);
-    this->output_shape.push_back(5);
-    this->output_shape.push_back(5);
+    this->output_shape.push_back(this->pool_size[0]);
+    this->output_shape.push_back(this->pool_size[1]);
+    this->output_shape.push_back(this->input_shape[0]);
 }
 
 SimpleRNN::SimpleRNN(std::string id) : Layer(id)

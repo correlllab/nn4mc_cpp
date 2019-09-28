@@ -106,6 +106,15 @@ class Dense : public Layer{
 };
 
 
+class Dropout : public Layer{
+    public:
+        static std::string type;
+        Dropout(std::string id);
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
+};
+
 class Flatten : public Layer{
     public:
         static std::string type;
@@ -116,8 +125,6 @@ class Flatten : public Layer{
 };
 
 class MaxPooling1D : public Layer{
-
-
     public:
         int pool_size;
         int strides;

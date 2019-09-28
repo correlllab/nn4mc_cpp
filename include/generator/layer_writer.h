@@ -65,6 +65,10 @@ class Conv1DGenerator : public LayerWriter{
 
     void build_map(std::string);
 };
+/*
+class DropoutGenerator : public LayerWriter{
+
+}*/
 
 class Conv2DGenerator : public LayerWriter{
     public:
@@ -72,10 +76,17 @@ class Conv2DGenerator : public LayerWriter{
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         std::string INPUT_SHAPE_2= "<%INPUT_SHAPE_2>";
        
-        std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
-        std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";
-        std::string OUTPUT_SHAPE_2= "<%OUTPUT_SHAPE_2>";
-
+        std::string KERNEL_SHAPE_0= "<%KERNEL_SHAPE_0>";
+        std::string KERNEL_SHAPE_1= "<%KERNEL_SHAPE_1>";
+        
+        std::string STRIDE_SHAPE_0= "<%STRIDE_SHAPE_0>";
+        std::string STRIDE_SHAPE_1= "<%STRIDE_SHAPE_1>";
+        
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string BIAS_NAME = "<%BIAS_NAME>";
+        std::string ACTIVATION = "<%ACTIVATION>";
+        std::string FILTERS= "<%FILTERS>";
+        
         Conv2D * layer;
         Conv2DGenerator(Conv2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 

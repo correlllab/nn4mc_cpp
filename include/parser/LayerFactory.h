@@ -10,6 +10,16 @@ class LayerFactory{
         virtual LayerBuilder * create(std::string)=0;
 };
 
+class DropoutFactory : public LayerFactory{
+    public:
+        DropoutBuilder * layer_builder;
+        DropoutBuilder * create(std::string id){
+        layer_builder = new DropoutBuilder(id);
+        return layer_builder;
+        }
+
+};
+
 class ActivationFactory : public LayerFactory{
     public:
         ActivationBuilder * layer_builder;
