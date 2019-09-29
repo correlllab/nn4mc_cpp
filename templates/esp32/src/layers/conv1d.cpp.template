@@ -77,5 +77,5 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdConv1D(<%LAYER_NAME>, <%INPUT>);
+        data = fwdConv1D(*<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>
