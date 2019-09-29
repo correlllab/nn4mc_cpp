@@ -115,5 +115,5 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdDense(<%LAYER_NAME>, <%INPUT>);
+        data = fwdDense(*<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>
