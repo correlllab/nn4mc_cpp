@@ -13,8 +13,7 @@
 #include "conv2d.h"
 #include <stdlib.h>
 
-struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2,
-<%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER> activation)
 {
 	struct Conv2D layer;
 
@@ -38,18 +37,18 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	layer.input_shape[1] = input_shape_1;
 	layer.input_shape[2] = input_shape_2;
 
-	layer.output_shape[0] = layer.input_shape_0 - layer.kernel_shape_0 + 1;
-	layer.output_shape[1] = layer.input_shape_1 - layer.kernel_shape_1 + 1;
+	layer.output_shape[0] = layer.input_shape[0] - layer.kernel_shape[0] + 1;
+	layer.output_shape[1] = layer.input_shape[1] - layer.kernel_shape[1] + 1;
 	layer.output_shape[2] = layer.filters;
 
 	return layer;
 }
 
 
-void fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
+<%LAYER_DATATYPE_DELIMITER>* fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1]*L.output_shape[2] * sizeof(<%LAYER_DATATYPE_DELIMITER>);
+     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1]*L.output_shape[2] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
 	{
@@ -77,7 +76,7 @@ void fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
                         int jj = j + (L.kernel_shape[0]/2 - nn);
 
                         if (ii >= 0 && ii < i && jj >= 0 && jj < j){
-                            h[output_idx] += *(W + L.weight_shape[3]*L.weight_shape[2]*L.weight_shape[1]*kernel_position_x + L.weight_shape[2]*L.weight_shape[1]* kernel_position_y + L.weight_shape[1]*f) * (input + L.input_shape[1]*L.input_shape[2]*ii + L.input_shape[2] * jj);
+                            h[output_idx] += *(L.weights + L.weight_shape[3]*L.weight_shape[2]*L.weight_shape[1]*kernel_position_x + L.weight_shape[2]*L.weight_shape[1]* kernel_position_y + L.weight_shape[1]*f) * (input[L.input_shape[1]*L.input_shape[2]*ii + L.input_shape[2] * jj]);
                        }
                    } 
 
@@ -97,7 +96,7 @@ void fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = malloc(sizeof (struct Conv2D)); 
+        <%LAYER_NAME> = (Conv2D*)malloc(sizeof (struct Conv2D)); 
         * <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 

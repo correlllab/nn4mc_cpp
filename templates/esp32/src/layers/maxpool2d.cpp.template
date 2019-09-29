@@ -11,17 +11,19 @@
 
 #include "maxpool2d.h"
 #include <math.h>
+#include <stdlib.h>
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
 struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <%INDEX_DATATYPE_DELIMITER> pool_size_1, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0, <%INDEX_DATATYPE_DELIMITER> input_shape_1, <%INDEX_DATATYPE_DELIMITER> input_shape_2)
 {
-	Conv1D layer;
+	MaxPooling2D layer;
 
 	layer.strides[0] = strides_0;
     layer.strides[1] = strides_1;
 
-    layer.pool_size = pool_size;
+    layer.pool_size[0] = pool_size_0;
+    layer.pool_size[1] = pool_size_1;
     layer.input_shape[0] = input_shape_0;
     layer.input_shape[1] = input_shape_1;
     layer.input_shape[2] = input_shape_2;
@@ -63,7 +65,7 @@ struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = malloc(sizeof(struct MaxPooling2D));
+        <%LAYER_NAME> = (MaxPooling2D*)malloc(sizeof(struct MaxPooling2D));
         *<%LAYER_NAME> = buildMaxPooling2D(<%POOL_SHAPE_0>,<%POOL_SHAPE_1>, <%STRIDE_SHAPE_0>,<%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>);
 <%END_INITIALIZE_TEMPLATE>
 
