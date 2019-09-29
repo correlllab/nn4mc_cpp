@@ -59,9 +59,9 @@ Conv2D::Conv2D(std::string id) : Layer(id)
 
 void Conv2D::compute_output_shapes(){
     //TODO
-    this->output_shape.push_back(5);
-    this->output_shape.push_back(5);
-    this->output_shape.push_back(5);
+    this->output_shape.push_back(this->input_shape[0] - this->kernel_size[0] + 1);
+    this->output_shape.push_back(this->input_shape[1] - this->kernel_size[1] + 1);
+    this->output_shape.push_back(this->filters);
 }
 
 Dense::Dense(std::string id) : Layer(id)
@@ -106,8 +106,8 @@ MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
 
 void MaxPooling2D::compute_output_shapes(){
     //TODO
-    this->output_shape.push_back(this->pool_size[0]);
-    this->output_shape.push_back(this->pool_size[1]);
+    this->output_shape.push_back(this->pool_size[0]/2);
+    this->output_shape.push_back(this->pool_size[1]/2);
     this->output_shape.push_back(this->input_shape[0]);
 }
 
