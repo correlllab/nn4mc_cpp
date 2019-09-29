@@ -148,6 +148,12 @@ class MaxPooling2DGenerator : public LayerWriter{
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         std::string INPUT_SHAPE_2= "<%INPUT_SHAPE_2>";
+        
+        std::string POOL_SHAPE_0 = "<%POOL_SHAPE_0>";
+        std::string POOL_SHAPE_1 = "<%POOL_SHAPE_1>";
+
+        std::string STRIDE_SHAPE_0 = "<%STRIDE_SHAPE_0>";
+        std::string STRIDE_SHAPE_1 = "<%STRIDE_SHAPE_1>";
 
         std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
         std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";

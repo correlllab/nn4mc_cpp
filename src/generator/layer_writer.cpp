@@ -181,7 +181,10 @@ void MaxPooling2DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] =  std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] =  std::to_string(layer->input_shape[1]);
     mapping[INPUT_SHAPE_2] =  std::to_string(layer->input_shape[2]);
-
+    mapping[POOL_SHAPE_0] = std::to_string(layer->pool_size[0]);
+    mapping[POOL_SHAPE_1] = std::to_string(layer->pool_size[1]);
+    mapping[STRIDE_SHAPE_0] = std::to_string(layer->strides[0]);
+    mapping[STRIDE_SHAPE_1] = std::to_string(layer->strides[1]);
     mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
     mapping[OUTPUT_SHAPE_2] = std::to_string(layer->output_shape[2]);
