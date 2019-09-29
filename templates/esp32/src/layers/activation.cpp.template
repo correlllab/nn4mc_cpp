@@ -83,8 +83,8 @@ struct Activation buildActivation(<%INDEX_DATATYPE_DELIMITER> input_size, <%INDE
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = malloc(sizeof(struct Activation));
-        <%LAYER_NAME> = buildActivation(<%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+        <%LAYER_NAME> = (Activation*)malloc(sizeof(struct Activation));
+        *<%LAYER_NAME> = buildActivation(<%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
