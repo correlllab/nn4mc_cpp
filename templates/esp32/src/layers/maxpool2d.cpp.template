@@ -9,7 +9,7 @@
 * This file defines the functions needed to build a 2D Convolutional layer, and perform a forward pass.
 */
 
-#include "maxpooling2d.h"
+#include "maxpool2d.h"
 #include <math.h>
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -48,9 +48,8 @@ struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <
             for (<%INDEX_DATATYPE_DELIMITER> k = 0; k< L.output_shape[2]; j++)
             {
                 <%INDEX_DATATYPE_DELIMITER> idx = i*L.output_shape[1]*L.output_shape[2] + L.output_shape[1]*j + k;
-
-                <%LAYER_DATATYPE_DELIMITER> x1 = input[(2*i)*L.input_shape[1] + j];
-                <%LAYER_DATATYPE_DELIMITER> x2 = input[(2*i+1)*L.input_shape[1] + j];
+                <%LAYER_DATATYPE_DELIMITER> x1 = input[(2*i)*L.input_shape[2]*L.input_shape[1] + j*L.input_shape[1] + k];
+                <%LAYER_DATATYPE_DELIMITER> x2 = input[(2*i+1)*L.input_shape[2]*L.input_shape[1] + j*L.input_shape[1]+k];
                 h[idx] = max(x1, x2);
                 // Now perform the activation function
                 // NOTE: NEED TO IMPLEMENT
@@ -64,10 +63,10 @@ struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = malloc(sizeof(struct MaxPooling1D));
-        <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SHAPE_0>,<%POOL_SHAPE_1>, <%STRIDE_SHAPE_0>,<%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>);
+        <%LAYER_NAME> = malloc(sizeof(struct MaxPooling2D));
+        *<%LAYER_NAME> = buildMaxPooling2D(<%POOL_SHAPE_0>,<%POOL_SHAPE_1>, <%STRIDE_SHAPE_0>,<%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdMaxPooling1D(<%LAYER_NAME>, <%INPUT>);
+        data = fwdMaxPooling2D(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

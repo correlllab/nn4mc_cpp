@@ -13,7 +13,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters)
+struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation)
 {
 	Conv1D layer;
 
@@ -28,7 +28,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
     layer.kernel_shape[0] = kernel_size;
 	layer.input_shape[0] = input_sh0;
 	layer.input_shape[1] = input_sh1;
-    
+    layer.activation = activation;  
     layer.filters= filters;
 
 	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_size[0] + 1);
@@ -73,7 +73,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
 <%BEGIN_INITIALIZE_TEMPLATE>
         <%LAYER_NAME> = malloc(sizeof(struct Conv1D));  
-        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>);
+      *  <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

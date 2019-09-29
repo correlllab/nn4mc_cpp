@@ -54,10 +54,9 @@ class Conv1DGenerator : public LayerWriter{
         std::string STRIDE_SIZE = "<%STRIDE_SIZE>";
         std::string KERNEL_SIZE = "<%KERNEL_SIZE>";
         std::string INPUT_SIZE = "<%INPUT_SIZE>";
-
+        std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
-        std::string ACTIVATION = "<%ACTIVATION>";
         std::string FILTERS= "<%FILTERS>";
 
         Conv1D* layer;
@@ -81,7 +80,7 @@ class Conv2DGenerator : public LayerWriter{
         
         std::string STRIDE_SHAPE_0= "<%STRIDE_SHAPE_0>";
         std::string STRIDE_SHAPE_1= "<%STRIDE_SHAPE_1>";
-        
+
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>";

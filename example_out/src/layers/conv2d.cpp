@@ -13,7 +13,8 @@
 #include "conv2d.h"
 #include <stdlib.h>
 
-struct Conv2D buildConv2D(const float* W, const float* b, int kernel_shape_0, int kernel_shape_1, int kernel_shape_2, int filters, int strides_0, int strides_1, int input_shape_0,int input_shape_1,int input_shape_2)
+struct Conv2D buildConv2D(const float* W, const float* b, int kernel_shape_0, int kernel_shape_1, int filters, int strides_0, int strides_1, int input_shape_0,int input_shape_1,int input_shape_2,
+char activation)
 {
 	struct Conv2D layer;
 
@@ -26,7 +27,7 @@ struct Conv2D buildConv2D(const float* W, const float* b, int kernel_shape_0, in
 	layer.weight_shape[3] = filters;
 
     layer.filters = filters;
-
+    layer.activation= activation;
     layer.kernel_shape[0] = kernel_shape_0;
     layer.kernel_shape[1] = kernel_shape_1;
 

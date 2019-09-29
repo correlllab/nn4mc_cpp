@@ -9,7 +9,7 @@
 * This file defines the functions needed to build a 2D Convolutional layer, and perform a forward pass.
 */
 
-#include "maxpooling2d.h"
+#include "maxpool2d.h"
 #include <math.h>
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -48,9 +48,8 @@ float * fwdMaxPooling2D(struct MaxPooling2D L, float * input)
             for (int k = 0; k< L.output_shape[2]; j++)
             {
                 int idx = i*L.output_shape[1]*L.output_shape[2] + L.output_shape[1]*j + k;
-
-                float x1 = input[(2*i)*L.input_shape[1] + j];
-                float x2 = input[(2*i+1)*L.input_shape[1] + j];
+                float x1 = input[(2*i)*L.input_shape[2]*L.input_shape[1] + j*L.input_shape[1] + k];
+                float x2 = input[(2*i+1)*L.input_shape[2]*L.input_shape[1] + j*L.input_shape[1]+k];
                 h[idx] = max(x1, x2);
                 // Now perform the activation function
                 // NOTE: NEED TO IMPLEMENT

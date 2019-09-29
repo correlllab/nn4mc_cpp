@@ -18,8 +18,11 @@ struct Conv2D {
 
 	// Kernel information
 	int weight_shape[4];	// (NUM_INPUT_CHANNELS x KERNEL_WIDTH x KERNEL_HEIGHT x NUM_OUTPUT_CHANNELS)
-	int strides[2];			// (STRIDE_WIDTH x STRIDE_HEIGHT)
+	
+    int strides[2];			// (STRIDE_WIDTH x STRIDE_HEIGHT)
+    
     <%INDEX_DATATYPE_DELIMETER> filters;
+    char activation; 
     int kernel_size[2];
 
 	// Shape of the input and output

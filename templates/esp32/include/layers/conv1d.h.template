@@ -23,6 +23,8 @@ struct Conv1D {
     <%INDEX_DATATYPE_DELIMITER> weight_shape[3];
     <%INDEX_DATATYPE_DELIMITER> filters;
 
+    <%ACTIVATION_DATATYPE_DELIMITER> activation;
+
 	// Shape of the input and output
 	<%INDEX_DATATYPE_DELIMITER> input_shape[2];		// (INPUT_SIZE x NUM_INPUT_CHANNELS)
 	<%INDEX_DATATYPE_DELIMITER> output_shape[2];	// (OUTPUT_SIZE x NUM_OUTPUT_CHANNELS)

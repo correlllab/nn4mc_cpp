@@ -12,7 +12,7 @@
 #define __DENSE_H__
 
 
-struct DENSE {
+struct Dense {
 	// Weights and biases defining the layer
 	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to first element of weights array (should be 'const float' in weight.best.hdf5)
 	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias

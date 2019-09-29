@@ -121,11 +121,12 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
     this->build_activation_lookup();    
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation];// "l"; // TODO: Need to make activation lookup
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void Conv2DGenerator::build_map(std::string prev_id){
@@ -143,7 +144,7 @@ void Conv2DGenerator::build_map(std::string prev_id){
 
     mapping[KERNEL_SHAPE_0] = std::to_string(layer->kernel_size[0]);
     mapping[KERNEL_SHAPE_1] = std::to_string(layer->kernel_size[1]);
-
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void DenseGenerator::build_map(std::string prev_id){
@@ -156,7 +157,7 @@ void DenseGenerator::build_map(std::string prev_id){
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; // Fake // TODO: Need to make activation lookup
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 /*
