@@ -82,7 +82,7 @@ void NNGenerator::addLayer_Header(Layer* layer)
     TYPE["activation"] = "Activation";
 
     //
-	std::string init = "struct " +  TYPE[layer->layer_type] + " *" + layer->identifier + ";\n";
+	std::string init = "struct " +  TYPE[layer->layer_type] + layer->identifier + ";\n";
 	header.insert(pos,init);
 
 }

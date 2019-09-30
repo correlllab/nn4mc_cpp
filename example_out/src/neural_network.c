@@ -5,20 +5,15 @@
 void buildLayers(){
 
    
-        conv2d_1 = (Conv2D*)malloc(sizeof (struct Conv2D)); 
-        * conv2d_1 = buildConv2D(&conv2d_1_W[0], conv2d_1_b, 3, 3, 32, 1, 1, 28, 28, 1, );
+        conv2d_1 = buildConv2D(&conv2d_1_W[0], conv2d_1_b, 3, 3, 32, 1, 1, 28, 28, 1, 0x06);
 
-        conv2d_2 = (Conv2D*)malloc(sizeof (struct Conv2D)); 
-        * conv2d_2 = buildConv2D(&conv2d_2_W[0], conv2d_2_b, 3, 3, 64, 1, 1, 26, 26, 32, );
+        conv2d_2 = buildConv2D(&conv2d_2_W[0], conv2d_2_b, 3, 3, 64, 1, 1, 26, 26, 32, 0x06);
 
-        dense_1 = (Dense*)malloc(sizeof(struct Dense));
-        *dense_1 = buildDense(&dense_1_W[0], dense_1_b, 24, 128, 0x06);
+        dense_1 = buildDense(&dense_1_W[0], dense_1_b, 24, 128, 0x06);
 
-        dense_2 = (Dense*)malloc(sizeof(struct Dense));
-        *dense_2 = buildDense(&dense_2_W[0], dense_2_b, 128, 10, 0x00);
+        dense_2 = buildDense(&dense_2_W[0], dense_2_b, 128, 10, 0x00);
 
-        max_pooling2d_1 = (MaxPooling2D*)malloc(sizeof(struct MaxPooling2D));
-        *max_pooling2d_1 = buildMaxPooling2D(2,2, 2,2, 24,  24, 64);
+        max_pooling2d_1 = buildMaxPooling2D(2,2, 2,2, 24,  24, 64);
  
 
 }

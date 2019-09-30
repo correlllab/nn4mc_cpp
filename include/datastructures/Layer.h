@@ -73,7 +73,7 @@ class Conv2D : public Layer{
         std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
-       
+         
         std::string data_format;
         std::vector<int> dilation_rate;
         std::string activation;

@@ -144,6 +144,7 @@ void Conv2DGenerator::build_map(std::string prev_id){
 
     mapping[KERNEL_SHAPE_0] = std::to_string(layer->kernel_size[0]);
     mapping[KERNEL_SHAPE_1] = std::to_string(layer->kernel_size[1]);
+    this->build_activation_lookup();
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 

@@ -23,11 +23,11 @@ extern "C" {
 #include "layers/maxpool2d.h"
 
 
-struct Conv2D *conv2d_1;
-struct Conv2D *conv2d_2;
-struct Dense *dense_1;
-struct Dense *dense_2;
-struct MaxPooling2D *max_pooling2d_1;
+struct Conv2Dconv2d_1;
+struct Conv2Dconv2d_2;
+struct Densedense_1;
+struct Densedense_2;
+struct MaxPooling2Dmax_pooling2d_1;
 
 
 
