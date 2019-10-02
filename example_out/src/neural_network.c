@@ -5,9 +5,9 @@
 void buildLayers(){
 
    
-        conv1d_1 = buildConv1D(&conv1d_1_W[0][0][0], conv1d_1_b, 4, 1, 50, 2, 8, 0xB);
+        conv1d_1 = buildConv1D(&conv1d_1_W[0], conv1d_1_b, 4, 1, 50, 2, 8, 0xB);
 
-        conv1d_2 = buildConv1D(&conv1d_2_W[0][0][0], conv1d_2_b, 4, 1, 47, 8, 8, 0xB);
+        conv1d_2 = buildConv1D(&conv1d_2_W[0], conv1d_2_b, 4, 1, 47, 8, 8, 0xB);
 
         dense_1 = buildDense(&dense_1_W[0], dense_1_b, 352, 64, 0x06);
 
