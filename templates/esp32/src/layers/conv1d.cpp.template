@@ -13,6 +13,9 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define max(a, b) (((a)>(b) ? (a) : (b)))
+#define min(a, b) (((a)<(b) ? (a) : (b)))
+
 struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation)
 {
 	Conv1D layer;
@@ -21,7 +24,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	layer.biases = b;
 
 	layer.weight_shape[0] = kernel_size;
-	layer.weight_shape[1] = input_sh0;
+	layer.weight_shape[1] = input_sh1;
 	layer.weight_shape[2] = filters;
 
 	layer.strides = strides;		
@@ -31,7 +34,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
     layer.activation = activation;  
     layer.filters= filters;
 
-	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_size[0] + 1);
+	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_shape[0] + 1);
 	layer.output_shape[1] = layer.filters;
 
 	return layer;
@@ -41,7 +44,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%LAYER_DATATYPE_DELIMITER> * fwdConv1D(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>);
+     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
 	// Loop through to calculate the output at each point
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
@@ -62,6 +65,55 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
 			// Now perform the activation function
 			// NOTE: NEED TO IMPLEMENT
+        // TODO: Make more elegant:
+        // linear not here cause no action
+
+        if (L.activation==0x08){ //sigmoid
+            h[idx] = exp(h[idx])/(exp(h[idx]) + 1);
+        }
+
+        if (L.activation==0x04){ //softplus
+            h[idx] = log(exp(h[idx]) + 1);
+        }
+
+        if (L.activation==0x05){ //softsign
+            h[idx] = h[idx] / (abs(h[idx]) + 1);
+        }
+
+        if (L.activation==0x09){ //hard_sigmoid
+            if (h[idx] < -2.5){
+                h[idx] = 0.0;
+            } else if (h[idx] > 2.5){
+                h[idx] = 1.0;
+            } else{
+                h[idx] = 0.2*h[idx] + 0.5;
+            }
+        }
+
+        if (L.activation==0xA){ //exponential
+            h[idx] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[idx]);
+        }
+        
+         if (L.activation==0x06){ //relu
+             h[idx]= max(h[idx], 0.0);
+         }
+
+         if (L.activation== 0x07){ //tanh
+             h[idx]=tanh(h[idx]);
+         }
+         if (L.activation==0x00){ //softmax
+             float sum_exp = 0.0;
+             for (int ii=0; ii<L.output_shape[0]*L.output_shape[1]; ii++){
+                 sum_exp+= expf(h[ii]);
+             }
+             for (int ii=0; ii<L.output_shape[0];ii++){
+                 float calc = expf(h[ii]) / sum_exp;
+                 if (isnan(calc)){
+                     h[ii] = 1.0;
+                 } else h[ii] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[ii]) / sum_exp);
+             }
+         }
+
 		}
 	}
 
@@ -72,10 +124,9 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = (Conv1D*)malloc(sizeof(struct Conv1D));  
-      *  <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdConv1D(*<%LAYER_NAME>, <%INPUT>);
+        data = fwdConv1D(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

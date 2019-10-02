@@ -110,10 +110,9 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = (Dense*)malloc(sizeof(struct Dense));
-        *<%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdDense(*<%LAYER_NAME>, <%INPUT>);
+        data = fwdDense(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

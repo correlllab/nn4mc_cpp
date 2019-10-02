@@ -78,7 +78,7 @@ void HDF5Parser::build_layer_shapes(){
          
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
         
-        std::cout << it->first << " "  << it->second << std::endl;
+        //std::cout << it->first << " "  << it->second << std::endl;
         
         this->layerMap[it->second]->compute_output_shapes();
 
@@ -95,7 +95,7 @@ void HDF5Parser::callLayerBuilders(){
             }  
         }
         
-        std::cout << this->model_config["config"]["layers"] << std::endl;
+        //std::cout << this->model_config["config"]["layers"] << std::endl;
 
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
@@ -112,9 +112,9 @@ void HDF5Parser::buildEdges(){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
 
-    for (int i=0; i<this->layer_edges.size(); i++){
+    /*for (int i=0; i<this->layer_edges.size(); i++){
         std::cout << this->layer_edges[i].first << " " << this->layer_edges[i].second << std::endl;
-    }
+    }*/
 }
 
 json HDF5Parser::parseModelConfig(){

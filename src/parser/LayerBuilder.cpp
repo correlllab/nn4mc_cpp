@@ -11,7 +11,7 @@ void DropoutBuilder::create_from_json(json obj, std::string id, std::map<std::st
 void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
     this->layerObject->identifier.assign(id);
-
+    this->layerObject->activation.assign(object["activation"].get<std::string>());
     layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Activation Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
 }
@@ -67,6 +67,7 @@ void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::str
         this->layerObject->strides.push_back(object["strides"][i]);
         this->layerObject->dilation_rate.push_back(object["dilation_rate"][i]);
     }
+
     this->layerObject->filters = object["filters"];
     this->layerObject->padding.assign(object["padding"].get<std::string>());
     this->layerObject->data_format.assign(object["data_format"].get<std::string>());

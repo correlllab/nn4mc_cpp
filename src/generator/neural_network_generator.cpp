@@ -66,7 +66,7 @@ void NNGenerator::addLayer_Header(Layer* layer)
 	size_t pos = header.find(INC);
 	//TODO: This should be put somewhere else or there will be duplicates.
 	
-    std::string file = "#include \"layers/" + layer->layer_type + ".h\"\n";
+    std::string file = "#include \"" + layer->layer_type + ".h\"\n";
 
 	header.insert(pos,file);
         
@@ -82,7 +82,7 @@ void NNGenerator::addLayer_Header(Layer* layer)
     TYPE["activation"] = "Activation";
 
     //
-	std::string init = "struct " +  TYPE[layer->layer_type] + " *" + layer->identifier + ";\n";
+	std::string init = "struct " +  TYPE[layer->layer_type] +  " " + layer->identifier + ";\n";
 	header.insert(pos,init);
 
 }

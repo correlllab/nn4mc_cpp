@@ -21,8 +21,10 @@ struct Conv2D {
 	
     <%INDEX_DATATYPE_DELIMITER> strides[2];			// (STRIDE_WIDTH x STRIDE_HEIGHT)
     
-    <%INDEX_DATATYPE_DELIMETER> filters;
+    <%INDEX_DATATYPE_DELIMITER> filters;
+    
     <%ACTIVATION_DATATYPE_DELIMITER> activation; 
+    
     <%INDEX_DATATYPE_DELIMITER> kernel_shape[2];
 
 	// Shape of the input and output

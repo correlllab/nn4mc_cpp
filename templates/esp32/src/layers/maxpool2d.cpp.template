@@ -65,10 +65,9 @@ struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = (MaxPooling2D*)malloc(sizeof(struct MaxPooling2D));
-        *<%LAYER_NAME> = buildMaxPooling2D(<%POOL_SHAPE_0>,<%POOL_SHAPE_1>, <%STRIDE_SHAPE_0>,<%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>);
+        <%LAYER_NAME> = buildMaxPooling2D(<%POOL_SHAPE_0>,<%POOL_SHAPE_1>, <%STRIDE_SHAPE_0>,<%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdMaxPooling2D(*<%LAYER_NAME>, <%INPUT>);
+        data = fwdMaxPooling2D(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>
