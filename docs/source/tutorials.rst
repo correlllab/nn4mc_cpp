@@ -27,7 +27,7 @@ In the setup function after we begin our serial port, we call the function `buil
 
   }
 
-In the loop function, after we collect our input, we call `fwdNN(input)`, which is the function that will output a pointer. This pointer will contain the output data from the neural network. You can access this output as a regular array, for example, output[0] indicates the first element in the output layer and so forth.  
+In the loop function, after we collect our input, we call `fwdNN(input)`, which is the function that will output a pointer. This pointer will contain the output data from the neural network. You can access this output as a regular array, for example, output[0] indicates the first element in the output layer and so forth. In the following example, we have a neural network whose input layer is is of size `(None, 10, 1)` and output size `(3)`.
 
 ::
 
