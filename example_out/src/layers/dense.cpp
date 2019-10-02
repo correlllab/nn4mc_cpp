@@ -1,4 +1,4 @@
-<%BEGIN_DEFINITION_TEMPLATE>
+
 /*************
 * conv1d.cpp
 *
@@ -16,7 +16,7 @@
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
 
-struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> input_size, <%INDEX_DATATYPE_DELIMITER> output_size, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct Dense buildDense(const float* W, const float* b, int input_size, int output_size, char activation)
 {
 	struct Dense layer;
 
@@ -32,18 +32,18 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 }
 
 
-<%LAYER_DATATYPE_DELIMITER> * fwdDense(struct Dense L, <%LAYER_DATATYPE_DELIMITER>* input)
+float * fwdDense(struct Dense L, float* input)
 {
    
-    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    float * h = (float*)malloc(L.output_shape[0] * sizeof(float));
 
 	// Loop through to calculate the output at each point
-	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
+	for(int i = 0; i < L.output_shape[0]; i++)
 	{
 		// Start with the bias
 		h[i] = L.biases[i];
 
-		for(<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[0]; j++)
+		for(int j = 0; j < L.input_shape[0]; j++)
 		{
             h[i] += *(L.weights + j*L.weight_shape[1] + i)*input[j];
 		}
@@ -75,7 +75,7 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
         }
 
         if (L.activation==0xA){ //exponential
-            h[i] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[i]);
+            h[i] = (float)expf((float)h[i]);
         }
         
          if (L.activation==0x06){ //relu
@@ -87,14 +87,14 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
          }
          if (L.activation==0x00){ //softmax
              float sum_exp = 0.0;
-             for (int ii=0; ii<L.output_shape[0]; ii++){
-                 sum_exp+= expf(h[ii]);
+             for (int i=0; i<L.output_shape[0]; i++){
+                 sum_exp+= expf(h[i]);
              }
-             for (int ii=0; ii<L.output_shape[0];ii++){
-                 float calc = expf(h[ii]) / sum_exp;
+             for (int i=0; i<L.output_shape[0];i++){
+                 float calc = expf(h[i]) / sum_exp;
                  if (isnan(calc)){
-                     h[ii] = 1.0;
-                 } else h[ii] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[ii]) / sum_exp);
+                     h[i] = 1.0;
+                 } else h[i] = (float)(expf(h[i]) / sum_exp);
              }
          }
 
@@ -106,13 +106,3 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
     return h;
 
 }
-<%END_DEFINITION_TEMPLATE>
-
-
-<%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildDense(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
-<%END_INITIALIZE_TEMPLATE>
-
-<%BEGIN_CALL_TEMPLATE>
-        data = fwdDense(<%LAYER_NAME>, <%INPUT>);
-<%END_CALL_TEMPLATE>

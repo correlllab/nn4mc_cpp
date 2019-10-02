@@ -1,4 +1,4 @@
-<%BEGIN_DEFINITION_TEMPLATE>
+
 
 /*************
 * conv2d.cpp
@@ -16,7 +16,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct Conv2D buildConv2D(const float* W, const float* b, int kernel_shape_0, int kernel_shape_1, int filters, int strides_0, int strides_1, int input_shape_0,int input_shape_1,int input_shape_2, char activation)
 {
 	struct Conv2D layer;
 
@@ -48,31 +48,31 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 }
 
 
-<%LAYER_DATATYPE_DELIMITER>* fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
+float* fwdConv2D(struct Conv2D L, float* input)
 {
 
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1]*L.output_shape[2] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+     float * h = (float*)malloc(L.output_shape[0]*L.output_shape[1]*L.output_shape[2] * sizeof(float));
 
-	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
+	for(int i = 0; i < L.output_shape[0]; i++)
 	{
-		for(<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[1]; j++)
+		for(int j = 0; j < L.output_shape[1]; j++)
 		{
-			for(<%INDEX_DATATYPE_DELIMITER> k = 0; k < L.output_shape[2]; k++)
+			for(int k = 0; k < L.output_shape[2]; k++)
 			{
 				int output_idx = i * L.output_shape[1] * L.output_shape[2] + j * L.output_shape[2] + k;
 
 				h[output_idx] = L.bias[k];
 
 
-				for(<%INDEX_DATATYPE_DELIMITER> kernel_position_x = 0; kernel_position_x < L.kernel_shape[0]; kernel_position_x++)
+				for(int kernel_position_x = 0; kernel_position_x < L.kernel_shape[0]; kernel_position_x++)
 				{
 
                     int mm = L.kernel_shape[0] - 1 - kernel_position_x;
 
-					for(<%INDEX_DATATYPE_DELIMITER> kernel_position_y = 0; kernel_position_y < L.kernel_shape[1]; kernel_position_y++)
+					for(int kernel_position_y = 0; kernel_position_y < L.kernel_shape[1]; kernel_position_y++)
 					{				
 
-                        for (<%INDEX_DATATYPE_DELIMITER> f=0; f<L.filters; f++){
+                        for (int f=0; f<L.filters; f++){
                         int nn = L.kernel_shape[1] - 1 - kernel_position_y;
 
                         int ii = i + (L.kernel_shape[1]/2 - mm);
@@ -92,48 +92,48 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
         // linear not here cause no action
 
         if (L.activation==0x08){ //sigmoid
-            h[output_idx] = exp(h[output_idx])/(exp(h[output_idx]) + 1);
+            h[i] = exp(h[i])/(exp(h[i]) + 1);
         }
 
         if (L.activation==0x04){ //softplus
-            h[output_idx] = log(exp(h[output_idx]) + 1);
+            h[i] = log(exp(h[i]) + 1);
         }
 
         if (L.activation==0x05){ //softsign
-            h[output_idx] = h[output_idx] / (abs(h[output_idx]) + 1);
+            h[i] = h[i] / (abs(h[i]) + 1);
         }
 
         if (L.activation==0x09){ //hard_sigmoid
-            if (h[output_idx] < -2.5){
-                h[output_idx] = 0.0;
-            } else if (h[output_idx] > 2.5){
-                h[output_idx] = 1.0;
+            if (h[i] < -2.5){
+                h[i] = 0.0;
+            } else if (h[i] > 2.5){
+                h[i] = 1.0;
             } else{
-                h[output_idx] = 0.2*h[output_idx] + 0.5;
+                h[i] = 0.2*h[i] + 0.5;
             }
         }
 
         if (L.activation==0xA){ //exponential
-            h[output_idx] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[output_idx]);
+            h[i] = (float)expf((float)h[i]);
         }
         
          if (L.activation==0x06){ //relu
-             h[output_idx]= max(h[output_idx], 0.0);
+             h[i]= max(h[i], 0.0);
          }
 
          if (L.activation== 0x07){ //tanh
-             h[output_idx]=tanh(h[output_idx]);
+             h[i]=tanh(h[i]);
          }
          if (L.activation==0x00){ //softmax
              float sum_exp = 0.0;
-             for (int ii=0; ii<L.output_shape[0]; i++){
-                 sum_exp+= expf(h[ii]);
+             for (int i=0; i<L.output_shape[0]; i++){
+                 sum_exp+= expf(h[i]);
              }
-             for (int ii=0; ii<L.output_shape[0];ii++){
-                 float calc = expf(h[ii]) / sum_exp;
+             for (int i=0; i<L.output_shape[0];i++){
+                 float calc = expf(h[i]) / sum_exp;
                  if (isnan(calc)){
-                     h[ii] = 1.0;
-                 } else h[ii] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[ii]) / sum_exp);
+                     h[i] = 1.0;
+                 } else h[i] = (float)(expf(h[i]) / sum_exp);
              }
          }
 
@@ -144,12 +144,3 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
     return h;
 }
 
-<%END_DEFINITION_TEMPLATE>
-
-<%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>);
-<%END_INITIALIZE_TEMPLATE>
-
-<%BEGIN_CALL_TEMPLATE>
-        data = fwdConv2D(<%LAYER_NAME>, <%INPUT>);
-<%END_CALL_TEMPLATE>
