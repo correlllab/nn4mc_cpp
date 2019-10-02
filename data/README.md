@@ -1,11 +1,8 @@
-### Rudimentary Regex Retriever for Weights and Biases
-#### Sarah Aguasvivas
+### Sample Neural Networks
 
 To run this type, for example:
 
-```python
-
-./loadModel.py 0
-
 ```
-where 0 is the first layer of the neural network. 
+./loadModel.py file_name.hdf5 0
+```
+where 0 is the first layer of the neural network and so forth.

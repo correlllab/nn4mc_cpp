@@ -69,48 +69,48 @@ float * fwdConv1D(struct Conv1D L, float* input)
         // linear not here cause no action
 
         if (L.activation==0x08){ //sigmoid
-            h[i] = exp(h[i])/(exp(h[i]) + 1);
+            h[idx] = exp(h[idx])/(exp(h[idx]) + 1);
         }
 
         if (L.activation==0x04){ //softplus
-            h[i] = log(exp(h[i]) + 1);
+            h[idx] = log(exp(h[idx]) + 1);
         }
 
         if (L.activation==0x05){ //softsign
-            h[i] = h[i] / (abs(h[i]) + 1);
+            h[idx] = h[idx] / (abs(h[idx]) + 1);
         }
 
         if (L.activation==0x09){ //hard_sigmoid
-            if (h[i] < -2.5){
-                h[i] = 0.0;
-            } else if (h[i] > 2.5){
-                h[i] = 1.0;
+            if (h[idx] < -2.5){
+                h[idx] = 0.0;
+            } else if (h[idx] > 2.5){
+                h[idx] = 1.0;
             } else{
-                h[i] = 0.2*h[i] + 0.5;
+                h[idx] = 0.2*h[idx] + 0.5;
             }
         }
 
         if (L.activation==0xA){ //exponential
-            h[i] = (float)expf((float)h[i]);
+            h[idx] = (float)expf((float)h[idx]);
         }
         
          if (L.activation==0x06){ //relu
-             h[i]= max(h[i], 0.0);
+             h[idx]= max(h[idx], 0.0);
          }
 
          if (L.activation== 0x07){ //tanh
-             h[i]=tanh(h[i]);
+             h[idx]=tanh(h[idx]);
          }
          if (L.activation==0x00){ //softmax
              float sum_exp = 0.0;
-             for (int i=0; i<L.output_shape[0]; i++){
-                 sum_exp+= expf(h[i]);
+             for (int ii=0; ii<L.output_shape[0]*L.output_shape[1]; ii++){
+                 sum_exp+= expf(h[ii]);
              }
-             for (int i=0; i<L.output_shape[0];i++){
-                 float calc = expf(h[i]) / sum_exp;
+             for (int ii=0; ii<L.output_shape[0];ii++){
+                 float calc = expf(h[ii]) / sum_exp;
                  if (isnan(calc)){
-                     h[i] = 1.0;
-                 } else h[i] = (float)(expf(h[i]) / sum_exp);
+                     h[ii] = 1.0;
+                 } else h[ii] = (float)(expf(h[ii]) / sum_exp);
              }
          }
 

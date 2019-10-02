@@ -30,7 +30,7 @@ struct Conv2D {
 	int output_shape[3];	// (OUTPUT_WIDTH x OUTPUT_HEIGHT x NUM_OUTPUT_CHANNELS)
 };
 
-struct Conv2D buildConv2D(const float* , const float* ,                          int , int , int , int , int , int ,int , int , char);
+struct Conv2D buildConv2D(const float* , const float* ,int , int , int , int , int , int ,int , int , char);
 
 float* fwdConv2D(struct Conv2D, float*);
 
