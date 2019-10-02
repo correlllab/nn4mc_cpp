@@ -31,7 +31,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
     layer.activation = activation;  
     layer.filters= filters;
 
-	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_size[0] + 1);
+	layer.output_shape[0] = (int)(layer.input_shape[0] - layer.kernel_shape[0] + 1);
 	layer.output_shape[1] = layer.filters;
 
 	return layer;
@@ -41,7 +41,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%LAYER_DATATYPE_DELIMITER> * fwdConv1D(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>);
+     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
 	// Loop through to calculate the output at each point
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
@@ -72,7 +72,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0][0][0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
