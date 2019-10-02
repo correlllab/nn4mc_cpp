@@ -24,7 +24,7 @@ struct Conv1D buildConv1D(const float* W, const float* b, int kernel_size, int s
 	layer.biases = b;
 
 	layer.weight_shape[0] = kernel_size;
-	layer.weight_shape[1] = input_sh0;
+	layer.weight_shape[1] = input_sh1;
 	layer.weight_shape[2] = filters;
 
 	layer.strides = strides;		

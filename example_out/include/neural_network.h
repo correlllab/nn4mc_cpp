@@ -41,9 +41,6 @@ struct Dense dense_8;
 
 
 
-float* fwdNN(float*);
-void buildLayers();
-
 
 #endif
 

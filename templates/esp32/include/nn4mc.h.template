@@ -1,0 +1,14 @@
+#ifndef __NN4MC_H__
+#define __NN4MC_H__
+
+#ifdef __cpluscplus
+extern "C" {
+#endif
+
+
+<%LAYER_DATATYPE_DELIMITER>* fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
+void buildLayers();
+
+
+#endif
+
