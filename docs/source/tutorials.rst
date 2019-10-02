@@ -9,7 +9,8 @@ First, open a new sketch in Arduino, then, open all the files that were generate
 
 The following code is an example of what it would take to get `nn4mc` to work on your Arduino code. In this example, we allocate and send to the neural network an input of ones. This code looks as follows:
 
-:: 
+::
+
   void buildLayers();
   float * fwdNN(float* data);
 
