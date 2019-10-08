@@ -72,10 +72,10 @@ Dense::Dense(std::string id) : Layer(id)
 void Dense::compute_output_shapes(){
 // I know this is output but it is called in the right moment for this:
 
-    if (this->input_shape.size() > 1){
+   /* if (this->input_shape.size() > 1){
         this->input_shape[0] = this->input_shape[0] * this->input_shape.back();
         this->input_shape.pop_back();
-    }
+    }*/
 
     this->output_shape.push_back(this->input_shape[1]);
 

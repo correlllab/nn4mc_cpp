@@ -101,14 +101,12 @@ void CodeGenerator::generate()
 void CodeGenerator::dump()
 {
 	// Write all of the code to the output directory
-	weight_generator->dump(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME);
+	weight_generator->dump(output_folder + "/" +  PARAMETER_FILENAME);
 	// Write all of the layer header and source
-	layer_generator->dumpLayerHeaders(output_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR);
-	layer_generator->dumpLayerSources(output_folder + "/" + LAYER_TEMPLATE_SRC_DIR);
+	layer_generator->dumpLayerHeaders(output_folder );
+	layer_generator->dumpLayerSources(output_folder );
 	//Write out header file and source file for neural_network
-	nn_generator->dumpHeader(output_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
-HEADER_FILENAME);
-	nn_generator->dumpSource(output_folder + "/" + SOURCE_TEMPLATE_PATH + "/" +
-SOURCE_FILENAME);
+	nn_generator->dumpHeader(output_folder + "/" + HEADER_FILENAME);
+	nn_generator->dumpSource(output_folder + "/" + SOURCE_FILENAME);
 
 }

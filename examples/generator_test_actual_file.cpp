@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/lenet.hdf5");
+    HDF5Parser P("../data/weights.best.hdf5");
     P.parse();
     NeuralNetwork* nn = P.get_neural_network();
     nn->BFS();
