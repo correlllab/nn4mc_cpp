@@ -8,6 +8,7 @@ Getting Started
 The first step after the installation is done is to create a build folder and build our first example to make sure you are setup! Go to the root `nn4mc` folder and create a `build/` folder.
 
 ::
+
  cd path/to/nn4mc
  mkdir build
  cd build
@@ -15,6 +16,7 @@ The first step after the installation is done is to create a build folder and bu
 Now, you are ready to make your first example project. We recommend to add your hdf5 files under the `data/` folder to keep your version of the repository clean. However, you are free to store that file wherever you'd like (inside or outside the folder, as long as you can provide the path). We added some sample hdf5 files under `data/`. To test your installation do the following:
 
 ::
+
  cd build
  cmake ..
  make
@@ -22,6 +24,7 @@ Now, you are ready to make your first example project. We recommend to add your 
 The sample code will generate many executables under `build/`, the one we recommend testing because it covers all the necessary components is called `generator_test_file`. Run it by typing in the command line:
 
 ::
+
  ./generator_test_file
 
 If this works, it will generate code in the root folder with the file name specified. By default, this filename is called: `example_out/` and is located at the root folder of `nn4mc`. 
@@ -34,7 +37,8 @@ Using your HDF5 File
 
 The example code contained under `examples/generator_test_actual_file.cpp` contains all the necessary components to create your C files. Here is an example on how to use this library on hdf5 files. In this example we generate the code necessary to implement lenet in a microcontroller:
 
-:: 
+::
+
  #include <iostream>
  #include <vector>
  #include <cstdlib>
