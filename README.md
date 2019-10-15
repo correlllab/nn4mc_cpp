@@ -38,7 +38,18 @@ We encourage to use the following citation references for academic use of nn4mc.
 **BibTeX citation:**
 
 ```
-TBD
+@proceedings{proceedings,
+    title        = {Embedded Neural Networks for Robot Autonomy},
+    year         = 2019,
+    editor       = {Sarah {Aguasvivas Manzano}, Dana {Hughes}, Cooper {Simpson}, Radhen {Patel}, Nikolaus {Correll}},
+    volume       = TBD,
+    series       = TBD,
+    address      = {The address of the publisher},
+    month        = 11,
+    organization = {International Symposium on Robotics Research (ISRR)},
+    publisher    = {TBD},
+    note         = {TBD}
+}
 ```
 
 **APA Format:**
