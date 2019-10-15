@@ -54,10 +54,18 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l = new InputLayer("input_1");
     NN->addLayer(l);
-    for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
+    
+    /*for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         NN->addLayer(it->second); // adding layers
         NN->addEdge(l, it->second);
         l= it->second;
+    }
+    */
+    for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
+        
+        NN->addLayer(this->layerMap[it->second]);
+        NN->addEdge(l, this->layerMap[it->second]);
+        l = this->layerMap[it->second];
     }
     cout<< "PARSER: Neural Network Nodes and Edges Built!"<<endl;
     return NN;
