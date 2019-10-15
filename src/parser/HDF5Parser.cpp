@@ -54,7 +54,10 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l = new InputLayer("input_1");
     NN->addLayer(l);
-    
+    NN->addLayer(this->layerMap.begin()->second);
+    NN->addEdge(l, this->layerMap.begin()->second);
+    l = this->layerMap.begin()->second;
+
     /*for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         NN->addLayer(it->second); // adding layers
         NN->addEdge(l, it->second);
