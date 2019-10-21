@@ -11,7 +11,7 @@
 #ifndef __MAXPOOL1D_H__
 #define __MAXPOOL1D_H__
 
-struct MaxPool1D {
+struct MaxPooling1D {
 	// Kernel size
 	<%INDEX_DATATYPE_DELIMITER> pool_size;	// How many entries to consider
 	<%INDEX_DATATYPE_DELIMITER> strides;			// How many to skip	

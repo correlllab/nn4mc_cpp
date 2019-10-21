@@ -9,14 +9,16 @@
 * This file defines the functions needed to build a 1D Convolutional layer, and perform a forward pass.
 */
 
-#include "maxpooling1d.h"
+#include "maxpool1d.h"
 #include <math.h>
+#include <stdlib.h>
+
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
 struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%INDEX_DATATYPE_DELIMITER> strides,<%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1)
 {
-	Conv1D layer;
+	struct MaxPooling1D layer;
 
 	layer.strides = strides;		
     layer.pool_size = pool_size;
@@ -58,7 +60,7 @@ struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%I
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-       <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>);
+       <%LAYER_NAME> = buildMaxPooling1D(<%POOL_SIZE>, <%STRIDES>, <%INPUT_SHAPE_0>,  <%INPUT_SHAPE_1>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
