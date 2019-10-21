@@ -18,7 +18,7 @@
 
 struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation)
 {
-	Conv1D layer;
+	struct Conv1D layer;
 
 	layer.weights = W;
 	layer.biases = b;
