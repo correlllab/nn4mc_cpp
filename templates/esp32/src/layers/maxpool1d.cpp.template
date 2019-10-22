@@ -25,8 +25,8 @@ struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%I
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
 
-	layer.output_shape[0] = pool_size;
-	layer.output_shape[1] = input_sh0;
+	layer.output_shape[0] = floor(input_sh0 / pool_size);
+	layer.output_shape[1] = pool_size;
 
 	return layer;
 }
