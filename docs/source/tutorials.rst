@@ -123,3 +123,36 @@ In the loop function, after we collect our input, we call `fwdNN(input)`, which 
         free(output); // output needs to be freed for best performance. Please do not free input.  
         delay(1);
       }
+
+Testing Instructions
+=====================
+
+Arduino
+-------
+
+You can start with a trained Keras file, run it through ``nn4mc`` using the instructions above and import the code in Arduino. Make sure you test the specific layers. Use ``loadModel.py`` under data to compare against the actual Keras results/outputs at specific places within the neural network. We usually test the performance of the layer by sending an array of ones as input to the neural newtork and seeing how faithful the results should be. There should be a 1:1 fidelity with those
+results since both languages use float32 (Arduino serial monitor sometimes rounds the numbers, so you could just print the first 16 digits for the number or something like that). Whatever the result of the test is, write a new issue with the following template:
+
+::
+
+    FILE: filename.cpp
+    RESULT: passing/failing/need_further_test
+    TEST TYPE: Unit test/Integration test
+    DESCRIPTION:
+
+    input:
+    output:
+    desired output:
+    NOTES:
+    [write additional notes here]
+    
+    RECOMMENDATIONS:
+    [write specific template fixes that you think might fix it (optional)]
+
+Please do not try to modify source code or template codes, but if you find an error in the templates make sure to add it as a recommendation. 
+
+
+ESP-IDF
+-------
+
+[TBD]
