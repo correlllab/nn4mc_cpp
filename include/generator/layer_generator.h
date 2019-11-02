@@ -7,7 +7,7 @@
 * \brief Code generator for header and source files for layers.
 *
 * This class is used to generate a portion of the microcontroller code.
-* Specifically, this code is used to generate header files containing 
+* Specifically, this code is used to generate header files containing
 * definitions of layer structures, and source files for layer creation
 * and calling.
 *
@@ -33,7 +33,6 @@
 #ifndef __LAYER_GENERATOR_H__
 #define __LAYER_GENERATOR_H__
 
-
 class LayerGenerator
 {
 	private:
@@ -47,7 +46,7 @@ class LayerGenerator
 		static std::string END_CALL_DELIMITER;
 		static std::string START_INITIALIZE_DELIMITER;
 		static std::string END_INITIALIZE_DELIMITER;
-
+        static std::string ACTIVATION_DATATYPE_DELIMITER;
 
 		// Location of templates
 		std::string include_template_path;
@@ -56,6 +55,8 @@ class LayerGenerator
 		// Datatypes to replace in template files
 		std::string weight_datatype_string;
 		std::string index_datatype_string;
+        std::string activation_datatype_string;
+        std::string data_datatype_string;
 
 		// Types of layers to actually include in the generated files
 		std::map<std::string, std::string> include_files;
@@ -79,15 +80,26 @@ class LayerGenerator
 		void dump(std::string, std::map<std::string,std::string>, std::string);
 		void addLayer(Layer*, std::string, std::string);
 
+		friend class NNGenerator; //So NNGenerator can access the maps.
 
 	public:
 
-		LayerGenerator(std::string, std::string, std::string, std::string);//const char*, const char*);
+		LayerGenerator(std::string, std::string, std::string, std::string, std::string, std::string);//const char*, const char*);
 		~LayerGenerator();
+
+		std::map<std::string, std::string> getInitMap()
+		{
+			return init_calls;
+		}
+		std::map<std::string, std::string> getSrcMap()
+		{
+			return fwd_calls;
+		}
 
 		void addLayer(Layer*);
 		void dumpLayerHeaders(std::string);
 		void dumpLayerSources(std::string);
+
 };
 
 

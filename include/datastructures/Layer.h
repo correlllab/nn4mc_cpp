@@ -17,12 +17,29 @@ class Layer{
         static std::string type;
         std::string layer_type;
         std::string identifier;
+
+        std::vector<int> input_shape;
+        std::vector<int> output_shape;
+
         Weight* w;
         Weight* b;
         Layer(std::string id);
+
         virtual void setLayer() = 0;
         virtual ~Layer() {};
         virtual bool isInput() = 0;
+        virtual void compute_output_shapes()=0;
+};
+
+
+class Activation: public Layer{
+    public:
+        std::string activation;
+        Activation(std::string id);
+        static std::string type;
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
 };
 
 class Conv1D : public Layer{
@@ -30,18 +47,23 @@ class Conv1D : public Layer{
         int filters;
         std::vector<int> kernel_size;
         int strides;
+
         std::string padding;
         std::string data_format;
+        
         int dilation_rate;
         std::string activation;
         bool use_bias;
+
+        std::string weight_name;
+        std::string bias_name;
 
     public:
         static std::string type;
         Conv1D(std::string id);//{this->identifier = id;}
         void setLayer(){}
         bool isInput() {return false;}
-
+        void compute_output_shapes();
 };
 
 
@@ -51,50 +73,62 @@ class Conv2D : public Layer{
         std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
+         
         std::string data_format;
         std::vector<int> dilation_rate;
         std::string activation;
         bool use_bias;
-
+        std::string weight_name;
+        std::string bias_name;
     public:
         static std::string type;
         Conv2D(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 class Dense : public Layer{
-
-
     public:
         int units;
+       
         std::string activation;
         bool use_bias;
 
+        std::string weight_name;
+        std::string bias_name;
     public:
         static std::string type;
         Dense(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 
+class Dropout : public Layer{
+    public:
+        static std::string type;
+        Dropout(std::string id);
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
+};
+
 class Flatten : public Layer{
-
-
     public:
         static std::string type;
         Flatten(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 class MaxPooling1D : public Layer{
-
-
     public:
         int pool_size;
         int strides;
+       
         std::string padding;
         std::string data_format;
 
@@ -103,15 +137,15 @@ class MaxPooling1D : public Layer{
         MaxPooling1D(std::string id);//{this->identifier=id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 } ;
 
 class MaxPooling2D: public Layer{
-
-
     public:
         std::vector<int> pool_size;
         std::vector<int> strides;
         std::string padding;
+       
         std::string data_format;
 
     public:
@@ -119,6 +153,7 @@ class MaxPooling2D: public Layer{
         MaxPooling2D(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 class SimpleRNN : public Layer{
@@ -134,6 +169,7 @@ class SimpleRNN : public Layer{
         SimpleRNN(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 class GRU: public Layer{
@@ -155,6 +191,7 @@ class GRU: public Layer{
         GRU(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 
@@ -178,6 +215,7 @@ class LSTM: public Layer{
         LSTM(std::string id);//{this->identifier= id;}
         void setLayer(){}
         bool isInput() {return false;}
+        void compute_output_shapes();
 };
 
 class InputLayer: public Layer{
@@ -187,7 +225,9 @@ class InputLayer: public Layer{
       InputLayer(std::string id);//{this->identifier=id;}
       void setLayer(){}
       bool isInput() {return true;};
+      void compute_output_shapes();
 };
+
 
 
 #endif

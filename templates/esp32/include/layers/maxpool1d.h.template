@@ -11,14 +11,10 @@
 #ifndef __MAXPOOL1D_H__
 #define __MAXPOOL1D_H__
 
-#ifdef __cpluscplus
-extern "C" {
-#endif
-
-struct MaxPool1D {
+struct MaxPooling1D {
 	// Kernel size
-	<%INDEX_DATATYPE_DELIMITER> kernel_size;	// How many entries to consider
-	<%INDEX_DATATYPE_DELIMITER> stride;			// How many to skip	
+	<%INDEX_DATATYPE_DELIMITER> pool_size;	// How many entries to consider
+	<%INDEX_DATATYPE_DELIMITER> strides;			// How many to skip	
 
 	// Shape of the input and output
 	<%INDEX_DATATYPE_DELIMITER> input_shape[2];		// (INPUT_SIZE x NUM_INPUT_CHANNELS)
@@ -26,10 +22,10 @@ struct MaxPool1D {
 };
 
 
-#ifdef __cplusplus
-}
+struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER>, <%INDEX_DATATYPE_DELIMITER>,<%INDEX_DATATYPE_DELIMITER>, <%INDEX_DATATYPE_DELIMITER>);
 
-#endif
+<%LAYER_DATATYPE_DELIMITER> * fwdMaxPooling1D(struct MaxPooling1D, <%LAYER_DATATYPE_DELIMITER> * );
+
 #endif
 
 <%END_DEFINITION_TEMPLATE>

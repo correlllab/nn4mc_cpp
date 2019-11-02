@@ -78,11 +78,11 @@ class nn_iterator
 
     nn_iterator(NeuralNetwork* nn_, LayerNode* node_) : nn(nn_), node(node_) {nodeList.push_back(node);}
     nn_iterator() {}
-
+    ~nn_iterator() {}
     nn_iterator& operator++(); //Prefix, increment return.
     nn_iterator operator++(int dummy); //Postfix, return increment.
     reference operator*() {return *node;} //Needs to be diferent
-    // pointer operator->() {return nn;} //Needs to be diferent
+    pointer operator->() {return node;} //Needs to be diferent maybe?
     nn_iterator& operator=(const nn_iterator &rhs) {nn = rhs.nn; node = rhs.node; nodeList = rhs.nodeList; return *this;}
     bool operator==(const nn_iterator &rhs) {return (nn == rhs.nn && node == rhs.node);}
     bool operator!=(const nn_iterator &rhs) {return (nn != rhs.nn || node != rhs.node);}

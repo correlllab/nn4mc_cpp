@@ -47,10 +47,10 @@ class WeightGenerator
 
 		std::list<std::string> contents;
 
-		TensorRepresentation* tensorRepresentation;
-
+		TensorRepresentation* tensorRepresentation; 
+        // ^^^ TODO: Figure out if it is better to just keep it in the method it's contained in
+        
 		std::string weight_datatype = std::string("float");
-
 		bool flatArray;
 
 		void replaceDelimiter(std::string*, std::string, std::string);

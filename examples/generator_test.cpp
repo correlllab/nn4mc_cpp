@@ -15,11 +15,21 @@
 **/
 NeuralNetwork* makeNet()
 {
-	// Make two weights to add to the generator
-	Weight* w1 = new Weight("conv1_weight", std::vector<unsigned int>({2,3,4}));
-	Weight* w2 = new Weight("conv1_bias", std::vector<unsigned int>({4}));
+//	Weight* w1 = new Weight("conv1_weight", std::vector<unsigned int>({2,3,4}));
+//  Weight* w2 = new Weight("conv1_bias", std::vector<unsigned int>({4}));
 
-	Tensor<double>* v1 = w1->get_weight_tensor();
+    std::vector<unsigned int> vec1;
+    std::vector<unsigned int> vec2;
+    
+    vec1.push_back(2);
+    vec1.push_back(3);
+    vec1.push_back(4);
+    vec2.push_back(4);
+   
+    Weight* w1 = new Weight("conv1_weight", vec1);
+    Weight* w2 = new Weight("conv1_bias", vec2);
+
+    Tensor<double>* v1 = w1->get_weight_tensor();
 	Tensor<double>* v2 = w2->get_weight_tensor();
 
 	// Populate with random doubles
@@ -70,7 +80,7 @@ int main(int argc, char** argv)
 	std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
 
 	std::cout << "Making the Code Generator object" << std::endl;
-	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "./example_out");
+	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");
 	std::cout << "Generating Layer and Weight stuff" << std::endl;
 	code_gen->generate();
 	std::cout << "Dumping the code" << std::endl;

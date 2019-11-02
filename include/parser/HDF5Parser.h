@@ -62,6 +62,8 @@ class HDF5Parser : public Parser{
         std::map<std::string, Layer*> layerMap;
         json model_config;
 
+        std::vector<int> nn_input_shape;
+
         HDF5Parser(std::string file_name_str){
             this->file_name= file_name_str;
         }
@@ -71,7 +73,9 @@ class HDF5Parser : public Parser{
         void constructBuilderMap();
         void callLayerBuilders();
         void buildEdges();
-        NeuralNetwork* constructNeuralNetwork();
+        void build_layer_shapes();
+
+        NeuralNetwork* get_neural_network();
 };
 
 

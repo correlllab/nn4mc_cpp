@@ -5,7 +5,6 @@
 #include <string>
 #include <stdexcept>
 
-
 std::string WeightGenerator::TEMPLATE_BEGIN_DELIMITER =	"<%BEGIN_TEMPLATE>";
 std::string WeightGenerator::TEMPLATE_END_DELIMITER =	"<%END_TEMPLATE>";
 std::string WeightGenerator::DATATYPE_DELIMITER =		"<%WEIGHT_DATATYPE>";
@@ -16,7 +15,7 @@ std::string WeightGenerator::DATA_DELIMITER =			"<%DATA>";
 /*******************
 * WeightGenerator(std::string template_path)
 *
-* Create a new object for generating C code for weight representation.  
+* Create a new object for generating C code for weight representation.
 *
 * Arguments:
 *   template_path - Path to the file acting as a template for the C code.
@@ -76,7 +75,10 @@ WeightGenerator::WeightGenerator(std::string template_path, bool flatten)
 */
 WeightGenerator::~WeightGenerator()
 {
-	delete tensorRepresentation;
+    // This line was causing a deallocation problem in generator_test_v2. 
+    // Maybe let's just try to delete the weight generator
+    // object instead of the tensor representation
+	//delete tensorRepresentation;
 }
 
 
@@ -135,7 +137,7 @@ std::string WeightGenerator::getIndexRepresentation(Tensor<double> values)
 /*******************
 * addWeight(Weight* weight)
 *
-* Create a string representation of a provided weight to be placed in the 
+* Create a string representation of a provided weight to be placed in the
 * generated C code.
 *
 * Arguments:
@@ -145,14 +147,14 @@ void WeightGenerator::addWeight(Weight* weight)
 {
 	// Pull out the weight's tensor for simplicity
 	Tensor<double> values = *(weight->get_weight_tensor());
-
 	// Make a copy of the content template
 	std::string content(template_contents);
-
 	// Replace the datatype delimiter with the defined datatype
+    //
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
-
+    
 	// Replace the data name delimiter with this weight's id
+	//std::cout << weight->identifier << std::endl;
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);
 
 	// Figure out what the index should look like, and then place in the delimiter
@@ -181,7 +183,6 @@ void WeightGenerator::addWeight(Weight* weight)
 	tensorRepresentation->addPad((unsigned int) content.find(DATA_DELIMITER));
 	std::string data_string = tensorRepresentation->getString(weight->get_weight_tensor());
 	replaceDelimiter(&content, DATA_DELIMITER, data_string);
-
 	// And push this into the contents
 	contents.push_back(content);
 }
