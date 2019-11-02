@@ -31,6 +31,17 @@ class Layer{
         virtual void compute_output_shapes()=0;
 };
 
+
+class Activation: public Layer{
+    public:
+        std::string activation;
+        Activation(std::string id);
+        static std::string type;
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
+};
+
 class Conv1D : public Layer{
     public:
         int filters;
@@ -62,7 +73,7 @@ class Conv2D : public Layer{
         std::vector<int> kernel_size;
         std::vector<int> strides;
         std::string padding;
-       
+         
         std::string data_format;
         std::vector<int> dilation_rate;
         std::string activation;
@@ -78,8 +89,6 @@ class Conv2D : public Layer{
 };
 
 class Dense : public Layer{
-
-
     public:
         int units;
        
@@ -97,6 +106,15 @@ class Dense : public Layer{
 };
 
 
+class Dropout : public Layer{
+    public:
+        static std::string type;
+        Dropout(std::string id);
+        void setLayer(){}
+        bool isInput(){return false;}
+        void compute_output_shapes();
+};
+
 class Flatten : public Layer{
     public:
         static std::string type;
@@ -107,8 +125,6 @@ class Flatten : public Layer{
 };
 
 class MaxPooling1D : public Layer{
-
-
     public:
         int pool_size;
         int strides;

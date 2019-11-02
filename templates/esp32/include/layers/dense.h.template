@@ -11,11 +11,8 @@
 #ifndef __DENSE_H__
 #define __DENSE_H__
 
-#ifdef __cpluscplus
-extern "C" {
-#endif
 
-struct DENSE {
+struct Dense {
 	// Weights and biases defining the layer
 	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to first element of weights array (should be 'const float' in weight.best.hdf5)
 	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias
@@ -29,11 +26,10 @@ struct DENSE {
 	<%INDEX_DATATYPE_DELIMITER> output_shape[1];
 };
 
+struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* , <%WEIGHT_DATATYPE_DELIMITER>* , <%INDEX_DATATYPE_DELIMITER> , <%INDEX_DATATYPE_DELIMITER> , <%ACTIVATION_DATATYPE_DELIMITER>);
 
-#ifdef __cplusplus
-}
+<%LAYER_DATATYPE_DELIMITER> * fwdDense(struct Dense , <%LAYER_DATATYPE_DELIMITER>* );
 
-#endif
 #endif
 
 <%END_DEFINITION_TEMPLATE>

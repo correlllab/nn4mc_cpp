@@ -23,13 +23,14 @@ extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_inf
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
 void HDF5Parser::constructBuilderMap(){
-
+    this->BuilderMap["Activation"] = new ActivationFactory();
     this->BuilderMap["Conv1D"]= new Conv1DFactory();
     this->BuilderMap["Conv2D"]= new Conv2DFactory();
     this->BuilderMap["Flatten"]= new FlattenFactory();
     this->BuilderMap["Dense"]= new DenseFactory();
     this->BuilderMap["MaxPooling1D"]= new MaxPooling1DFactory();
     this->BuilderMap["MaxPooling2D"]= new MaxPooling2DFactory();
+    this->BuilderMap["Dropout"] = new DropoutFactory();
     this->BuilderMap["LSTM"]= new LSTMFactory();
     this->BuilderMap["GRU"]= new GRUFactory();
     this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();
@@ -44,7 +45,7 @@ void HDF5Parser::parseWeights(){
       Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
       od_weights.LM = this->layerMap;
-      herr_t idx=  H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
+      H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
       this->layerMap= od_weights.LM;
 
 }
@@ -53,31 +54,45 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l = new InputLayer("input_1");
     NN->addLayer(l);
-    for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
+    NN->addLayer(this->layerMap.begin()->second);
+    NN->addEdge(l, this->layerMap.begin()->second);
+    l = this->layerMap.begin()->second;
+
+    /*for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
         NN->addLayer(it->second); // adding layers
         NN->addEdge(l, it->second);
         l= it->second;
+    }
+    */
+    for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
+        
+        NN->addLayer(this->layerMap[it->second]);
+        NN->addEdge(l, this->layerMap[it->second]);
+        l = this->layerMap[it->second];
     }
     cout<< "PARSER: Neural Network Nodes and Edges Built!"<<endl;
     return NN;
 }
 
 void HDF5Parser::build_layer_shapes(){
-    Layer* prev = this->layerMap.begin()->second;
+    
+    //Layer* prev = this->layerMap.begin()->second;
     
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
-    
+       
     this->layerMap.begin()->second->compute_output_shapes();
 
-    for (std::map<std::string, Layer*>::iterator it=this->layerMap.begin()++; it!=this->layerMap.end(); ++it){
-
-        this->layerMap[it->first]->input_shape = prev->output_shape;
-
-        this->layerMap[it->first]->compute_output_shapes();        
+    for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
+        int rank = this->layerMap[it->first]->output_shape.size();
+         
+        for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
         
-        prev = this->layerMap[it->first];
+        //std::cout << it->first << " "  << it->second << std::endl;
+        
+        this->layerMap[it->second]->compute_output_shapes();
+
     }
 }
 
@@ -90,6 +105,8 @@ void HDF5Parser::callLayerBuilders(){
                 nn_input_shape.push_back(this->model_config["config"]["build_input_shape"][i+1]);
             }  
         }
+        
+        //std::cout << this->model_config["config"]["layers"] << std::endl;
 
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
@@ -105,6 +122,10 @@ void HDF5Parser::buildEdges(){
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
+
+    /*for (int i=0; i<this->layer_edges.size(); i++){
+        std::cout << this->layer_edges[i].first << " " << this->layer_edges[i].second << std::endl;
+    }*/
 }
 
 json HDF5Parser::parseModelConfig(){
@@ -116,7 +137,7 @@ json HDF5Parser::parseModelConfig(){
     
         std::string test;
         attr.read(type, test);
-
+        
         // define parser callback
         json::parser_callback_t cb = [](int depth, json::parse_event_t event, json & parsed)
         {
@@ -153,13 +174,15 @@ int HDF5Parser::parse()
 
       // Assign Config Builders:
       this->callLayerBuilders(); 
-    
+            
       // Populate the layer types:
+      this->buildEdges();
       this->build_layer_shapes(); 
-       
+    
       // Parse Weights:
       this->parseWeights();
-     
+        
+            
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
       return 0;
@@ -222,7 +245,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 hsize_t dims[rank];
                 H5Sget_simple_extent_dims(dataspace, dims, NULL);
                 std::vector<unsigned int> tensor_dims;
-               
+
                 //Parsing dimensions for Tensor
                 for (int i=0; i<rank; i++) {
                     tensor_dims.push_back((unsigned int)dims[i]);
@@ -307,17 +330,19 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
                 // Create weights:
                 
-                if (s.compare("kernel:0")){ // it's a weight
-                    od->LM[layer_id]->w = wb;
-
-                } else{ // it's a bias
+                if (s.compare("kernel:0")){ // it's a bias 
+                    wb->identifier = wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
+
+                } else{ // it's a weight
+                    wb->identifier=wb->identifier.append("_W");
+                    od->LM[layer_id]->w = wb;
                 }
 
+                        
                 ret= H5Dclose(dset); 
         }
-
     H5Gclose(group);
-
+    
     return 0;
  }

@@ -18,12 +18,9 @@ extern "C" {
 #include "neural_network_params.h"
 <%INCLUDE>
 
-volatile int num_layers = 0;
-
 <%STRUCTS>
 
 
-<%LAYER_DATATYPE_DELIMITER> fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
 
 #endif
 

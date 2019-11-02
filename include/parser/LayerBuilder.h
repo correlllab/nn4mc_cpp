@@ -25,6 +25,27 @@ class LayerBuilder{
             virtual ~LayerBuilder() = default;
 };
 
+class ActivationBuilder : public LayerBuilder{
+    public:
+        Activation * layerObject;
+        ActivationBuilder(std::string id){
+            this->layer_id = id;
+            layerObject = new Activation(id);
+        }
+        void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
+
+};
+
+class DropoutBuilder : public LayerBuilder{
+    public:
+        Dropout * layerObject;
+        DropoutBuilder(std::string id){
+            this->layer_id = id;
+            layerObject = new Dropout(id);
+        }
+        void create_from_json(json object, std::string id, std::map<std::string, Layer*>&);
+};
+
 class InputBuilder : public LayerBuilder{
     public:
         InputLayer * layerObject;

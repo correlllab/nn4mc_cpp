@@ -33,6 +33,16 @@ class LayerWriter{
         std::string LAYER_NAME = "<%LAYER_NAME>";
 };
 
+class ActivationGenerator : public LayerWriter{
+    public:
+        std::string ACTIVATION = "<%ACTIVATION>";
+        std::string INPUT_SIZE = "<%INPUT_SIZE>";
+        std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
+        Activation * layer;
+        ActivationGenerator(Activation * layer, std::string init) {this->layer= layer; this ->init_template.assign(init);}
+        void build_map(std::string);
+};
+
 class Conv1DGenerator : public LayerWriter{
     public:
         // mapping maps from delimiter to string value of the delimiter
@@ -44,10 +54,9 @@ class Conv1DGenerator : public LayerWriter{
         std::string STRIDE_SIZE = "<%STRIDE_SIZE>";
         std::string KERNEL_SIZE = "<%KERNEL_SIZE>";
         std::string INPUT_SIZE = "<%INPUT_SIZE>";
-
+        std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
-        std::string ACTIVATION = "<%ACTIVATION>";
         std::string FILTERS= "<%FILTERS>";
 
         Conv1D* layer;
@@ -55,10 +64,28 @@ class Conv1DGenerator : public LayerWriter{
 
     void build_map(std::string);
 };
+/*
+class DropoutGenerator : public LayerWriter{
+
+}*/
 
 class Conv2DGenerator : public LayerWriter{
     public:
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        std::string INPUT_SHAPE_2= "<%INPUT_SHAPE_2>";
+       
+        std::string KERNEL_SHAPE_0= "<%KERNEL_SHAPE_0>";
+        std::string KERNEL_SHAPE_1= "<%KERNEL_SHAPE_1>";
+        
+        std::string STRIDE_SHAPE_0= "<%STRIDE_SHAPE_0>";
+        std::string STRIDE_SHAPE_1= "<%STRIDE_SHAPE_1>";
 
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string BIAS_NAME = "<%BIAS_NAME>";
+        std::string ACTIVATION = "<%ACTIVATION>";
+        std::string FILTERS= "<%FILTERS>";
+        
         Conv2D * layer;
         Conv2DGenerator(Conv2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 
@@ -103,6 +130,13 @@ class DenseGenerator : public LayerWriter{
 */
 class MaxPooling1DGenerator : public LayerWriter{
     public:
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        
+        std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
+        std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";
+        std::string STRIDES = "<%STRIDES>";
+        std::string POOL_SIZE = "<%POOL_SIZE>";
 
         MaxPooling1D* layer;
         MaxPooling1DGenerator(MaxPooling1D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
@@ -112,6 +146,19 @@ class MaxPooling1DGenerator : public LayerWriter{
 
 class MaxPooling2DGenerator : public LayerWriter{
     public:
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        std::string INPUT_SHAPE_2= "<%INPUT_SHAPE_2>";
+        
+        std::string POOL_SHAPE_0 = "<%POOL_SHAPE_0>";
+        std::string POOL_SHAPE_1 = "<%POOL_SHAPE_1>";
+
+        std::string STRIDE_SHAPE_0 = "<%STRIDE_SHAPE_0>";
+        std::string STRIDE_SHAPE_1 = "<%STRIDE_SHAPE_1>";
+
+        std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
+        std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";
+        std::string OUTPUT_SHAPE_2= "<%OUTPUT_SHAPE_2>";
 
         MaxPooling2D* layer;
         MaxPooling2DGenerator(MaxPooling2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}

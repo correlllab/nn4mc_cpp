@@ -15,5 +15,9 @@ Weight::~Weight()
 
 Tensor<double>* Weight::get_weight_tensor()
 {
-	return values;
+    try{
+	    return values;
+    } catch (int e){
+        std::cout << "exception n " << e <<  " while reading weight" << std::endl;
+    }
 }

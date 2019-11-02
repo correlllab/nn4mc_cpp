@@ -75,9 +75,26 @@ void NNGenerator::loadTemplates() //Load the templates for the neural_network he
 
 void NNGenerator::addLayer_Header(Layer* layer)
 {
-	size_t pos =  header.find(STRUC);
+	size_t pos = header.find(INC);
+	//TODO: This should be put somewhere else or there will be duplicates.
 
-	std::string init = "struct " +  layer->layer_type + " *" + layer->identifier + ";\n";
+    std::string file = "#include \"" + layer->layer_type + ".h\"\n";
+
+	header.insert(pos,file);
+
+	pos =  header.find(STRUC,pos);
+
+    // FIXME: Do this in a better way
+    std::map<std::string, std::string> TYPE;
+    TYPE["conv1d"] = "Conv1D";
+    TYPE["dense"] = "Dense";
+    TYPE["conv2d"] = "Conv2D";
+    TYPE["maxpool1d"] = "MaxPooling1D";
+    TYPE["maxpool2d"] = "MaxPooling2D";
+    TYPE["activation"] = "Activation";
+
+    //
+	std::string init = "struct " +  TYPE[layer->layer_type] +  " " + layer->identifier + ";\n";
 	header.insert(pos,init);
 
 }

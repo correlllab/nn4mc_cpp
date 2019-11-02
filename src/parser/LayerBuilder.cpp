@@ -1,6 +1,22 @@
 #include "parser/LayerBuilder.h"
 #include <string>
 
+void DropoutBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    json object = obj["config"];
+    this->layerObject->identifier.assign(id);
+    layerMap[this->layerObject->identifier] = this->layerObject;
+    std::cout<< "LAYER_BUILDER: Dropout Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
+}
+
+void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    json object = obj["config"];
+    this->layerObject->identifier.assign(id);
+    this->layerObject->activation.assign(object["activation"].get<std::string>());
+    layerMap[this->layerObject->identifier] = this->layerObject;
+    std::cout<< "LAYER_BUILDER: Activation Layer "<< this->layerObject->identifier << " Built!"<<std::endl;
+}
+
+
 void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     
@@ -52,10 +68,12 @@ void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::str
         this->layerObject->dilation_rate.push_back(object["dilation_rate"][i]);
     }
 
+    this->layerObject->filters = object["filters"];
     this->layerObject->padding.assign(object["padding"].get<std::string>());
     this->layerObject->data_format.assign(object["data_format"].get<std::string>());
     this->layerObject->activation.assign(object["activation"].get<std::string>());
     this->layerObject->use_bias= object["use_bias"];
+
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout<< "LAYER_BUILDER: Conv2D Layer " << this->layerObject->identifier << " Built!"<<std::endl;
@@ -68,7 +86,7 @@ void MaxPooling1DBuilder::create_from_json(json obj, std::string id, std::map<st
     json object= obj["config"];
     int dim_vars = 2;
     if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
-        for (int i=0; i<(dim_vars+1);i++){
+        for (int i=0; i<(dim_vars);i++){
             this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
         }
     }  
@@ -101,13 +119,8 @@ void MaxPooling2DBuilder::create_from_json(json obj, std::string id, std::map<st
     }
     this->layerObject->padding.assign(object["padding"].get<std::string>());
     this->layerObject->data_format.assign(object["data_format"].get<std::string>());
-    layerMap[this->layerObject->identifier] =this->layerObject;
-
-    if (object["batch_input_shape"].size() > 0){
-        this->layerObject->output_shape.push_back(-2); // TODO: work on this
-        this->layerObject->output_shape.push_back(-2); // TODO : work on this
-        this->layerObject->output_shape.push_back(-2); // TODO: work on this
-    }     
+   
+    layerMap[this->layerObject->identifier] = this->layerObject;
     
     std::cout<< "LAYER_BUILDER: MaxPooling2D Layer " << this->layerObject->identifier << " Built!"<<std::endl;
 }
@@ -125,10 +138,10 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
             this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
     }  
 
-    layerMap[this->layerObject->identifier] = this->layerObject;
-
     this->layerObject->output_shape.push_back(this->layerObject->units);
     
+    layerMap[this->layerObject->identifier] = this->layerObject;
+
     std::cout<< "LAYER_BUILDER: Dense Layer " << this->layerObject->identifier << " Built!"<<std::endl;
 }
 

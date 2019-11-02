@@ -1,0 +1,91 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/*************
+* activation.cpp
+*
+* Activation Layer
+* Hardware Plateform: ESP-32
+*
+* This file defines the functions needed to build a dense layer, and perform a forward pass.
+*/
+
+#include "activation.h"
+
+struct Activation buildActivation(<%INDEX_DATATYPE_DELIMITER> input_size, <%INDEX_DATATYPE_DELIMITER> output_size, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+{
+    layer.activation = activation;
+    layer.input_shape = input_size;
+    layer.output_shape = output_size;
+    return layer;
+}
+
+
+<%LAYER_DATATYPE_DELIMITER> * fwdActivation(struct Activation L, <%LAYER_DATATYPE_DELIMITER>* input)
+{
+
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+
+	// Loop through to calculate the output at each point
+
+        // TODO: Make more elegant:
+        // linear not here cause no action
+
+        if (L.activation==0x08){ //sigmoid
+            h[i] = exp(h[i])/(exp(h[i]) + 1);
+        }
+
+        if (L.activation==0x04){ //softplus
+            h[i] = log(exp(h[i]) + 1);
+        }
+
+        if (L.activation==0x05){ //softsign
+            h[i] = h[i] / (abs(h[i]) + 1);
+        }
+
+        if (L.activation==0x09){ //hard_sigmoid
+            if (h[i] < -2.5){
+                h[i] = 0.0;
+            } else if (h[i] > 2.5){
+                h[i] = 1.0;
+            } else{
+                h[i] = 0.2*h[i] + 0.5;
+            }
+        }
+
+        if (L.activation==0xA){ //exponential
+            h[i] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[i]);
+        }
+
+         if (L.activation==0x06){ //relu
+             h[i]= max(h[i], 0.0);
+         }
+
+         if (L.activation== 0x07){ //tanh
+             h[i]=tanh(h[i]);
+         }
+         if (L.activation==0x00){ //softmax
+             float sum_exp = 0.0;
+             for (int i=0; i<L.output_shape[0]; i++){
+                 sum_exp+= expf(h[i]);
+             }
+             for (int i=0; i<L.output_shape[0];i++){
+                 float calc = expf(h[i]) / sum_exp;
+                 if isnan(calc){
+                     h[i] = 1.0;
+                 } else h[i] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[i]) / sum_exp);
+             }
+         }
+
+    free(input);
+    return h;
+
+}
+<%END_DEFINITION_TEMPLATE>
+
+
+<%BEGIN_INITIALIZE_TEMPLATE>
+        <%LAYER_NAME> = buildActivation(<%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+<%END_INITIALIZE_TEMPLATE>
+
+<%BEGIN_CALL_TEMPLATE>
+        data = fwdActivation(<%LAYER_NAME>, <%INPUT>);
+<%END_CALL_TEMPLATE>

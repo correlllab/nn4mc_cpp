@@ -14,6 +14,9 @@
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
 
+  if (Activation* ptr = dynamic_cast<Activation*>(layer))
+      return new ActivationGenerator(ptr, init_string);
+
   if(Conv1D* ptr = dynamic_cast<Conv1D*>(layer))
     return new Conv1DGenerator(ptr, init_string);
 
@@ -100,6 +103,14 @@ std::string LayerWriter::write_init()
 *   BUILD_MAP METHODS:
 *****************************/
 
+void ActivationGenerator::build_map(std::string prev_id){
+    mapping[INPUT_SIZE] = layer->input_shape[0];
+    mapping[OUTPUT_SIZE] = layer->output_shape[0];
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];
+    this->build_activation_lookup();    
+}
+
+
 void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
@@ -110,15 +121,31 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
     this->build_activation_lookup();    
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation];// "l"; // TODO: Need to make activation lookup
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];
 
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void Conv2DGenerator::build_map(std::string prev_id){
+    //TODO
+    mapping[LAYER_NAME] = layer->identifier;
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
+    mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
+    mapping[FILTERS] = std::to_string(layer->filters);
 
+    mapping[STRIDE_SHAPE_0] = std::to_string(layer->strides[0]);
+    mapping[STRIDE_SHAPE_1] = std::to_string(layer->strides[1]);
+
+    mapping[KERNEL_SHAPE_0] = std::to_string(layer->kernel_size[0]);
+    mapping[KERNEL_SHAPE_1] = std::to_string(layer->kernel_size[1]);
+    this->build_activation_lookup();
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void DenseGenerator::build_map(std::string prev_id){
@@ -131,7 +158,7 @@ void DenseGenerator::build_map(std::string prev_id){
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; // Fake // TODO: Need to make activation lookup
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 /*
@@ -142,10 +169,27 @@ void FlattenGenerator::build_map(std::string prev_id){
 
 void MaxPooling1DGenerator::build_map(std::string prev_id){
 
+    mapping[LAYER_NAME] = layer->identifier;
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
+    mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
+    mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
+    mapping[POOL_SIZE] = std::to_string(layer->pool_size);
+    mapping[STRIDES] = std::to_string(layer->strides);
 
 }
 
 void MaxPooling2DGenerator::build_map(std::string prev_id){
-
-
+    
+    mapping[LAYER_NAME] = layer->identifier;
+    mapping[INPUT_SHAPE_0] =  std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] =  std::to_string(layer->input_shape[1]);
+    mapping[INPUT_SHAPE_2] =  std::to_string(layer->input_shape[2]);
+    mapping[POOL_SHAPE_0] = std::to_string(layer->pool_size[0]);
+    mapping[POOL_SHAPE_1] = std::to_string(layer->pool_size[1]);
+    mapping[STRIDE_SHAPE_0] = std::to_string(layer->strides[0]);
+    mapping[STRIDE_SHAPE_1] = std::to_string(layer->strides[1]);
+    mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
+    mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
+    mapping[OUTPUT_SHAPE_2] = std::to_string(layer->output_shape[2]);
 }
