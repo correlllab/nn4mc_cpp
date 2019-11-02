@@ -1,4 +1,4 @@
-#include "../include/activation.h"
+#include "activation_func.h"
 #include <math.h>
 
 <%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)

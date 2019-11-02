@@ -9,6 +9,7 @@
 */
 
 #include "dense.h"
+#include "activation_func.h"
 #include <math.h>
 #include <stdlib.h>
 

@@ -10,6 +10,7 @@
 */
 
 #include "maxpool1d.h"
+#include "activation_func.h"
 #include <math.h>
 #include <stdlib.h>
 

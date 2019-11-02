@@ -10,6 +10,7 @@
 */
 
 #include "maxpool2d.h"
+#include "activation_func.h"
 #include <math.h>
 #include <stdlib.h>
 #define max(a, b) (((a)>(b) ? (a) : (b)))
@@ -54,7 +55,8 @@ struct MaxPooling2D buildMaxPooling2D(<%INDEX_DATATYPE_DELIMITER> pool_size_0, <
                 <%LAYER_DATATYPE_DELIMITER> x2 = input[(2*i+1)*L.input_shape[2]*L.input_shape[1] + j*L.input_shape[1]+k];
                 h[idx] = max(x1, x2);
                 // Now perform the activation function
-                // NOTE: NEED TO IMPLEMENT
+								if(L.activation != 0xB)
+									h[i] = activate(h[i],output_shape[0],L.activation);
             }
         }
     }

@@ -11,6 +11,7 @@
 */
 
 #include "conv2d.h"
+#include "activation_func.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -88,55 +89,8 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
             }
 
 				// Now perform the activation function
-				// NOTE: NEED TO IMPLEMENT
-        // TODO: Make more elegant:
-        // linear not here cause no action
-
-        if (L.activation==0x08){ //sigmoid
-            h[output_idx] = exp(h[output_idx])/(exp(h[output_idx]) + 1);
-        }
-
-        if (L.activation==0x04){ //softplus
-            h[output_idx] = log(exp(h[output_idx]) + 1);
-        }
-
-        if (L.activation==0x05){ //softsign
-            h[output_idx] = h[output_idx] / (abs(h[output_idx]) + 1);
-        }
-
-        if (L.activation==0x09){ //hard_sigmoid
-            if (h[output_idx] < -2.5){
-                h[output_idx] = 0.0;
-            } else if (h[output_idx] > 2.5){
-                h[output_idx] = 1.0;
-            } else{
-                h[output_idx] = 0.2*h[output_idx] + 0.5;
-            }
-        }
-
-        if (L.activation==0xA){ //exponential
-            h[output_idx] = (<%LAYER_DATATYPE_DELIMITER>)expf((float)h[output_idx]);
-        }
-
-         if (L.activation==0x06){ //relu
-             h[output_idx]= max(h[output_idx], 0.0);
-         }
-
-         if (L.activation== 0x07){ //tanh
-             h[output_idx]=tanh(h[output_idx]);
-         }
-         if (L.activation==0x00){ //softmax
-             float sum_exp = 0.0;
-             for (int ii=0; ii<L.output_shape[0]; i++){
-                 sum_exp+= expf(h[ii]);
-             }
-             for (int ii=0; ii<L.output_shape[0];ii++){
-                 float calc = expf(h[ii]) / sum_exp;
-                 if (isnan(calc)){
-                     h[ii] = 1.0;
-                 } else h[ii] = (<%LAYER_DATATYPE_DELIMITER>)(expf(h[ii]) / sum_exp);
-             }
-         }
+				if(L.activation != 0xB)
+					h[i] = activate(h[i],output_shape[0],L.activation);
 
 			}
 		}
