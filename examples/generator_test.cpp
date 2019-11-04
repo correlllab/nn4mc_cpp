@@ -20,12 +20,12 @@ NeuralNetwork* makeNet()
 
     std::vector<unsigned int> vec1;
     std::vector<unsigned int> vec2;
-    
+
     vec1.push_back(2);
     vec1.push_back(3);
     vec1.push_back(4);
     vec2.push_back(4);
-   
+
     Weight* w1 = new Weight("conv1_weight", vec1);
     Weight* w2 = new Weight("conv1_bias", vec2);
 
@@ -70,20 +70,26 @@ NeuralNetwork* makeNet()
 int main(int argc, char** argv)
 {
 	std::cout << "Making the Neural Network" << std::endl;
-	NeuralNetwork* nn = makeNet();
-	nn->BFS();
+	NeuralNetwork* NN = makeNet();
 
-	std::cout << "Neural Network: " << std::endl;
-	std::cout << "  Num Layers: " << (nn->layers).size() << std::endl;
-	std::cout << "  Num Ordered Layers: " << (nn->nodes_ord).size() << std::endl;
-	std::cout << "  Num Input Layers: " << (nn->input).size() << std::endl;
-	std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
+  NeuralNetwork::iterator it;
+
+  std::cout << "  Neural Network: " << std::endl;
+
+  for(it = NN->begin(); it != NN->end(); it++)
+  {
+    std::cout << it->layer->layer_type << std::endl;
+  }
+
+    NN->reset();
 
 	std::cout << "Making the Code Generator object" << std::endl;
-	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");
+	CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../example_out");
 	std::cout << "Generating Layer and Weight stuff" << std::endl;
 	code_gen->generate();
 	std::cout << "Dumping the code" << std::endl;
 	code_gen->dump();
+
+  delete NN;
 
 }

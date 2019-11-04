@@ -39,48 +39,44 @@ int main()
   net.addEdge(l4,l5);
   net.addEdge(l5,l6);
 
-  net.BFS();
-
   //////////////////////////////////////////
+  NeuralNetwork::iterator it;
   //Getting Weights
-
-  std::cout << "WEIGHTS: " << std::endl;
-
-  Weight* tempw = net.getNextWeight();
-  while(tempw != NULL)
-  {
-    std::cout<<tempw->identifier << std::endl;
-    tempw = net.getNextWeight();
-  }
+  net.reset();
+  //No weights exist yet
+  // std::cout << "WEIGHTS: " << std::endl;
+  //
+  // for(it = net.begin(); it != net.end(); it++)
+  // {
+  //   std::cout << it->layer->w->identifier << std::endl;
+  // }
 
   //////////////////////////////////////////
   //Geting Layers
+  net.reset();
 
   std::cout << "LAYERS: " << std::endl;
 
-  LayerNode* templ = net.getNextNode();
-  while(templ != NULL)
+  for(it = net.begin(); it != net.end(); it++)
   {
-    std::cout << templ->layer->identifier << std::endl;
-    templ = net.getNextNode();
+    std::cout << it->layer->identifier << std::endl;
   }
 
   ///////////////////////////////////////////
   //Gettings Edges
+  net.reset();
 
-  net.BFS();
   std::cout << "EDGES: " << std::endl;
 
-  templ = net.getNextNode();
   std::vector<LayerNode*>::iterator i;
-  while(templ != NULL)
+  for(it = net.begin(); it != net.end(); it++)
   {
-    for(i=templ->inputs.begin(); i!=templ->inputs.end(); i++)
+    std::cout << "Inputs for " << it->layer->identifier << std::endl;
+    for(i = it->inputs.begin(); i != it->inputs.end(); i++)
     {
       std::cout << (*i)->layer->identifier << std::endl;
     }
-
-    templ = net.getNextNode();
+    std::cout << std::endl;
   }
 
   delete l1;

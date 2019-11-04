@@ -15,6 +15,16 @@ NeuralNetwork::~NeuralNetwork()
   }
 }
 
+void NeuralNetwork::reset()
+{
+  std::vector<LayerNode*>::iterator i;
+
+  for(i=layers.begin(); i!=layers.end(); i++)
+  {
+    (*i)->visited = false;
+  }
+}
+
 LayerNode* NeuralNetwork::findNode(std::string ID)
 {
   std::vector<LayerNode*>::iterator i;
@@ -60,32 +70,6 @@ nn_iterator NeuralNetwork::begin() //Returns and iterator to first input layer.
 nn_iterator NeuralNetwork::end() //Returns iterator with layernode as null to indicate end.
 {
   return nn_iterator(this, NULL);
-}
-
-// Width is total word length (i.e. 32 bits)
-// Size is number of bits needed for integer part
-void NeuralNetwork::fixedToFloat(int width, int size)
-{
-  int mask = (1<<width-size)-1; //Not necessary here but needed in generation.
-  int fraction = 1<<width-size;
-
-  BFS();
-  Weight* w;
-  Tensor<double>* t;
-  w = getNextWeight();
-
-  float pt;
-  while(w != NULL)
-  {
-    t = w->get_weight_tensor();
-
-    for(int i = 0; i<t->num_elements; i++)
-    {
-      (*t)[i] = int(t->value_at(i))<<(width-size);
-    }
-
-    w = getNextWeight();
-  }
 }
 
 /////////////////////////////////////////////////////////////

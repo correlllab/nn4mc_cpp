@@ -106,20 +106,21 @@ NeuralNetwork* makeNet()
 int main(int argc, char** argv)
 {
 	std::cout << "Making the Neural Network" << std::endl;
-	NeuralNetwork* nn = makeNet();
+	NeuralNetwork* NN = makeNet();
 
-	nn->BFS();
+  NeuralNetwork::iterator it;
 
-	std::cout << "  Neural Network: " << std::endl;
-	std::cout << "  Num Layers: " << (nn->layers).size() << std::endl;
-	std::cout << "  Num Ordered Layers: " << (nn->nodes_ord).size() << std::endl;
-	std::cout << "  Num Input Layers: " << (nn->input).size() << std::endl;
-	std::cout << "  Num Weights: " << (nn->weights).size() << std::endl;
+  std::cout << "  Neural Network: " << std::endl;
 
-    nn->reset();
+  for(it = NN->begin(); it != NN->end(); it++)
+  {
+    std::cout << it->layer->layer_type << std::endl;
+  }
+
+    NN->reset();
 
     std::cout << "Making the Code Generator object" << std::endl;
-	CodeGenerator* code_gen = new CodeGenerator(nn, "../templates/esp32", "../example_out");
+	CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../example_out");
 	std::cout << "Generating Layer and Weight stuff" << std::endl;
 	code_gen->generate();
 	std::cout << "Dumping the code" << std::endl;
@@ -132,6 +133,6 @@ int main(int argc, char** argv)
   // delete input_layer;
   // delete conv1d_layer;
   // delete dense_layer;
-  delete nn;
+  delete NN;
 
 }

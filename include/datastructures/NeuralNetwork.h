@@ -60,11 +60,10 @@ class NeuralNetwork
 
     void addLayer(Layer* layer); //Adds a layer
     void addEdge(Layer* start, Layer* end); //Adds an edge from start to end.
+    void reset(); //Resets indices and visited boolean
 
     iterator begin();
     iterator end();
-
-    void fixedToFloat(int width, int size);
 };
 
 class nn_iterator
@@ -88,9 +87,10 @@ class nn_iterator
     bool operator!=(const nn_iterator &rhs) {return (nn != rhs.nn || node != rhs.node);}
 
     //Functions for code generation
+    //NOTE: Not using these currently
     Weight* getWeight();
     Weight* getBias();
-    getInputs();
+    void getInputs();
     Layer* getLayer();
 
   private:
