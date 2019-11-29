@@ -40,15 +40,17 @@ class CodeGenerator
 	static std::string PARAMETER_FILENAME;
 	static std::string HEADER_FILENAME;
 	static std::string SOURCE_FILENAME;
+	static std::string ACTIVATION_HEADER_FILENAME;
+	static std::string ACTIVATION_SOURCE_FILENAME;
 	static std::string PARAMETER_DATATYPE;
 	static std::string LAYER_OUTPUT_DATATYPE;
 	static std::string INDEX_DATATYPE;
     static std::string ACTIVATION_DATATYPE;
-	
+
     private:
 		std::string template_folder;
 		std::string output_folder;
-		
+
 		std::string network_file;;
 
 		// Code generators for weights and individual layers

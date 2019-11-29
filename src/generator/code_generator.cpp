@@ -9,6 +9,8 @@ std::string CodeGenerator::SOURCE_TEMPLATE_PATH = "src";
 std::string CodeGenerator::PARAMETER_FILENAME = "neural_network_params.h";
 std::string CodeGenerator::HEADER_FILENAME = "neural_network.h";
 std::string CodeGenerator::SOURCE_FILENAME = "neural_network.cpp";
+std::string CodeGenerator::ACTIVATION_HEADER_FILENAME = "activation_func.h";
+std::string CodeGenerator::ACTIVATION_SOURCE_FILENAME = "activation_func.cpp";
 std::string CodeGenerator::PARAMETER_DATATYPE = "const float";
 std::string CodeGenerator::LAYER_OUTPUT_DATATYPE = "float";
 std::string CodeGenerator::INDEX_DATATYPE = "int";
@@ -38,17 +40,23 @@ CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template
 
 	// Construct the paths for needed files
 	std::string network_param_template_path = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" + PARAMETER_FILENAME + ".template";
+
 	std::string neural_network_header = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
 HEADER_FILENAME + ".template";
 	std::string neural_network_source = template_folder + "/" + SOURCE_TEMPLATE_PATH + "/" +
 SOURCE_FILENAME + ".template";
+	std::string activation_header = template_folder + "/" + PARAMETER_TEMPLATE_PATH + "/" +
+ACTIVATION_HEADER_FILENAME + ".template";
+	std::string activation_source = template_folder + "/" + SOURCE_TEMPLATE_PATH + "/" +
+ACTIVATION_SOURCE_FILENAME + ".template";
+
 	std::string layer_include_template_path = template_folder + "/" + LAYER_TEMPLATE_INCLUDE_DIR;
 	std::string layer_src_template_path = template_folder + "/" + LAYER_TEMPLATE_SRC_DIR;
-    
+
 	// Create the Layer and Weight builders
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE, ACTIVATION_DATATYPE, LAYER_OUTPUT_DATATYPE);
-	nn_generator = new NNGenerator(neural_network_header, neural_network_source, layer_generator); //Finish this
+	nn_generator = new NNGenerator(neural_network_header, neural_network_source, activation_header, activation_source, layer_generator); //Finish this
 
 }
 
@@ -62,15 +70,15 @@ CodeGenerator::~CodeGenerator()
 void CodeGenerator::generate()
 {
 	NeuralNetwork::iterator it;
-     
+
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-    
+
     if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation" && it->layer->layer_type != "maxpool1d" && it->layer->layer_type != "maxpool2d" && it->layer->layer_type != "dropout") // TODO: Find out why we need input
 		{
 			weight_generator->addWeight(it->layer->w);
 			weight_generator->addWeight(it->layer->b);
-		} 
+		}
 	}
 
 	neural_net->reset();
@@ -91,11 +99,13 @@ void CodeGenerator::generate()
 		if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type != "dropout")
 		{
 			nn_generator->addLayer_Header(it->layer);
-			nn_generator->addLayer_Init(*it); 
+			nn_generator->addLayer_Init(*it);
 			nn_generator->addLayer_Fwd(it->layer);
 		}
 	}
 	neural_net->reset();
+
+	nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
 }
 
 void CodeGenerator::dump()
@@ -108,5 +118,6 @@ void CodeGenerator::dump()
 	//Write out header file and source file for neural_network
 	nn_generator->dumpHeader(output_folder + "/" + HEADER_FILENAME);
 	nn_generator->dumpSource(output_folder + "/" + SOURCE_FILENAME);
+	nn_generator->dumpActivation(output_folder + "/" + ACTIVATION_HEADER_FILENAME, output_folder + "/" + ACTIVATION_SOURCE_FILENAME);
 
 }

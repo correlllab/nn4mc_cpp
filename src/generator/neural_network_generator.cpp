@@ -17,12 +17,15 @@ std::string NNGenerator::INC = "<%INCLUDE>";
 std::string NNGenerator::STRUC = "<%STRUCTS>";
 
 
-NNGenerator::NNGenerator(std::string header_path, std::string src_path, LayerGenerator* lg)
+NNGenerator::NNGenerator(std::string header_path, std::string src_path, std::string act_head_path, std::string act_src_path, LayerGenerator* lg)
 {
 	layer_gen = lg;
 
 	header_template_path = header_path;
 	source_template_path = src_path;
+
+	activation_header_template_path = act_head_path;
+	activation_src_template_path = act_src_path;
 
 	loadTemplates();
 }
@@ -151,6 +154,40 @@ void NNGenerator::addLayer_Fwd(Layer* layer)
 	source.insert(start-1,fwd_string);
 }
 
+void NNGenerator::addActivation()
+{
+	std::ifstream infile(activation_header_template_path);
+
+	if(infile.is_open())
+	{
+		//Stored in header string
+		activation_header.assign ((std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()));
+
+		infile.close();
+
+		//Replace any delimiters
+		activation_header = layer_gen->processTemplate(activation_header, layer_gen->data_datatype_string);
+	}
+	else
+		throw std::runtime_error("Could not open file: " + activation_header_template_path);
+
+	infile.open(activation_src_template_path);
+
+	if(infile.is_open())
+	{
+		//Stored in source string.
+		activation_source.assign ( (std::istreambuf_iterator<char>(infile)), (std::istreambuf_iterator<char>()) );
+
+		infile.close();
+
+		//Replace any delimiters
+		activation_source = layer_gen->processTemplate(activation_source, layer_gen->data_datatype_string);
+
+	}
+	else
+		throw std::runtime_error("Could not open file: " + activation_src_template_path);
+}
+
 void NNGenerator::dumpHeader(std::string output_path)
 {
 	header.erase(header.find(STRUC) , STRUC.length());
@@ -190,5 +227,34 @@ void NNGenerator::dumpSource(std::string output_path)
 	else		// File did not open!
 	{
 		throw std::runtime_error("Could not open file: " + output_path);
+	}
+}
+
+void NNGenerator::dumpActivation(std::string output_header_path, std::string output_source_path)
+{
+	std::ofstream outfile(output_header_path);
+
+	if(outfile.is_open())
+	{
+		outfile << activation_header;
+
+		outfile.close();
+	}
+	else		// File did not open!
+	{
+		throw std::runtime_error("Could not open file: " + output_header_path);
+	}
+
+	outfile.open(output_source_path);
+
+	if(outfile.is_open())
+	{
+		outfile << activation_source;
+
+		outfile.close();
+	}
+	else		// File did not open!
+	{
+		throw std::runtime_error("Could not open file: " + output_source_path);
 	}
 }

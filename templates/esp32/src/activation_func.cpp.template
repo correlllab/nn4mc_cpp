@@ -1,0 +1,113 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+#include "activation_func.h"
+#include <math.h>
+
+<%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = exp(input)/(exp(input) + 1);
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> softplus(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = log(exp(input)) + 1);
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> softsign(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = input / (abs(input) + 1);
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> hard_sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  if (input < -2.5){
+      input = 0.0;
+  } else if (input > 2.5){
+      input = 1.0;
+  } else{
+      input = 0.2*h[i] + 0.5;
+  }
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> exponential(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = (<%LAYER_DATATYPE_DELIMITER>)expf((float)input);
+
+  return input
+}
+
+<%LAYER_DATATYPE_DELIMITER> relu(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = max(input, 0.0);
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> hyper_tan(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  input = tanh(input);
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> softmax(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape)
+{
+  float sum_exp = 0.0;
+  for (int i=0; i<output_shape; i++){
+      sum_exp+= expf(input);
+  }
+  for (int i=0; i<output_shape;i++){
+      float calc = expf(input) / sum_exp;
+      if isnan(calc){
+          input = 1.0;
+      } else input = (<%LAYER_DATATYPE_DELIMITER>)(expf(input) / sum_exp);
+  }
+
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> activate(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape, char type)
+{
+  if (type == 0x00)
+    return softmax(input, output_shape);
+
+  /* else if (type == 0x02)
+    return elu(); */
+
+  /* else if (type == 0x03)
+    return selu(); */
+
+  else if (type == 0x04)
+    return softplus(input);
+
+  else if (type == 0x05)
+    return softsign(input);
+
+  else if (type == 0x06)
+    return relu(input);
+
+  else if (type == 0x07)
+    return hyper_tan(input);
+
+  else if (type == 0x08)
+    return sigmoid(input);
+
+  else if (type == 0x09)
+    return hard_sigmoid(input);
+
+  else if (type == 0xA)
+    return exponential(input);
+
+  /* else if (type == 0xC)
+    return custom(input); */
+
+  return input;
+}
+<%END_DEFINITION_TEMPLATE>

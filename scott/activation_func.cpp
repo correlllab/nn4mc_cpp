@@ -1,28 +1,29 @@
+
 #include "activation_func.h"
 #include <math.h>
 
-<%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+float sigmoid(float input)
 {
   input = exp(input)/(exp(input) + 1);
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> softplus(<%LAYER_DATATYPE_DELIMITER> input)
+float softplus(float input)
 {
   input = log(exp(input)) + 1);
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> softsign(<%LAYER_DATATYPE_DELIMITER> input)
+float softsign(float input)
 {
   input = input / (abs(input) + 1);
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> hard_sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+float hard_sigmoid(float input)
 {
   if (input < -2.5){
       input = 0.0;
@@ -35,28 +36,28 @@
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> exponential(<%LAYER_DATATYPE_DELIMITER> input)
+float exponential(float input)
 {
-  input = (<%LAYER_DATATYPE_DELIMITER>)expf((float)input);
+  input = (float)expf((float)input);
 
   return input
 }
 
-<%LAYER_DATATYPE_DELIMITER> relu(<%LAYER_DATATYPE_DELIMITER> input)
+float relu(float input)
 {
   input = max(input, 0.0);
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> hyper_tan(<%LAYER_DATATYPE_DELIMITER> input)
+float hyper_tan(float input)
 {
   input = tanh(input);
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> softmax(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape)
+float softmax(float input, int output_shape)
 {
   float sum_exp = 0.0;
   for (int i=0; i<output_shape; i++){
@@ -66,13 +67,13 @@
       float calc = expf(input) / sum_exp;
       if isnan(calc){
           input = 1.0;
-      } else input = (<%LAYER_DATATYPE_DELIMITER>)(expf(input) / sum_exp);
+      } else input = (float)(expf(input) / sum_exp);
   }
 
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> activate(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape, char type)
+float activate(float input, int output_shape, char type)
 {
   if (type == 0x00)
     return softmax(input, output_shape);

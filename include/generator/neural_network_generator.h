@@ -19,15 +19,23 @@ class NNGenerator
     	static std::string INIT;
     	static std::string FWD;
     	static std::string INC;
-        static std::string STRUC;
+      static std::string STRUC;
 
     	//Paths to header and source file for neural_network.
       std::string header_template_path;
   		std::string source_template_path;
 
+      //Paths to activation header and source
+      std::string activation_header_template_path;
+      std::string activation_src_template_path;
+
   		//Template material to be extracted from template edited and dumped.
   		std::string header;
   		std::string source;
+
+      //Template material extracted from activation
+      std::string activation_header;
+      std::string activation_source;
 
     	//Loads the templates using the paths into the header and source.
       void loadTemplates();
@@ -37,7 +45,7 @@ class NNGenerator
 
     public:
 
-      NNGenerator(std::string, std::string, LayerGenerator*);
+      NNGenerator(std::string, std::string, std::string, std::string, LayerGenerator*);
       ~NNGenerator();
 
       //void addMaps(std::map<std::string, std::string>, std::map<std::string, std::string>);
@@ -46,10 +54,12 @@ class NNGenerator
       void addLayer_Header(Layer*);
       void addLayer_Init(LayerNode&);
       void addLayer_Fwd(Layer*);
+      void addActivation();
 
       //Dumps edited templates.
       void dumpHeader(std::string);
       void dumpSource(std::string);
+      void dumpActivation(std::string, std::string);
 
 };
 
