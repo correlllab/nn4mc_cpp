@@ -50,7 +50,7 @@ struct Dense buildDense(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIM
 		}
 
 		if(L.activation != 0xB)
-			h[i] = activate(h[i],output_shape[0],L.activation);
+			h[i] = activate(h[i],L.output_shape[0],L.activation);
 
 	}
 

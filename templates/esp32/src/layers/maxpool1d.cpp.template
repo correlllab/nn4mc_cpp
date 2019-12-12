@@ -51,7 +51,7 @@ struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%I
       h[idx] = max(x1, x2);
 
 			if(L.activation != 0xB)
-				h[i] = activate(h[i],output_shape[0],L.activation);
+				h[i] = activate(h[i],L.output_shape[0],L.activation);
 		}
 	}
 

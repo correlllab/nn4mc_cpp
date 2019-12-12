@@ -1,6 +1,10 @@
 <%BEGIN_DEFINITION_TEMPLATE>
 #include "activation_func.h"
 #include <math.h>
+#include <stdlib.h>
+
+#define max(a, b) (((a)>(b) ? (a) : (b)))
+#define min(a, b) (((a)<(b) ? (a) : (b)))
 
 <%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
 {
@@ -11,7 +15,7 @@
 
 <%LAYER_DATATYPE_DELIMITER> softplus(<%LAYER_DATATYPE_DELIMITER> input)
 {
-  input = log(exp(input)) + 1);
+  input = log(exp(input) + 1);
 
   return input;
 }
@@ -30,7 +34,7 @@
   } else if (input > 2.5){
       input = 1.0;
   } else{
-      input = 0.2*h[i] + 0.5;
+      input = 0.2*input + 0.5;
   }
 
   return input;
@@ -40,7 +44,7 @@
 {
   input = (<%LAYER_DATATYPE_DELIMITER>)expf((float)input);
 
-  return input
+  return input;
 }
 
 <%LAYER_DATATYPE_DELIMITER> relu(<%LAYER_DATATYPE_DELIMITER> input)
@@ -65,7 +69,7 @@
   }
   for (int i=0; i<output_shape;i++){
       float calc = expf(input) / sum_exp;
-      if isnan(calc){
+      if (isnan(calc)){
           input = 1.0;
       } else input = (<%LAYER_DATATYPE_DELIMITER>)(expf(input) / sum_exp);
   }

@@ -17,41 +17,4 @@ void buildLayers(){
     return data;
 }
 
-<%LAYER_DATATYPE_DELIMITER>* data_flatten(<%LAYER_DATATYPE_DELIMITER>& data, int dims[], int num_dims)
-{
-  if (num_dims == 2)
-  {
-    int size = dims[0]*dims[1];
-    <%LAYER_DATATYPE_DELIMITER> flat[size];
-
-    for(int i=0; i<dims[0]; i++)
-    {
-      for(int j=0; j<dims[1]; j++)
-      {
-        offset = i * dims[1] + j;
-        flat[offset] = *(data + offset);
-      }
-    }
-  }
-  else if (num_dims == 3)
-  {
-    int size = dims[0]*dims[1]*dims[2];
-    <%LAYER_DATATYPE_DELIMITER> flat[size];
-
-    for(int i=0; i<dims[0]; i++)
-    {
-      for(int j=0; j<dims[1]; j++)
-      {
-        for(int k=0; k<dims[2]; k++)
-        {
-          int offset = i * dims[1] * dims[2] + j * dims[2] + k;
-          flat[offset] = *(data + offset);
-        }
-      }
-    }
-  }
-
-  return flat;
-}
-
 <%END_DEFINITION_TEMPLATE>
