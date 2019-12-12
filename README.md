@@ -38,28 +38,24 @@ We encourage to use the following citation references for academic use of nn4mc.
 **BibTeX citation:**
 
 ```
-@proceedings{proceedings,
-    title        = {Embedded Neural Networks for Robot Autonomy},
-    year         = 2019,
-    editor       = {Sarah {Aguasvivas Manzano}, Dana {Hughes}, Cooper {Simpson}, Radhen {Patel}, Nikolaus {Correll}},
-    volume       = TBD,
-    series       = TBD,
-    address      = {The address of the publisher},
-    month        = 11,
-    organization = {International Symposium on Robotics Research (ISRR)},
-    publisher    = {TBD},
-    note         = {TBD}
-}
+@misc{nn4mc,
+        title={Embedded Neural Networks for Robot Autonomy},
+        author={Sarah Aguasvivas Manzano and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
+        year={2019},
+        eprint={1911.03848},
+        archivePrefix={arXiv},
+        primaryClass={cs.RO}
+    }
 ```
 
 **APA Format:**
 
 ```
-Aguasvivas Manzano, S., Hughes, D., Simpson, C., Patel, R., Correll, N., (2019). International Sympsium on Robotics Research (ISRR 2019). 
+Manzano, S. A., Hughes, D., Simpson, C., Patel, R., & Correll, N. (2019). Embedded Neural Networks for Robot Autonomy. arXiv preprint arXiv:1911.03848. 
 ```
 
 
 ### Contributors:
 
-nn4mc is supported by the [Correll Lab](http://correll.cs.colorado.edu/) at the University of Colorado Boulder. The specific contributors will be listed in a website somewhere in the near future. We also receive support from the Airforce Office of Scientific Research (AFOSR), we are very grateful for this support. 
+nn4mc is supported by the [Correll Lab](http://correll.cs.colorado.edu/) at the University of Colorado Boulder. We also receive support from the Airforce Office of Scientific Research (AFOSR), we are very grateful for this support. 
 
