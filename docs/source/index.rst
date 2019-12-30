@@ -22,8 +22,28 @@
 .. =============
 
 
-Aguasvivas Manzano, Sarah, et al. “Embedded Neural Networks for Robot Autonomy.” International Symposium on Robotics Research, 2019.
+::
 
+   Aguasvivas Manzano, Sarah, et al. “Embedded Neural Networks for Robot Autonomy.” International Symposium on Robotics Research, 2019.
+
+Or
+
+:: 
+   
+   Manzano, S. A., Hughes, D., Simpson, C., Patel, R., & Correll, N. (2019). Embedded Neural Networks for Robot Autonomy. arXiv preprint arXiv:1911.03848.
+
+Or
+
+::
+
+   @misc{nn4mc,
+           title={Embedded Neural Networks for Robot Autonomy},
+           author={Sarah Aguasvivas Manzano and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
+           year={2019},
+           eprint={1911.03848},
+           archivePrefix={arXiv},
+           primaryClass={cs.RO}
+       }
 
 Indices and tables
 ==================
