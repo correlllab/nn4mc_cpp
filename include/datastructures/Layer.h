@@ -157,12 +157,14 @@ class MaxPooling2D: public Layer{
 };
 
 class SimpleRNN : public Layer{
-
-
     public:
         int units;
         std::string activation;
         bool use_bias;
+        bool return_sequences;
+        bool return_state;
+        bool go_backwards;
+        bool stateful;
 
     public:
         static std::string type;
@@ -182,7 +184,7 @@ class GRU: public Layer{
         float recurrent_dropout;
         bool go_backwards;
         bool stateful;
-        bool unrool;
+        bool unroll;
         bool reset_after;
 
     public:

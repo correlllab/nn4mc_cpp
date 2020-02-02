@@ -108,8 +108,6 @@ class MaxPooling2DFactory : public LayerFactory {
                      layer_builder = new MaxPooling2DBuilder(id);
                      return layer_builder;
                  }
-                                           
-                                      
 };
 
 class SimpleRNNFactory : public LayerFactory {
@@ -119,7 +117,6 @@ class SimpleRNNFactory : public LayerFactory {
                      layer_builder = new SimpleRNNBuilder(id);
                      return layer_builder;
                  }
-                                      
 };
 
 

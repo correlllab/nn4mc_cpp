@@ -77,7 +77,18 @@ void Dense::compute_output_shapes(){
         this->input_shape.pop_back();
     }*/
 
-    this->output_shape.push_back(this->input_shape[1]);
+    int temp= 1; 
+    if (this->input_shape.size() > 1) {
+        for (int i = 0; i < this->input_shape.size(); i++){
+            temp*= this->input_shape[i];
+            std::cout << this->input_shape[i] << std::endl;
+        }
+    } else {
+        temp = this->input_shape[0]; // if input is another dense layer
+    }
+
+    std::cout << " temp = " << temp << "size input = " << this->input_shape.size() << std::endl;
+    this->output_shape.push_back(temp);
 
 }
 
