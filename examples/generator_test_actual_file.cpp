@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/weights.best.hdf5");
+    HDF5Parser P("../data/nn_regression_att2.hdf5");
     P.parse();
     NeuralNetwork* NN = P.get_neural_network();
 
@@ -30,7 +30,7 @@ int main()
       NN->reset();
 
     std::cout << "Making the Code Generator object" << std::endl;
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../scott");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../gareth");
     std::cout << "Generating Layer and Weight stuff" << std::endl;
     code_gen->generate();
     std::cout << "Dumping the code" << std::endl;
