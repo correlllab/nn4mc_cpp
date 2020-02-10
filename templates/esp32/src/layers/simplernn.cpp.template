@@ -24,12 +24,20 @@ struct SimpleRNN buildSimpleRNN()
 	layer.weights = W;
 	layer.biases = b;
 
+    layer.input_shape[0] = input_sh0;
+    layer.input_shape[1] = input_sh1;
+
+    
+    S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer_input_shape[1]+1) * sizeof(<%LAYER_DATATYPE_DELIMITER>)); // rolling window
+
 	return layer;
 }
 
 
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
+    
+
 
     free(input);
     return h;
