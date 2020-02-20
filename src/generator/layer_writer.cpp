@@ -166,9 +166,7 @@ void DenseGenerator::build_map(std::string prev_id){
 
 
 void SimpleRNNGenerator::build_map(std::string prev_id){
-    
     mapping[LAYER_NAME] = layer->identifier;
-
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
     
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);

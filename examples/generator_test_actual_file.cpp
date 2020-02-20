@@ -15,20 +15,12 @@ int main()
 {
 
     HDF5Parser P("../data/simpleRNN.hdf5");
-    
-    std::cout << "Parsing neural network..." << std::endl;
 
     P.parse();
 
-    std::cout << "Neural Network parsed!" << std::endl;
-
     NeuralNetwork* NN = P.get_neural_network();
     
-    std::cout << "get neural network" << std::endl;
-    
     NeuralNetwork::iterator it;
-
-    std::cout << "  Neural Network: " << std::endl;
 
     for(it = NN->begin(); it != NN->end(); it++)
     {
@@ -37,11 +29,8 @@ int main()
 
       NN->reset();
 
-    std::cout << "Making the Code Generator object" << std::endl;
     CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../simpleRNN");
-    std::cout << "Generating Layer and Weight stuff" << std::endl;
     code_gen->generate();
-    std::cout << "Dumping the code" << std::endl;
     code_gen->dump();
 
     delete NN;

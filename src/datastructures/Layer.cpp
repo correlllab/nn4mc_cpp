@@ -70,8 +70,6 @@ Dense::Dense(std::string id) : Layer(id)
 }
 
 void Dense::compute_output_shapes(){
-    std::cout << "HHHHHHHHHH" << std::endl; 
-    std::cout << this->identifier << std::endl;
     int temp= 1; 
     if (this->input_shape.size() > 1) {
         for (int i = 0; i < this->input_shape.size(); i++){
@@ -122,20 +120,14 @@ SimpleRNN::SimpleRNN(std::string id) : Layer(id)
 }
 
 void SimpleRNN::compute_output_shapes(){
-    std::cout << "AAAA" << std::endl; 
     int temp= 1; 
     if (this->input_shape.size() > 1) {
-        std::cout << "E" << std::endl;
         for (int i = 0; i < this->input_shape.size(); i++){
             temp*= this->input_shape[i];
-            std::cout << this->input_shape[i] << std::endl;
-            std::cout << "R" << std::endl;
         }
     } else {
-        std::cout << "E" << std::endl;
         temp = this->input_shape[0]; // if input is another dense layer
     }
-    std::cout << "E1" << std::endl;
 
     this->output_shape.push_back(temp);
 

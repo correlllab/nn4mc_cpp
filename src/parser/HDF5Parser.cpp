@@ -72,10 +72,8 @@ void HDF5Parser::build_layer_shapes(){
     
 
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
-        std::cout << this->layerMap.begin()->second->identifier << std::endl;
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
-    std::cout << this->layerMap.begin()->second->identifier << std::endl;
     this->layerMap.begin()->second->compute_output_shapes();
     
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
