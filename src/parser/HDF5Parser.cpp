@@ -58,12 +58,6 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     NN->addEdge(l, this->layerMap.begin()->second);
     l = this->layerMap.begin()->second;
 
-    /*for (auto it = this->layerMap.begin(); it!=this->layerMap.end(); it++){  
-        NN->addLayer(it->second); // adding layers
-        NN->addEdge(l, it->second);
-        l= it->second;
-    }
-    */
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
         
         NN->addLayer(this->layerMap[it->second]);
@@ -76,29 +70,24 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 
 void HDF5Parser::build_layer_shapes(){
     
-    //Layer* prev = this->layerMap.begin()->second;
 
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
+        std::cout << this->layerMap.begin()->second->identifier << std::endl;
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
     std::cout << this->layerMap.begin()->second->identifier << std::endl;
     this->layerMap.begin()->second->compute_output_shapes();
-
-    std::cout << "HERE3" << std::endl;
     
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
-        std::cout << "HH" << std::endl; 
+
         int rank = this->layerMap[it->first]->output_shape.size();
         
-        std::cout << "HERE2" << std::endl;     
         
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
         
-        std::cout << "HERE3" << std::endl;
         
         this->layerMap[it->second]->compute_output_shapes();
         
-        std::cout << "HERE4" << std::endl;
     }
 
     std::cout << "PARSER: Layer shapes built!" << std::endl;
@@ -109,7 +98,7 @@ void HDF5Parser::callLayerBuilders(){
         int i=0;
         int model_build_size = this->model_config["config"]["build_input_shape"].size();
         int model_build_size1 = this->model_config["config"]["layers"][0]["config"]["batch_input_shape"].size();
-
+        
         if (model_build_size>0){
             for (int i=0; i<model_build_size-1; i++){
                 nn_input_shape.push_back(this->model_config["config"]["build_input_shape"][i+1]);
@@ -117,6 +106,7 @@ void HDF5Parser::callLayerBuilders(){
         }
 
         if (model_build_size1>0){
+            nn_input_shape.clear();
             for (int i=0; i<model_build_size1 -1; i++){
                 nn_input_shape.push_back(this->model_config["config"]["layers"][0]["config"]["batch_input_shape"][i+1]);
             }
