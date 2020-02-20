@@ -9,7 +9,7 @@ std::string Flatten::type = std::string("flatten");
 std::string MaxPooling1D::type = std::string("maxpool1d");
 std::string MaxPooling2D::type = std::string("maxpool2d");
 std::string Dropout::type = std::string("dropout");
-std::string SimpleRNN::type = std::string("simpleRNN");
+std::string SimpleRNN::type = std::string("simple_rnn");
 std::string GRU::type = std::string("gru");
 std::string LSTM::type = std::string("lstm");
 std::string InputLayer::type = std::string("input");
@@ -70,24 +70,17 @@ Dense::Dense(std::string id) : Layer(id)
 }
 
 void Dense::compute_output_shapes(){
-// I know this is output but it is called in the right moment for this:
-
-   /* if (this->input_shape.size() > 1){
-        this->input_shape[0] = this->input_shape[0] * this->input_shape.back();
-        this->input_shape.pop_back();
-    }*/
-
+    std::cout << "HHHHHHHHHH" << std::endl; 
+    std::cout << this->identifier << std::endl;
     int temp= 1; 
     if (this->input_shape.size() > 1) {
         for (int i = 0; i < this->input_shape.size(); i++){
             temp*= this->input_shape[i];
-            std::cout << this->input_shape[i] << std::endl;
         }
     } else {
         temp = this->input_shape[0]; // if input is another dense layer
     }
 
-    std::cout << " temp = " << temp << "size input = " << this->input_shape.size() << std::endl;
     this->output_shape.push_back(temp);
 
 }
@@ -125,9 +118,28 @@ void MaxPooling2D::compute_output_shapes(){
 SimpleRNN::SimpleRNN(std::string id) : Layer(id)
 {
 	layer_type = SimpleRNN::type;
+    
 }
 
-void SimpleRNN::compute_output_shapes(){}
+void SimpleRNN::compute_output_shapes(){
+    std::cout << "AAAA" << std::endl; 
+    int temp= 1; 
+    if (this->input_shape.size() > 1) {
+        std::cout << "E" << std::endl;
+        for (int i = 0; i < this->input_shape.size(); i++){
+            temp*= this->input_shape[i];
+            std::cout << this->input_shape[i] << std::endl;
+            std::cout << "R" << std::endl;
+        }
+    } else {
+        std::cout << "E" << std::endl;
+        temp = this->input_shape[0]; // if input is another dense layer
+    }
+    std::cout << "E1" << std::endl;
+
+    this->output_shape.push_back(temp);
+
+}
 
 GRU::GRU(std::string id) : Layer(id)
 {

@@ -26,6 +26,9 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
   else if(Dense* ptr = dynamic_cast<Dense*>(layer))
     return new DenseGenerator(ptr, init_string);
 
+  else if(SimpleRNN* ptr = dynamic_cast<SimpleRNN*>(layer))
+    return new SimpleRNNGenerator(ptr, init_string);
+
   /*else if(Flatten* ptr = dynamic_cast<Flatten*>(layer))
     return new FlattenGenerator(ptr, init_string);
 */
@@ -152,7 +155,21 @@ void DenseGenerator::build_map(std::string prev_id){
     
     mapping[LAYER_NAME] = layer->identifier;
 
-    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); //Fake
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
+    
+    mapping[OUTPUT_SIZE] = std::to_string(layer->units);
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
+}
+
+
+void SimpleRNNGenerator::build_map(std::string prev_id){
+    
+    mapping[LAYER_NAME] = layer->identifier;
+
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
     
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;

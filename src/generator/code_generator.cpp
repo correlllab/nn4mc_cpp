@@ -57,7 +57,7 @@ ACTIVATION_SOURCE_FILENAME + ".template";
 	weight_generator = new WeightGenerator(network_param_template_path, true);
 	layer_generator = new LayerGenerator(layer_include_template_path, layer_src_template_path, PARAMETER_DATATYPE, INDEX_DATATYPE, ACTIVATION_DATATYPE, LAYER_OUTPUT_DATATYPE);
 	nn_generator = new NNGenerator(neural_network_header, neural_network_source, activation_header, activation_source, layer_generator); //Finish this
-
+    std::cout << "CODEGEN: Code generator object created!" << std::endl;
 }
 
 CodeGenerator::~CodeGenerator()
@@ -106,6 +106,7 @@ void CodeGenerator::generate()
 	neural_net->reset();
 
 	nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
+    std::cout << "CODEGEN: Code generated!" << std::endl;
 }
 
 void CodeGenerator::dump()

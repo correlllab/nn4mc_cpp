@@ -95,6 +95,7 @@ void NNGenerator::addLayer_Header(Layer* layer)
     TYPE["maxpool1d"] = "MaxPooling1D";
     TYPE["maxpool2d"] = "MaxPooling2D";
     TYPE["activation"] = "Activation";
+    TYPE["simpler_nn"] = "SimpleRNN";
 
     //
 	std::string init = "struct " +  TYPE[layer->layer_type] +  " " + layer->identifier + ";\n";

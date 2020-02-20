@@ -38,10 +38,13 @@ first_input= model.layers[0].input_shape
 
 
 try:
-    weights= model.layers[layer].get_weights()[0] # weights
-    print("weights shape: ", weights.shape)
-    biases= model.layers[layer].get_weights()[1] # biases
+    weights = model.layers[layer].get_weights()[0] # weights
 
+    print("weights shape: ", weights.shape)
+
+    biases = model.layers[layer].get_weights()[1] # biases
+
+    print("biases shape: ", biases.shape)
 
     strWeights= str(list(weights))
     strBiases= str(list(biases))
@@ -63,7 +66,7 @@ inp= model.input
 outputs = [layer.output for layer in model.layers]          # all layer outputs
 functors = [K.function([inp] , [out]) for out in outputs]   # evaluation function
 
-test = np.ones((1, 50 , 2))
+test = np.ones((1, 4 , 1))
 layer_outs = [func([test]) for func in functors]
 print("layer outputs:")
 print(layer_outs[layer])

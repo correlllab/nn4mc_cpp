@@ -166,6 +166,8 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
     this->layerObject->stateful = object["stateful"];
     this->layerObject->unroll = object["unroll"];
     this->layerObject->reset_after = object["reset_after"];
+    std::cout << "LAYER: Builder: GRU Layer " << this->layerObject->identifier << " Built!" << std::endl;
+
 }
 
 void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
@@ -179,6 +181,7 @@ void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::strin
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
     this->layerObject->unroll = object["unroll"];
+    std::cout << "LAYER: Builder: LSTM Layer " << this->layerObject->identifier << " Built!" << std::endl;
 }
 
 
@@ -192,5 +195,6 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->return_state = object["return_state"];
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
+    std::cout << "LAYER: Builder: SimpleRNN Layer " << this->layerObject->identifier << " Built!" << std::endl;
 }
 
