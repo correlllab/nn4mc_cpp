@@ -25,13 +25,10 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 
   else if(Dense* ptr = dynamic_cast<Dense*>(layer))
     return new DenseGenerator(ptr, init_string);
-
+ 
   else if(SimpleRNN* ptr = dynamic_cast<SimpleRNN*>(layer))
     return new SimpleRNNGenerator(ptr, init_string);
-
-  /*else if(Flatten* ptr = dynamic_cast<Flatten*>(layer))
-    return new FlattenGenerator(ptr, init_string);
-*/
+  
   else if(MaxPooling1D* ptr = dynamic_cast<MaxPooling1D*>(layer))
     return new MaxPooling1DGenerator(ptr, init_string);
 
@@ -166,6 +163,7 @@ void DenseGenerator::build_map(std::string prev_id){
 
 
 void SimpleRNNGenerator::build_map(std::string prev_id){
+    std::cout << "Calling SimpleRNN generator!" << std::endl;
     mapping[LAYER_NAME] = layer->identifier;
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
     

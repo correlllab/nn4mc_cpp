@@ -134,7 +134,6 @@ std::string LayerGenerator::processTemplate(std::string layer_template, std::str
 		delimiter_position = layer_template.find(ACTIVATION_DATATYPE_DELIMITER);
 	}
 
-
 	return layer_template;
 }
 
@@ -203,8 +202,6 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 {
 	// Create strings for the path to the header and src template files
 	std::string include_path = include_template_path + "/" + layer_type + ".h.template";
-    
-    std::cout << layer_type << std::endl; // TODO: delete later
 	
     std::string src_path = src_template_path + "/" + layer_type + ".cpp.template";
 

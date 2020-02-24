@@ -57,7 +57,7 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     NN->addLayer(this->layerMap.begin()->second);
     NN->addEdge(l, this->layerMap.begin()->second);
     l = this->layerMap.begin()->second;
-
+    
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
         NN->addLayer(this->layerMap[it->second]);
         NN->addEdge(l, this->layerMap[it->second]);
@@ -124,9 +124,6 @@ void HDF5Parser::buildEdges(){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
 
-    /*for (int i=0; i<this->layer_edges.size(); i++){
-        std::cout << this->layer_edges[i].first << " " << this->layer_edges[i].second << std::endl;
-    }*/
 }
 
 json HDF5Parser::parseModelConfig(){

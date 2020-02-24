@@ -12,9 +12,6 @@
 */
 TensorRepresentation::TensorRepresentation()
 {
-	// Initially assume no padding after newline
-	std::cout << "In default constructor" << std::endl;
-
 	// Assume that C / C++ arrays are being used, and the dimensionality of
 	// the array matches that of the tensor
 	array_start = std::string("{");
