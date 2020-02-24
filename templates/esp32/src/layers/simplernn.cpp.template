@@ -37,7 +37,7 @@ struct SimpleRNN buildSimpleRNN()
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
     
-
+     
 
     free(input);
     return h;

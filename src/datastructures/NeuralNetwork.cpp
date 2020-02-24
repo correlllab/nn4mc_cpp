@@ -92,10 +92,6 @@ nn_iterator& nn_iterator::operator++() //Prefix
     node = nodeList.front();
     nodeList.pop_front();
 
-    // this->nodes_ord.push_back(start); //Adding node order data.
-    // this->weights.push_back(start->layer->w); //Adding weight data.
-    // this->weights.push_back(start->layer->b); //Adding bias data.
-
     for(i=node->edges.begin(); i!=node->edges.end(); i++)
     {
       if(i->l->visited == false)
@@ -103,7 +99,6 @@ nn_iterator& nn_iterator::operator++() //Prefix
         i->l->visited = true;
         nodeList.push_back(i->l);
 
-        //std::cout << i->l->layer->identifier<<std::endl;
       }
     }
     return *this;
@@ -131,12 +126,7 @@ nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right
 
   if(!nodeList.empty())
   {
-    // node = nodeList.front();
     nodeList.pop_front();
-
-    // this->nodes_ord.push_back(start); //Adding node order data.
-    // this->weights.push_back(start->layer->w); //Adding weight data.
-    // this->weights.push_back(start->layer->b); //Adding bias data.
 
     for(i=node->edges.begin(); i!=node->edges.end(); i++)
     {
@@ -145,11 +135,9 @@ nn_iterator nn_iterator::operator++(int dummy) //Postfix, not sure this is right
         i->l->visited = true;
         nodeList.push_back(i->l);
 
-        //std::cout << i->l->layer->identifier<<std::endl;
       }
     }
     node = nodeList.front();
-    // std::cout << node->layer->identifier << std::endl;
     return copy;
   }
   else

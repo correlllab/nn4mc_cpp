@@ -115,7 +115,6 @@ class DenseGenerator : public LayerWriter{
 class SimpleRNNGenerator : public LayerWriter{
     
     public:
-
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         

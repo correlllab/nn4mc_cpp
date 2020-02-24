@@ -200,6 +200,7 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->return_state = object["return_state"];
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
+    
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout << "LAYER: Builder: SimpleRNN Layer " << this->layerObject->identifier << " Built!" << std::endl;

@@ -203,7 +203,10 @@ void LayerGenerator::addLayer(Layer* layer, std::string layer_type, std::string 
 {
 	// Create strings for the path to the header and src template files
 	std::string include_path = include_template_path + "/" + layer_type + ".h.template";
-	std::string src_path = src_template_path + "/" + layer_type + ".cpp.template";
+    
+    std::cout << layer_type << std::endl; // TODO: delete later
+	
+    std::string src_path = src_template_path + "/" + layer_type + ".cpp.template";
 
 	// Load the templates
 	std::string include_template = loadTemplate(include_path);
