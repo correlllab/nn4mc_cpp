@@ -29,49 +29,29 @@ struct SimpleRNN buildSimpleRNN() // TODO
 
     layer.window_size= window_size;
 
+    layer.output_shape = output_sh;
+
     S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer_input_shape[1]+1) * sizeof(<%LAYER_DATATYPE_DELIMITER>)); // rolling window
 
 	return layer;
 }
 
-
-float * multiply_matrices(float * A, int rowA, int colA, float * B, int rowB, int colB){
-    
-    float  result[rowA*colB]; 
-    
-    for (int i=0; i< rowA*colB; i++) result[i] = 0.0;
-
-    for (int i=0; i< rowA; i++){
-        for (int j=0; j< colB; j++){
-            for (int k=0; k< colA; k++){
-                int index1 = i*colB + j;
-                int index2 = i*colA + k;
-                int index3 = k*colB + j;
-
-                result[index1] += A[index2] * B[index3];
-            }
-        }
-    }    
-    return result;
-}
-
-
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
     
-    for (int i=0; i < L.input_shape[0]*(L.input_shape[1]+1); i++){
-        S[i] = 0.0; 
-    }            
-    float * mult1;
-    float * mult2;
-
-    for (int k= 0; k < L.window_size; k++){
-        mult1 = multiply_matrices()         
-        mult2 = multiply_matrices() 
-        int index =  (L.input_shape[1]+1) * k + L.input_shape[0];
-        S[index] =  
-    }
-
+    for (int i=0; i < L.input_shape[0]*(L.window_size+1); i++) S[i] = 0.0; 
+    
+    for (int j=0 ;  j < L.output_shape; j++)  { 
+        for (int i=0; i< L.input_shape[0]*L.input_shape[1]; i++){
+            for (int k = 0; k< L.window_size+1; k++){
+                
+                int index = i*L.window_size + k+1;
+                int index_before = i*window_size + k;
+                int bias_matrix_index = k*L.output_shape + i;
+                S[index] = input[i]*L.biases[bias_matrix_index] + S[index_before] * *(L.weights + i*L.output_shape + k);
+            }
+        }
+    } 
 
     free(input);
     return h;
