@@ -16,12 +16,16 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-#include "simplernn.h"
+#include "conv2d.h"
+#include "conv2d.h"
+#include "maxpool2d.h"
 #include "dense.h"
 #include "dense.h"
 
 
-struct SimpleRNN simple_rnn_1;
+struct Conv2D conv2d_1;
+struct Conv2D conv2d_2;
+struct MaxPooling2D max_pooling2d_1;
 struct Dense dense_1;
 struct Dense dense_2;
 
