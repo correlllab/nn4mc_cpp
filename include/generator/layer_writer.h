@@ -113,7 +113,7 @@ class DenseGenerator : public LayerWriter{
 };
 
 class SimpleRNNGenerator : public LayerWriter{
-    
+     
     public:
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
@@ -125,7 +125,10 @@ class SimpleRNNGenerator : public LayerWriter{
         std::string ACTIVATION = "<%ACTIVATION>"; 
 
         SimpleRNN* layer;
-        SimpleRNNGenerator(SimpleRNN* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
+        SimpleRNNGenerator(SimpleRNN* layer, std::string init){
+            this->layer = layer; 
+            this->init_template.assign(init);
+        }
 
     void build_map(std::string);
 

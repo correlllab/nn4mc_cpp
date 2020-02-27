@@ -112,13 +112,12 @@ class MaxPooling2DFactory : public LayerFactory {
 
 class SimpleRNNFactory : public LayerFactory {
           public:
-              SimpleRNNBuilder* layer_builder;
-                 SimpleRNNBuilder* create(std::string id){
-                     layer_builder = new SimpleRNNBuilder(id);
-                     return layer_builder;
-                 }
+                    SimpleRNNBuilder* layer_builder;
+                    SimpleRNNBuilder* create(std::string id){
+                    layer_builder =new SimpleRNNBuilder(id);
+                    return layer_builder;        
+                 } 
 };
-
 
 
 #endif

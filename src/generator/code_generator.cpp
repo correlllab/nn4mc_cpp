@@ -69,14 +69,14 @@ CodeGenerator::~CodeGenerator()
 void CodeGenerator::generate()
 {
 	NeuralNetwork::iterator it;
-
-	for(it=neural_net->begin(); it != neural_net->end(); it++)
+	
+    for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
-    if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation" && it->layer->layer_type != "maxpool1d" && it->layer->layer_type != "maxpool2d" && it->layer->layer_type != "dropout") 
-		{
-			weight_generator->addWeight(it->layer->w);
-			weight_generator->addWeight(it->layer->b);
-		}
+        if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation" && it->layer->layer_type != "maxpool1d" && it->layer->layer_type != "maxpool2d" && it->layer->layer_type != "dropout") 
+            {
+                weight_generator->addWeight(it->layer->w);
+                weight_generator->addWeight(it->layer->b);
+            }
 	}
 
 	neural_net->reset();
@@ -110,10 +110,12 @@ void CodeGenerator::dump()
 {
 	// Write all of the code to the output directory
 	weight_generator->dump(output_folder + "/" +  PARAMETER_FILENAME);
-	// Write all of the layer header and source
+	
+    // Write all of the layer header and source
 	layer_generator->dumpLayerHeaders(output_folder );
 	layer_generator->dumpLayerSources(output_folder );
-	//Write out header file and source file for neural_network
+	
+    //Write out header file and source file for neural_network
 	nn_generator->dumpHeader(output_folder + "/" + HEADER_FILENAME);
 	nn_generator->dumpSource(output_folder + "/" + SOURCE_FILENAME);
 	nn_generator->dumpActivation(output_folder + "/" + ACTIVATION_HEADER_FILENAME, output_folder + "/" + ACTIVATION_SOURCE_FILENAME);

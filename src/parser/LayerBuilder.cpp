@@ -201,8 +201,17 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
     
+    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+            this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
+    }
+    this->layerObject->output_shape.push_back(this->layerObject->units);
+    
     layerMap[this->layerObject->identifier] = this->layerObject;
-
+    
     std::cout << "LAYER: Builder: SimpleRNN Layer " << this->layerObject->identifier << " Built!" << std::endl;
 }
 
+    
+      
+
+    

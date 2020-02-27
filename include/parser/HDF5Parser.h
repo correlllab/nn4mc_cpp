@@ -68,11 +68,11 @@ class HDF5Parser : public Parser{
             this->file_name= file_name_str;
         }
 
-        json parseModelConfig();
-        void parseWeights();
-        void constructBuilderMap();
-        void callLayerBuilders();
-        void buildEdges();
+        json parse_model_config();
+        void parse_weights();
+        void construct_builder_map();
+        void call_layer_builders();
+        void build_edges();
         void build_layer_shapes();
 
         NeuralNetwork* get_neural_network();

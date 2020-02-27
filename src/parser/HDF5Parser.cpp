@@ -22,7 +22,7 @@
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 
-void HDF5Parser::constructBuilderMap(){
+void HDF5Parser::construct_builder_map(){
     this->BuilderMap["Activation"] = new ActivationFactory();
     this->BuilderMap["Conv1D"]= new Conv1DFactory();
     this->BuilderMap["Conv2D"]= new Conv2DFactory();
@@ -37,7 +37,7 @@ void HDF5Parser::constructBuilderMap(){
 
 }
 
-void HDF5Parser::parseWeights(){
+void HDF5Parser::parse_weights(){
        
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
@@ -53,9 +53,11 @@ void HDF5Parser::parseWeights(){
 NeuralNetwork* HDF5Parser::get_neural_network(){
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l = new InputLayer("input_1");
+    
     NN->addLayer(l);
     NN->addLayer(this->layerMap.begin()->second);
     NN->addEdge(l, this->layerMap.begin()->second);
+    
     l = this->layerMap.begin()->second;
     
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
@@ -83,14 +85,14 @@ void HDF5Parser::build_layer_shapes(){
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
         
         
-        this->layerMap[it->second]->compute_output_shapes();
+            this->layerMap[it->second]->compute_output_shapes();
         
     }
 
     std::cout << "PARSER: Layer shapes built!" << std::endl;
 }
 
-void HDF5Parser::callLayerBuilders(){
+void HDF5Parser::call_layer_builders(){
         
         int i=0;
         int model_build_size = this->model_config["config"]["build_input_shape"].size();
@@ -111,6 +113,7 @@ void HDF5Parser::callLayerBuilders(){
 
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
+            
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
             this->layerBuilderVector[i]->create(it.value()["config"]["name"])->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
@@ -118,7 +121,7 @@ void HDF5Parser::callLayerBuilders(){
         }
 }
 
-void HDF5Parser::buildEdges(){
+void HDF5Parser::build_edges(){
     // Vector of factories is layerBuilderVector. Not tested yet for non-sequential model
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
@@ -126,7 +129,7 @@ void HDF5Parser::buildEdges(){
 
 }
 
-json HDF5Parser::parseModelConfig(){
+json HDF5Parser::parse_model_config(){
     
       H5File filefile = H5File( this->file_name, H5F_ACC_RDONLY );
       Group what = Group(filefile.openGroup("/"));
@@ -163,25 +166,25 @@ json HDF5Parser::parseModelConfig(){
 // PARSE FUNCTION
 int HDF5Parser::parse()
 {
-  this->constructBuilderMap();
+  this->construct_builder_map();
     
   try
    { 
       // Parse Model Config: 
-      this->model_config= this->parseModelConfig();
+      this->model_config= this->parse_model_config();
       
       // Assign Config Builders:
-      this->callLayerBuilders(); 
+      this->call_layer_builders(); 
       
       // Parse Weights:
       std::cout << "LayerBuilders called!" << std::endl;
 
       // Populate the layer types:
-      this->buildEdges();
+      this->build_edges();
       this->build_layer_shapes(); 
 
       std::cout << "Edges and shapes built!" << std::endl;
-      this->parseWeights();
+      this->parse_weights();
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
     
@@ -334,7 +337,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 if (s.compare("kernel:0")){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
-                    std::cout << wb->identifier << " here" << std::endl;
 
                 } else{ // it's a weight
                     wb->identifier=wb->identifier.append("_W");
