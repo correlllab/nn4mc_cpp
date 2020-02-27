@@ -27,7 +27,7 @@ int main()
       std::cout << it->layer->layer_type << std::endl;
     }
 
-      NN->reset();
+    NN->reset();
 
     CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../simpleRNN");
     code_gen->generate();

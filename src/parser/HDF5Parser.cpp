@@ -34,11 +34,9 @@ void HDF5Parser::construct_builder_map(){
     this->BuilderMap["LSTM"]= new LSTMFactory();
     this->BuilderMap["GRU"]= new GRUFactory();
     this->BuilderMap["SimpleRNN"]= new SimpleRNNFactory();
-
 }
 
 void HDF5Parser::parse_weights(){
-       
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
       H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
@@ -47,7 +45,6 @@ void HDF5Parser::parse_weights(){
       od_weights.LM = this->layerMap;
       H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
       this->layerMap= od_weights.LM;
-      std::cout << "PARSER: Weights parsed!" << std::endl;
 }
 
 NeuralNetwork* HDF5Parser::get_neural_network(){
@@ -55,19 +52,15 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     Layer* l = new InputLayer("input_1");
     
     NN->addLayer(l);
-
     NN->addLayer(this->layerMap[this->layer_edges.begin()->first]);
-    //NN->addEdge(l, this->layerMap.begin()->second);
     NN->addEdge(l, this->layerMap[this->layer_edges.begin()->first]);
-    
-    l = this->layerMap.begin()->second;
-    
+    l = this->layerMap[this->layer_edges.begin()->first];
+      
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
         NN->addLayer(this->layerMap[it->second]);
         NN->addEdge(l, this->layerMap[it->second]);
         l = this->layerMap[it->second];
     }
-    cout<< "PARSER: Neural network nodes and edges built!"<<endl;
     return NN;
 }
 
@@ -81,12 +74,10 @@ void HDF5Parser::build_layer_shapes(){
 
         int rank = this->layerMap[it->first]->output_shape.size();
         
-        
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
             this->layerMap[it->second]->compute_output_shapes();
     }
 
-    std::cout << "PARSER: Layer shapes built!" << std::endl;
 }
 
 void HDF5Parser::call_layer_builders(){
@@ -154,8 +145,6 @@ json HDF5Parser::parse_model_config(){
       
       json j_filtered = json::parse(ss, cb);
 
-      //delete []test; // valgrind told me that test is not allocated at this point
-      std::cout << "PARSER: Model config parsed!" << std::endl; 
       return j_filtered;
 }
 
@@ -168,22 +157,22 @@ int HDF5Parser::parse()
    { 
       // Parse Model Config: 
       this->model_config= this->parse_model_config();
-      
+      std::cout << "-------------------------------------------------" << std::endl;
+     
       // Assign Config Builders:
       this->call_layer_builders(); 
       
       // Parse Weights:
-      std::cout << "LayerBuilders called!" << std::endl;
+      std::cout << "-------------------------------------------------" << std::endl;
 
       // Populate the layer types:
       this->build_edges();
       this->build_layer_shapes(); 
-
-      std::cout << "Edges and shapes built!" << std::endl;
       this->parse_weights();
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
-    
+      std::cout << "-------------------------------------------------" << std::endl;
+   
       return 0;
 
    }  // end of try block

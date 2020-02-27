@@ -17,9 +17,13 @@ extern "C" {
 
 #include "neural_network_params.h"
 #include "simplernn.h"
+#include "dense.h"
+#include "dense.h"
 
 
 struct SimpleRNN simple_rnn_1;
+struct Dense dense_1;
+struct Dense dense_2;
 
 
 
