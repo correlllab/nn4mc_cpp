@@ -55,8 +55,10 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
     Layer* l = new InputLayer("input_1");
     
     NN->addLayer(l);
-    NN->addLayer(this->layerMap.begin()->second);
-    NN->addEdge(l, this->layerMap.begin()->second);
+
+    NN->addLayer(this->layerMap[this->layer_edges.begin()->first]);
+    //NN->addEdge(l, this->layerMap.begin()->second);
+    NN->addEdge(l, this->layerMap[this->layer_edges.begin()->first]);
     
     l = this->layerMap.begin()->second;
     
@@ -70,8 +72,6 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 }
 
 void HDF5Parser::build_layer_shapes(){
-    
-
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap.begin()->second->input_shape = nn_input_shape;
     }
@@ -83,17 +83,13 @@ void HDF5Parser::build_layer_shapes(){
         
         
         for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
-        
-        
             this->layerMap[it->second]->compute_output_shapes();
-        
     }
 
     std::cout << "PARSER: Layer shapes built!" << std::endl;
 }
 
 void HDF5Parser::call_layer_builders(){
-        
         int i=0;
         int model_build_size = this->model_config["config"]["build_input_shape"].size();
         int model_build_size1 = this->model_config["config"]["layers"][0]["config"]["batch_input_shape"].size();
@@ -113,12 +109,12 @@ void HDF5Parser::call_layer_builders(){
 
         for (auto it: this->model_config["config"]["layers"].items()){
             //TODO: Make the reading separate from the JSON
-            
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
             this->layerBuilderVector[i]->create(it.value()["config"]["name"])->create_from_json(it.value(), it.value()["config"]["name"], this->layerMap); 
             i++;
         }
+
 }
 
 void HDF5Parser::build_edges(){

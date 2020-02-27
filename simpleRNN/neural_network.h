@@ -16,12 +16,10 @@ extern "C" {
 
 
 #include "neural_network_params.h"
-#include "dense.h"
-#include "dense.h"
+#include "simplernn.h"
 
 
-struct Dense dense_1;
-struct Dense dense_2;
+struct SimpleRNN simple_rnn_1;
 
 
 

@@ -145,6 +145,30 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
     std::cout<< "LAYER_BUILDER: Dense Layer " << this->layerObject->identifier << " Built!"<<std::endl;
 }
 
+
+void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
+    
+    json object= obj["config"];
+    this->layerObject->identifier.assign(id);
+    this->layerObject->units=object["units"];
+    this->layerObject->activation.assign(object["activation"].get<std::string>());
+    this->layerObject->use_bias = object["use_bias"];
+    this->layerObject->return_sequences= object["return_sequences"];
+    this->layerObject->return_state = object["return_state"];
+    this->layerObject->go_backwards = object["go_backwards"];
+    this->layerObject->stateful = object["stateful"];
+    
+    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+            this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
+    }
+    this->layerObject->output_shape.push_back(this->layerObject->units);
+    
+    layerMap[this->layerObject->identifier] = this->layerObject;
+    
+    std::cout << "LAYER: Builder: SimpleRNN Layer " << this->layerObject->identifier << " Built!" << std::endl;
+}
+
+
 void FlattenBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     this->layerObject->identifier.assign(id);
     layerMap[this->layerObject->identifier] = this->layerObject;
@@ -166,6 +190,7 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
     this->layerObject->stateful = object["stateful"];
     this->layerObject->unroll = object["unroll"];
     this->layerObject->reset_after = object["reset_after"];
+    
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout << "LAYER: Builder: GRU Layer " << this->layerObject->identifier << " Built!" << std::endl;
@@ -189,27 +214,6 @@ void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::strin
     std::cout << "LAYER: Builder: LSTM Layer " << this->layerObject->identifier << " Built!" << std::endl;
 }
 
-
-void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
-    json object= obj["config"];
-    this->layerObject->identifier.assign(id);
-    this->layerObject->units=object["units"];
-    this->layerObject->activation.assign(object["activation"].get<std::string>());
-    this->layerObject->use_bias = object["use_bias"];
-    this->layerObject->return_sequences= object["return_sequences"];
-    this->layerObject->return_state = object["return_state"];
-    this->layerObject->go_backwards = object["go_backwards"];
-    this->layerObject->stateful = object["stateful"];
-    
-    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
-            this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
-    }
-    this->layerObject->output_shape.push_back(this->layerObject->units);
-    
-    layerMap[this->layerObject->identifier] = this->layerObject;
-    
-    std::cout << "LAYER: Builder: SimpleRNN Layer " << this->layerObject->identifier << " Built!" << std::endl;
-}
 
     
       
