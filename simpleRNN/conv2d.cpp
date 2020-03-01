@@ -1,17 +1,15 @@
 
+/********************
+    conv2d.cpp
 
-/*************
-* conv2d.cpp
-*
-* Conv2D Layer
-* Hardware Plateform: ESP-32
-*
-* This file defines the functions needed to build a 2D Convolutional layer, and perform a forward pass.
-* TODO: This template.
+    Code generated using nn4mc.
+
+    This file implements a 2 dimensional convolution layer.
+
 */
 
 #include "conv2d.h"
-#include "activation_func.h"
+#include "activations.h"
 #include <stdlib.h>
 #include <math.h>
 

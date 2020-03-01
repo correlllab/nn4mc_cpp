@@ -1,16 +1,15 @@
 
+/********************
+    maxpool2d.cpp
 
-/*************
-* maxpooling2d.cpp
-*
-* Conv1D Layer
-* Hardware Plateform: ESP-32
-*
-* This file defines the functions needed to build a 2D Convolutional layer, and perform a forward pass.
+    Code generated using nn4mc.
+
+    This file implements a 1 dimensional maximum pooling layer.
+
 */
 
 #include "maxpool2d.h"
-#include "activation_func.h"
+#include "activations.h"
 #include <math.h>
 #include <stdlib.h>
 #define max(a, b) (((a)>(b) ? (a) : (b)))

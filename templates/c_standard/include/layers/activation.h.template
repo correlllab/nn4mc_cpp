@@ -1,0 +1,26 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    Activation.h
+
+    Code generated using nn4mc.
+
+    This file defines an Activation as a layer.
+
+*/
+
+#ifndef __ACTIVATION__
+#define __ACTIVATION__
+
+struct Activation{
+
+     <%ACTIVATION_DATATYPE_DELIMITER> activation;
+     <%INDEX_DATATYPE_DELIMITER> input_shape;
+     <%INDEX_DATATYPE_DELIMITER> output_shape;
+};
+
+struct Activation buildActivation(<%INDEX_DATATYPE_DELIMITER>, <%INDEX_DATATYPE_DELIMITER>, <%ACTIVATION_DATATYPE_DELIMITER>);
+
+<%LAYER_DATATYPE_DELIMITER> * fwdActivation(struct Activation, <%LAYER_DATATYPE_DELIMITER>*);
+
+#endif
+<%END_DEFINITION_TEMPLATE>

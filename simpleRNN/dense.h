@@ -1,11 +1,11 @@
 
-/*************
-* dense.h
-*
-* Dense Layer Header
-* Hardware Plateform: ESP-32
-*
-* This file defines the datastructure needed to create a Dense (Fully Connected) layer.
+/********************
+    Dense.h
+
+    Code generated using nn4mc.
+
+    This file defines a densely connected layer.
+
 */
 
 #ifndef __DENSE_H__
@@ -26,9 +26,8 @@ struct Dense {
 	int output_shape[1];
 };
 
-struct Dense buildDense(const float* , const float* , int , int , char);
+struct Dense buildDense(const float*, const float*, int, int, char);
 
-float * fwdDense(struct Dense , float* );
+float * fwdDense(struct Dense, float* );
 
 #endif
-

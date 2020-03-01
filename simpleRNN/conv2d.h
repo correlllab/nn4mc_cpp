@@ -1,11 +1,11 @@
 
-/*************
-* conv2d.h
-*
-* Conv2D Layer Header
-* Hardware Plateform: ESP-32
-*
-* This file defines the datastructure needed to create a 2D Convolutional layer.
+/********************
+    conv2d.h
+
+    Code generated using nn4mc.
+
+    This file defines an 2 dimensional convolution layer.
+
 */
 
 #ifndef __CONV2D_H__
@@ -18,13 +18,13 @@ struct Conv2D {
 
 	// Kernel information
 	int weight_shape[4];	// (NUM_INPUT_CHANNELS x KERNEL_WIDTH x KERNEL_HEIGHT x NUM_OUTPUT_CHANNELS)
-	
+
     int strides[2];			// (STRIDE_WIDTH x STRIDE_HEIGHT)
-    
+
     int filters;
-    
-    char activation; 
-    
+
+    char activation;
+
     int kernel_shape[2];
 
 	// Shape of the input and output
@@ -32,11 +32,8 @@ struct Conv2D {
 	int output_shape[3];	// (OUTPUT_WIDTH x OUTPUT_HEIGHT x NUM_OUTPUT_CHANNELS)
 };
 
-struct Conv2D buildConv2D(const float* , const float* ,                          int , int , int , int , int , int ,int , int , char);
+struct Conv2D buildConv2D(const float*, const float*, int, int, int, int, int, int, int, int, char);
 
 float* fwdConv2D(struct Conv2D, float*);
 
-
-
 #endif
-

@@ -1,0 +1,20 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+#include "neural_network.h"
+#include <stdlib.h>
+
+void buildLayers(){
+
+    <%BUILD_FUNCTION>
+
+}
+
+
+<%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
+{
+
+    <%FWD_FUNCTION>
+
+    return data;
+}
+
+<%END_DEFINITION_TEMPLATE>

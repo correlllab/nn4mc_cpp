@@ -1,0 +1,49 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    activation.cpp
+
+    Code generated using nn4mc.
+
+    This file implements an activation as a layer.
+
+*/
+
+#include "activation.h"
+#includ "activations.h"
+
+struct Activation buildActivation(<%INDEX_DATATYPE_DELIMITER> input_size, <%INDEX_DATATYPE_DELIMITER> output_size, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+{
+    layer.activation = activation;
+    layer.input_shape = input_size;
+    layer.output_shape = output_size;
+    return layer;
+}
+
+
+<%LAYER_DATATYPE_DELIMITER> * fwdActivation(struct Activation L, <%LAYER_DATATYPE_DELIMITER>* input)
+{
+
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+
+	// Loop through to calculate the output at each point
+  // Not entirely sure about this
+  for(int i = 0; i < L.output_shape; i++)
+  {
+    if(L.activation != 0xB)
+      h[i] = activate(input[i],L.output_shape,L.activation);
+  }
+
+    free(input);
+    return h;
+
+}
+<%END_DEFINITION_TEMPLATE>
+
+
+<%BEGIN_INITIALIZE_TEMPLATE>
+        <%LAYER_NAME> = buildActivation(<%INPUT_SHAPE_0>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+<%END_INITIALIZE_TEMPLATE>
+
+<%BEGIN_CALL_TEMPLATE>
+        data = fwdActivation(<%LAYER_NAME>, <%INPUT>);
+<%END_CALL_TEMPLATE>
