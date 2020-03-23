@@ -14,8 +14,13 @@
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
 
+    // TODO: Dynamic instantiation needs factory using this software arch
+
   if (Activation* ptr = dynamic_cast<Activation*>(layer))
       return new ActivationGenerator(ptr, init_string);
+
+  if(LSTM* ptr = dynamic_cast<LSTM*>(layer))
+      return new LSTMGenerator(ptr, init_string);
 
   if(Conv1D* ptr = dynamic_cast<Conv1D*>(layer))
     return new Conv1DGenerator(ptr, init_string);
@@ -177,13 +182,18 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
 void LSTMGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
-    
+    std::cout << "here0" << std::endl; 
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
+    std::cout << "here1" << std::endl;
     mapping[WEIGHT_NAME] = layer->w->identifier;
+    std::cout << "here2" << std::endl;
     mapping[BIAS_NAME] = layer->b->identifier;
+    std::cout << "here3" << std::endl; 
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
+    std::cout << "build_map() 1" << std::endl;
 }
+
 /*
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;

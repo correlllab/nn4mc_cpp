@@ -1,0 +1,3 @@
+[submodule "nn4mc_py"]
+	path = nn4mc_py
+	url = https://github.com/RS-Coop/nn4mc_py.git

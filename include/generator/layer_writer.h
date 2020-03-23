@@ -151,7 +151,6 @@ class LSTMGenerator : public LayerWriter{
             this->layer = layer; 
             this->init_template.assign(init);
         }
-
     void build_map(std::string);
 };
 

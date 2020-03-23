@@ -198,7 +198,6 @@ class GRU: public Layer{
 
 
 class LSTM: public Layer{
-
     public:
         int units;
         std::string activation;
