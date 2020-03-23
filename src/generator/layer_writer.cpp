@@ -181,17 +181,11 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
 
 void LSTMGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
-    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
-    std::cout << "here0" << std::endl; 
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
-    std::cout << "here1" << std::endl;
     mapping[WEIGHT_NAME] = layer->w->identifier;
-    std::cout << "here2" << std::endl;
     mapping[BIAS_NAME] = layer->b->identifier;
-    std::cout << "here3" << std::endl; 
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
-    std::cout << "build_map() 1" << std::endl;
 }
 
 /*
