@@ -68,6 +68,7 @@ CodeGenerator::~CodeGenerator()
 
 void CodeGenerator::generate()
 {
+    std::cout << "CODEGEN: generate() called" << std::endl;
 	NeuralNetwork::iterator it;
 	
     for(it=neural_net->begin(); it != neural_net->end(); it++)
@@ -81,6 +82,7 @@ void CodeGenerator::generate()
 
 	neural_net->reset();
 
+    std::cout << "CODEGEN: generate() 2" << std::endl;
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
@@ -89,8 +91,10 @@ void CodeGenerator::generate()
 			layer_generator->addLayer(it->layer);
 		}
 	}
-
-	neural_net->reset();
+    
+    std::cout << "CODEGEN: generate() 3" << std::endl;
+	
+    neural_net->reset();
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
 	{
@@ -102,8 +106,11 @@ void CodeGenerator::generate()
 		}
 	}
 	neural_net->reset();
+    
+    std::cout << "CODEGEN: generate() 4" << std::endl;
 
 	nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
+    std::cout << "CODEGEN: generate()" << std::endl;
 }
 
 void CodeGenerator::dump()

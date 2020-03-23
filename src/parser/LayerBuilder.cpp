@@ -195,7 +195,7 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
 
 void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
-
+    this->layerObject->units = object["units"];
     this->layerObject->identifier.assign(id);
     this->layerObject->activation.assign(object["activation"].get<std::string>());
     
