@@ -1,9 +1,10 @@
 <%BEGIN_DEFINITION_TEMPLATE>
 /********************
+    nn4mc.h
 
-    NEURAL_NETWORK_H
+    Code generated using nn4mc.
 
-Code Generated using nn4mc
+    This file defines a a neural network and associated functions.
 
 */
 
@@ -12,16 +13,17 @@ Code Generated using nn4mc
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
 
 #include "neural_network_params.h"
 <%INCLUDE>
 
 <%STRUCTS>
 
+<%LAYER_DATATYPE_DELIMITER>* fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
+void buildLayers();
 
-
+}
+#endif
 #endif
 
 <%END_DEFINITION_TEMPLATE>

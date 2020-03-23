@@ -1,0 +1,26 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    gru.h
+
+    Code generated using nn4mc.
+
+    This file defines a gated recurrent unit layer.
+
+*/
+
+#ifndef __GRU_H__
+#define __GRU_H__
+
+struct GRU {
+	// Weights and biases defining the layer
+	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
+	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias
+
+};
+
+struct GRU buildGRU();
+
+<%LAYER_DATATYPE_DELIMITER> * fwdGRU(struct GRU , <%LAYER_DATATYPE_DELIMITER>* );
+
+#endif
+<%END_DEFINITION_TEMPLATE>

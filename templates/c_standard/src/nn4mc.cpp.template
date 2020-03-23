@@ -1,0 +1,34 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    nn4mc.cpp
+
+    Code generated using nn4mc.
+
+    This file implements the nerual network and associated functions.
+
+*/
+
+#ifdef __cplusplus
+#extern "C" {
+
+#include "neural_network.h"
+#include <stdlib.h>
+
+void buildLayers(){
+
+    <%BUILD_FUNCTION>
+
+}
+
+
+<%LAYER_DATATYPE_DELIMITER> * fwdNN(<%LAYER_DATATYPE_DELIMITER>* data)
+{
+
+    <%FWD_FUNCTION>
+
+    return data;
+}
+
+}
+#endif
+<%END_DEFINITION_TEMPLATE>

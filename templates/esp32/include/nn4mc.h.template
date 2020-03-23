@@ -1,14 +1,27 @@
-#ifndef __NN4MC_H__
-#define __NN4MC_H__
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
 
-#ifdef __cpluscplus
+    NEURAL_NETWORK_H
+
+Code Generated using nn4mc
+
+*/
+
+#ifndef __NEURAL_NETWORK_H__
+#define __NEURAL_NETWORK_H__
+
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 
-<%LAYER_DATATYPE_DELIMITER>* fwdNN(<%LAYER_DATATYPE_DELIMITER>*);
-void buildLayers();
+#include "neural_network_params.h"
+<%INCLUDE>
+
+<%STRUCTS>
+
 
 
 #endif
 
+<%END_DEFINITION_TEMPLATE>

@@ -19,7 +19,7 @@ int main()
     P.parse();
 
     NeuralNetwork* NN = P.get_neural_network();
-    
+
     NeuralNetwork::iterator it;
 
     for(it = NN->begin(); it != NN->end(); it++)
@@ -29,7 +29,8 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/esp32", "../lstm");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../simpleRNN");
+    
     code_gen->generate();
     code_gen->dump();
 

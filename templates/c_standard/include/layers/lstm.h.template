@@ -1,0 +1,26 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    lstm.h
+
+    Code generated using nn4mc.
+
+    This file defines a long short term memory layer.
+
+*/
+
+#ifndef __LSTM_H__
+#define __LSTM_H__
+
+struct LSTM {
+	// Weights and biases defining the layer
+	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
+	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias
+
+};
+
+struct LSTM buildLSTM();
+
+<%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM , <%LAYER_DATATYPE_DELIMITER>* );
+
+#endif
+<%END_DEFINITION_TEMPLATE>
