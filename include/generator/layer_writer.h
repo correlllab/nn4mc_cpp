@@ -134,6 +134,28 @@ class SimpleRNNGenerator : public LayerWriter{
 
 };
 
+class LSTMGenerator : public LayerWriter{
+     
+    public:
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        
+        std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
+
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string BIAS_NAME = "<%BIAS_NAME>";
+        std::string ACTIVATION = "<%ACTIVATION>"; 
+
+        LSTM* layer;
+        LSTMGenerator(LSTM* layer, std::string init){
+            this->layer = layer; 
+            this->init_template.assign(init);
+        }
+
+    void build_map(std::string);
+};
+
+
 /*class FlattenGenerator : public LayerWriter{
     public:
         std::string BEGIN_CALL_TEMPLATE= "<%BEGIN_CALL_TEMPLATE>";

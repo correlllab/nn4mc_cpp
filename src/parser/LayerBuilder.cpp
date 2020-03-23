@@ -195,11 +195,14 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
 
 void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object = obj["config"];
+
     this->layerObject->identifier.assign(id);
     this->layerObject->activation.assign(object["activation"].get<std::string>());
-    this->layerObject->recursive_activation.assign(object["recursive_activation"].get<std::string>());
+    
+    this->layerObject->recurrent_activation.assign(object["recurrent_activation"].get<std::string>());
     this->layerObject->dropout = object["dropout"];
-    this->layerObject->recurrent_dropout = object["dropout"];
+    
+    this->layerObject->recurrent_dropout = object["recurrent_dropout"];
     this->layerObject->implementation = object["implementation"];
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];

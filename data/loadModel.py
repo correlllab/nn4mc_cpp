@@ -59,7 +59,7 @@ try:
     strBiases= strBiases.replace('[', '{')
     strBiases= strBiases.replace(']', '}')
 
-    print(strBiases)
+    #print(strBiases)
 except:
     pass
 inp= model.input

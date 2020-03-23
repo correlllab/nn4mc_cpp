@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.models import Sequential
-from keras.layers import Dense, SimpleRNN
+from keras.layers import Dense, SimpleRNN, LSTM
 
 
 N = 1000
@@ -37,7 +37,7 @@ trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
 model = Sequential()
-model.add(SimpleRNN(units=32, input_shape=(1,step), activation="relu"))
+model.add(LSTM(units=32, input_shape=(1,step), activation="relu"))
 model.add(Dense(8, activation="relu"))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='rmsprop')
@@ -46,7 +46,7 @@ model.summary()
 
 model.fit(trainX,trainY, epochs=100, batch_size=16, verbose=2)
 
-model.save('simpleRNN.hdf5')
+model.save('LSTM.hdf5')
 
 trainPredict = model.predict(trainX)
 testPredict= model.predict(testX)

@@ -202,7 +202,7 @@ class LSTM: public Layer{
     public:
         int units;
         std::string activation;
-        std::string recursive_activation;
+        std::string recurrent_activation;
         bool use_bias;
         float dropout;
         float recurrent_dropout;

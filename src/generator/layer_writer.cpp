@@ -173,6 +173,17 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
+
+void LSTMGenerator::build_map(std::string prev_id){
+    mapping[LAYER_NAME] = layer->identifier;
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
+    
+    mapping[OUTPUT_SIZE] = std::to_string(layer->units);
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
+}
 /*
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;
