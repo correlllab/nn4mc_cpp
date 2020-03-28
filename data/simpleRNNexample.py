@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+from __future__ import absolute_import, division, print_function, unicode_literals
 import pandas as pd
+import collections
 import numpy as np
 import matplotlib.pyplot as plt
-from keras.models import Sequential
-from keras.layers import Dense, SimpleRNN, LSTM
 
+import tensorflow as tf
+from tensorflow.keras import layers
 
 N = 1000
 Tp = 800
@@ -30,27 +32,28 @@ def convertToMatrix(data, step):
         Y.append(data[d,])
     return np.array(X), np.array(Y)
 
-trainX,trainY =convertToMatrix(train,step)
-testX,testY =convertToMatrix(test,step)
+trainX,trainY = convertToMatrix(train,step)
+testX, testY  = convertToMatrix(test,step)
 
 trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
-model = Sequential()
-model.add(LSTM(units=32, input_shape=(1,step), activation="relu"))
-model.add(Dense(8, activation="relu"))
-model.add(Dense(1))
+model = tf.keras.Sequential([
+            tf.keras.layers.SimpleRNN(units=32, activation="relu", input_shape = (trainX.shape[1], trainX.shape[2])),
+            tf.keras.layers.Dense(8, activation="relu"),
+            tf.keras.layers.Dense(1)])
+
 model.compile(loss='mean_squared_error', optimizer='rmsprop')
-model.summary()
-
-
 model.fit(trainX,trainY, epochs=100, batch_size=16, verbose=2)
 
-model.save('LSTM.hdf5')
+print(model.summary())
+print(model.layers[0].input_shape)
+
+model.save('simpleRNN.hdf5')
 
 trainPredict = model.predict(trainX)
 testPredict= model.predict(testX)
-predicted=np.concatenate((trainPredict,testPredict),axis=0)
+predicted = np.concatenate((trainPredict,testPredict),axis=0)
 
 trainScore = model.evaluate(trainX, trainY, verbose=0)
 print(trainScore)

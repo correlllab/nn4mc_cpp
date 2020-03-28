@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/LSTM.hdf5");
+    HDF5Parser P("../data/simpleRNN.hdf5");
 
     P.parse();
 

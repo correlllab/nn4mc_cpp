@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
-import sys
-import h5py
+#!/usr/bin/env python
+import sys, os
 import numpy as np
-from keras import backend as K
-from keras.models import load_model
-import keras.losses
-from keras.layers import Activation
+import tensorflow as tf
+from tensorflow import keras
+
+print(tf.version.VERSION)
 
 def custom_loss(y_true, y_pred):
     r_hat = y_pred[:, 1]
@@ -21,10 +20,10 @@ def custom_activation(x):
 keras.losses.custom_loss=custom_loss
 keras.activations.custom_activation= custom_activation
 
-model= load_model(sys.argv[1])
+model = tf.keras.models.load_model(sys.argv[1])
 
-textFile= open("wr.txt", "w")
-layer= int(sys.argv[2])
+textFile = open("wr.txt", "w")
+layer = int(sys.argv[2])
 
 print(model.summary())
 
@@ -35,7 +34,6 @@ input_size= model.layers[layer].input_shape
 
 print("input_size: ", input_size)
 first_input= model.layers[0].input_shape
-
 
 try:
     weights = model.layers[layer].get_weights()[0] # weights
@@ -59,7 +57,7 @@ try:
     strBiases= strBiases.replace('[', '{')
     strBiases= strBiases.replace(']', '}')
 
-    #print(strBiases)
+    print(strBiases)
 except:
     pass
 inp= model.input

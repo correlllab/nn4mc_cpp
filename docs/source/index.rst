@@ -18,6 +18,12 @@
    tutorials
    dev
 
+.. Note about Tensorflow 2.0:
+.. =============================================
+
+Make sure that the first layer in the neural network specifies the `input_shape` field when using Tensorflow 2.0 in order to get an appropriately functioning result.
+
+
 .. Citing nn4mc:
 .. =============
 
