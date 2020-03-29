@@ -58,7 +58,6 @@ Conv2D::Conv2D(std::string id) : Layer(id)
 }
 
 void Conv2D::compute_output_shapes(){
-    //TODO
     this->output_shape.push_back(this->input_shape[0] - this->kernel_size[0] + 1);
     this->output_shape.push_back(this->input_shape[1] - this->kernel_size[1] + 1);
     this->output_shape.push_back(this->filters);
@@ -70,17 +69,8 @@ Dense::Dense(std::string id) : Layer(id)
 }
 
 void Dense::compute_output_shapes(){
-    int temp= 1; 
-    if (this->input_shape.size() > 1) {
-        for (int i = 0; i < this->input_shape.size(); i++){
-            temp*= this->input_shape[i];
-        }
-    } else {
-        temp = this->input_shape[0]; // if input is another dense layer
-    }
-
-    this->output_shape.push_back(temp);
-
+    this->output_shape.clear();
+    this->output_shape.push_back(this->units);
 }
 
 Flatten::Flatten(std::string id) : Layer(id)
@@ -120,17 +110,8 @@ SimpleRNN::SimpleRNN(std::string id) : Layer(id)
 }
 
 void SimpleRNN::compute_output_shapes(){
-    int temp= 1; 
-    if (this->input_shape.size() > 1) {
-        for (int i = 0; i < this->input_shape.size(); i++){
-            temp*= this->input_shape[i];
-        }
-    } else {
-        temp = this->input_shape[0]; // if input is another dense layer
-    }
-
-    this->output_shape.push_back(temp);
-
+    this->output_shape.clear();
+    this->output_shape.push_back(this->units);
 }
 
 GRU::GRU(std::string id) : Layer(id)

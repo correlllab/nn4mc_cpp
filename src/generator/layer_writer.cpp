@@ -170,7 +170,7 @@ void DenseGenerator::build_map(std::string prev_id){
 void SimpleRNNGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
-    
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);  
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
@@ -197,8 +197,10 @@ void FlattenGenerator::build_map(std::string prev_id){
 void MaxPooling1DGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
+    
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
+
     mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
     mapping[POOL_SIZE] = std::to_string(layer->pool_size);

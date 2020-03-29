@@ -16,7 +16,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct SimpleRNN buildSimpleRNN(const float * W, const float * b, int input_sh0, int input_sh1, int window_size, int output_sh, char activation)
+struct SimpleRNN buildSimpleRNN(const float * W, const float * b, int input_sh0, int input_sh1, int output_sh, char activation)
 {
 	struct SimpleRNN layer;
 
@@ -25,8 +25,9 @@ struct SimpleRNN buildSimpleRNN(const float * W, const float * b, int input_sh0,
 
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
+    
     layer.activation = activation;
-    layer.window_size= window_size;
+    layer.window_size= output_sh;
 
     layer.output_shape = output_sh;
 

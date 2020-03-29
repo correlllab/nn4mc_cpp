@@ -68,18 +68,26 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 }
 
 void HDF5Parser::build_layer_shapes(){
-    std::cout << "PARSER: builde_layer_shapes" << std::endl;
+
+    std::cout << "PARSER: build_layer_shapes" << std::endl;
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
-        this->layerMap.begin()->second->input_shape = nn_input_shape;
+        this->layerMap[this->layer_ids[0]]->input_shape = nn_input_shape;
     }
-    this->layerMap.begin()->second->compute_output_shapes();
+    
+    this->layerMap[this->layer_ids[0]]->compute_output_shapes();
     
     for (std::vector<std::pair<std::string, std::string>>::iterator it= this->layer_edges.begin(); it!=this->layer_edges.end(); ++it){
 
         int rank = this->layerMap[it->first]->output_shape.size();
         
-        for (int i=0; i<rank; i++) this->layerMap[it->second]->input_shape.push_back(this->layerMap[it->first]->output_shape[i]);
-            this->layerMap[it->second]->compute_output_shapes();
+        int actual_output = 1;
+        for (int i=0; i<rank; i++) {
+            actual_output *= this->layerMap[it->first]->output_shape[i];
+        }            
+        
+        this->layerMap[it->second]->input_shape.push_back(actual_output);
+        this->layerMap[it->second]->compute_output_shapes();
+        std::cout << this->layerMap[it->second]->output_shape[0] << std::endl;
     }
 
 }
@@ -99,7 +107,7 @@ void HDF5Parser::call_layer_builders(){
             }  
         }
 
-        if (model_build_size1>0){
+        if (model_build_size1 > 0){
             nn_input_shape.clear();
             for (int i=0; i<model_build_size1 -1; i++){
                 nn_input_shape.push_back(this->model_config["config"]["layers"][0]["config"]["batch_input_shape"][i+1]);

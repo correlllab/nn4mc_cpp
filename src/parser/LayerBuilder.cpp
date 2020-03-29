@@ -58,7 +58,7 @@ void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::str
     
     if (object["batch_input_shape"].size() > 0){
         for (int i=0; i<(dim_vars+1); i++){
-        this->layerObject->input_shape.push_back(object["batch_input_shape"][1+i]);
+            this->layerObject->input_shape.push_back(object["batch_input_shape"][1+i]);
         }
     }  
 
@@ -134,7 +134,9 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
     this->layerObject->use_bias = object["use_bias"];
     
     if (object["batch_input_shape"].size() > 0){  // if this layer is the input layer
-            this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
+            for (int i=0; i<object["batch_input_shape"].size()-1; i++){
+                this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
+            }
     }  
 
     this->layerObject->output_shape.push_back(this->layerObject->units);
@@ -156,7 +158,9 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->stateful = object["stateful"];
     
     if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
-            this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
+           for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
+                this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
+        }
     }
     
     this->layerObject->output_shape.push_back(this->layerObject->units);
@@ -171,6 +175,12 @@ void FlattenBuilder::create_from_json(json obj, std::string id, std::map<std::st
     this->layerObject->identifier.assign(id);
     layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Flatten Layer " << this->layerObject->identifier << " recognized"<<std::endl;
+    
+   // if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+   //        for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
+   //             this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
+   //         }
+   // }
 }
 
 
@@ -189,7 +199,11 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
     this->layerObject->reset_after = object["reset_after"];
     
     layerMap[this->layerObject->identifier] = this->layerObject;
-
+    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+           for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
+                this->layerObject->input_shape.push_back(object["batch_input_shape"][i + 1]);
+            }
+    }    
     std::cout << "LAYER: Builder: GRU Layer " << this->layerObject->identifier << " recognized" << std::endl;
 }
 
@@ -207,7 +221,13 @@ void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::strin
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
     this->layerObject->unroll = object["unroll"];
-    
+
+    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+           for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
+                this->layerObject->input_shape.push_back(object["batch_input_shape"][i + 1]);
+            }
+    }
+
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout << "LAYER_BUILDER: LSTM Layer " << this->layerObject->identifier << " recognized" << std::endl;

@@ -30,6 +30,12 @@ struct LSTM buildLSTM()
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
+    
+
+
+
+
+
     free(input);
     return h;
 }

@@ -17,9 +17,9 @@
 void buildLayers(){
 
    
-        simple_rnn = buildSimpleRNN(&simple_rnn_W[0], simple_rnn_b, 1, , 32, 0x06);
+        simple_rnn = buildSimpleRNN(&simple_rnn_W[0], simple_rnn_b, 1, 4, 32, 0x06);
 
-        dense = buildDense(&dense_W[0], dense_b, 1, 8, 0x06);
+        dense = buildDense(&dense_W[0], dense_b, 32, 8, 0x06);
 
         dense_1 = buildDense(&dense_1_W[0], dense_1_b, 8, 1, 0xB);
  

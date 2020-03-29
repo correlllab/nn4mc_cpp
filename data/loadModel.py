@@ -3,6 +3,7 @@ import sys, os
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+import keras.backend as K
 
 print(tf.version.VERSION)
 
@@ -33,7 +34,7 @@ print(model.layers[layer].get_config())
 input_size= model.layers[layer].input_shape
 
 print("input_size: ", input_size)
-first_input= model.layers[0].input_shape
+first_input= model.layers[layer].input_shape
 
 try:
     weights = model.layers[layer].get_weights()[0] # weights
