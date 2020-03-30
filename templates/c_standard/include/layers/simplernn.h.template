@@ -17,9 +17,11 @@ struct SimpleRNN {
 	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
 	<%WEIGHT_DATATYPE_DELIMITER>* biases;			// Pointer to constant bias
 
-    int input_shape[2];
-    int output_shape[2];
+    <%INDEX_DATATYPE_DELIMITER> input_shape[2];
+    <%INDEX_DATATYPE_DELIMITER> output_shape[2];
 
+    <%ACTIVATION_DATATYPE_DELIMITER> activation;
+    
     bool go_backwards;
 
     <%LAYER_DATATYPE_DELIMITER> * S;

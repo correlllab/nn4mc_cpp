@@ -16,7 +16,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct LSTM buildLSTM()
+struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation, <%INDEX_DATATYPE_DELIMITER> implementation, <%LAYER_DATATYPE_DELIMITER> dropout, <%LAYER_DATATYPE_DELIMITER> recurrent_dropout, bool go_backwards)
 {
 	struct LSTM layer;
 
@@ -26,15 +26,8 @@ struct LSTM buildLSTM()
 	return layer;
 }
 
-
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
-
-    
-
-
-
-
 
     free(input);
     return h;
@@ -43,7 +36,7 @@ struct LSTM buildLSTM()
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildLSTM();
+        <%LAYER_NAME> = buildLSTM(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%RECURRENT_ACTIVATION>, <%IMPLEMENTATION>, <%DROPOUT>, <%RECURRENT_DROPOUT>, <%GO_BACKWARDS>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

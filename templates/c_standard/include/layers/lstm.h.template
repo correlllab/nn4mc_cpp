@@ -12,13 +12,30 @@
 #define __LSTM_H__
 
 struct LSTM {
-	// Weights and biases defining the layer
-	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
+	
+    // Weights and biases defining the layer
+    <%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
 	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias
     
+    <%INDEX_DATATYPE_DELIMITER> input_shape[2];
+    <%INDEX_DATATYPE_DELIMITER> output_shape[2];
+
+    
+    <%ACTIVATION_DATATYPE_DELIMITER> activation;
+    <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation;
+
+    <%INDEX_DATATYPE_DELIMITER> implementation;
+
+    <%LAYER_DATATYPE_DELIMITER> dropout;
+    <%LAYER_DATATYPE_DELIMITER> recurrent_dropout;
+
+    bool go_backwards;
+
+    <%LAYER_DATATYPE_DELIMITER> * S;
+
 };
 
-struct LSTM buildLSTM();
+struct LSTM buildLSTM( %WEIGHT_DATATYPE_DELIMITER> *, <%WEIGHT_DATATYPE_DELIMITER> *,         <%INDEX_DATATYPE_DELIMITER> , <%INDEX_DATATYPE_DELIMITER> , <%INDEX_DATATYPE_DELIMITER> , <%ACTIVATION_DATATYPE_DELIMITER> , <%ACTIVATION_DATATYPE_DELIMITER> , <%INDEX_DATATYPE_DELIMITER>, <%LAYER_DATATYPE_DELIMITER> , <%LAYER_DATATYPE_DELIMITER> , bool);
 
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM , <%LAYER_DATATYPE_DELIMITER>* );
 
