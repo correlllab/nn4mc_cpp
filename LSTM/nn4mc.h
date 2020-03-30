@@ -15,12 +15,12 @@
 extern "C" {
 
 #include "neural_network_params.h"
-#include "simplernn.h"
+#include "lstm.h"
 #include "dense.h"
 #include "dense.h"
 
 
-struct SimpleRNN simple_rnn;
+struct  lstm;
 struct Dense dense;
 struct Dense dense_1;
 

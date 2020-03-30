@@ -145,6 +145,12 @@ class LSTMGenerator : public LayerWriter{
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
+        std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";
+        std::string USE_BIAS = "<%USE_BIAS>";
+        std::string DROPOUT = "<%DROPOUT>";
+        std::string RECURRENT_DROPOUT = "<%RECURRENT_DROPOUT>";
+        std::string IMPLEMENTATION = "<%IMPLEMENTATION>";
+        std::string GO_BACKWARDS = "<%GO_BACKWARDS>";
 
         LSTM* layer;
         LSTMGenerator(LSTM* layer, std::string init){
@@ -178,6 +184,7 @@ class MaxPooling1DGenerator : public LayerWriter{
         
         std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
         std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";
+        
         std::string STRIDES = "<%STRIDES>";
         std::string POOL_SIZE = "<%POOL_SIZE>";
 

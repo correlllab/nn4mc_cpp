@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/simpleRNN.hdf5");
+    HDF5Parser P("../data/LSTM.hdf5");
 
     P.parse();
 
@@ -29,7 +29,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../simpleRNN");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../LSTM");
     
     code_gen->generate();
     code_gen->dump();
