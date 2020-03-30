@@ -186,7 +186,7 @@ void LSTMGenerator::build_map(std::string prev_id){
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
-    mapping[RECURRENT_ACTIVATION] = layer->recurrent_activation;
+    mapping[RECURRENT_ACTIVATION] = this->activation_lookup[layer->recurrent_activation];
     mapping[DROPOUT] = std::to_string(layer->dropout);
     mapping[RECURRENT_DROPOUT] = std::to_string(layer->recurrent_dropout);
     mapping[IMPLEMENTATION] = std::to_string(layer->implementation);
