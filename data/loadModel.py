@@ -28,7 +28,9 @@ layer = int(sys.argv[2])
 
 print(model.summary())
 
+
 print("layer config:")
+print(model.get_config())
 print(model.layers[layer].get_config())
 
 input_size= model.layers[layer].input_shape
@@ -58,7 +60,7 @@ try:
     strBiases= strBiases.replace('[', '{')
     strBiases= strBiases.replace(']', '}')
 
-    print(strBiases)
+#    print(strBiases)
 except:
     pass
 inp= model.input

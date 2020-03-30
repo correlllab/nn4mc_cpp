@@ -9,7 +9,7 @@
 */
 
 #include "simplernn.h"
-#include "activation_func.h"
+#include "activations.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -30,14 +30,14 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
     layer.window_size= output_sh;
 
     layer.output_shape = output_sh;
-
-    S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer_input_shape[1]+1) * sizeof(<%LAYER_DATATYPE_DELIMITER>)); // rolling window
-
+    
 	return layer;
 }
 
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
+
+    <%LAYER_DATATYPE_DELIMITER> * S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer.input_shape[1]+1) * sizeof(<%LAYER_DATATYPE_DELIMITER>)); // rolling window
 
     for (int i=0; i < L.input_shape[0]*(L.window_size+1); i++) S[i] = 0.0;
 
@@ -52,6 +52,8 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
             }
         }
     }
+    if(L.activation != 0xB)
+        h[i] = activate(h[i], L.output_size, L.activation);
 
     free(input);
     return h;
