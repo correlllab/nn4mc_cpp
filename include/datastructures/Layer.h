@@ -23,6 +23,8 @@ class Layer{
 
         Weight* w;
         Weight* b;
+        Weight*w_rec = NULL; // recurrent weights if necessary 
+
         Layer(std::string id);
 
         virtual void setLayer() = 0;
@@ -186,7 +188,6 @@ class GRU: public Layer{
         bool stateful;
         bool unroll;
         bool reset_after;
-
     public:
         static std::string type;
 
@@ -209,7 +210,6 @@ class LSTM: public Layer{
         bool go_backwards;
         bool stateful;
         bool unroll;
-
     public:
         static std::string type;
 

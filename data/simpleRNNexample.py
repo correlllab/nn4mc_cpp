@@ -13,13 +13,14 @@ Tp = 800
 
 t = np.arange(0,N)
 x = np.sin(0.02*t)+2*np.random.rand(N)
+
 df = pd.DataFrame(x)
 df.head()
 
 values=df.values
 train,test = values[0:Tp,:], values[Tp:N,:]
 
-step = 4
+step = 10
 # add step elements into train and test
 test = np.append(test,np.repeat(test[-1,],step))
 train = np.append(train,np.repeat(train[-1,],step))
@@ -39,7 +40,7 @@ trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
 model = tf.keras.Sequential([
-            tf.keras.layers.LSTM(units=32, input_shape = (trainX.shape[1], trainX.shape[2])),
+            tf.keras.layers.LSTM(units=7, input_shape = (trainX.shape[1], trainX.shape[2])),
             tf.keras.layers.Dense(8, activation="relu"),
             tf.keras.layers.Dense(1)])
 

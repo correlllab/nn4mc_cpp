@@ -76,6 +76,9 @@ void CodeGenerator::generate()
             {
                 weight_generator->addWeight(it->layer->w);
                 weight_generator->addWeight(it->layer->b);
+                if (it->layer->w_rec != NULL){
+                    weight_generator->addWeight(it->layer->w_rec);
+                }
             }
 	}
 

@@ -43,7 +43,7 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 
     for (int j=0 ;  j < L.output_shape; j++)  {
         for (int i=0; i< L.input_shape[0]*L.input_shape[1]; i++){
-            for (int k = 0; k< L.window_size+1; k++){
+            for (int k = 0; k < L.window_size+1; k++){
 
                 int index = i*L.window_size + k+1;
                 int index_before = i*window_size + k;

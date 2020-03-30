@@ -23,12 +23,13 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
 	layer.weights = W;
 	layer.biases = b;
 
-
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
 
     layer.activation = activation;
     layer.recurrent_activation = recurrent_activation;
+
+    layer.output_size = output_sh; 
 
     layer.implementation = implementation;
     layer.dropout = dropout;
@@ -42,42 +43,24 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM L, <%LAYER_DATATYPE_DELIMITER>* x)
 {
 
-    <%LAYER_DATATYPE_DELIMITER> * S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer.input_shape[1] + 1)*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-       
-       // Input Gate:
-       <%LAYER_DATATYPE_DELIMITER> * input_gate;
-       <%LAYER_DATATYPE_DELIMITER> * ignore_hidden;
-       <%LAYER_DATATYPE_DELIMITER> * ignore_eventx;
-       <%LAYER_DATATYPE_DELIMITER> * learn_hidden;
-       <%LAYER_DATATYPE_DELIMITER> * learn_eventx;
-       
-       // TODO: allocate those variables
+    <%LAYER_DATATYPE_DELIMITER> * forget_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * input_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * cell_state = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+   <%LAYER_DATATYPE_DELIMITER> * output_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-        
-         
+    for (<%INDEX_DATATYPE_DELIMITER> t = 0; t < L.output_size; t++){
+        for(<%INDEX_DATATYPE_DELIMITER> i = 0 ; i < L.output_size; i++){
+                                               
+        } 
+    }       
 
-
-
-        free(ignore_hidden);
-        free(ignore_eventx);
-        free(learn_hidden);
-        free(learn_eventx);
-
-       // Forget Gate:
-
-
-
-       // Cell State:
-
-
-
-
-       // Output Gate:
-
-
-
-
+    
+    free(forget_gate);
+    free(input_gate);
+    free(cell_state);
+    free(output_gate);
 
     free(x);
     return h;

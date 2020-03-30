@@ -338,17 +338,21 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 delete []rbuf; 
 
                 // Create weights:
+                std::cout << s << std::endl;
                 
-                if (s.compare("kernel:0")){ // it's a bias 
+                if (s.compare("bias:0") == 0 ){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
 
-                } else{ // it's a weight
+                } if (s.compare("kernel:0") == 0){ // it's a weight
                     wb->identifier=wb->identifier.append("_W");
                     od->LM[layer_id]->w = wb;
                 }
+                if (s.compare("recurrent_kernel:0") == 0){
+                    wb->identifier = wb->identifier.append("_Wrec");
+                    od->LM[layer_id]->w_rec = wb;
+                }    
 
-                        
                 ret= H5Dclose(dset); 
         }
     H5Gclose(group);
