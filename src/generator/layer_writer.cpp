@@ -183,6 +183,7 @@ void LSTMGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[RECURRENT_WEIGHT_NAME] = layer->w_rec->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 

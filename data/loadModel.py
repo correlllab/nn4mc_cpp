@@ -43,9 +43,11 @@ try:
 
     print("weights shape: ", weights.shape)
 
-    biases = model.layers[layer].get_weights()[1] # biases
+    biases = model.layers[layer].get_weights()[2] # biases
 
     print("biases shape: ", biases.shape)
+
+    print("recurrent_weights shape: ", model.layers[layer].get_weights()[1].shape)
 
     strWeights= str(list(weights))
     strBiases= str(list(biases))

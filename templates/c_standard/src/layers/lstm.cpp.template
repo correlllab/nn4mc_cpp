@@ -16,12 +16,13 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation, <%INDEX_DATATYPE_DELIMITER> implementation, <%LAYER_DATATYPE_DELIMITER> dropout, <%LAYER_DATATYPE_DELIMITER> recurrent_dropout, bool go_backwards)
+struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation, <%LAYER_DATATYPE_DELIMITER> dropout, <%LAYER_DATATYPE_DELIMITER> recurrent_dropout, bool go_backwards)
 {
 	struct LSTM layer;
 
 	layer.weights = W;
 	layer.biases = b;
+    layer.wrec = Wrec;
 
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
@@ -31,12 +32,14 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
 
     layer.output_size = output_sh; 
 
-    layer.implementation = implementation;
     layer.dropout = dropout;
     layer.recurrent_dropout;
 
     layer.go_backwards = go_backwards;
 
+    layer.prev_h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer_output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));  
+    layer.prev_c = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer_output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));  
+    // TODO: Need to assign the above to 0''s
 	return layer;
 }
 
@@ -50,26 +53,46 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
     <%LAYER_DATATYPE_DELIMITER> * cell_state = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
    <%LAYER_DATATYPE_DELIMITER> * output_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-    for (<%INDEX_DATATYPE_DELIMITER> t = 0; t < L.output_size; t++){
-        for(<%INDEX_DATATYPE_DELIMITER> i = 0 ; i < L.output_size; i++){
-                                               
-        } 
-    }       
+   for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_size; i++){
+        <%INDEX_DATATYPE_DELIMITER> ind_f = i + L.output_size;
+        <%INDEX_DATATYPE_DELIMITER> ind_i = i;
+        <%INDEX_DATATYPE_DELIMITER> ind_o = 3*L.output_size + i;
+        <%INDEX_DATATYPE_DELIMITER> ind_c = 2*L.output_size + i;
+        forget_gate[i] = L.b[ind_f];
+        input_gate[i] = L.b[ind_i];
+        cell_state[i] = L.b[ind_c];
+        output_gate[i] = L.b[ind_o];
+       for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[0]*L.input_shape[1]; j++){
+            forget_gate[i] += *(L.weights + (i+L.output_size)*(4*L.output_size) + j)*x[j] + *(L.wrec + (j+L.output_size)*(4*L.output_size))*L.prev_h[j]; 
+            input_gate[i] += *(L.weights + i*(4*L.output_size) + j)*x[j] + *(L.wrec + i*(4*L.output_size))*L.prev_h[i];
+            cell_state[i] += *(L.weights + (i+2*L.output_size)*(4*L.output_size + j))* x[j] + *(L.wrec + ()*4*L.output_size)*L.prev[j];
+            output_state[i] += *(L.weights + (i*3*L.output_size)*(4*L.output_size + j))* x[j] + *(L.wrec + ()*4*L.output_size)*L.prev[j];
+       }
 
+    forget_gate[i] = activate(forget_gate[i], L.output_size, L.recurrent_activation);
+    output_gate[i] = activate(output_gate[i], L.output_size, L.recurrent_activation);
+    input_gate[i] = activate(input_gate[i], L.output_size, L.recurrent_activation);
+    cell_state[i] = activate(cell_state[i], L.output_size, L.activation);
+
+     h[i] = output_gate[i] * activate(forget_gate[i]*prev_c[i] + input_gate[i] * cell_state[i], L.output_size, L.activation ) ;
+    
+    L.prev_c[i] = forget_gate[i]*prev_c[i] + input_gate[i] * cell_state[i];
+    L.prev_h[i] = h[i];
+   }  
     
     free(forget_gate);
     free(input_gate);
     free(cell_state);
     free(output_gate);
-
     free(x);
+    
     return h;
 }
 
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildLSTM(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%RECURRENT_ACTIVATION>, <%IMPLEMENTATION>, <%DROPOUT>, <%RECURRENT_DROPOUT>, <%GO_BACKWARDS>);
+        <%LAYER_NAME> = buildLSTM(&<%WEIGHT_NAME>[0], &<%RECURRENT_WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%RECURRENT_ACTIVATION>, <%DROPOUT>, <%RECURRENT_DROPOUT>, <%GO_BACKWARDS>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

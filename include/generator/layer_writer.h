@@ -143,6 +143,8 @@ class LSTMGenerator : public LayerWriter{
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string RECURRENT_WEIGHT_NAME = "<%RECURRENT_WEIGHT_NAME>";
+
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";

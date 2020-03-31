@@ -76,7 +76,7 @@ void CodeGenerator::generate()
             {
                 weight_generator->addWeight(it->layer->w);
                 weight_generator->addWeight(it->layer->b);
-                if (it->layer->w_rec != NULL){
+                if (it->layer->w_rec != NULL){ // if recurrent weights are not null
                     weight_generator->addWeight(it->layer->w_rec);
                 }
             }
