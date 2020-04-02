@@ -173,6 +173,8 @@ void WeightGenerator::addWeight(Weight* weight)
 			index_string += "[" + std::to_string(values.shape[i]) + "]";
 		}
 	}
+    
+    this->total_parameters += values.num_elements; 
 
 	replaceDelimiter(&content, INDEX_DELIMITER, index_string);
 
@@ -198,6 +200,9 @@ void WeightGenerator::addWeight(Weight* weight)
 */
 void WeightGenerator::dump(std::string filename)
 {
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "GENERATOR: # Parameters = " << this->total_parameters << std::endl;
+    std::cout << "GENERATOR: Flash Mem. Requirement: " << (this->total_parameters * sizeof(float)) <<  " Bytes " << std::endl;
 	// Load the template from the provided path
 	std::ofstream output_file(filename, std::ios::out);
 

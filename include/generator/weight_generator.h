@@ -46,9 +46,8 @@ class WeightGenerator
 		std::string template_footer;
 
 		std::list<std::string> contents;
-
+        int total_parameters = 0;
 		TensorRepresentation* tensorRepresentation; 
-        // ^^^ TODO: Figure out if it is better to just keep it in the method it's contained in
         
 		std::string weight_datatype = std::string("float");
 		bool flatArray;

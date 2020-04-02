@@ -193,8 +193,8 @@ void LSTMGenerator::build_map(std::string prev_id){
     mapping[RECURRENT_DROPOUT] = std::to_string(layer->recurrent_dropout);
     mapping[IMPLEMENTATION] = std::to_string(layer->implementation);
     mapping[GO_BACKWARDS] = std::to_string(layer->go_backwards);
-    mapping[INPUT_SHAPE_0] = layer->input_shape[0];
-    mapping[INPUT_SHAPE_1] = layer->input_shape[1];
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
 }
 
 /*
