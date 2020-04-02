@@ -6,6 +6,10 @@
 
     This file implements a simple recurret layer.
 
+    Implementation of Elman Network:
+        Elman, Jeffrey L. (1990). Finding Structure in Time. Cognitive Science. 
+            14 (2): 179–211.
+
 */
 
 #include "simplernn.h"
@@ -16,53 +20,73 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation)
 {
 	struct SimpleRNN layer;
 
 	layer.weights = W;
 	layer.biases = b;
 
+    layer.w_rec = Wrec;
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
     
     layer.activation = activation;
-    layer.window_size= output_sh;
+    layer.recurrent_activation = recurrent_activation;
 
+    layer.window_size= output_sh;
     layer.output_shape = output_sh;
-    
+   
+    layer.prev_h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
+    for (int i=0; i<L.output_shape; i++) L.prev_h[i] = 0.0;
+
 	return layer;
 }
 
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
-
-    <%LAYER_DATATYPE_DELIMITER> * S = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.input_shape[0]*(layer.input_shape[1]+1) * sizeof(<%LAYER_DATATYPE_DELIMITER>)); // rolling window
-
-    for (int i=0; i < L.input_shape[0]*(L.window_size+1); i++) S[i] = 0.0;
-
-    for (int j=0 ;  j < L.output_shape; j++)  {
-        for (int i=0; i< L.input_shape[0]*L.input_shape[1]; i++){
-            for (int k = 0; k < L.window_size+1; k++){
-
-                int index = i*L.window_size + k+1;
-                int index_before = i*window_size + k;
-                int bias_matrix_index = k*L.output_shape + i;
-                S[index] = input[i]*L.biases[bias_matrix_index] + S[index_before] * *(L.weights + i*L.output_shape + k);
-            }
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
+    <%LAYER_DATATYPE_DELIMITER> * y = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
+       
+        for (int j = 0 ; j < L.output_shape; j++){
+    
+        h[j] = L.biases[j];
+        
+        for (int i = 0; i < L.input_shape[0]*L.input_shape[1]; i++){
+            h[j] += *(L.weights + i*L.output_shape + j) * input[i];          
         }
-    }
-    if(L.activation != 0xB)
-        h[i] = activate(h[i], L.output_size, L.activation);
+        
+        for (int i = 0; i < L.output_shape; i++){
+            h[j] += *(L.w_rec + i * L.output_shape + j) * L.prev_h[j];
+        }
 
-    free(input);
-    return h;
+        if (L.recurrent_activation != 0xB)
+            h[j] = activate(h[j], L.output_shape, L.recurrent_activation);
+        }
+
+        for (int i = 0 ; i < L.output_shape ; i++){ // Actualizing previous hidden
+            L.prev_h[i] =  h[i];
+        }
+   
+        for (int j = 0; j < L.output_shape; j++){
+            y[j] = L.biases[j];
+
+            for (int i = 0; i < L.output_shape; i++){
+                y[j] += *(L.weights + i*L.output_shape + j) * h[j];   
+            }
+
+            if (L.activation != 0xB)
+                y[j] = activate(y[j], L.output_shape, L.activation);  
+        }
+
+    free(h);
+    return y;
 }
 
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0],&<%RECURRENT_WEIGHT_NAME>,  <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%RECURRENT_ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

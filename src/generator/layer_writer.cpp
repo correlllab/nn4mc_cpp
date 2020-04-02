@@ -173,9 +173,11 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);  
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[RECURRENT_WEIGHT_NAME] = layer->w_rec->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
+    mapping[RECURRENT_ACTIVATION] = this->activation_lookup[layer->recurrent_activation];
 }
 
 

@@ -310,7 +310,8 @@ void LayerGenerator::dump(std::string directory, std::map<std::string,std::strin
 */
 void LayerGenerator::dumpLayerHeaders(std::string layer_header_directory)
 {
-	std::cout << "Dumping headers" << std::endl;
+	std::cout << "GENERATOR: Dumping headers" << std::endl;
+    std::cout << "------------------------------------------------" << std::endl;
 	dump(layer_header_directory, include_files, ".h");
 }
 

@@ -162,6 +162,7 @@ class SimpleRNN : public Layer{
     public:
         int units;
         std::string activation;
+        std::string recurrent_activation;
         bool use_bias;
         bool return_sequences;
         bool return_state;

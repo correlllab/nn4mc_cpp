@@ -37,7 +37,6 @@ void HDF5Parser::construct_builder_map(){
 }
 
 void HDF5Parser::parse_weights(){
-      std::cout << "PARSER: parse_weights function" << std::endl;
       const H5std_string FILE_NAME( this->file_name );
       Exception::dontPrint();
       H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
@@ -46,11 +45,10 @@ void HDF5Parser::parse_weights(){
       od_weights.LM = this->layerMap;
       H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
       this->layerMap= od_weights.LM;
-      std::cout << "PARSER: Weights and biases parsed!" << std::endl;
+      std::cout << "PARSER: Weights and biases parsed" << std::endl;
 }
 
 NeuralNetwork* HDF5Parser::get_neural_network(){
-    std::cout << "PARSER: get_neural_network" << std::endl;
     NeuralNetwork* NN = new NeuralNetwork();
     Layer* l = new InputLayer("input_1");
     
@@ -69,7 +67,6 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 
 void HDF5Parser::build_layer_shapes(){
 
-    std::cout << "PARSER: build_layer_shapes" << std::endl;
     if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
         this->layerMap[this->layer_ids[0]]->input_shape = nn_input_shape;
     }
@@ -87,14 +84,12 @@ void HDF5Parser::build_layer_shapes(){
         
         this->layerMap[it->second]->input_shape.push_back(actual_output);
         this->layerMap[it->second]->compute_output_shapes();
-        std::cout << this->layerMap[it->second]->output_shape[0] << std::endl;
     }
 
 }
 
 void HDF5Parser::call_layer_builders(){
         
-        std::cout << "PARSER: call_layer_builders" << std::endl;
         
         int i=0;
         int model_build_size = this->model_config["config"]["build_input_shape"].size();
@@ -123,11 +118,9 @@ void HDF5Parser::call_layer_builders(){
              
             i++;
         }
-    std::cout << "PARSER: call_layer_builders" << std::endl;
 }
 
 void HDF5Parser::build_edges(){
-    std::cout << "PARSER: build_edges" << std::endl;
     // Vector of factories is layerBuilderVector. Not tested yet for non-sequential model
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
@@ -136,7 +129,6 @@ void HDF5Parser::build_edges(){
 }
 
 json HDF5Parser::parse_model_config(){
-    std::cout << "PARSER: parse_model_config" << std::endl; 
       H5File filefile = H5File( this->file_name, H5F_ACC_RDONLY );
       Group what = Group(filefile.openGroup("/"));
       Attribute attr= Attribute(what.openAttribute("model_config"));
@@ -164,7 +156,6 @@ json HDF5Parser::parse_model_config(){
       
       json j_filtered = json::parse(ss, cb);
       
-      std::cout << "PARSER: parse_model_config1" << std::endl;
       
       return j_filtered;
 }
@@ -324,7 +315,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 delete []rbuf; 
 
                 // Create weights:
-                std::cout << s << std::endl;
                 
                 if (s.compare("bias:0") == 0 ){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
@@ -334,7 +324,7 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                     wb->identifier=wb->identifier.append("_W");
                     od->LM[layer_id]->w = wb;
                 }
-                if (s.compare("recurrent_kernel:0") == 0){
+                if (s.compare("recurrent_kernel:0") == 0){ // it's a rec weight
                     wb->identifier = wb->identifier.append("_Wrec");
                     od->LM[layer_id]->w_rec = wb;
                 }    
