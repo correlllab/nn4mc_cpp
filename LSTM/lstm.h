@@ -1,5 +1,5 @@
 
-/********************
+/***************************
     lstm.h
 
     Code generated using nn4mc.
@@ -17,6 +17,9 @@ struct LSTM {
     const float* weights;			// Pointer to constant weight array
 	const float* biases;				// Pointer to constant bias
     
+    float * prev_h;
+    float * prev_c;
+
     int input_shape[2];
     int output_size;
     
@@ -27,7 +30,6 @@ struct LSTM {
     float recurrent_dropout;
 
     bool go_backwards;
-
 };
 
 struct LSTM buildLSTM(const float*, const float *, const float *, int, int , int , char , char, float , float , bool);

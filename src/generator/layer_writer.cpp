@@ -177,7 +177,6 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
     mapping[BIAS_NAME] = layer->b->identifier;
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
-    mapping[RECURRENT_ACTIVATION] = this->activation_lookup[layer->recurrent_activation];
 }
 
 
@@ -194,6 +193,8 @@ void LSTMGenerator::build_map(std::string prev_id){
     mapping[RECURRENT_DROPOUT] = std::to_string(layer->recurrent_dropout);
     mapping[IMPLEMENTATION] = std::to_string(layer->implementation);
     mapping[GO_BACKWARDS] = std::to_string(layer->go_backwards);
+    mapping[INPUT_SHAPE_0] = layer->input_shape[0];
+    mapping[INPUT_SHAPE_1] = layer->input_shape[1];
 }
 
 /*

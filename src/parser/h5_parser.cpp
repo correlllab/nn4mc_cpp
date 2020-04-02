@@ -184,7 +184,6 @@ int HDF5Parser::parse()
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
       std::cout << "-------------------------------------------------" << std::endl;
-   
       return 0;
    }  // end of try block
 
@@ -193,8 +192,7 @@ int HDF5Parser::parse()
        std::cout << e.what() <<  " File probably not found. " << std::endl;
        return -1;
    }
-   
-return 0; 
+   return 0;
 }
 
 herr_t 

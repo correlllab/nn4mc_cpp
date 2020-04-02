@@ -51,7 +51,6 @@ float * fwdDense(struct Dense L, float* input)
 
 		if(L.activation != 0xB)
 			h[i] = activate(h[i],L.output_shape[0],L.activation);
-
 	}
 
     free(input);

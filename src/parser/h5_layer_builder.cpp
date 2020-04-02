@@ -148,6 +148,7 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
 void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     
     json object= obj["config"];
+    std::cout << object << std::endl;
     this->layerObject->identifier.assign(id);
     this->layerObject->units=object["units"];
     this->layerObject->activation.assign(object["activation"].get<std::string>());
@@ -156,8 +157,8 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->return_state = object["return_state"];
     this->layerObject->go_backwards = object["go_backwards"];
     this->layerObject->stateful = object["stateful"];
-    
-    if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
+        
+        if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
            for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
         }
@@ -175,12 +176,6 @@ void FlattenBuilder::create_from_json(json obj, std::string id, std::map<std::st
     this->layerObject->identifier.assign(id);
     layerMap[this->layerObject->identifier] = this->layerObject;
     std::cout<< "LAYER_BUILDER: Flatten Layer " << this->layerObject->identifier << " recognized"<<std::endl;
-    
-   // if (object["batch_input_shape"].size() > 0){ // this layer is the input layer
-   //        for (int i=0; i<object["batch_input_shape"].size() - 1; i++){
-   //             this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
-   //         }
-   // }
 }
 
 
@@ -194,6 +189,8 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
     this->layerObject->dropout = object["dropout"];
     this->layerObject->recurrent_dropout= object["recurrent_dropout"];
     this->layerObject->go_backwards=object["go_backwards"];
+    this->layerObject->recurrent_activation.assign(object["recurrent_activation"].get<std::string>());
+    
     this->layerObject->stateful = object["stateful"];
     this->layerObject->unroll = object["unroll"];
     this->layerObject->reset_after = object["reset_after"];

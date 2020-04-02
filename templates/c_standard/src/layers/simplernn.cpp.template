@@ -20,7 +20,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> recurrent_activation)
+struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation)
 {
 	struct SimpleRNN layer;
 
@@ -32,7 +32,6 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
     layer.input_shape[1] = input_sh1;
     
     layer.activation = activation;
-    layer.recurrent_activation = recurrent_activation;
 
     layer.window_size= output_sh;
     layer.output_shape = output_sh;
@@ -60,8 +59,8 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
             h[j] += *(L.w_rec + i * L.output_shape + j) * L.prev_h[j];
         }
 
-        if (L.recurrent_activation != 0xB)
-            h[j] = activate(h[j], L.output_shape, L.recurrent_activation);
+        if (L.activation != 0xB)
+            h[j] = activate(h[j], L.output_shape, L.activation);
         }
 
         for (int i = 0 ; i < L.output_shape ; i++){ // Actualizing previous hidden
@@ -86,7 +85,7 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0],&<%RECURRENT_WEIGHT_NAME>,  <%BIAS_NAME>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%RECURRENT_ACTIVATION>);
+        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0],&<%RECURRENT_WEIGHT_NAME>[0],<%BIAS_NAME>,<%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
