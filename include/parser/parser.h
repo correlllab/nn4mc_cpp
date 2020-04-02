@@ -3,18 +3,10 @@
 
 #include <iostream>
 #include <string>
-#include <map>
-#include "datastructures/NeuralNetwork.h"
-#include "parser/LayerBuilder.h"
-#include <vector>
-#include <sstream>
-#include "parser/LayerFactory.h"
-#include <nlohmann/json.hpp>
-
-using json= nlohmann::json;
 
 class Parser{
-    // Concrete class for parser obejcts. 
+    // Abstract class for parser obejcts.
+    // Any parser (h5 or picke) should inherit from this
     public: 
             std::string file_format;
             std::string file_name;

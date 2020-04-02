@@ -8,7 +8,7 @@
 #include "datastructures/NeuralNetwork.h"
 #include <vector>
 #include <sstream>
-#include "parser/LayerFactory.h"
+#include "parser/h5_layer_factory.h"
 #include <nlohmann/json.hpp>
 
 #else
@@ -28,10 +28,12 @@
 #endif
 
 #include "H5Cpp.h"
-#include "parser/Parser.h"
+#include "parser/parser.h"
 #include <iomanip>
 #include <sstream>
-#include "parser/LayerBuilder.h"
+#include "parser/h5_layer_builder.h"
+#include "parser/h5_parser_exception.h"
+
 #ifndef H5_NO_NAMESPACE
 
 using namespace H5;

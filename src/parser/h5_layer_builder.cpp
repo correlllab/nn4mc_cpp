@@ -1,4 +1,4 @@
-#include "parser/LayerBuilder.h"
+#include "parser/h5_layer_builder.h"
 #include <string>
 
 void DropoutBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include "parser/HDF5Parser.h"
+#include "parser/h5_parser.h"
 #include "datastructures/tensor.h"
 #include "generator/weight_generator.h"
 #include "datastructures/weights.h"
@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/LSTM.hdf5");
+    HDF5Parser P("../data/simpleRNN.hdf5");
 
     P.parse();
 
@@ -29,7 +29,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../LSTM");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../RNN");
     
     code_gen->generate();
     code_gen->dump();

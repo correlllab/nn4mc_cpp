@@ -1,7 +1,7 @@
 #ifndef __LAYER_FACTORY_H__
 #define __LAYER_FACTORY_H__
 
-#include "parser/LayerBuilder.h"
+#include "parser/h5_layer_builder.h"
 #include <string>
 
 class LayerFactory{

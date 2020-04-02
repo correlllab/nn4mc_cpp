@@ -1,4 +1,4 @@
-#include "parser/HDF5Parser.h"
+#include "parser/h5_parser.h"
 
 int main(){
     HDF5Parser P("../data/weights.best.hdf5");

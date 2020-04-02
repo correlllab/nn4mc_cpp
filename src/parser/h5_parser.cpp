@@ -17,7 +17,7 @@
  * Created on: Thu Feb 07 2019
  * 
  * */
-#include "parser/HDF5Parser.h"
+#include "parser/h5_parser.h"
 
 extern "C" herr_t weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
 extern "C" herr_t network_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata);
@@ -197,24 +197,10 @@ int HDF5Parser::parse()
       return 0;
    }  // end of try block
 
-   catch( FileIException error )
+   catch(FileException &e)
    {
-      return -1;
-   }
-
-   catch( DataSetIException error )
-   {
-      return -1;
-   }
-
-   catch( DataSpaceIException error )
-   {
-      return -1;
-   }
-
-   catch( AttributeIException error )
-   {
-      return -1;
+       std::cout << e.what() <<  " File probably not found. " << std::endl;
+       return -1;
    }
    
 return 0; 
