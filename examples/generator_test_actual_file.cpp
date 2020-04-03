@@ -29,7 +29,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../GRU");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/GRU");
     
     code_gen->generate();
     code_gen->dump();

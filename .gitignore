@@ -8,7 +8,7 @@
 /cmake-build-*/
 /sandbox/
 /example_usage_esp32/
-
+/output_files/
 
 ### CMake ###
 CMakeCache.txt
