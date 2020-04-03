@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/GRU.hdf5");
+    HDF5Parser P("../data/Conv1.hdf5");
 
     P.parse();
 
@@ -29,7 +29,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/GRU");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/Conv1");
     
     code_gen->generate();
     code_gen->dump();

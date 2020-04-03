@@ -136,7 +136,9 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[LAYER_NAME] = layer->identifier;
     mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
-
+    
+    mapping[DILATION_RATE] = std::to_string(layer->dilation_rate);
+    
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
     
@@ -161,6 +163,9 @@ void Conv2DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
     mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
     
+    mapping[DILATION_RATE_0] = std::to_string(layer->dilation_rate[0]);
+    mapping[DILATION_RATE_1] = std::to_string(layer->dilation_rate[1]);
+
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);

@@ -90,8 +90,10 @@ class Conv2DGenerator : public LayerWriter{
 
         std::string PADDING = "<%PADDING>"; 
         std::string DATA_FORMAT = "<%DATA_FORMAT>";
-        std::string DILATION_RATE = "<%DILATION_RATE>";
-
+        
+        std::string DILATION_RATE_0 = "<%DILATION_RATE_0>";
+        std::string DILATION_RATE_1 = "<%DILATION_RATE_1>";        
+        
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>";

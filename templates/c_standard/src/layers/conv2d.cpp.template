@@ -16,8 +16,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER>
-activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format)
+struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format, <%INDEX_DATATYPE_DELIMITER> dilation_rate_0, <%INDEX_DATATYPE_DELIMITER> dilation_rate_1)
 {
 	struct Conv2D layer;
 
@@ -30,12 +29,15 @@ activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELI
 	layer.weight_shape[3] = filters;
 
     layer.filters = filters;
-    layer.activation= activation;
+    layer.activation = activation;
     layer.padding = padding;
     layer.data_format = data_format;
 
     layer.kernel_shape[0] = kernel_shape_0;
     layer.kernel_shape[1] = kernel_shape_1;
+   
+    layer.dilation_rate[0] = dilation_rate_0;
+    layer.dilation_rate[1] = dilation_rate_1;
 
 	layer.strides[0] = strides_0;				// NOTE: NOT YET IMPLEMENTED
 	layer.strides[1] = strides_1;
@@ -55,6 +57,13 @@ activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELI
 <%LAYER_DATATYPE_DELIMITER>* fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
+
+    if (L.padding == 0x02){
+                
+
+    }
+
+
      <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1]*L.output_shape[2] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
 	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
@@ -66,7 +75,6 @@ activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELI
 				int output_idx = i * L.output_shape[1] * L.output_shape[2] + j * L.output_shape[2] + k;
 
 				h[output_idx] = L.bias[k];
-
 
 				for(<%INDEX_DATATYPE_DELIMITER> kernel_position_x = 0; kernel_position_x < L.kernel_shape[0]; kernel_position_x++)
 				{
@@ -105,7 +113,7 @@ activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELI
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>);
+        <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>,<%DILATION_RATE_0>, <%DILATION_RATE_1>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
