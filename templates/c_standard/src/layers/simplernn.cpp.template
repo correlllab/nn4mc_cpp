@@ -20,7 +20,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMITER> * Wrec, <%WEIGHT_DATATYPE_DELIMITER> * b, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> output_sh, <%ACTIVATION_DATATYPE_DELIMITER> activation, bool go_backwards)
 {
 	struct SimpleRNN layer;
 
@@ -35,15 +35,30 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 
     layer.window_size= output_sh;
     layer.output_shape = output_sh;
-   
+    layer.go_backwards = go_backwards; 
+    
     layer.prev_h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
     for (int i=0; i<L.output_shape; i++) L.prev_h[i] = 0.0;
 
 	return layer;
 }
 
+void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
+    while(start < end){
+        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
+        x[start] = x[end];
+        x[end] = temp;
+        start++;
+        end--;
+    }   
+}
+
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
+    if (layer.go_backwards){
+        reverseInput(x, 0, L.input_shape[0]*L.input_shape[1] - 1);    
+    }  
+
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
     <%LAYER_DATATYPE_DELIMITER> * y = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
        
@@ -85,7 +100,7 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 <%END_DEFINITION_TEMPLATE>
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0],&<%RECURRENT_WEIGHT_NAME>[0],<%BIAS_NAME>,<%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildSimpleRNN(&<%WEIGHT_NAME>[0],&<%RECURRENT_WEIGHT_NAME>[0],<%BIAS_NAME>,<%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%OUTPUT_SIZE>, <%ACTIVATION>, <%GO_BACKWARDS>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

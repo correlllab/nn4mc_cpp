@@ -184,6 +184,7 @@ class GRU: public Layer{
         bool use_bias;
         float dropout;
         float recurrent_dropout;
+        int implementation;
         bool go_backwards;
         bool stateful;
         bool unroll;

@@ -125,6 +125,7 @@ class SimpleRNNGenerator : public LayerWriter{
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";
+        std::string GO_BACKWARDS = "<%GO_BACKWARDS>";
 
         SimpleRNN* layer;
         SimpleRNNGenerator(SimpleRNN* layer, std::string init){
@@ -164,6 +165,34 @@ class LSTMGenerator : public LayerWriter{
     void build_map(std::string);
 };
 
+
+class GRUGenerator : public LayerWriter{
+     
+    public:
+        std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
+        std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        
+        std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
+
+        std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
+        std::string RECURRENT_WEIGHT_NAME = "<%RECURRENT_WEIGHT_NAME>";
+
+        std::string BIAS_NAME = "<%BIAS_NAME>";
+        std::string ACTIVATION = "<%ACTIVATION>"; 
+        std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";
+        std::string USE_BIAS = "<%USE_BIAS>";
+        std::string DROPOUT = "<%DROPOUT>";
+        std::string RECURRENT_DROPOUT = "<%RECURRENT_DROPOUT>";
+        std::string IMPLEMENTATION = "<%IMPLEMENTATION>";
+        std::string GO_BACKWARDS = "<%GO_BACKWARDS>";
+
+        GRU* layer;
+        GRUGenerator(GRU* layer, std::string init){
+            this->layer = layer; 
+            this->init_template.assign(init);
+        }
+    void build_map(std::string);
+};
 
 /*class FlattenGenerator : public LayerWriter{
     public:

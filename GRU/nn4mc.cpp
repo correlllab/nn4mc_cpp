@@ -17,7 +17,7 @@
 void buildLayers(){
 
    
-        lstm = buildLSTM(&lstm_W[0], &lstm_Wrec[0], lstm_b, 1, 10, 7, 0x07, 0x09, 0.000000, 0.000000, 0);
+        gru = buildGRU();
 
         dense = buildDense(&dense_W[0], dense_b, 1, 8, 0x06);
 
@@ -31,7 +31,7 @@ float * fwdNN(float* data)
 {
 
    
-        data = fwdLSTM(lstm, data);
+        data = fwdGRU(gru, data);
 
         data = fwdDense(dense, data);
 

@@ -16,7 +16,8 @@ struct LSTM {
     // Weights and biases defining the layer
     <%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array
 	<%WEIGHT_DATATYPE_DELIMITER>* biases;				// Pointer to constant bias
-    
+    <%WEIGHT_DATATYPE_DELIMITER>* wrec;
+
     <%LAYER_DATATYPE_DELIMITER> * prev_h;
     <%LAYER_DATATYPE_DELIMITER> * prev_c;
 

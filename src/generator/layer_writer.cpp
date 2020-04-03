@@ -14,14 +14,17 @@
 LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
 {
 
-    // TODO: Dynamic instantiation needs factory using this software arch
+    // TODO: Dynamic instantiation needs factory using this software arch; although this works
 
   if (Activation* ptr = dynamic_cast<Activation*>(layer))
       return new ActivationGenerator(ptr, init_string);
 
   if(LSTM* ptr = dynamic_cast<LSTM*>(layer))
       return new LSTMGenerator(ptr, init_string);
-
+  
+  if(GRU* ptr = dynamic_cast<GRU*>(layer))
+      return new GRUGenerator(ptr, init_string);
+  
   if(Conv1D* ptr = dynamic_cast<Conv1D*>(layer))
     return new Conv1DGenerator(ptr, init_string);
 
@@ -175,6 +178,7 @@ void SimpleRNNGenerator::build_map(std::string prev_id){
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[RECURRENT_WEIGHT_NAME] = layer->w_rec->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
+    mapping[GO_BACKWARDS] = std::to_string(layer->go_backwards);
     this->build_activation_lookup();    
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
@@ -197,6 +201,22 @@ void LSTMGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
 }
 
+void GRUGenerator::build_map(std::string prev_id){
+    mapping[LAYER_NAME] = layer->identifier;
+    mapping[OUTPUT_SIZE] = std::to_string(layer->units);
+    mapping[WEIGHT_NAME] = layer->w->identifier;
+    mapping[RECURRENT_WEIGHT_NAME] = layer->w_rec->identifier;
+    mapping[BIAS_NAME] = layer->b->identifier;
+    this->build_activation_lookup();    
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
+    mapping[RECURRENT_ACTIVATION] = this->activation_lookup[layer->recurrent_activation];
+    mapping[DROPOUT] = std::to_string(layer->dropout);
+    mapping[RECURRENT_DROPOUT] = std::to_string(layer->recurrent_dropout);
+    mapping[IMPLEMENTATION] = std::to_string(layer->implementation);
+    mapping[GO_BACKWARDS] = std::to_string(layer->go_backwards);
+    mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
+    mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
+}
 /*
 void FlattenGenerator::build_map(std::string prev_id){
    mapping[LAYER_ID] = layer->identifier;
