@@ -68,42 +68,54 @@ void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-    <%LAYER_DATATYPE_DELIMITER> * forget_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * input_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * cell_state = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-   <%LAYER_DATATYPE_DELIMITER> * output_gate = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * f = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * ig = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * c = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * og = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
    for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_size; i++){
-        <%INDEX_DATATYPE_DELIMITER> ind_f = i + L.output_size;
+        
         <%INDEX_DATATYPE_DELIMITER> ind_i = i;
-        <%INDEX_DATATYPE_DELIMITER> ind_o = 3*L.output_size + i;
-        <%INDEX_DATATYPE_DELIMITER> ind_c = 2*L.output_size + i;
-        forget_gate[i] = L.b[ind_f];
-        input_gate[i] = L.b[ind_i];
-        cell_state[i] = L.b[ind_c];
-        output_gate[i] = L.b[ind_o];
-       for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[0]*L.input_shape[1]; j++){
-            forget_gate[i] += *(L.weights + ind_f*(4*L.output_size) + j)*x[j] + *(L.wrec + (j+L.output_size)*(4*L.output_size))*L.prev_h[j]; 
-            input_gate[i] += *(L.weights + ind_i*(4*L.output_size) + j)*x[j] + *(L.wrec + i*(4*L.output_size))*L.prev_h[i];
-            cell_state[i] += *(L.weights + ind_c*(4*L.output_size + j))* x[j] + *(L.wrec + ()*4*L.output_size)*L.prev[j];
-            output_state[i] += *(L.weights + ind_o*(4*L.output_size + j))* x[j] + *(L.wrec + ()*4*L.output_size)*L.prev[j];
+        <%INDEX_DATATYPE_DELIMITER> ind_f = i + L.output_size;
+        <%INDEX_DATATYPE_DELIMITER> ind_o = i + 3*L.output_size;
+        <%INDEX_DATATYPE_DELIMITER> ind_c = i + 2*L.output_size;
+        
+        f[i]  = L.biases[ind_f];
+        ig[i] = L.biases[ind_i];
+        c[i]  = L.biases[ind_c];
+        og[i] = L.biases[ind_o];
+       
+      for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[0]*L.input_shape[1]; j++){
+       
+           f[i] += *(L.weights + ind_f*L.output_size + j)*x[j];  
+           ig[i]+= *(L.weights + ind_i*L.output_size + j)*x[j];
+           c[i] += *(L.weights + ind_c*L.output_size + j)*x[j]; 
+           og[i]+= *(L.weights + ind_o*L.output_size + j)*x[j];
        }
 
-    forget_gate[i] = activate(forget_gate[i], L.output_size, L.recurrent_activation);
-    output_gate[i] = activate(output_gate[i], L.output_size, L.recurrent_activation);
-    input_gate[i] = activate(input_gate[i], L.output_size, L.recurrent_activation);
-    cell_state[i] = activate(cell_state[i], L.output_size, L.activation);
+      for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_size; j++){
+            f[i]+= *(L.wrec + ind_f*L.output_size + j)*L.prev_h[j];
+            ig[i]+= *(L.wrec + ind_i*L.output_size+j)*L.prev[j];
+            c[i] += *(L.wrec + ind_c*L.output_size+j)*L.prev[j];
+            og[i]+= *(L.wrec + ind_o*L.output_size+j)*L.prev[j];
+       }
+     }
+      
+      for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_size; j++){
+            f[j] = activate(f[j], L.output_size, L.recurrent_activation);
+            ig[j]= activate(ig[j], L.output_size, L.recurrent_activation);
+            c[j] = activate(c[j], L.output_size, L.activation);
+            og[j]= activate(c[j], L.output_size, L.recurrent_activation);
+       }
 
-     h[i] = output_gate[i] * activate(forget_gate[i]*prev_c[i] + input_gate[i] * cell_state[i], L.output_size, L.activation ) ;
-    
-    L.prev_c[i] = forget_gate[i]*prev_c[i] + input_gate[i] * cell_state[i];
-    L.prev_h[i] = h[i];
-   }  
-    
-    free(forget_gate);
-    free(input_gate);
-    free(cell_state);
-    free(output_gate);
+      for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_size; j++){
+            h[j] = og[j] * activate(f[j]*L.prev_c[j] + ig[j]*c[j], L.output_size, L.activation);
+       } 
+
+    free(f);
+    free(ig);
+    free(c);
+    free(og);
     free(x);
     
     return h;

@@ -68,35 +68,35 @@ void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
     <%LAYER_DATATYPE_DELIMITER> * hh = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
     for (int i=0; i< L.output_size; i++){
-        int_z = i;
-        int_r = 1*L.output_size + i;
-        int_h = 2*L.output_size + i;
+        <%INDEX_DATATYPE_DELIMITER> int_z = i;
+        <%INDEX_DATATYPE_DELIMITER> int_r = 1*L.output_size + i;
+        <%INDEX_DATATYPE_DELIMTIER> int_h = 2*L.output_size + i;
 
         z[i] = L.biases[int_z];
         r[i] = L.biases[int_r];
         hh[i] = L.biases[int_h];
 
-       for (int j=0; j< L.input_shape[0]*L.input_shape[1]; j++){
-            z[i]+= *(L.weights + ind_z*L.output_shape + j)*input[j];
-            r[i]+= *(L.weights + ind_r*L.output_shape + j)*input[j];
-            hh[i]+= *(L.weights + ind_h*L.output_shape + j)*input[j];
+       for (<%INDEX_DATATYPE_DELIMITER> j=0; j< L.input_shape[0]*L.input_shape[1]; j++){
+            z[i]+= *(L.weights + ind_z*L.output_size + j)*input[j];
+            r[i]+= *(L.weights + ind_r*L.output_size + j)*input[j];
+            hh[i]+= *(L.weights + ind_h*L.output_size + j)*input[j];
        }
 
-       for (int j=0; j<L.output_size; j++){
+       for (<%INDEX_DATATYPE_DELIMITER> j=0; j<L.output_size; j++){
             z[i]+= *(L.wrec + ind_z*L.output_size + j) * L.prev_h[j];
             r[i]+= *(L.wrec + ind_r*L.output_size + j) * L.prev_h[j];
        }
 
-       for (int j=0;j<L.output_size;j++){
+       for (<%INDEX_DATATYPE_DELIMITER> j=0;j<L.output_size;j++){
             z[i] = activate(z[i], L.output_size, L.recurrent_activation);
             r[i] = activate(r[i], L.output_size, L.recurrent_activation);
        }
 
-       for (int j=0; j<L.output_size; j++){
+       for (<%INDEX_DATATYPE_DELIMITER> j=0; j<L.output_size; j++){
             hh[i]+= *(L.wrec + ind_h*L.output_shape + j) *(r[j]*L.prev_h[j]);
        }
 
-      for (int j=0; j<L.output_size; j++){
+      for (<%INDEX_DATATYPE_DELIMITER> j=0; j<L.output_size; j++){
             hh[i]= activate(hh[i], L.output_shape, L.activation);
             h[i] = z[i]*L.prev_h[i] + (1 - z[i]) * hh[i];
             L.prev_h[i] = h[i];
