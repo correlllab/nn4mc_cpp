@@ -148,7 +148,6 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
 void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     
     json object= obj["config"];
-    std::cout << object << std::endl;
     this->layerObject->identifier.assign(id);
     this->layerObject->units=object["units"];
     this->layerObject->activation.assign(object["activation"].get<std::string>());
@@ -201,7 +200,7 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i + 1]);
             }
     }    
-    std::cout << "LAYER: Builder: GRU Layer " << this->layerObject->identifier << " recognized" << std::endl;
+    std::cout << "LAYER_BUILDER: GRU Layer " << this->layerObject->identifier << " recognized" << std::endl;
 }
 
 void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){

@@ -47,6 +47,18 @@ LayerWriter* LayerWriter::make_writer(Layer* layer, std::string init_string)
     return NULL;
 }
 
+void LayerWriter::build_padding_lookup(){
+
+    this->padding_lookup["valid"] = "0x00";
+    this->padding_lookup["causal"]= "0x02";
+    this->padding_lookup["same"] = "0x03";
+}
+
+void LayerWriter::build_dataformat_lookup(){
+
+    this->dataformat_lookup["channels_last"] = "0x00";
+    this->dataformat_lookup["channels_first"]= "0x02";
+}
 
 void LayerWriter::build_activation_lookup(){
 
@@ -122,27 +134,33 @@ void ActivationGenerator::build_map(std::string prev_id){
 void Conv1DGenerator::build_map(std::string prev_id){
 
     mapping[LAYER_NAME] = layer->identifier;
-
     mapping[KERNEL_SIZE] = std::to_string(layer->kernel_size[0]);
     mapping[STRIDE_SIZE] = std::to_string(layer->strides);
 
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
+    
     this->build_activation_lookup();    
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation];
+    this->build_padding_lookup();
+    this->build_dataformat_lookup();
 
+    mapping[ACTIVATION] = this->activation_lookup[layer->activation];
+    mapping[PADDING] = this->padding_lookup[layer->padding];
+    mapping[DATA_FORMAT] = this->dataformat_lookup[layer->data_format];
+    
     mapping[WEIGHT_NAME]= layer->w->identifier;
     mapping[BIAS_NAME]= layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);
-    mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void Conv2DGenerator::build_map(std::string prev_id){
-    //TODO
+    
     mapping[LAYER_NAME] = layer->identifier;
+    
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
     mapping[INPUT_SHAPE_2] = std::to_string(layer->input_shape[2]);
+    
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;
     mapping[FILTERS] = std::to_string(layer->filters);
@@ -152,14 +170,19 @@ void Conv2DGenerator::build_map(std::string prev_id){
 
     mapping[KERNEL_SHAPE_0] = std::to_string(layer->kernel_size[0]);
     mapping[KERNEL_SHAPE_1] = std::to_string(layer->kernel_size[1]);
+    
     this->build_activation_lookup();
+    this->build_padding_lookup();
+    this->build_dataformat_lookup();
+    
+    mapping[PADDING] = this->padding_lookup[layer->padding];
+    mapping[DATA_FORMAT] = this->dataformat_lookup[layer->data_format];
     mapping[ACTIVATION] = this->activation_lookup[layer->activation]; 
 }
 
 void DenseGenerator::build_map(std::string prev_id){
     
     mapping[LAYER_NAME] = layer->identifier;
-
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
     
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
@@ -217,11 +240,6 @@ void GRUGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]);
 }
-/*
-void FlattenGenerator::build_map(std::string prev_id){
-   mapping[LAYER_ID] = layer->identifier;
-   mapping[PREVIOUS_LAYER_ID] = prev_id;
-}*/
 
 void MaxPooling1DGenerator::build_map(std::string prev_id){
 

@@ -183,7 +183,6 @@ int HDF5Parser::parse()
       this->parse_weights();
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
-      std::cout << "-------------------------------------------------" << std::endl;
       return 0;
    }  // end of try block
 

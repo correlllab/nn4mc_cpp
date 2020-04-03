@@ -22,10 +22,10 @@ int main()
 
     NeuralNetwork::iterator it;
 
-    for(it = NN->begin(); it != NN->end(); it++)
+    /*for(it = NN->begin(); it != NN->end(); it++)
     {
       std::cout << it->layer->layer_type << std::endl;
-    }
+    }*/
 
     NN->reset();
 

@@ -16,7 +16,8 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER> activation)
+struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_shape_0, <%INDEX_DATATYPE_DELIMITER> kernel_shape_1, <%INDEX_DATATYPE_DELIMITER> filters, <%INDEX_DATATYPE_DELIMITER> strides_0, <%INDEX_DATATYPE_DELIMITER> strides_1, <%INDEX_DATATYPE_DELIMITER> input_shape_0,<%INDEX_DATATYPE_DELIMITER> input_shape_1,<%INDEX_DATATYPE_DELIMITER> input_shape_2, <%ACTIVATION_DATATYPE_DELIMITER>
+activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format)
 {
 	struct Conv2D layer;
 
@@ -30,6 +31,9 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
     layer.filters = filters;
     layer.activation= activation;
+    layer.padding = padding;
+    layer.data_format = data_format;
+
     layer.kernel_shape[0] = kernel_shape_0;
     layer.kernel_shape[1] = kernel_shape_1;
 
@@ -101,7 +105,7 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>);
+        <%LAYER_NAME> = buildConv2D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SHAPE_0>, <%KERNEL_SHAPE_1>, <%FILTERS>, <%STRIDE_SHAPE_0>, <%STRIDE_SHAPE_1>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%INPUT_SHAPE_2>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

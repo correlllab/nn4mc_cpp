@@ -21,7 +21,9 @@ class LayerWriter{
     public:
         std::string init_template;
         std::map<std::string, std::string> activation_lookup;
-        
+        std::map<std::string, std::string> padding_lookup;
+        std::map<std::string, std::string> dataformat_lookup;
+
         static LayerWriter* make_writer(Layer*, std::string);
         std::string write_init();
         std::map<std::string, std::string> mapping;
@@ -30,6 +32,8 @@ class LayerWriter{
 
 
         void build_activation_lookup();
+        void build_padding_lookup();
+        void build_dataformat_lookup();
         std::string LAYER_NAME = "<%LAYER_NAME>";
 };
 
@@ -50,6 +54,9 @@ class Conv1DGenerator : public LayerWriter{
 
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
+        std::string PADDING = "<%PADDING>"; 
+        std::string DATA_FORMAT = "<%DATA_FORMAT>";
+        std::string DILATION_RATE = "<%DILATION_RATE>";
 
         std::string STRIDE_SIZE = "<%STRIDE_SIZE>";
         std::string KERNEL_SIZE = "<%KERNEL_SIZE>";
@@ -80,6 +87,10 @@ class Conv2DGenerator : public LayerWriter{
         
         std::string STRIDE_SHAPE_0= "<%STRIDE_SHAPE_0>";
         std::string STRIDE_SHAPE_1= "<%STRIDE_SHAPE_1>";
+
+        std::string PADDING = "<%PADDING>"; 
+        std::string DATA_FORMAT = "<%DATA_FORMAT>";
+        std::string DILATION_RATE = "<%DILATION_RATE>";
 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
@@ -194,22 +205,6 @@ class GRUGenerator : public LayerWriter{
     void build_map(std::string);
 };
 
-/*class FlattenGenerator : public LayerWriter{
-    public:
-        std::string BEGIN_CALL_TEMPLATE= "<%BEGIN_CALL_TEMPLATE>";
-        std::string END_CALL_TEMPLATE= "<%END_CALL_TEMPLATE>";
-        std::string LAYER_ID= "<%LAYER_ID>";
-        std::string INPUT_SIZE_0 = "<%INPUT_SIZE_0>";
-        std::string INPUT_SIZE_1 = "<%INPUT_SIZE_1>";
-        std::string PREVIOUS_LAYER_ID = "<%PREVIOUS_LAYER_ID>";
-
-        Flatten* layer;
-        FlattenGenerator(Flatten* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
-
-    void build_map(std::string);
-
-};
-*/
 class MaxPooling1DGenerator : public LayerWriter{
     public:
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
