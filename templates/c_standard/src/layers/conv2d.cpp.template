@@ -57,9 +57,8 @@ struct Conv2D buildConv2D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 <%LAYER_DATATYPE_DELIMITER>* fwdConv2D(struct Conv2D L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
-
     if (L.padding == 0x02){
-                
+            // TODO             
 
     }
 
