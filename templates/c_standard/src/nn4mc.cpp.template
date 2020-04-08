@@ -9,7 +9,7 @@
 */
 
 #ifdef __cplusplus
-#extern "C" {
+extern "C" {
 
 #include "neural_network.h"
 #include <stdlib.h>

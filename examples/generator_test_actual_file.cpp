@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/Conv1.hdf5");
+    HDF5Parser P("../data/LSTM.hdf5");
 
     P.parse();
 
@@ -29,7 +29,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/Conv1");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/LSTM");
     
     code_gen->generate();
     code_gen->dump();

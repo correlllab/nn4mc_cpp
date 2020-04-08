@@ -257,7 +257,11 @@ void MaxPooling1DGenerator::build_map(std::string prev_id){
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
     mapping[POOL_SIZE] = std::to_string(layer->pool_size);
     mapping[STRIDES] = std::to_string(layer->strides);
-
+    
+    this->build_padding_lookup();
+    this->build_dataformat_lookup();
+    mapping[PADDING] = this->padding_lookup[layer->padding];
+    mapping[DATA_FORMAT] = this->dataformat_lookup[layer->data_format];
 }
 
 void MaxPooling2DGenerator::build_map(std::string prev_id){
@@ -273,4 +277,8 @@ void MaxPooling2DGenerator::build_map(std::string prev_id){
     mapping[OUTPUT_SHAPE_0] = std::to_string(layer->output_shape[0]);
     mapping[OUTPUT_SHAPE_1] = std::to_string(layer->output_shape[1]);
     mapping[OUTPUT_SHAPE_2] = std::to_string(layer->output_shape[2]);
+    this->build_padding_lookup();
+    this->build_dataformat_lookup();
+    mapping[PADDING] = this->padding_lookup[layer->padding];
+    mapping[DATA_FORMAT] = this->dataformat_lookup[layer->data_format];
 }

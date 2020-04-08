@@ -217,6 +217,8 @@ class MaxPooling1DGenerator : public LayerWriter{
         
         std::string STRIDES = "<%STRIDES>";
         std::string POOL_SIZE = "<%POOL_SIZE>";
+        std::string PADDING = "<%PADDING>";
+        std::string DATA_FORMAT ="<%DATA_FORMAT>";
 
         MaxPooling1D* layer;
         MaxPooling1DGenerator(MaxPooling1D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
@@ -239,7 +241,10 @@ class MaxPooling2DGenerator : public LayerWriter{
         std::string OUTPUT_SHAPE_0= "<%OUTPUT_SHAPE_0>";
         std::string OUTPUT_SHAPE_1= "<%OUTPUT_SHAPE_1>";
         std::string OUTPUT_SHAPE_2= "<%OUTPUT_SHAPE_2>";
-
+        
+        std::string PADDING = "<%PADDING>";
+        std::string DATA_FORMAT ="<%DATA_FORMAT>";
+        
         MaxPooling2D* layer;
         MaxPooling2DGenerator(MaxPooling2D* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 
