@@ -14,18 +14,13 @@
 int main()
 {
 
-    HDF5Parser P("../data/LSTM.hdf5");
+    HDF5Parser P("../data/GRU.hdf5");
 
     P.parse();
 
     NeuralNetwork* NN = P.get_neural_network();
 
     NeuralNetwork::iterator it;
-
-    /*for(it = NN->begin(); it != NN->end(); it++)
-    {
-      std::cout << it->layer->layer_type << std::endl;
-    }*/
 
     NN->reset();
 

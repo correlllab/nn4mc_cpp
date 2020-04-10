@@ -20,7 +20,7 @@ const <%WEIGHT_DATATYPE> <%WEIGHT_NAME><%WEIGHT_INDEX> = <%DATA>;
 <%END_TEMPLATE>
 
 #ifdef __cplusplus
-}
+//}
 
 #endif
 #endif
