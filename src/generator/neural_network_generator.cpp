@@ -92,6 +92,8 @@ void NNGenerator::addLayer_Header(Layer* layer)
     TYPE["conv1d"] = "Conv1D";
     TYPE["dense"] = "Dense";
     TYPE["conv2d"] = "Conv2D";
+    TYPE["lstm"] = "LSTM";
+    TYPE["gru"] = "GRU";
     TYPE["maxpool1d"] = "MaxPooling1D";
     TYPE["maxpool2d"] = "MaxPooling2D";
     TYPE["activation"] = "Activation";
