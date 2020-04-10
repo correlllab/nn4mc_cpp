@@ -56,31 +56,32 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
     if (L.padding == 0x02){ // padding is causal
         int left_pad = L.dilation_rate * (L.kernel_shape[0] - 1);
         input_size += left_pad;
-        <%LAYER_DATATYPE_DELIMITER>* new_input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-        for (int i = 0; i< L.input_size; i++) new_input[i] = 0.0;
+        <%LAYER_DATATYPE_DELIMITER>* new_input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+        for (int i = 0; i< input_size; i++) new_input[i] = 0.0;
         for (int i = 0; i<input_size - left_pad; i++) new_input[i+left_pad] = input[i];
         free(input);
-        <%LAYER_DATATYPE_DELIMITER>* input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-        for (i =0; i<L.input_size ; i++ ) input[i] = new_input[i];
+        <%LAYER_DATATYPE_DELIMITER>* input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+        for (int i =0; i<input_size ; i++ ) input[i] = new_input[i];
         free(new_input);
-        L.input_shape[0] = L.input_size;  
+        L.input_shape[0] = input_size;  
         L.output_shape[0] = (int)((L.input_shape[0] - L.kernel_shape[0])/L.strides + 1);
     }
-    
+     
     if (L.padding == 0x03){ // padding is same
+        int pad;
         if (L.output_shape[0]*L.output_shape[1] > L.input_shape[0]*L.input_shape[0]){
-            int pad = L.output_shape[0]*L.output_shape[1] - L.input_shape[0]*L.input_shape[0];
+            pad = L.output_shape[0]*L.output_shape[1] - L.input_shape[0]*L.input_shape[0];
         }
-        L.input_size += pad;
-        <%LAYER_DATATYPE_DELIMITER>* new_input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-        for (int i = 0; i< L.input_size; i++) new_input[i] = 0.0;
+        input_size += pad;
+        <%LAYER_DATATYPE_DELIMITER>* new_input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+        for (int i = 0; i< input_size; i++) new_input[i] = 0.0;
 
-        for (int i=0; i< L.input_size - pad; i++) new_input[i+pad] = input[i]; 
+        for (int i=0; i< input_size - pad; i++) new_input[i+pad] = input[i]; 
         free(input);
-        <%LAYER_DATATYPE_DELIMITER>* input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-        for (i =0; i < L.input_size ; i++) input[i] = new_input[i];
+        <%LAYER_DATATYPE_DELIMITER>* input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(input_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+        for (int i =0; i < input_size ; i++) input[i] = new_input[i];
         free(new_input);
-        L.input_shape[0] = L.input_size;
+        L.input_shape[0] = input_size;
         L.output_shape[0] = (int)((L.input_shape[0] - L.kernel_shape[0])/L.strides + 1);
     }
 

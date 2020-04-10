@@ -14,7 +14,7 @@
 int main()
 {
 
-    HDF5Parser P("../data/GRU.hdf5");
+    HDF5Parser P("../data/Conv1.hdf5");
 
     P.parse();
 
