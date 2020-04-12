@@ -91,13 +91,48 @@ except AttributeError:
 
 
 
-def buildLayers():
-    return _example.buildLayers()
-buildLayers = _example.buildLayers
+def activate(input, output_shape, type):
+    return _example.activate(input, output_shape, type)
+activate = _example.activate
 
-def fwdNN(data):
-    return _example.fwdNN(data)
-fwdNN = _example.fwdNN
+def sigmoid(input):
+    return _example.sigmoid(input)
+sigmoid = _example.sigmoid
+
+def softplus(input):
+    return _example.softplus(input)
+softplus = _example.softplus
+
+def softsign(input):
+    return _example.softsign(input)
+softsign = _example.softsign
+
+def hard_sigmoid(input):
+    return _example.hard_sigmoid(input)
+hard_sigmoid = _example.hard_sigmoid
+
+def exponential(input):
+    return _example.exponential(input)
+exponential = _example.exponential
+
+def relu(input):
+    return _example.relu(input)
+relu = _example.relu
+
+def hyper_tan(input):
+    return _example.hyper_tan(input)
+hyper_tan = _example.hyper_tan
+
+def softmax(input, output_shape):
+    return _example.softmax(input, output_shape)
+softmax = _example.softmax
 # This file is compatible with both classic and new-style classes.
 
+cvar = _example.cvar
+conv2d_W = cvar.conv2d_W
+conv2d_b = cvar.conv2d_b
+dense_W = cvar.dense_W
+dense_b = cvar.dense_b
+dense_1_W = cvar.dense_1_W
+dense_1_b = cvar.dense_1_b
 

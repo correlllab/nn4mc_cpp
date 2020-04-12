@@ -20,7 +20,8 @@ df.head()
 values=df.values
 train,test = values[0:Tp,:], values[Tp:N,:]
 
-step = 10
+step = 12
+
 # add step elements into train and test
 test = np.append(test,np.repeat(test[-1,],step))
 train = np.append(train,np.repeat(train[-1,],step))
@@ -36,21 +37,22 @@ def convertToMatrix(data, step):
 trainX,trainY = convertToMatrix(train,step)
 testX, testY  = convertToMatrix(test,step)
 
-trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
-testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
+trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1] ,1))
+testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1], 1))
 
 model = tf.keras.Sequential([
-            tf.keras.layers.Conv1D(filters=7, kernel_size = 3, padding = 'same', input_shape = (trainX.shape[1], trainX.shape[2])),
+            tf.keras.layers.Conv2D(filters=7, kernel_size = (1, 1), input_shape = (trainX.shape[1], trainX.shape[2], trainX.shape[3])),
+            tf.keras.layers.Flatten(),
             tf.keras.layers.Dense(8, activation="relu"),
             tf.keras.layers.Dense(1)])
 
 model.compile(loss='mean_squared_error', optimizer='rmsprop')
-model.fit(trainX,trainY, epochs=100, batch_size=16, verbose=2)
+model.fit(trainX,trainY, epochs = 100, batch_size = 16, verbose=2)
 
 print(model.summary())
 print(model.layers[0].input_shape)
 
-model.save('Conv1.hdf5')
+model.save('Conv2.hdf5')
 
 trainPredict = model.predict(trainX)
 testPredict= model.predict(testX)

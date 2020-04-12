@@ -11,6 +11,8 @@
 #ifndef __LSTM_H__
 #define __LSTM_H__
 
+#include <stdbool.h>
+
 struct LSTM {
 	
     // Weights and biases defining the layer

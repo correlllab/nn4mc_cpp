@@ -15,6 +15,30 @@
 
 #define SWIG_PYTHON_DIRECTOR_NO_VTABLE
 
+
+#ifdef __cplusplus
+/* SwigValueWrapper is described in swig.swg */
+template<typename T> class SwigValueWrapper {
+  struct SwigMovePointer {
+    T *ptr;
+    SwigMovePointer(T *p) : ptr(p) { }
+    ~SwigMovePointer() { delete ptr; }
+    SwigMovePointer& operator=(SwigMovePointer& rhs) { T* oldptr = ptr; ptr = 0; delete oldptr; ptr = rhs.ptr; rhs.ptr = 0; return *this; }
+  } pointer;
+  SwigValueWrapper& operator=(const SwigValueWrapper<T>& rhs);
+  SwigValueWrapper(const SwigValueWrapper<T>& rhs);
+public:
+  SwigValueWrapper() : pointer(0) { }
+  SwigValueWrapper& operator=(const T& t) { SwigMovePointer tmp(new T(t)); pointer = tmp; return *this; }
+  operator T&() const { return *pointer.ptr; }
+  T *operator&() { return pointer.ptr; }
+};
+
+template <typename T> T SwigValueInit() {
+  return T();
+}
+#endif
+
 /* -----------------------------------------------------------------------------
  *  This section contains generic SWIG labels for method/variable
  *  declarations/attributes, and other compiler dependent labels.
@@ -3013,8 +3037,81 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #define SWIG_VERSION SWIGVERSION
 
 
-#define SWIG_as_voidptr(a) (void *)((const void *)(a)) 
-#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
+#define SWIG_as_voidptr(a) const_cast< void * >(static_cast< const void * >(a)) 
+#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a)) 
+
+
+#include <stdexcept>
+
+
+namespace swig {
+  class SwigPtr_PyObject {
+  protected:
+    PyObject *_obj;
+
+  public:
+    SwigPtr_PyObject() :_obj(0)
+    {
+    }
+
+    SwigPtr_PyObject(const SwigPtr_PyObject& item) : _obj(item._obj)
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      Py_XINCREF(_obj);      
+      SWIG_PYTHON_THREAD_END_BLOCK;
+    }
+    
+    SwigPtr_PyObject(PyObject *obj, bool initial_ref = true) :_obj(obj)
+    {
+      if (initial_ref) {
+        SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+        Py_XINCREF(_obj);
+        SWIG_PYTHON_THREAD_END_BLOCK;
+      }
+    }
+    
+    SwigPtr_PyObject & operator=(const SwigPtr_PyObject& item) 
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      Py_XINCREF(item._obj);
+      Py_XDECREF(_obj);
+      _obj = item._obj;
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return *this;      
+    }
+    
+    ~SwigPtr_PyObject() 
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      Py_XDECREF(_obj);
+      SWIG_PYTHON_THREAD_END_BLOCK;
+    }
+    
+    operator PyObject *() const
+    {
+      return _obj;
+    }
+
+    PyObject *operator->() const
+    {
+      return _obj;
+    }
+  };
+}
+
+
+namespace swig {
+  struct SwigVar_PyObject : SwigPtr_PyObject {
+    SwigVar_PyObject(PyObject* obj = 0) : SwigPtr_PyObject(obj, false) { }
+    
+    SwigVar_PyObject & operator = (PyObject* obj)
+    {
+      Py_XDECREF(_obj);
+      _obj = obj;
+      return *this;      
+    }
+  };
+}
 
 
      /* Put header files here or function declarations like below */
@@ -3104,7 +3201,7 @@ SWIG_AsVal_float (PyObject * obj, float *val)
     if (SWIG_Float_Overflow_Check(v)) {
       return SWIG_OverflowError;
     } else {
-      if (val) *val = (float)(v);
+      if (val) *val = static_cast< float >(v);
     }
   }  
   return res;
@@ -3203,7 +3300,7 @@ SWIG_AsVal_int (PyObject * obj, int *val)
     if ((v < INT_MIN || v > INT_MAX)) {
       return SWIG_OverflowError;
     } else {
-      if (val) *val = (int)(v);
+      if (val) *val = static_cast< int >(v);
     }
   }  
   return res;
@@ -3264,7 +3361,7 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 	if (*alloc == SWIG_NEWOBJ) 
 #endif
 	{
-	  *cptr = (char *)memcpy((char *)malloc((len + 1)*sizeof(char)), cstr, sizeof(char)*(len + 1));
+	  *cptr = reinterpret_cast< char* >(memcpy((new char[len + 1]), cstr, sizeof(char)*(len + 1)));
 	  *alloc = SWIG_NEWOBJ;
 	} else {
 	  *cptr = cstr;
@@ -3294,7 +3391,7 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
       if (PyString_AsStringAndSize(obj, &cstr, &len) != -1) {
         if (cptr) {
           if (alloc) *alloc = SWIG_NEWOBJ;
-          *cptr = (char *)memcpy((char *)malloc((len + 1)*sizeof(char)), cstr, sizeof(char)*(len + 1));
+          *cptr = reinterpret_cast< char* >(memcpy((new char[len + 1]), cstr, sizeof(char)*(len + 1)));
         }
         if (psize) *psize = len + 1;
 
@@ -3336,12 +3433,12 @@ SWIG_AsCharArray(PyObject * obj, char *val, size_t size)
 	if (csize < size) memset(val + csize, 0, (size - csize)*sizeof(char));
       }
       if (alloc == SWIG_NEWOBJ) {
-	free((char*)cptr);
+	delete[] cptr;
 	res = SWIG_DelNewMask(res);
       }      
       return res;
     }
-    if (alloc == SWIG_NEWOBJ) free((char*)cptr);
+    if (alloc == SWIG_NEWOBJ) delete[] cptr;
   }
   return SWIG_TypeError;
 }
@@ -3356,7 +3453,7 @@ SWIG_AsVal_char (PyObject * obj, char *val)
     res = SWIG_AddCast(SWIG_AsVal_long (obj, &v));
     if (SWIG_IsOK(res)) {
       if ((CHAR_MIN <= v) && (v <= CHAR_MAX)) {
-	if (val) *val = (char)(v);
+	if (val) *val = static_cast< char >(v);
       } else {
 	res = SWIG_OverflowError;
       }
@@ -3399,19 +3496,19 @@ SWIGINTERN PyObject *_wrap_activate(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "activate" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   ecode2 = SWIG_AsVal_int(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "activate" "', argument " "2"" of type '" "int""'");
   } 
-  arg2 = (int)(val2);
+  arg2 = static_cast< int >(val2);
   ecode3 = SWIG_AsVal_char(obj2, &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "activate" "', argument " "3"" of type '" "char""'");
   } 
-  arg3 = (char)(val3);
+  arg3 = static_cast< char >(val3);
   result = (float)activate(arg1,arg2,arg3);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3431,9 +3528,9 @@ SWIGINTERN PyObject *_wrap_sigmoid(PyObject *SWIGUNUSEDPARM(self), PyObject *arg
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "sigmoid" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)sigmoid(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3453,9 +3550,9 @@ SWIGINTERN PyObject *_wrap_softplus(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "softplus" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)softplus(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3475,9 +3572,9 @@ SWIGINTERN PyObject *_wrap_softsign(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "softsign" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)softsign(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3497,9 +3594,9 @@ SWIGINTERN PyObject *_wrap_hard_sigmoid(PyObject *SWIGUNUSEDPARM(self), PyObject
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "hard_sigmoid" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)hard_sigmoid(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3519,9 +3616,9 @@ SWIGINTERN PyObject *_wrap_exponential(PyObject *SWIGUNUSEDPARM(self), PyObject 
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "exponential" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)exponential(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3541,9 +3638,9 @@ SWIGINTERN PyObject *_wrap_relu(PyObject *SWIGUNUSEDPARM(self), PyObject *args) 
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "relu" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)relu(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3563,9 +3660,9 @@ SWIGINTERN PyObject *_wrap_hyper_tan(PyObject *SWIGUNUSEDPARM(self), PyObject *a
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "hyper_tan" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   result = (float)hyper_tan(arg1);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
@@ -3589,21 +3686,21 @@ SWIGINTERN PyObject *_wrap_softmax(PyObject *SWIGUNUSEDPARM(self), PyObject *arg
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "softmax" "', argument " "1"" of type '" "float""'");
   } 
-  arg1 = (float)(val1);
+  arg1 = static_cast< float >(val1);
   ecode2 = SWIG_AsVal_int(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "softmax" "', argument " "2"" of type '" "int""'");
   } 
-  arg2 = (int)(val2);
+  arg2 = static_cast< int >(val2);
   result = (float)softmax(arg1,arg2);
-  resultobj = SWIG_From_float((float)(result));
+  resultobj = SWIG_From_float(static_cast< float >(result));
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN int Swig_var_conv2d_W_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_conv2d_W_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable conv2d_W is read-only.");
   return 1;
 }
@@ -3617,7 +3714,7 @@ SWIGINTERN PyObject *Swig_var_conv2d_W_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_conv2d_b_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_conv2d_b_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable conv2d_b is read-only.");
   return 1;
 }
@@ -3631,7 +3728,7 @@ SWIGINTERN PyObject *Swig_var_conv2d_b_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_dense_W_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_dense_W_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable dense_W is read-only.");
   return 1;
 }
@@ -3645,7 +3742,7 @@ SWIGINTERN PyObject *Swig_var_dense_W_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_dense_b_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_dense_b_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable dense_b is read-only.");
   return 1;
 }
@@ -3659,7 +3756,7 @@ SWIGINTERN PyObject *Swig_var_dense_b_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_dense_1_W_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_dense_1_W_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable dense_1_W is read-only.");
   return 1;
 }
@@ -3673,7 +3770,7 @@ SWIGINTERN PyObject *Swig_var_dense_1_W_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_dense_1_b_set(PyObject *_val SWIGUNUSED) {
+SWIGINTERN int Swig_var_dense_1_b_set(PyObject *) {
   SWIG_Error(SWIG_AttributeError,"Variable dense_1_b is read-only.");
   return 1;
 }

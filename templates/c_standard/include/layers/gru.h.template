@@ -10,7 +10,7 @@
 
 #ifndef __GRU_H__
 #define __GRU_H__
-
+#include <stdbool.h>
 struct GRU {
 	// Weights and biases defining the layer
 	<%WEIGHT_DATATYPE_DELIMITER>* weights;			// Pointer to constant weight array

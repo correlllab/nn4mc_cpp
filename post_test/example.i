@@ -1,16 +1,11 @@
- %module example
- %{
-    extern void buildLayers();
-    extern float * fwdNN(float* data);
-    #include "activation_func.h"
-    #include "neural_network.h"
- %}
+ /* example.i */
+%module example
+%{
+     /* Put header files here or function declarations like below */
+#include "activations.h"
+#include "parameters.h"
+%}
 
-extern void buildLayers();
-extern float * fwdNN(float* data);
-
-
-
-
-
+%include activations.h
+%include parameters.h
 

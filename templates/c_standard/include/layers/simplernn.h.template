@@ -10,7 +10,7 @@
 
 #ifndef __SIMPLERNN_H__
 #define __SIMPLERNN_H__
-
+#include<stdbool.h>
 struct SimpleRNN {
 
 	// Weights and biases defining the layer

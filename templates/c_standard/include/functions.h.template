@@ -1,0 +1,19 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    functions.h
+
+    Code generated using nn4mc.
+
+    This file defines possible activation functions.
+
+*/
+
+#ifndef __FUNCTIONS_H__
+#define __FUNCTIONS_H__
+
+void reverse(<%LAYER_DATATYPE_DELIMITER> * , <%INDEX_DATATYPE_DELIMITER>*, <%INDEX_DATATYPE_DELIMITER> *);
+
+float * padding(<%LAYER_DATATYPE_DELIMITER> *, <%INDEX_DATATYPE_DELIMITER> *, <%INDEX_DATATYPE_DELIMITER>*, <%ACTIVATION_DATATYPE_DELIMITER>);
+
+#endif
+<%END_DEFINITION_TEMPLATE>

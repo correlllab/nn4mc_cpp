@@ -14,6 +14,7 @@
 
 #include "simplernn.h"
 #include "activations.h"
+#include "functions.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -43,20 +44,10 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 	return layer;
 }
 
-void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
-    while(start < end){
-        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
-        x[start] = x[end];
-        x[end] = temp;
-        start++;
-        end--;
-    }   
-}
-
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
     if (layer.go_backwards){
-        reverseInput(x, 0, L.input_shape[0]*L.input_shape[1] - 1);    
+        reverseInput(input, L.input_shape);    
     }  
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 

@@ -1,0 +1,40 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    functions.cpp
+
+    Code generated using nn4mc.
+
+    This file implements all activation functions.
+
+*/
+
+#include "functions.h"
+#include <math.h>
+#include <stdlib.h>
+
+#define max(a, b) (((a)>(b) ? (a) : (b)))
+#define min(a, b) (((a)<(b) ? (a) : (b)))
+
+void reverse(<%LAYER_DATATYPE_DELIMITER>* input, <%INDEX_DATATYPE_DELIMITER> * shape){
+    int size = sizeof(shape) / sizeof(shape[0]);
+    int total_size = 1; 
+    for (int i = 0; i < size; i++)  total_size *= shape[i];
+    int start = 0;
+    int end = total_size - 1;
+    while (start < end){ 
+        <%LAYER_DATATYPE_DELIMITER> temp = input[start];
+        input[start] = input[end];
+        input[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+float * padding (<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> * shape, <%ACTIVATION_DATATYPE_DELIMITER> type)
+{
+    if ()type == 0x02)
+
+}
+
+
+<%END_DEFINITION_TEMPLATE>

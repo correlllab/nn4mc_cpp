@@ -10,6 +10,7 @@
 
 #include "gru.h"
 #include "activations.h"
+#include "functions.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -44,21 +45,11 @@ recurrent_dropout, bool go_backwards)
     return layer;
 }
 
-void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
-    while(start < end){
-        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
-        x[start] = x[end];
-        x[end] = temp;
-        start++;
-        end--;
-    }
-} 
-
 <%LAYER_DATATYPE_DELIMITER> * fwdGRU(struct GRU L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
     if (L.go_backwards){
-        reverseInput(input, 0, L.input_shape[0]*L.input_shape[1] - 1);
+        reverseInput(input, L.input_shape);
     }
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));

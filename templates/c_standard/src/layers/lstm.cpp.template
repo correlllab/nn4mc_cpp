@@ -11,7 +11,9 @@
 #include "lstm.h"
 #include "activations.h"
 #include <math.h>
+#include "functions.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -45,24 +47,13 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
         layer.prev_c[i] = 0.0;
     }
 
-    // TODO: Need to assign the above to 0''s
 	return layer;
-}
-
-void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
-    while(start < end){
-        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
-        x[start] = x[end];
-        x[end] = temp;
-        start++;
-        end--;
-    }
 }
 
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM L, <%LAYER_DATATYPE_DELIMITER>* x)
 {
     if (L.go_backwards){
-        reverseInput(x, 0, L.input_shape[0]*L.input_shape[1] - 1);           
+        reverse(x, L.input_shape);           
     }
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
