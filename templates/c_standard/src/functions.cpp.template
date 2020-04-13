@@ -30,11 +30,5 @@ void reverse(<%LAYER_DATATYPE_DELIMITER>* input, <%INDEX_DATATYPE_DELIMITER> * s
     }
 }
 
-float * padding (<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> * shape, <%ACTIVATION_DATATYPE_DELIMITER> type)
-{
-    if ()type == 0x02)
-
-}
-
 
 <%END_DEFINITION_TEMPLATE>

@@ -49,7 +49,7 @@ recurrent_dropout, bool go_backwards)
 {
 
     if (L.go_backwards){
-        reverseInput(input, L.input_shape);
+        reverse(input, L.input_shape);
     }
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));

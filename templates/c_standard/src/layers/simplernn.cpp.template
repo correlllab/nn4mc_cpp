@@ -47,7 +47,7 @@ struct SimpleRNN buildSimpleRNN(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATAT
 <%LAYER_DATATYPE_DELIMITER> * fwdSimpleRNN(struct SimpleRNN L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
     if (layer.go_backwards){
-        reverseInput(input, L.input_shape);    
+        reverse(input, L.input_shape);    
     }  
 
     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape * sizeof(<%LAYER_DATATYPE_DELIMITER>)); 
