@@ -10,9 +10,6 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET (Boost_USE_STATIC_LIBS OFF)
 SET (Boost_USE_MULTITHREAD ON)
 SET (Boost_USE_STATIC_RUNTIME OFF)
-#SET (Boost_ADDITIONAL_VERSIONS "1.65.1")
-#SET (Boost_DEBUG ON)
-
 OPTION(NN4MP_USE_EXTERNAL_JSON "Use an external JSON library" OFF)
 
 # Packages needed for this project
@@ -31,7 +28,6 @@ MESSAGE(STATUS "Boost version: ${Boost_VERSION}")
 
 # Add other flags to the compiler
 SET (CMAKE_CXX_FLAGS "-g")
-
 # Use C++11
 SET (CMAKE_CXX_STANDARD 11)
 
@@ -93,4 +89,3 @@ TARGET_LINK_LIBRARIES (h5cpp_test ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${H
 TARGET_LINK_LIBRARIES (h5cpp_test hdf5 hdf5_cpp)
 TARGET_LINK_LIBRARIES (file_creator_test nn4mp_core ${Boost_LIBRARIES})
 TARGET_LINK_LIBRARIES (nn_test nn4mp_core)
-

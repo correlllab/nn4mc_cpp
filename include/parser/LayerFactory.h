@@ -2,7 +2,6 @@
 #define __LAYER_FACTORY_H__
 
 #include "parser/LayerBuilder.h"
-#include <string>
 
 class LayerFactory{
     public:

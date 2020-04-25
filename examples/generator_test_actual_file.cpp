@@ -1,20 +1,13 @@
 #include <iostream>
-#include <vector>
-#include <cstdlib>
-#include "parser/HDF5Parser.h"
-#include "datastructures/tensor.h"
-#include "generator/weight_generator.h"
-#include "datastructures/weights.h"
-#include "generator/layer_generator.h"
-#include "generator/code_generator.h"
 
-#include "datastructures/Layer.h"
+#include "parser/HDF5Parser.h"
+#include "generator/code_generator.h"
 #include "datastructures/NeuralNetwork.h"
 
 int main()
 {
 
-    HDF5Parser P("../data/simpleRNN.hdf5");
+    HDF5Parser P("/Users/sarahaguasvivas/Desktop/Desktop/NikolausLecture/lenet.hdf5");
 
     P.parse();
 

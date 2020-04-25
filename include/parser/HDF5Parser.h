@@ -1,6 +1,7 @@
 #ifndef __HDF5_PARSER_H__
 #define __HDF5_PARSER_H__
 
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -9,15 +10,12 @@
 #include <vector>
 #include <sstream>
 #include "parser/LayerFactory.h"
-#include <nlohmann/json.hpp>
 
 #else
 #include <iostream>
 #endif
-#include <string>
 #include "datastructures/tensor.h"
 #include "datastructures/weights.h"
-#include <vector>
 
 #ifndef H5_NO_NAMESPACE
 #ifndef H5_NO_STD
