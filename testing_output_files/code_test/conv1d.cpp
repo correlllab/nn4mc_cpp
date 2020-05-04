@@ -47,10 +47,7 @@ struct Conv1D buildConv1D(const float* W, const float* b, int kernel_size, int s
 	return layer;
 }
 
-
-float * fwdConv1D(struct Conv1D L, float* input)
-{
-
+int padding_conv1(struct Conv1D L, float * input){
     int input_size = L.input_shape[0] * L.input_shape[1];
 
     if (L.padding == 0x02){ // padding is causal
@@ -84,6 +81,16 @@ float * fwdConv1D(struct Conv1D L, float* input)
         L.input_shape[0] = input_size;
         L.output_shape[0] = (int)((L.input_shape[0] - L.kernel_shape[0])/L.strides + 1);
     }
+    return input_size;
+}
+
+
+float * fwdConv1D(struct Conv1D L, float* input)
+{
+
+    int input_size = L.input_shape[0] * L.input_shape[1];
+
+    input_size = padding_conv1(L, input);
 
     if (L.data_format == 0x02){
         for (int i = 0; i<L.input_shape[0]; i++){

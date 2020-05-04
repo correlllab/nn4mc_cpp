@@ -2,19 +2,12 @@
 #include <vector>
 #include <cstdlib>
 #include "parser/h5_parser.h"
-#include "datastructures/tensor.h"
-#include "generator/weight_generator.h"
-#include "datastructures/weights.h"
-#include "generator/layer_generator.h"
 #include "generator/code_generator.h"
-
-#include "datastructures/Layer.h"
-#include "datastructures/NeuralNetwork.h"
 
 int main()
 {
 
-    HDF5Parser P("../data/Conv2.hdf5");
+    HDF5Parser P("../data/weights.best.hdf5");
 
     P.parse();
 
@@ -24,7 +17,7 @@ int main()
 
     NN->reset();
 
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/LSTM");
+    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../testing_output_files/code_test");
     
     code_gen->generate();
     code_gen->dump();

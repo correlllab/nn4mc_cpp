@@ -43,7 +43,7 @@ testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1], 1))
 model = tf.keras.Sequential([
             tf.keras.layers.Conv2D(filters=7, kernel_size = (1, 1), input_shape = (trainX.shape[1], trainX.shape[2], trainX.shape[3])),
             tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(8, activation="relu"),
+            tf.keras.layers.Dense(8, activation="relu", use_bias = False),
             tf.keras.layers.Dense(1)])
 
 model.compile(loss='mean_squared_error', optimizer='rmsprop')

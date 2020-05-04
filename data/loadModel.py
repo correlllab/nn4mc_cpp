@@ -5,8 +5,6 @@ import tensorflow as tf
 from tensorflow import keras
 import keras.backend as K
 
-print(tf.version.VERSION)
-
 def custom_loss(y_true, y_pred):
     r_hat = y_pred[:, 1]
     r_true = y_true[:, 1]
@@ -36,14 +34,15 @@ print(model.layers[layer].get_config())
 input_size= model.layers[layer].input_shape
 
 print("input_size: ", input_size)
-first_input= model.layers[layer].input_shape
+#first_input= model.layers[layer].input_shape
 
 try:
     weights = model.layers[layer].get_weights()[0] # weights
 
     print("weights shape: ", weights.shape)
-
+    print(weights)
     biases = model.layers[layer].get_weights()[2] # biases
+    print(biases)
 
     print("biases shape: ", biases.shape)
 
@@ -62,7 +61,7 @@ try:
     strBiases= strBiases.replace('[', '{')
     strBiases= strBiases.replace(']', '}')
 
-#    print(strBiases)
+    print(strBiases)
 except:
     pass
 inp= model.input

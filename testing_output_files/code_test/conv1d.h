@@ -35,4 +35,6 @@ struct Conv1D buildConv1D(const float*, const float*, int, int, int, int, int, c
 
 float * fwdConv1D(struct Conv1D, float*);
 
+int padding_conv1(struct Conv1D, float*);
+
 #endif

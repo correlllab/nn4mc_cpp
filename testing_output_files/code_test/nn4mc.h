@@ -15,14 +15,28 @@
 extern "C" {
 
 #include "parameters.h"
-#include "conv2d.h"
+#include "conv1d.h"
+#include "conv1d.h"
+#include "dense.h"
+#include "dense.h"
+#include "dense.h"
+#include "dense.h"
+#include "dense.h"
+#include "dense.h"
 #include "dense.h"
 #include "dense.h"
 
 
-struct Conv2D conv2d;
-struct Dense dense;
+struct Conv1D conv1d_1;
+struct Conv1D conv1d_2;
 struct Dense dense_1;
+struct Dense dense_2;
+struct Dense dense_3;
+struct Dense dense_4;
+struct Dense dense_5;
+struct Dense dense_6;
+struct Dense dense_7;
+struct Dense dense_8;
 
 
 float* fwdNN(float*);
