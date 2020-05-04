@@ -91,10 +91,6 @@ except AttributeError:
 
 
 
-def activate(input, output_shape, type):
-    return _activation.activate(input, output_shape, type)
-activate = _activation.activate
-
 def sigmoid(input):
     return _activation.sigmoid(input)
 sigmoid = _activation.sigmoid
@@ -126,6 +122,10 @@ hyper_tan = _activation.hyper_tan
 def softmax(input, output_shape):
     return _activation.softmax(input, output_shape)
 softmax = _activation.softmax
+
+def activate(input, output_shape, type):
+    return _activation.activate(input, output_shape, type)
+activate = _activation.activate
 # This file is compatible with both classic and new-style classes.
 
 
