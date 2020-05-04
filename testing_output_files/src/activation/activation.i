@@ -7,8 +7,9 @@
     header.
 */
 
-%include "../code_test/activations.cpp"
-%include "../code_test/activations.h"
+%include "../../code_test/activations.cpp"
+%include "../../code_test/activations.h"
+
 %module activation
 %{
  extern float activate(float input, int output_shape, char type);
