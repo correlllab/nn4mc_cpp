@@ -7,7 +7,6 @@ class Conv1DTest(TemplateTest):
     """
     def __init__(self, layer):
         self.layer = layer
-
     def generate_sample(self):
         pass
 
