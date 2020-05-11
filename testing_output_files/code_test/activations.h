@@ -11,11 +11,11 @@
 #ifndef __ACTIVATION_H__
 #define __ACTIVATION_H__
 
-float activate(float input, int output_shape, char type);
+float activate(float, int, char);
 
-float sigmoid(float input);
+float sigmoid(float);
 
-float softplus(float input);
+float softplus(float);
 
 float softsign(float input);
 
