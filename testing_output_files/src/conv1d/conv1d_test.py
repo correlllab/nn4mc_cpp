@@ -2,8 +2,9 @@ import conv1d as layer
 from testing_output_files.template_test import TemplateTest
 import tensorflow as tf
 import numpy as np
+import unittest
 
-class Conv1DTest(TemplateTest):
+class Conv1DTest(TemplateTest, unittest.TestCase):
     """
         Conv1D
     """
@@ -20,11 +21,8 @@ class Conv1DTest(TemplateTest):
 
         self.dataformat_dictionary = {'channels_last' : 0x00, 'channels_first' : 0x02}
 
-    def generate_sample(self):
-        pass
-
-    def __c_build(self):
-        pass
+    def generate_sample(self, input_dims):
+        return np.random.normal(0.0, 20, size = input_dims)
 
     def __keras_build(self, build_dict : dict):
         return tf.keras.layers.Conv1D(
@@ -38,15 +36,42 @@ class Conv1DTest(TemplateTest):
                     use_bias = build_dict['use_bias']
                     )
 
-    def __c_fwd(self, build_dict : dict):
-        return buildConv1D()
+    def __c_fwd(self, build_dict : dict, input_, weight, bias):
+        layer = self.layer.buildConv1D(weight[0], bias[0], \
+                        build_dict['kernel_size'], build_dict['strides'], \
+                        input_.shape[1], input_.shape[2], build_dict['filters'], \
+                        self.activation_dictionary[build_dict['activation']], \
+                        self.padding_dictionary[build_dict['padding']], \
+                        self.dataformat_dictionary[build_dict['data_format']], \
+                        build_dict['dilation_rate'])
+        return self.layer.fwdConv1D(layer, input_.flatten().tolist())
 
-    def __keras_fwd(self, config_dict : dict):
-
-        pass
+    def __keras_fwd(self, config_dict : dict, input_, weight, bias):
+        layer = self.__keras_build(config_dict)
+        layer.w = tf.Variable(weight)
+        layer.b = tf.Variable(bias)
+        return layer(input_)
 
     def test_fwd(self) -> bool:
-        pass
+        batch_size = 1
+        N = 100
+        for _ in range(N):
+            build_dict = {'filters': 32, 'kernel_size' : 3, 'strides' : 1, 'padding' : 'valid', \
+                    'data_format' : 'channels_last', 'dilation_rate' : 1, 'activation' : 'linear', \
+                    'use_bias' : True}
+
+            shape = np.random.randint(100, size = 2).tolist()
+
+            input_dims = (batch_size, shape[0] , shape[1])
+
+            weight = np.random.normal(0.0, 20., size = (build_dict['kernel_size'],\
+                                            input_dims[-1], build_dict['filters']))
+            bias = np.random.normal(0.0, 20, size = (build_dict['filters']))
+
+            input_ = self.generate_sample(input_dims)
+
+            self.assertEqual(self.__c_fwd(build_dict, input_, weight.flatten().tolist(),\
+                        bias.flatten().tolist()), self.__keras_fwd(build_dict, input_, weight, bias))
 
     def passes(self) -> bool:
         # returns (test_sigmoid and test_hard_sigmoid and ...)
@@ -54,4 +79,4 @@ class Conv1DTest(TemplateTest):
 
 if __name__=='__main__':
     c1d = Conv1DTest(layer)
-    print(dir(c1d.layer))
+    print(c1d.test_fwd())

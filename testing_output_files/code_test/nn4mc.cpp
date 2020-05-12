@@ -16,7 +16,7 @@ extern "C" {
 
 void buildLayers(){
 
-   
+         
         conv1d_1 = buildConv1D(&conv1d_1_W[0], conv1d_1_b, 4, 1, 50, 2, 8, 0xB, 0x00, 0x00, 1);
 
         conv1d_2 = buildConv1D(&conv1d_2_W[0], conv1d_2_b, 4, 1, 376, 0, 8, 0xB, 0x00, 0x00, 1);
