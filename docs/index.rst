@@ -12,10 +12,8 @@
    :maxdepth: 1
    :caption: Contents:
 
-   introduction 
    installation
-   nn4mc_examples
-   tutorials
+   usage
    dev
 
 .. Note about Tensorflow 2.0:
@@ -34,8 +32,8 @@ Make sure that the first layer in the neural network specifies the `input_shape`
 
 Or
 
-:: 
-   
+::
+
    Manzano, S. A., Hughes, D., Simpson, C., Patel, R., & Correll, N. (2019). Embedded Neural Networks for Robot Autonomy. arXiv preprint arXiv:1911.03848.
 
 Or
@@ -50,10 +48,3 @@ Or
            archivePrefix={arXiv},
            primaryClass={cs.RO}
        }
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
