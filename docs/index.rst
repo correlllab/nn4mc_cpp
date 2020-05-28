@@ -7,9 +7,3 @@ nn4mc_cpp
 =========
 
 nn4mc_cpp...
-
-.. toctree::
-
-   installation
-   usage
-   dev
