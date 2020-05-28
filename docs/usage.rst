@@ -3,7 +3,7 @@ Tutorials
 
 
 Getting Started
-=================
+---------------
 
 The first step after the installation is done is to create a build folder and build our first example to make sure you are setup! Go to the root `nn4mc` folder and create a `build/` folder.
 
@@ -33,7 +33,7 @@ The code contained in the generated file is ready to be dragged and dropped into
 
 
 Using your HDF5 File
-=====================
+--------------------
 
 The example code contained under `examples/generator_test_actual_file.cpp` contains all the necessary components to create your C files. Here is an example on how to use this library on hdf5 files. In this example we generate the code necessary to implement lenet in a microcontroller:
 
@@ -69,6 +69,6 @@ The example code contained under `examples/generator_test_actual_file.cpp` conta
        return 0;
     }
 
-In the future, we expect to remove some of these necessary lines of code in a way that the end-user does not have to declare so many pointers. 
+In the future, we expect to remove some of these necessary lines of code in a way that the end-user does not have to declare so many pointers.
 
 [TBD]

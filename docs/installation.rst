@@ -9,14 +9,14 @@ To get setup with `nn4mc` we first need the following dependencies:
 - cmake
 - json
 
- 
+
 Get all Dependencies in One Step
-=================================
+--------------------------------
 
 Go to the scripts/ folder and type:
 
 Linux
------
+^^^^^
 
 ::
 
@@ -24,7 +24,7 @@ Linux
 
 
 MacOS
-------
+^^^^^
 
 ::
 
@@ -32,10 +32,10 @@ MacOS
 
 
 HDF5
-======
+----
 
 Installing HDF5 >=1.10.4 from conda
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you are a conda user, the simplest way to obtain a version of hdf5 that is stable across platforms is using conda. The command to type is:
 
@@ -44,8 +44,8 @@ If you are a conda user, the simplest way to obtain a version of hdf5 that is st
      conda install -c anaconda hdf5
 
 
-Installing HDF5 < 1.8.16 from HDF5 Group 
------------------------------------------
+Installing HDF5 < 1.8.16 from HDF5 Group
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is a more manual installation. This installation will lead a very stable Linux parsing in HDF5, but leads to some compatibility problems for MacOS. Go to this website: `HDF5 Group <https://www.hdfgroup.org/downloads/hdf5>`_ or type:
 
@@ -88,7 +88,7 @@ Then type:
 
 
 Installing the boost library
-============================
+----------------------------
 
 From Linux:
 
@@ -103,16 +103,10 @@ From MacOS:
     brew install boost
 
 Installing nlohmann/json
-=========================
+------------------------
 
-Go back to `nn4mc` and go to the `lib/` folder. 
+Go back to `nn4mc` and go to the `lib/` folder.
 
 ::
 
     git clone https://github.com/nlohmann/json nlohmann_json
-
-
-
-
-
-
