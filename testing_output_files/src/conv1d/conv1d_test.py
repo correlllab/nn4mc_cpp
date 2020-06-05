@@ -1,3 +1,6 @@
+import sys, os
+sys.path.append(os.path.join(os.environ['HOME'], 'nn4mc'))
+
 import conv1d as layer
 from testing_output_files.template_test import TemplateTest
 import tensorflow as tf
@@ -65,8 +68,8 @@ class Conv1DTest(TemplateTest, unittest.TestCase):
             input_dims = (batch_size, shape[0] , shape[1])
 
             weight = np.random.normal(0.0, 20., size = (build_dict['kernel_size'],\
-                                            input_dims[-1], build_dict['filters']))
-            bias = np.random.normal(0.0, 20, size = (build_dict['filters']))
+                                            input_dims[-1], build_dict['filters'])).astype(np.float32)
+            bias = np.random.normal(0.0, 20, size = (build_dict['filters'])).astype(np.float32)
 
             input_ = self.generate_sample(input_dims)
 

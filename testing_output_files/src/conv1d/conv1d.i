@@ -12,6 +12,10 @@
 %include "../../code_test/activations.h"
 %include "../../code_test/activations.cpp"
 
+%include "../../numpy.i"
+%apply (float* IN_ARRAY2, int DIM1, int DIM2) {
+  (const float* array, int m, int n)
+}
 %module conv1d
 %{
 #include "../../code_test/conv1d.h"
