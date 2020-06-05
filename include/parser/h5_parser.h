@@ -32,7 +32,7 @@
 #include <iomanip>
 #include <sstream>
 #include "parser/h5_layer_builder.h"
-#include "parser/h5_parser_exception.h"
+//#include "parser/h5_parser_exception.h"
 
 #ifndef H5_NO_NAMESPACE
 

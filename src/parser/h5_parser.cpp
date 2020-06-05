@@ -165,8 +165,8 @@ int HDF5Parser::parse()
 {
   this->construct_builder_map();
     
-  try
-   { 
+  //try
+   //{ 
       // Parse Model Config: 
       this->model_config= this->parse_model_config();
       std::cout << "-------------------------------------------------" << std::endl;
@@ -184,13 +184,13 @@ int HDF5Parser::parse()
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
       return 0;
-   }  // end of try block
+  // }  // end of try block
 
-   catch(FileException &e)
-   {
-       std::cout << e.what() <<  " File probably not found. " << std::endl;
-       return -1;
-   }
+   //catch(FileException &e)
+   //{
+   //    std::cout << e.what() <<  " File probably not found. " << std::endl;
+   //    return -1;
+   //}
    return 0;
 }
 

@@ -11,11 +11,8 @@ fi
 brew install cmake
 brew install hdf5
 brew link hdf5
+conda install -c anaconda hdf5
 brew install boost
-
-echo 'export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:"/usr/local/Cellar/hdf5/1.12.0/include"' >> ~./bashrc
-echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/Cellar/hdf5/1.12.0/lib"' >> ~/.bashrc
-source ~/.bashrc
 brew tap nlohmann/json
 brew install nlohmann_json
 cd ../lib
