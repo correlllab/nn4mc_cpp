@@ -14,7 +14,7 @@ brew link hdf5
 brew install boost
 
 echo 'export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:"/usr/local/Cellar/hdf5/1.12.0/include"' >> ~./bashrc
-echo 'export LD_LIBRARY_PATH=$LIBRARY_PATH:"/usr/local/Cellar/hdf5/1.12.0/lib"' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/Cellar/hdf5/1.12.0/lib"' >> ~/.bashrc
 source ~/.bashrc
 brew tap nlohmann/json
 brew install nlohmann_json

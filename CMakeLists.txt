@@ -13,6 +13,10 @@ SET (Boost_USE_STATIC_RUNTIME OFF)
 #SET (Boost_ADDITIONAL_VERSIONS "1.65.1")
 #SET (Boost_DEBUG ON)
 
+IF(APPLE)
+    SET(CMAKE_MACOSX_RPATH 1)
+ENDIF()
+
 OPTION(NN4MP_USE_EXTERNAL_JSON "Use an external JSON library" OFF)
 
 # Packages needed for this project
