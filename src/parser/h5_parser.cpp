@@ -199,11 +199,11 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 {
 
     hid_t group;
-    hid_t status;
+    //hid_t status;
     H5O_info_t infobuf;
     struct opdataWeights *od = (struct opdataWeights *) opdata;
     group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
-    status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
+    //status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 
     
     if (infobuf.type== H5O_TYPE_DATASET){
