@@ -23,11 +23,6 @@ BadIndexBoundsException::BadIndexBoundsException(unsigned int dim_num, unsigned 
 	index = idx;
 }
 
-BadIndexBoundsException::~BadIndexBoundsException()
-{
-
-}
-
 const char* BadIndexBoundsException::what() const throw()
 {
 	// Create the message, indicating which dimension, and bounds
