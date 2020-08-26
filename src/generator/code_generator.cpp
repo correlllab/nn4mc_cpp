@@ -69,21 +69,21 @@ CodeGenerator::~CodeGenerator()
 void CodeGenerator::generate()
 {
 	NeuralNetwork::iterator it;
-
-    for(it=neural_net->begin(); it != neural_net->end(); it++)
+    
+      for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
         if(it->layer->layer_type != "input" && it->layer->layer_type != "flatten" && it->layer->layer_type !="activation" && it->layer->layer_type != "maxpool1d" && it->layer->layer_type != "maxpool2d" && it->layer->layer_type != "dropout")
             {
-                weight_generator->addWeight(it->layer->w);
-                weight_generator->addWeight(it->layer->b);
-                if (it->layer->w_rec != NULL){ // if recurrent weights are not null
+		weight_generator->addWeight(it->layer->w);
+		weight_generator->addWeight(it->layer->b);
+		
+		if (it->layer->w_rec != NULL){ // if recurrent weights are not null
                     weight_generator->addWeight(it->layer->w_rec);
                 }
             }
 	}
 
 	neural_net->reset();
-
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
@@ -92,8 +92,7 @@ void CodeGenerator::generate()
 			layer_generator->addLayer(it->layer);
 		}
 	}
-    
-	
+
     neural_net->reset();
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
@@ -105,8 +104,8 @@ void CodeGenerator::generate()
 			nn_generator->addLayer_Fwd(it->layer);
 		}
 	}
+
 	neural_net->reset();
-    
 
 	nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
 }
