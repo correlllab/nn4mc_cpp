@@ -40,6 +40,7 @@ struct LayerNode //Struct for each node in the graph representing a layer in the
       std::copy(a.edges.begin(), a.edges.end(), back_inserter(edges));
       visited= a.visited;
       layer = a.layer;
+      return *this;
   }
 };
 

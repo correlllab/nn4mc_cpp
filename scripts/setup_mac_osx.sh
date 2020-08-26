@@ -10,7 +10,6 @@ command -v brew >/dev/null 2>&1 || echo >&2 "Homebrew is missing, you can instal
 brew install cmake
 brew install hdf5
 brew link hdf5
-conda install -c anaconda hdf5
 brew install boost
 brew tap nlohmann/json
 brew install nlohmann_json
