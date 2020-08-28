@@ -20,7 +20,7 @@ Linux
 
 ::
 
-./setup_linux_mint.sh
+./scripts/setup_linux_mint.sh
 
 
 MacOS
@@ -28,7 +28,7 @@ MacOS
 
 ::
 
-./setup_macos.sh
+./scripts/setup_macos.sh
 
 
 HDF5
