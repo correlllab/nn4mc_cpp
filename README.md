@@ -23,7 +23,7 @@ This library is intended to be used in any microcontroller that supports C code 
 ### Quick Usage:
 
 ```
-$ h5_nn4mc --help
+$ ./build/h5_nn4mc --help
 NN4MC Options:
   -h [ --help ]             help screen
   -s [ --source ] arg       name of the hdf5 file
@@ -34,7 +34,7 @@ NN4MC Options:
 
 **Exporting code:**
 ```
-$ h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
+$ ./build/h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
 ```
 
 ### Technical Questions
