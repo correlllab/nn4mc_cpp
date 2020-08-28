@@ -24,6 +24,12 @@
 
 using namespace boost::program_options;
 
+
+void print_help_options(options_description opt){
+	std::cout << opt << std::endl;
+}
+
+
 int main(int argc, const char *argv[])
 {
     // Parsing arguments:
@@ -31,8 +37,8 @@ int main(int argc, const char *argv[])
         options_description options{"Options"};
         options.add_options()
             ("help,h", "Help screen")
-            ("h5file,h5", value<std::string>()->default_value("../data/weights.best.hdf5"), "name of the hdf5 file") 
-            ("target,f", value<std::string>()->default_value("../output_files/"), "name of the target folder the code will be offloaded")
+            ("h5file,h5", value<std::string>(), "name of the hdf5 file") 
+            ("target,f", value<std::string>(), "name of the target folder the code will be offloaded")
             ("verbose,v",value<bool>()->default_value(true), "print neural network configuration json")
 	;
         variables_map vm;
@@ -40,37 +46,31 @@ int main(int argc, const char *argv[])
         notify(vm);
 
         if (vm.count("help") || vm.count("h")){
-            std::cout << options << "\n";    
-        }
+       		print_help_options(options); 
+	} else if (vm.count("h5file") || vm.count("h5")){
+
+	    HDF5Parser P(vm["h5file"].as<std::string>());
+
+	    P.parse();
+
+	    NeuralNetwork* NN = P.get_neural_network();
+
+	    NeuralNetwork::iterator it;
+
+	    NN->reset();
+
+	    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", vm["target"].as<std::string>());
+	    
+	    code_gen->generate();
+	    
+	    code_gen->dump();
+
+	    delete NN;
+	    delete code_gen;
+	}
     }
     catch (std::exception& ex){
    	std::cerr << ex.what() << "\n"; 
-    }
-	 
-    bool print_config = false;
-    bool dump_c_code = false;     
-    
-    std::string h5_file_to_parse;
-    std::string target_file_name;
-    
-    HDF5Parser P("../data/weights.best.hdf5");
-
-    P.parse();
-
-    NeuralNetwork* NN = P.get_neural_network();
-
-    NeuralNetwork::iterator it;
-
-    NN->reset();
-
-    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/Conv1");
-    
-    code_gen->generate();
-    
-    code_gen->dump();
-
-    delete NN;
-    delete code_gen;
-
+    }    
     return 0;
 }
