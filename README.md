@@ -22,6 +22,12 @@ This library is intended to be used in any microcontroller that supports C code 
 
 ### Quick Usage:
 
+**Install**
+
+```
+$ ./scripts/setup_linux.sh 
+```
+
 ```
 $ ./build/h5_nn4mc --help
 NN4MC Options:
