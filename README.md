@@ -17,9 +17,14 @@ This library is intended to be used in any microcontroller that supports C code 
 ### More Information
 
 - [Documentation](https://nn4mc.readthedocs.io/en/latest/)
-- [Installation Instructions]()
+- [Installation Instructions](https://nn4mc.readthedocs.io/en/latest/nn4mc_cpp/docs/installation.html)
 - [Tutorials](https://github.com/correlllab/nn4mc/tree/master/examples)
 
+### Quick Usage:
+
+```
+$ h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
+```
 
 ### Technical Questions
 
@@ -40,7 +45,7 @@ We encourage to use the following citation references for academic use of nn4mc.
 ```
 @misc{nn4mc,
         title={Embedded Neural Networks for Robot Autonomy},
-        author={Sarah Aguasvivas Manzano and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
+        author={Sarah {Aguasvivas Manzano} and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
         year={2019},
         eprint={1911.03848},
         archivePrefix={arXiv},
