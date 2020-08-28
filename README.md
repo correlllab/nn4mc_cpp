@@ -24,9 +24,6 @@ This library is intended to be used in any microcontroller that supports C code 
 
 ```
 $ h5_nn4mc --help
-
-
-```
 NN4MC Options:
   -h [ --help ]             help screen
   -s [ --source ] arg       name of the hdf5 file
