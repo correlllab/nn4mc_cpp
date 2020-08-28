@@ -33,7 +33,9 @@ NN4MC Options:
   -t [ --target ] arg       name of the target folder the code will be 
                             offloaded
   -v [ --verbose ] arg (=1) print neural network configuration json
+```
 
+**Exporting code:**
 ```
 $ h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
 ```
