@@ -23,6 +23,18 @@ This library is intended to be used in any microcontroller that supports C code 
 ### Quick Usage:
 
 ```
+$ h5_nn4mc --help
+
+
+```
+NN4MC Options:
+  -h [ --help ]             help screen
+  -s [ --source ] arg       name of the hdf5 file
+  -t [ --target ] arg       name of the target folder the code will be 
+                            offloaded
+  -v [ --verbose ] arg (=1) print neural network configuration json
+
+```
 $ h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
 ```
 
