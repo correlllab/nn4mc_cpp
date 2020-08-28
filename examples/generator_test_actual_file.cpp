@@ -6,6 +6,7 @@
  *   	the neural network code through command terminal 
  *   	inputs.
  */
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -17,16 +18,41 @@
 #include "generator/code_generator.h"
 #include "datastructures/Layer.h"
 #include "datastructures/NeuralNetwork.h"
+#include <boost/program_options.hpp>
+#include <exception>
+#include <string>
 
-int main()
+using namespace boost::program_options;
+
+int main(int argc, const char *argv[])
 {
+    // Parsing arguments:
+    try{
+        options_description options{"Options"};
+        options.add_options()
+            ("help,h", "Help screen")
+            ("h5file,h5", value<std::string>()->default_value("../data/weights.best.hdf5"), "name of the hdf5 file") 
+            ("target,f", value<std::string>()->default_value("../output_files/"), "name of the target folder the code will be offloaded")
+            ("verbose,v",value<bool>()->default_value(true), "print neural network configuration json")
+	;
+        variables_map vm;
+        store(parse_command_line(argc, argv, options), vm);
+        notify(vm);
 
-    std::string h5_file_to_parse;
-    std::string target_file_name;
-
+        if (vm.count("help") || vm.count("h")){
+            std::cout << options << "\n";    
+        }
+    }
+    catch (std::exception& ex){
+   	std::cerr << ex.what() << "\n"; 
+    }
+	 
     bool print_config = false;
     bool dump_c_code = false;     
-
+    
+    std::string h5_file_to_parse;
+    std::string target_file_name;
+    
     HDF5Parser P("../data/weights.best.hdf5");
 
     P.parse();
@@ -38,11 +64,10 @@ int main()
     NN->reset();
 
     CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", "../output_files/Conv1");
-    std::cout << "good up until here" << std::endl; 
+    
     code_gen->generate();
-    std::cout << "good until code generator" << std::endl; 
+    
     code_gen->dump();
-    std::cout << "successfully dumping too" << std::endl;
 
     delete NN;
     delete code_gen;

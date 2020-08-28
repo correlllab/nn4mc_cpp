@@ -37,13 +37,13 @@ void HDF5Parser::construct_builder_map(){
 }
 
 void HDF5Parser::parse_weights(){
-      const H5std_string FILE_NAME( this->file_name );
-      Exception::dontPrint();
+      const H5std_string FILE_NAME(this->file_name);
+      //Exception::dontPrint();
       H5File file = H5File(FILE_NAME, H5F_ACC_RDONLY);
       Group group = Group(file.openGroup("model_weights"));
       struct opdataWeights od_weights;
       od_weights.LM = this->layerMap;
-      H5Lvisit(group.getId(), H5_INDEX_NAME, H5_ITER_INC,  weights_callback, (void*)&od_weights);
+      H5Lvisit(group.getId(),H5_INDEX_NAME,H5_ITER_INC,weights_callback,(void*)&od_weights);
       this->layerMap= od_weights.LM;
       std::cout << "PARSER: Weights and biases parsed" << std::endl;
 }
@@ -110,7 +110,6 @@ void HDF5Parser::call_layer_builders(){
         }
         
         for (auto it: this->model_config["config"]["layers"].items()){
-            //TODO: Make the reading separate from the JSON
             this->layer_ids.push_back(it.value()["config"]["name"].get<std::string>());
             this->layerBuilderVector.push_back(this->BuilderMap[it.value()["class_name"].get<std::string>()]);
 
@@ -156,17 +155,14 @@ json HDF5Parser::parse_model_config(){
       
       json j_filtered = json::parse(ss, cb);
       
-      
       return j_filtered;
 }
 
 // PARSE FUNCTION
 int HDF5Parser::parse()
 {
-  this->construct_builder_map();
+      this->construct_builder_map();
     
-  //try
-   //{ 
       // Parse Model Config: 
       this->model_config= this->parse_model_config();
       std::cout << "-------------------------------------------------" << std::endl;
@@ -183,32 +179,18 @@ int HDF5Parser::parse()
       this->parse_weights();
       
       std::cout<< "PARSER: Parsing complete!" <<std::endl;
-      return 0;
-  // }  // end of try block
-
-   //catch(FileException &e)
-   //{
-   //    std::cout << e.what() <<  " File probably not found. " << std::endl;
-   //    return -1;
-   //}
    return 0;
 }
 
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
-
     hid_t group;
-    //hid_t status;
     H5O_info_t infobuf;
     struct opdataWeights *od = (struct opdataWeights *) opdata;
-    group= H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
-    //status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
-
+    group = H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
     
-    if (infobuf.type== H5O_TYPE_DATASET){
-            
-        // NEED TO PARSE EITHER WEIGHT OR BIAS 
+    if (infobuf.type == H5O_TYPE_DATASET){
         std::string s(name);
         std::string delimiter= "/";
         std::string layer_id;
@@ -219,9 +201,8 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
             layer_id= s.substr(0, pos);
             s.erase(0, pos+delimiter.length());
         }
-
         hid_t datatype, dataspace, rank; 
-                hid_t dset = H5Dopen2(loc_id, name, H5P_DEFAULT);
+                hid_t dset = H5Dopen(loc_id, name, H5P_DEFAULT);
                 datatype= H5Dget_type(dset);
                 dataspace = H5Dget_space(dset);
                 rank= H5Sget_simple_extent_ndims(dataspace); 
@@ -250,9 +231,6 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
                 rbuf= new float [flat];
                 ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
-                
-                //flattened parsed weights are in rbuf
-                //Dana TODO: Template that removes the need to do this
 
                 switch(rank){
                     case 1:
@@ -312,18 +290,20 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 delete []rbuf; 
 
                 // Create weights:
-                
                 if (s.compare("bias:0") == 0 ){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
+		    std::cout << "parsed bias" << std::endl;
 
                 } if (s.compare("kernel:0") == 0){ // it's a weight
                     wb->identifier=wb->identifier.append("_W");
                     od->LM[layer_id]->w = wb;
+		    std::cout << "parsed weight" << std::endl;
                 }
                 if (s.compare("recurrent_kernel:0") == 0){ // it's a rec weight
                     wb->identifier = wb->identifier.append("_Wrec");
                     od->LM[layer_id]->w_rec = wb;
+		    std::cout << "parsed recurrent weight" << std::endl;
                 }    
 
                 ret= H5Dclose(dset); 
