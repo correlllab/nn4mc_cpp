@@ -56,7 +56,7 @@ int main(int argc, const char *argv[])
 
 	    NN->reset();
 
-	    CodeGenerator* code_gen = new CodeGenerator(NN, "../templates/c_standard", vm["target"].as<std::string>());
+	    CodeGenerator* code_gen = new CodeGenerator(NN, "templates/c_standard", vm["target"].as<std::string>());
 	    code_gen->generate();
 	    code_gen->dump();
 
