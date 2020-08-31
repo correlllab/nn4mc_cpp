@@ -7,7 +7,6 @@
 #include <vector>
 #include "tensor.h"
 
-
 class Weight
 {
     public:

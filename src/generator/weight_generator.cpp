@@ -148,11 +148,12 @@ void WeightGenerator::addWeight(Weight* weight)
 	// Pull out the weight's tensor for simplicity
 	Tensor<double> values = *(weight->get_weight_tensor());
 	// Make a copy of the content template
+	
 	std::string content(template_contents);
 	// Replace the datatype delimiter with the defined datatype
-    //
+
 	replaceDelimiter(&content, DATATYPE_DELIMITER, weight_datatype);
-    
+
 	// Replace the data name delimiter with this weight's id
 	//std::cout << weight->identifier << std::endl;
 	replaceDelimiter(&content, NAME_DELIMITER, weight->identifier);

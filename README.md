@@ -1,5 +1,5 @@
-﻿<img src="docs/img/nn4mcArt.png" align="right" width=25%/>
-<img align="right" src="docs/img/MFM-logo.png" width="25%"/>
+﻿<img src="docs/assets/nn4mcArt.png" align="right" width=25%/>
+<img align="right" src="docs/assets/MFM-logo.png" width="25%"/>
 
 # nn4mc: Neural Networks for Microcontrollers
 
@@ -17,9 +17,31 @@ This library is intended to be used in any microcontroller that supports C code 
 ### More Information
 
 - [Documentation](https://nn4mc.readthedocs.io/en/latest/)
-- [Installation Instructions]()
+- [Installation Instructions](https://nn4mc.readthedocs.io/en/latest/nn4mc_cpp/docs/installation.html)
 - [Tutorials](https://github.com/correlllab/nn4mc/tree/master/examples)
 
+### Quick Usage:
+
+**Install**
+
+```
+$ ./scripts/setup_linux.sh 
+```
+
+```
+$ ./build/h5_nn4mc --help
+NN4MC Options:
+  -h [ --help ]             help screen
+  -s [ --source ] arg       name of the hdf5 file
+  -t [ --target ] arg       name of the target folder the code will be 
+                            offloaded
+  -v [ --verbose ] arg (=1) print neural network configuration json
+```
+
+**Exporting code:**
+```
+$ ./build/h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
+```
 
 ### Technical Questions
 
@@ -40,7 +62,7 @@ We encourage to use the following citation references for academic use of nn4mc.
 ```
 @misc{nn4mc,
         title={Embedded Neural Networks for Robot Autonomy},
-        author={Sarah Aguasvivas Manzano and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
+        author={Sarah {Aguasvivas Manzano} and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
         year={2019},
         eprint={1911.03848},
         archivePrefix={arXiv},
