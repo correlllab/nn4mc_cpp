@@ -185,11 +185,10 @@ int HDF5Parser::parse()
 herr_t 
 weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void *opdata)
 {
-    hid_t group;
     H5O_info_t infobuf;
     struct opdataWeights *od = (struct opdataWeights *) opdata;
-    group = H5Gopen2(loc_id, name, H5P_DEFAULT); // here group is actually a dset
-    
+    hid_t status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
+
     if (infobuf.type == H5O_TYPE_DATASET){
         std::string s(name);
         std::string delimiter= "/";
@@ -220,10 +219,9 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
                 float *rbuf;
                 herr_t ret;
-               
-                // getting dimensions of flat rbuf
-                // Dana TODO: Make a method that allows you to assign already flat 
-                // array into tensor without having to index and given the size so
+              
+
+		// TODO: Make equalilty operator to clean up the following: 
                 int flat=1;
                 for (int i=0; i<rank; i++){
                     flat*= dims[i];
@@ -231,8 +229,8 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
 
                 rbuf= new float [flat];
                 ret = H5Dread(dset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, rbuf); 
-
-                switch(rank){
+                
+		switch(rank){
                     case 1:
                         {
                             for (int i=0; i<dims[0]; i++){
@@ -293,22 +291,18 @@ weights_callback(hid_t loc_id, const char *name, const H5L_info_t * linfo, void 
                 if (s.compare("bias:0") == 0 ){ // it's a bias 
                     wb->identifier = wb->identifier.append("_b");
                     od->LM[layer_id]->b = wb;
-		    std::cout << "parsed bias" << std::endl;
 
                 } if (s.compare("kernel:0") == 0){ // it's a weight
                     wb->identifier=wb->identifier.append("_W");
                     od->LM[layer_id]->w = wb;
-		    std::cout << "parsed weight" << std::endl;
                 }
                 if (s.compare("recurrent_kernel:0") == 0){ // it's a rec weight
                     wb->identifier = wb->identifier.append("_Wrec");
                     od->LM[layer_id]->w_rec = wb;
-		    std::cout << "parsed recurrent weight" << std::endl;
                 }    
 
                 ret= H5Dclose(dset); 
         }
-    H5Gclose(group);
     
     return 0;
  }
