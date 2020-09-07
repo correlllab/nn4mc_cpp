@@ -1,6 +1,6 @@
 <img align="right" src="docs/assets/MFM-logo.png" width="25%"/>
 
-# nn4mc: Neural Networks for Microcontrollers
+# `nn4mc`: Neural Networks for Microcontrollers
 
 [![Docs](https://readthedocs.org/projects/nn4mc/badge)](https://nn4mc.readthedocs.io/en/latest/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)
