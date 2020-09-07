@@ -17,8 +17,11 @@
 
 <%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
 {
-  input = exp(input)/(exp(input) + 1);
-
+  if (input >= 0.0){
+	input = 1./ (1. + exp(-1.* input));
+  } else{	
+  	input = exp(input)/(exp(input) + 1.);
+  }
   return input;
 }
 
@@ -38,14 +41,15 @@
 
 <%LAYER_DATATYPE_DELIMITER> hard_sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
 {
-  if (input < -2.5){
-      input = 0.0;
-  } else if (input > 2.5){
-      input = 1.0;
-  } else{
-      input = 0.2*input + 0.5;
-  }
 
+  input = 0.2*input + 0.5;
+  if (input <= 0.0){
+	input = 0.0;
+  }else{
+	if (input >= 1.){
+	    input = 1.0;
+	}
+  } 
   return input;
 }
 
@@ -56,6 +60,28 @@
   return input;
 }
 
+<%LAYER_DATATYPE_DELIMITER> elu(<%LAYER_DATATYPE_DELIMITER> input, <%LAYER_DATATYPE_DELIMITER> alpha)
+{
+  if (input > 0){
+    input = 0.0;
+  } else{
+	input = alpha * (exp(input) - 1.);
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> selu(<%LAYER_DATATYPE_DELIMITER> input)
+{
+  int scale = 1.0507009873554804934193349852946;
+  int alpha = 1.6732632423543772848170429916717; 
+  if (input > 0.0) {
+      input *= scale; 
+  } else{
+ 	input = exp(input) - 1.) * scale * alpha;
+	}
+  return input;
+}
+
 <%LAYER_DATATYPE_DELIMITER> relu(<%LAYER_DATATYPE_DELIMITER> input)
 {
   input = max(input, 0.0);
@@ -63,11 +89,9 @@
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> hyper_tan(<%LAYER_DATATYPE_DELIMITER> input)
+<%LAYER_DATATYPE_DELIMITER> tanh(<%LAYER_DATATYPE_DELIMITER> input)
 {
-  input = tanh(input);
-
-  return input;
+  return tanh(input);
 }
 
 <%LAYER_DATATYPE_DELIMITER> softmax(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape)
@@ -92,11 +116,11 @@
   if (type == 0x00)
     return softmax(input, output_shape);
 
-  /* else if (type == 0x02)
-    return elu(); */
-
-  /* else if (type == 0x03)
-    return selu(); */
+   else if (type == 0x02)
+    return elu(input, 0.5);
+	
+   else if (type == 0x03)
+    return selu(input); 
 
   else if (type == 0x04)
     return softplus(input);
@@ -108,7 +132,7 @@
     return relu(input);
 
   else if (type == 0x07)
-    return hyper_tan(input);
+    return tanh(input);
 
   else if (type == 0x08)
     return sigmoid(input);
@@ -118,9 +142,6 @@
 
   else if (type == 0xA)
     return exponential(input);
-
-  /* else if (type == 0xC)
-    return custom(input); */
 
   return input;
 }
