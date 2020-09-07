@@ -5,7 +5,7 @@
 
 [![Docs](https://readthedocs.org/projects/nn4mc/badge)](https://nn4mc.readthedocs.io/en/latest/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/correlllab/nn4mc/blob/master/LICENSE.md)
-[![Open ONNX tutorial in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/correlllab/nn4mc_cpp/blob/master/examples/ONNX_NN4MC.ipynb)
+[![ONXX Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/correlllab/nn4mc_cpp/blob/master/examples/ONNX_NN4MC.ipynb)
 
 ##### By the Correll Lab, University of Colorado Boulder
 
