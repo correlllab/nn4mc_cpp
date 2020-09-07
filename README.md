@@ -43,6 +43,12 @@ NN4MC Options:
 $ ./build/h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"	
 ```
 
+### What about packages other than Keras?
+
+We currently develop instructionals on converting packages from multiple sources to Keras.
+
+<img src="docs/assets/bitmap.png" align="center" width=25%/>
+
 ### Technical Questions
 
 Please direct your technical questions to [Stack Overflow](https://stackoverflow.com) using the [nn4mc](https://stackoverflow.com/questions/tagged/nn4mc) tag or e-mail Sarah.AguasvivasManzano@colorado.edu. Also feel free to initiate a new issue in our github repository.
