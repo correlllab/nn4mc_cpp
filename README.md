@@ -1,4 +1,3 @@
-﻿<img src="docs/assets/nn4mcArt.png" align="right" width=25%/>
 <img align="right" src="docs/assets/MFM-logo.png" width="25%"/>
 
 # nn4mc: Neural Networks for Microcontrollers
