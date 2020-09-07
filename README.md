@@ -47,7 +47,7 @@ $ ./build/h5_nn4mc --source "/path/to/hdf5" --target "path/to/output/files"
 
 We currently develop instructionals on converting packages from multiple sources to Keras.
 
-<img src="docs/assets/bitmap.png" align="center" width=25%/>
+<img src="docs/assets/bitmap.png" align="center" width=100%/>
 
 ### Technical Questions
 
