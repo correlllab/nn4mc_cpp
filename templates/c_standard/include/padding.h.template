@@ -6,7 +6,7 @@
 
     This file defines possible activation functions.
 
-*/
+**********************/
 
 #ifndef __PADDING_H__
 #define __PADDING_H__
