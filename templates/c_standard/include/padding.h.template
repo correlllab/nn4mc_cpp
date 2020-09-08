@@ -1,0 +1,17 @@
+<%BEGIN_DEFINITION_TEMPLATE>
+/********************
+    padding.h
+
+    Code generated using nn4mc.
+
+    This file defines possible activation functions.
+
+*/
+
+#ifndef __PADDING_H__
+#define __PADDING_H__
+
+<%LAYER_DATATYPE_DELIMITER>* pad(<%LAYER_DATATYPE_DELIMITER> &, <%INDEX_DATATYPE_DELIMITER> *, char);
+
+#endif
+<%END_DEFINITION_TEMPLATE>

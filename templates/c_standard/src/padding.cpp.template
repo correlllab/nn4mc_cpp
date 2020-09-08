@@ -1,0 +1,17 @@
+#include "padding.h"
+
+<%LAYER_DATATYPE_DELIMITER> * pad(<%LAYER_DATATYPE_DELIMITER> & input_shape,<%INDEX_DATATYPE_DELIMITER> * input, char padding_style){
+
+    if (padding_style != ){
+
+    int dims = sizeof(input_shape) / sizeof(input_shape[0]); 	
+    
+    if (dims == 2){
+	
+    } 	
+
+    }
+   return input;
+}
+
+
