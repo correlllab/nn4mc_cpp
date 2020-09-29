@@ -17,7 +17,7 @@
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
 
-struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format, <%INDEX_DATATYPE_DELIMITER> dilation_rate)
+struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format, <%INDEX_DATATYPE_DELIMITER> dilation_rate, bool use_bias)
 {
 	struct Conv1D layer;
 
@@ -33,9 +33,10 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	
         layer.input_shape[0] = input_sh0;
 	layer.input_shape[1] = input_sh1;
-    
-        layer.dilation_rate = dilation_rate;
-
+   	
+	layer.use_bias = use_bias; 
+        
+	layer.dilation_rate = dilation_rate;
         layer.activation = activation;
         layer.padding = padding;
         layer.data_format = data_format;
@@ -85,7 +86,7 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>, <%DILATION_RATE>);
+        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>, <%DILATION_RATE>, <%USE_BIAS>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>

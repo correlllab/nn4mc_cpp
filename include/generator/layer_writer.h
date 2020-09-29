@@ -57,7 +57,7 @@ class Conv1DGenerator : public LayerWriter{
         std::string PADDING = "<%PADDING>"; 
         std::string DATA_FORMAT = "<%DATA_FORMAT>";
         std::string DILATION_RATE = "<%DILATION_RATE>";
-
+	std::string USE_BIAS = "<%USE_BIAS>";
         std::string STRIDE_SIZE = "<%STRIDE_SIZE>";
         std::string KERNEL_SIZE = "<%KERNEL_SIZE>";
         std::string INPUT_SIZE = "<%INPUT_SIZE>";
@@ -113,6 +113,7 @@ class DenseGenerator : public LayerWriter{
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
+	std::string USE_BIAS = "<%USE_BIAS>";
 
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";

@@ -142,6 +142,8 @@ void Conv1DGenerator::build_map(std::string prev_id){
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]);
     mapping[INPUT_SHAPE_1] = std::to_string(layer->input_shape[1]); 
     
+    mapping[USE_BIAS] = std::to_string(layer->use_bias); 
+    
     this->build_activation_lookup();    
     this->build_padding_lookup();
     this->build_dataformat_lookup();
@@ -189,7 +191,7 @@ void DenseGenerator::build_map(std::string prev_id){
     
     mapping[LAYER_NAME] = layer->identifier;
     mapping[INPUT_SHAPE_0] = std::to_string(layer->input_shape[0]); 
-    
+    mapping[USE_BIAS] = std::to_string(layer->use_bias);   
     mapping[OUTPUT_SIZE] = std::to_string(layer->units);
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;

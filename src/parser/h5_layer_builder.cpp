@@ -16,7 +16,6 @@ void ActivationBuilder::create_from_json(json obj, std::string id, std::map<std:
     std::cout<< "LAYER_BUILDER: Activation layer "<< this->layerObject->identifier << " recognized"<<std::endl;
 }
 
-
 void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::string, Layer*>& layerMap){
     json object= obj["config"];
     
@@ -24,7 +23,6 @@ void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::str
         this->layerObject->input_shape.push_back(object["batch_input_shape"][1]);
         this->layerObject->input_shape.push_back(object["batch_input_shape"][2]);
     } 
-
     this->layerObject->identifier.assign(id);
     this->layerObject->filters= object["filters"];
     this->layerObject->kernel_size.push_back(object["kernel_size"][0]);
@@ -33,8 +31,11 @@ void Conv1DBuilder::create_from_json(json obj, std::string id, std::map<std::str
     this->layerObject->data_format.assign(object["data_format"].get<std::string>()); 
     this->layerObject->dilation_rate= object["dilation_rate"][0];
     this->layerObject->activation.assign(object["activation"].get<std::string>());
-    this->layerObject->use_bias = object["use_bias"];
-
+	    
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
+    
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout<< "LAYER_BUILDER: Conv1D layer "<< this->layerObject->identifier << " recognized"<<std::endl;
