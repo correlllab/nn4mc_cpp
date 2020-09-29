@@ -71,6 +71,7 @@ We encourage to use the following citation references for academic use of nn4mc.
         title={Embedded Neural Networks for Robot Autonomy},
         author={Sarah {Aguasvivas Manzano} and Dana Hughes and Cooper Simpson and Radhen Patel and Nikolaus Correll},
         year={2019},
+	note={International Symposium of Robotics Research (ISRR 2019)},
         eprint={1911.03848},
         archivePrefix={arXiv},
         primaryClass={cs.RO}
@@ -80,8 +81,8 @@ We encourage to use the following citation references for academic use of nn4mc.
 **APA Format:**
 
 ```
-Manzano, S. A., Hughes, D., Simpson, C., Patel, R., & Correll, N. (2019). 
-Embedded Neural Networks for Robot Autonomy. arXiv preprint arXiv:1911.03848. 
+Manzano, S. A., Hughes, D., Simpson, C., Patel, R., & Correll, N. (2019). Embedded Neural Networks for Robot Autonomy. 
+International Symposium of Robotics Research (ISRR 2019). arXiv preprint arXiv:1911.03848. 
 ```
 
 
