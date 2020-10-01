@@ -23,16 +23,16 @@
         if (dims == 2){ // Conv1D
         
             for (int j = 0; j<dims; ++j){ 
-                if (input_shape[j] % strides[j] == 0){
-                    pad_hw[j] = max(filter[j] - strides[j], 0);  
+                if (input_shape[j] % strides[0] == 0){
+                    pad_hw[j] = max(filter[0] - strides[0], 0);  
                 } else{
-                    pad_hw[j] = max(filter[j] - (input_shape[j] % strides[j]), 0);
+                    pad_hw[j] = max(filter[0] - (input_shape[0] % strides[0]), 0);
                 }
             }
 
-            int pad_top = pad_hw[0] // 2;
+            int pad_top = pad_hw[0] / 2;
             int pad_bottom = pad_hw[0] - pad_top;
-            int pad_left = pad_hw[1] // 2;
+            int pad_left = pad_hw[1] / 2;
             int pad_right = pad_hw[1] - pad_left;
 
             input_shape[0] += pad_hw[0];
@@ -53,8 +53,37 @@
         
 
         if (dims == 3){ // Conv2D
-             
-        }
+
+            for (int j = 0; j<dims - 1; ++j){ 
+                if (input_shape[j] % strides[j] == 0){
+                    pad_hw[j] = max(filter[j] - strides[j], 0);  
+                } else{
+                    pad_hw[j] = max(filter[j] - (input_shape[j] % strides[j]), 0);
+                }
+            }
+
+            int pad_top = pad_hw[0] / 2;
+            int pad_bottom = pad_hw[0] - pad_top;
+            int pad_left = pad_hw[1] / 2;
+            int pad_right = pad_hw[1] - pad_left;
+
+            input_shape[0] += pad_hw[0];
+            input_shape[1] += pad_hw[1];
+           
+            int flat_size = input_shape[0]*input_shape[1]*input_shape[2];
+
+            <%LAYER_DATATYPE_DELIMITER> * new_input = (<%LAYER_DATATYPE_DELIMITER> *)malloc(flat_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+
+            for (int j = 0; j < flat_size; ++j) new_input[j] = 0.0; 
+
+            for (int ii = pad_top; ii < input_shape[0] - pad_bottom; ++ii){
+                for (int jj = pad_left; jj < input_shape[1] - pad_right; ++jj){
+                    for (int kk = 0; kk< input_shape[2]; ++kk){
+                    new_input[jj*input_shape[0] + ii + kk] = input[ (jj-pad_left) * (input_shape[0]-pad_hw[0]) + (ii - pad_top) + kk ];        
+                    }        
+                }
+            }
+        } // end of dims == 3
 
     
 
