@@ -2,16 +2,39 @@
 
 <%LAYER_DATATYPE_DELIMITER> * pad(<%LAYER_DATATYPE_DELIMITER> & input_shape,<%INDEX_DATATYPE_DELIMITER> * input, char padding_style){
 	// padding_style = 0x00 -> valid, 0x02 -> causal, 0x03 -> same
-    if (padding_style != ){
 
+    <%LAYER_DATATYPE_DELIMITER> * new_input;
     int dims = sizeof(input_shape) / sizeof(input_shape[0]); 	
     
-    if (dims == 2){
-		
-    } 	
+    if (padding_style == 0x02){ // causal
+                
+        if (dims == 2){
+                                 
+        }
+
+        if (dims == 3){ 
+
+        }
+    }
+
+    if (padding_style == 0x03){ // same
+
+        if (dims == 2){
+
+        }
+
+        if (dims == 3){
+
+        }
 
     }
-   return input;
+
+    if (padding_style == 0x00){ 
+        int size_input = sizeof(input)/sizeof(input[0]);
+        new_input = (<%LAYER_DATATYPE_DELIMITER>*)malloc(size_input * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+        for(int i=0; i< size_input; ++i) new_input[i] = input[i];
+    }
+   return new_input;
 }
 
 
