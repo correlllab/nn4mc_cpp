@@ -74,7 +74,9 @@ void Conv2DBuilder::create_from_json(json obj, std::string id, std::map<std::str
     this->layerObject->data_format.assign(object["data_format"].get<std::string>());
     this->layerObject->activation.assign(object["activation"].get<std::string>());
     this->layerObject->use_bias= object["use_bias"];
-
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
     layerMap[this->layerObject->identifier] = this->layerObject;
 
     std::cout<< "LAYER_BUILDER: Conv2D layer " << this->layerObject->identifier << " recognized"<<std::endl;
@@ -138,7 +140,11 @@ void DenseBuilder::create_from_json(json obj, std::string id, std::map<std::stri
             for (int i=0; i<object["batch_input_shape"].size()-1; i++){
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
             }
-    }  
+    }
+    
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
 
     this->layerObject->output_shape.push_back(this->layerObject->units);
     layerMap[this->layerObject->identifier] = this->layerObject;
@@ -152,7 +158,6 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
     this->layerObject->identifier.assign(id);
     this->layerObject->units=object["units"];
     this->layerObject->activation.assign(object["activation"].get<std::string>());
-    this->layerObject->use_bias = object["use_bias"];
     this->layerObject->return_sequences= object["return_sequences"];
     this->layerObject->return_state = object["return_state"];
     this->layerObject->go_backwards = object["go_backwards"];
@@ -163,7 +168,11 @@ void SimpleRNNBuilder::create_from_json(json obj, std::string id, std::map<std::
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i+1]);
         }
     }
-    
+
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
+   
     this->layerObject->output_shape.push_back(this->layerObject->units);
     
     layerMap[this->layerObject->identifier] = this->layerObject;
@@ -201,6 +210,9 @@ void GRUBuilder::create_from_json(json obj, std::string id, std::map<std::string
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i + 1]);
             }
     }    
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
     std::cout << "LAYER_BUILDER: GRU layer " << this->layerObject->identifier << " recognized" << std::endl;
 }
 
@@ -224,6 +236,10 @@ void LSTMBuilder::create_from_json(json obj, std::string id, std::map<std::strin
                 this->layerObject->input_shape.push_back(object["batch_input_shape"][i + 1]);
             }
     }
+    
+    if (object["use_bias"] =="False"){
+    	this->layerObject->use_bias = false;
+    } else this->layerObject->use_bias = true;
 
     layerMap[this->layerObject->identifier] = this->layerObject;
 

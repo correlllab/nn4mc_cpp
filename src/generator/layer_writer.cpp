@@ -167,6 +167,8 @@ void Conv2DGenerator::build_map(std::string prev_id){
     
     mapping[DILATION_RATE_0] = std::to_string(layer->dilation_rate[0]);
     mapping[DILATION_RATE_1] = std::to_string(layer->dilation_rate[1]);
+	
+    mapping[USE_BIAS] = std::to_string(layer->use_bias);
 
     mapping[WEIGHT_NAME] = layer->w->identifier;
     mapping[BIAS_NAME] = layer->b->identifier;

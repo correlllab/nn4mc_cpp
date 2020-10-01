@@ -81,19 +81,15 @@ class Conv2DGenerator : public LayerWriter{
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         std::string INPUT_SHAPE_2= "<%INPUT_SHAPE_2>";
-       
         std::string KERNEL_SHAPE_0= "<%KERNEL_SHAPE_0>";
         std::string KERNEL_SHAPE_1= "<%KERNEL_SHAPE_1>";
-        
+	std::string USE_BIAS = "<%USE_BIAS>";        
         std::string STRIDE_SHAPE_0= "<%STRIDE_SHAPE_0>";
         std::string STRIDE_SHAPE_1= "<%STRIDE_SHAPE_1>";
-
         std::string PADDING = "<%PADDING>"; 
         std::string DATA_FORMAT = "<%DATA_FORMAT>";
-        
         std::string DILATION_RATE_0 = "<%DILATION_RATE_0>";
         std::string DILATION_RATE_1 = "<%DILATION_RATE_1>";        
-        
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>";
@@ -111,14 +107,11 @@ class DenseGenerator : public LayerWriter{
 
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
-        
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
 	std::string USE_BIAS = "<%USE_BIAS>";
-
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
-
         Dense* layer;
         DenseGenerator(Dense* layer, std::string init){this->layer = layer; this->init_template.assign(init);}
 
@@ -131,9 +124,7 @@ class SimpleRNNGenerator : public LayerWriter{
     public:
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
-        
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
-
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string RECURRENT_WEIGHT_NAME = "<%RECURRENT_WEIGHT_NAME>";
         std::string BIAS_NAME = "<%BIAS_NAME>";
@@ -156,12 +147,9 @@ class LSTMGenerator : public LayerWriter{
     public:
         std::string INPUT_SHAPE_0= "<%INPUT_SHAPE_0>";
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
-        
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
-
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string RECURRENT_WEIGHT_NAME = "<%RECURRENT_WEIGHT_NAME>";
-
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";
@@ -187,10 +175,8 @@ class GRUGenerator : public LayerWriter{
         std::string INPUT_SHAPE_1= "<%INPUT_SHAPE_1>";
         
         std::string OUTPUT_SIZE= "<%OUTPUT_SIZE>";
-
         std::string WEIGHT_NAME = "<%WEIGHT_NAME>";
         std::string RECURRENT_WEIGHT_NAME = "<%RECURRENT_WEIGHT_NAME>";
-
         std::string BIAS_NAME = "<%BIAS_NAME>";
         std::string ACTIVATION = "<%ACTIVATION>"; 
         std::string RECURRENT_ACTIVATION = "<%RECURRENT_ACTIVATION>";
