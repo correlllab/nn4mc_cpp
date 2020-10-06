@@ -1,6 +1,6 @@
 #include "padding.h"
 
-<%LAYER_DATATYPE_DELIMITER> * pad(<%LAYER_DATATYPE_DELIMITER> & input_shape, <%INDEX_DATATYPE_DELIMITER> * filter, <%INDEX_DATATYPE_DELIMITER> * strides,  <%LAYER_DATATYPE_DELIMITER> * input, char padding_style){
+<%LAYER_DATATYPE_DELIMITER> * pad(<%LAYER_DATATYPE_DELIMITER> & input_shape, <%INDEX_DATATYPE_DELIMITER> * filter, <%INDEX_DATATYPE_DELIMITER> * strides,  <%LAYER_DATATYPE_DELIMITER> * input, char padding_style, <%INDEX_DATATYPE_DELIMITER> units){
 	// padding_style = 0x00 -> valid, 0x02 -> causal, 0x03 -> same
 
     <%LAYER_DATATYPE_DELIMITER> * new_input;
@@ -9,11 +9,20 @@
     if (padding_style == 0x02){ // causal
                 
         if (dims == 2){ // Conv1D
-                                 
-        }
-
-        if (dims == 3){  // Conv2D
-
+            int pad_hw[2];
+            if (input_shape[1] != units){
+                int pad_diff = abs(input_shape[1] - units);
+                input_shape[1] += pad_diff;
+                int flat_size = input_shape[0]*input_shape[1];
+                
+                <%LAYER_DATATYPE_DELIMITER> * new_input = (<%LAYER_DATATYPE_DELIMITER> *)malloc(flat_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+                
+                for (int ii=0; ii< input_shape[0]; ii++){
+                    for (int jj=pad_diff; jj< input_shape[1]; jj++){
+                        new_input[jj*input_shape[0]+ii] = input[(jj-pad_diff)*input_shape[0] + ii] 
+                    }
+                }
+            }  
         }
     }
 
@@ -85,7 +94,6 @@
             }
         } // end of dims == 3
 
-    
 
     if (padding_style == 0x00){ 
         int size_input = sizeof(input)/sizeof(input[0]);
