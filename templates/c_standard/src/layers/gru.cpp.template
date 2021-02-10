@@ -9,7 +9,8 @@
 */
 
 #include "gru.h"
-#include "activation_func.h"
+#include "activations.h"
+#include "functions.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -23,7 +24,7 @@ recurrent_dropout, bool go_backwards)
 
 	layer.weights = W;
 	layer.biases = b;
-    layer.wrec = Wrec
+    layer.wrec = Wrec;
     
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
@@ -44,37 +45,27 @@ recurrent_dropout, bool go_backwards)
     return layer;
 }
 
-void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
-    while(start < end){
-        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
-        x[start] = x[end];
-        x[end] = temp;
-        start++;
-        end--;
-    }
-} 
-
 <%LAYER_DATATYPE_DELIMITER> * fwdGRU(struct GRU L, <%LAYER_DATATYPE_DELIMITER>* input)
 {
 
-    if (layer.go_backwards){
-        reverseInput(input, 0, L.input_shape[0]*L.input_shape[1] - 1);
+    if (L.go_backwards){
+        reverse(input, L.input_shape);
     }
 
-    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-     <%LAYER_DATATYPE_DELIMITER> * z = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
-     <%LAYER_DATATYPE_DELIMITER> * r = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * hh = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+     <%LAYER_DATATYPE_DELIMITER> * z = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+     <%LAYER_DATATYPE_DELIMITER> * r = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+     <%LAYER_DATATYPE_DELIMITER> * hh = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
     for (int i=0; i< L.output_size; i++){
-        <%INDEX_DATATYPE_DELIMITER> int_z = i;
-        <%INDEX_DATATYPE_DELIMITER> int_r = 1*L.output_size + i;
-        <%INDEX_DATATYPE_DELIMTIER> int_h = 2*L.output_size + i;
+        <%INDEX_DATATYPE_DELIMITER> ind_z = i;
+        <%INDEX_DATATYPE_DELIMITER> ind_r = 1*L.output_size + i;
+        <%INDEX_DATATYPE_DELIMITER> ind_h = 2*L.output_size + i;
 
-        z[i] = L.biases[int_z];
-        r[i] = L.biases[int_r];
-        hh[i] = L.biases[int_h];
+        z[i] = L.biases[ind_z];
+        r[i] = L.biases[ind_r];
+        hh[i] = L.biases[ind_h];
 
        for (<%INDEX_DATATYPE_DELIMITER> j=0; j< L.input_shape[0]*L.input_shape[1]; j++){
             z[i]+= *(L.weights + ind_z*L.output_size + j)*input[j];
@@ -93,11 +84,11 @@ void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
        }
 
        for (<%INDEX_DATATYPE_DELIMITER> j=0; j<L.output_size; j++){
-            hh[i]+= *(L.wrec + ind_h*L.output_shape + j) *(r[j]*L.prev_h[j]);
+            hh[i]+= *(L.wrec + ind_h*L.output_size + j) *(r[j]*L.prev_h[j]);
        }
 
       for (<%INDEX_DATATYPE_DELIMITER> j=0; j<L.output_size; j++){
-            hh[i]= activate(hh[i], L.output_shape, L.activation);
+            hh[i]= activate(hh[i], L.output_size, L.activation);
             h[i] = z[i]*L.prev_h[i] + (1 - z[i]) * hh[i];
             L.prev_h[i] = h[i];
        }        

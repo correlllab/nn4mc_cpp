@@ -9,9 +9,9 @@
 */
 
 #ifdef __cplusplus
-#extern "C" {
+extern "C" {
 
-#include "neural_network.h"
+#include "nn4mc.h"
 #include <stdlib.h>
 
 void buildLayers(){

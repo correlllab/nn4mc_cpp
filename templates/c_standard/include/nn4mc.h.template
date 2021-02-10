@@ -14,7 +14,7 @@
 #ifdef __cplusplus
 extern "C" {
 
-#include "neural_network_params.h"
+#include "parameters.h"
 <%INCLUDE>
 
 <%STRUCTS>

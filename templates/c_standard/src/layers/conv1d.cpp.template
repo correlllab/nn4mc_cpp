@@ -16,8 +16,7 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-
-struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format, <%INDEX_DATATYPE_DELIMITER> dilation_rate, bool use_bias)
+struct Conv1D build_layer_conv1d(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DELIMITER>* b, <%INDEX_DATATYPE_DELIMITER> kernel_size, <%INDEX_DATATYPE_DELIMITER> strides, <%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%INDEX_DATATYPE_DELIMITER> filters, <%ACTIVATION_DATATYPE_DELIMITER> activation, <%ACTIVATION_DATATYPE_DELIMITER> padding, <%ACTIVATION_DATATYPE_DELIMITER> data_format, <%INDEX_DATATYPE_DELIMITER> dilation_rate)
 {
 	struct Conv1D layer;
 
@@ -29,56 +28,94 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 	layer.weight_shape[2] = filters;
 
 	layer.strides = strides;
-        layer.kernel_shape[0] = kernel_size;
-	
-        layer.input_shape[0] = input_sh0;
+    layer.kernel_shape[0] = kernel_size;
+
+    layer.input_shape[0] = input_sh0;
 	layer.input_shape[1] = input_sh1;
-   	
-	layer.use_bias = use_bias; 
-        
-	layer.dilation_rate = dilation_rate;
-        layer.activation = activation;
-        layer.padding = padding;
-        layer.data_format = data_format;
-    
-        layer.filters= filters;
 
-	layer.output_shape[0] = (int)((layer.input_shape[0] - layer.kernel_shape[0])/layer.strides + 1);
-	layer.output_shape[1] = layer.filters;
+    layer.dilation_rate = dilation_rate;
 
+    layer.activation = activation;
+    layer.padding = padding;
+    layer.data_format = data_format;
+
+    layer.output_shape[0] = (<%INDEX_DATATYPE_DELIMITER>)((input_sh0 - kernel_size) / strides) + 1;
+	layer.output_shape[1] = (<%INDEX_DATATYPE_DELIMITER>)filters;
+
+    layer.filters = filters;
 	return layer;
 }
 
+<%LAYER_DATATYPE_DELIMITER> * padding_1d(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER> * input){
+        if (L.padding == 0x02){ // padding is causal (tested)
+               <%INDEX_DATATYPE_DELIMITER> input_size = (<%INDEX_DATATYPE_DELIMITER>)(L.input_shape[0] * L.input_shape[1]);
+               <%INDEX_DATATYPE_DELIMITER> left_pad = (<%INDEX_DATATYPE_DELIMITER>)(L.dilation_rate * (L.kernel_shape[0] - 1));
+               input_size += (<%INDEX_DATATYPE_DELIMITER>)(left_pad * L.input_shape[0]);
+               <%LAYER_DATATYPE_DELIMITER> new_input[input_size];
+               for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) new_input[i] = 0.0;
+               for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.input_shape[0]; i++){
+                   for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[1]; j++){
+                       new_input[i * (L.input_shape[1] + left_pad) + j + left_pad] = input[j + L.input_shape[1] * i];
+                   }
+               }
+               input = (<%LAYER_DATATYPE_DELIMITER>*)realloc(input, input_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+               for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) input[i] = new_input[i];
+        }
 
-<%LAYER_DATATYPE_DELIMITER> * fwdConv1D(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER>* input)
+        if (L.padding == 0x03) { // padding is same
+              <%INDEX_DATATYPE_DELIMITER> input_size = (<%INDEX_DATATYPE_DELIMITER>)(L.input_shape[0] * L.input_shape[1]);
+              <%INDEX_DATATYPE_DELIMITER> pad = (<%INDEX_DATATYPE_DELIMITER>)(L.filters / 2);
+              input_size += (<%INDEX_DATATYPE_DELIMITER>)(L.input_shape[0] * pad);
+              <%LAYER_DATATYPE_DELIMITER> new_input[input_size];
+              <%INDEX_DATATYPE_DELIMITER> left_pad = floor(pad / 2);
+              <%INDEX_DATATYPE_DELIMITER> right_pad = abs(pad - left_pad);
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) new_input[i] = 0.0;
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.input_shape[0]; i++){
+                  for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[1]; j++){
+                      new_input[(L.input_shape[1]) * i + j] = input[L.input_shape[1] * i + j];
+                  }
+              }
+
+              input = (<%LAYER_DATATYPE_DELIMITER>*)realloc(input, input_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) input[i] = new_input[i];
+        }
+
+    return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * fwd_conv1d(struct Conv1D L, <%LAYER_DATATYPE_DELIMITER> * input)
 {
+    input = padding_1d(L, input);
+    if (L.data_format == 0x02){
+        for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.input_shape[0]; i++){
+            for (<%INDEX_DATATYPE_DELIMITER> j = 0 ; j < L.input_shape[1]; j++){
+                <%LAYER_DATATYPE_DELIMITER> temp = input[i * L.input_shape[1] + j];
+                input[i * L.input_shape[1] + j] = input[j * L.input_shape[1] + i];
+                input[j * L.input_shape[1] + i] = temp;
+            }
+        }
+    }
+    <%INDEX_DATATYPE_DELIMITER> output_size = L.output_shape[0] * L.output_shape[1];
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(output_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-      input = pad(L.input_shape, input, L.padding);
+    for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[1]; j++)
+    {
+        for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
+        {
+            <%INDEX_DATATYPE_DELIMITER> idx = i * L.output_shape[1] + j;
+			h[idx] = (<%LAYER_DATATYPE_DELIMITER>)L.biases[j];
 
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
-
-	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
-	{
-		for(<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[1]; j++)
-		{
-            <%INDEX_DATATYPE_DELIMITER> idx = i*L.output_shape[1] + j;
-
-			h[idx] = L.biases[j];
-
-			for(<%INDEX_DATATYPE_DELIMITER> x = 0; x < L.kernel_shape[0]; x++)
+			for (<%INDEX_DATATYPE_DELIMITER> x = 0; x < L.weight_shape[0]; x++)
 			{
-				for(<%INDEX_DATATYPE_DELIMITER> y = 0; y < L.weight_shape[1]; y++)
+				for (<%INDEX_DATATYPE_DELIMITER> y = 0; y < L.weight_shape[1]; y++)
 				{
-                    h[idx] += *(L.weights + x*L.weight_shape[1]*L.weight_shape[2] + y*L.weight_shape[2] +  j) * input[(i+x)*L.input_shape[1] +  y];
+                    h[idx] += *(L.weights + L.weight_shape[2] * (x * L.weight_shape[1] + y) + j) * input[(i + x) * L.input_shape[1] + y];
 				}
 			}
-
-			if(L.activation != 0xB)
-				h[i] = activate(h[i],L.output_shape[0],L.activation);
 		}
 	}
-
-    free(input);
+	free(input);
+    h = activate(h, output_size, L.activation);
     return h;
 }
 
@@ -86,9 +123,9 @@ struct Conv1D buildConv1D(<%WEIGHT_DATATYPE_DELIMITER>* W, <%WEIGHT_DATATYPE_DEL
 
 
 <%BEGIN_INITIALIZE_TEMPLATE>
-        <%LAYER_NAME> = buildConv1D(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>, <%DILATION_RATE>, <%USE_BIAS>);
+        <%LAYER_NAME> = build_layer_conv1d(&<%WEIGHT_NAME>[0], <%BIAS_NAME>, <%KERNEL_SIZE>, <%STRIDE_SIZE>, <%INPUT_SHAPE_0>, <%INPUT_SHAPE_1>, <%FILTERS>, <%ACTIVATION>, <%PADDING>, <%DATA_FORMAT>, <%DILATION_RATE>);
 <%END_INITIALIZE_TEMPLATE>
 
 <%BEGIN_CALL_TEMPLATE>
-        data = fwdConv1D(<%LAYER_NAME>, <%INPUT>);
+        data = fwd_conv1d(<%LAYER_NAME>, <%INPUT>);
 <%END_CALL_TEMPLATE>

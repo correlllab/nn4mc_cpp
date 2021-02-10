@@ -41,6 +41,7 @@ testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
 model = tf.keras.Sequential([
             tf.keras.layers.Conv1D(filters=7, kernel_size = 3, padding = 'same', input_shape = (trainX.shape[1], trainX.shape[2])),
+            tf.keras.layers.MaxPool1D(pool_size = 2),
             tf.keras.layers.Dense(8, activation="relu"),
             tf.keras.layers.Dense(1)])
 
@@ -50,7 +51,7 @@ model.fit(trainX,trainY, epochs=100, batch_size=16, verbose=2)
 print(model.summary())
 print(model.layers[0].input_shape)
 
-model.save('Conv1.hdf5')
+model.save('Conv1_pooling.hdf5')
 
 trainPredict = model.predict(trainX)
 testPredict= model.predict(testX)

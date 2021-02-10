@@ -9,9 +9,11 @@
 */
 
 #include "lstm.h"
-#include "activation_func.h"
+#include "activations.h"
 #include <math.h>
+#include "functions.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
@@ -45,33 +47,21 @@ struct LSTM buildLSTM(<%WEIGHT_DATATYPE_DELIMITER> * W, <%WEIGHT_DATATYPE_DELIMI
         layer.prev_c[i] = 0.0;
     }
 
-
-    // TODO: Need to assign the above to 0''s
 	return layer;
-}
-
-void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
-    while(start < end){
-        <%LAYER_DATATYPE_DELIMITER> temp = x[start];
-        x[start] = x[end];
-        x[end] = temp;
-        start++;
-        end--;
-    }
 }
 
 <%LAYER_DATATYPE_DELIMITER> * fwdLSTM(struct LSTM L, <%LAYER_DATATYPE_DELIMITER>* x)
 {
-    if (layer.go_backwards){
-        reverseInput(x, 0, L.input_shape[0]*L.input_shape[1] - 1);           
+    if (L.go_backwards){
+        reverse(x, L.input_shape);           
     }
 
-    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-    <%LAYER_DATATYPE_DELIMITER> * f = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * ig = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * c = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
-    <%LAYER_DATATYPE_DELIMITER> * og = (<%LAYER_DATATYPE_DELIMITER>*)malloc(layer.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * f = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * ig = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * c = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * og = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_size*sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
    for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_size; i++){
         
@@ -95,9 +85,9 @@ void reverseInput(<%LAYER_DATATYPE_DELIMITER> * x, int start, int end){
 
       for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_size; j++){
             f[i]+= *(L.wrec + ind_f*L.output_size + j)*L.prev_h[j];
-            ig[i]+= *(L.wrec + ind_i*L.output_size+j)*L.prev[j];
-            c[i] += *(L.wrec + ind_c*L.output_size+j)*L.prev[j];
-            og[i]+= *(L.wrec + ind_o*L.output_size+j)*L.prev[j];
+            ig[i]+= *(L.wrec + ind_i*L.output_size+j)*L.prev_h[j];
+            c[i] += *(L.wrec + ind_c*L.output_size+j)*L.prev_h[j];
+            og[i]+= *(L.wrec + ind_o*L.output_size+j)*L.prev_h[j];
        }
      }
       

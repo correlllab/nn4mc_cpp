@@ -15,133 +15,175 @@
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-<%LAYER_DATATYPE_DELIMITER> sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+<%LAYER_DATATYPE_DELIMITER> * sigmoid(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
 {
-  if (input >= 0.0){
-	input = 1./ (1. + exp(-1.* input));
-  } else{	
-  	input = exp(input)/(exp(input) + 1.);
-  }
+    for (int i = m - 1; i>= 0; i--){
+        if (input[i] >= 0.0){
+            input[i] = 1./(exponential(-input[i]) + 1.);
+        } else{
+            input[i] = exponential(input[i]) / (1. + exponential(input[i]));
+        }
+
+       if (isnan(input[i])){
+            input[i] = 1.;
+       }
+   }
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> softplus(<%LAYER_DATATYPE_DELIMITER> input)
+<%LAYER_DATATYPE_DELIMITER> * softplus(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
 {
-  input = log(exp(input) + 1);
+  for (int i = m - 1; i>= 0; i--){
+      float x = input[i];
+      input[i] = log(exponential(input[i]) + 1.);
 
+      if (isinf(input[i])){
+        input[i] = x;
+      }
+    }
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> softsign(<%LAYER_DATATYPE_DELIMITER> input)
+<%LAYER_DATATYPE_DELIMITER> * softsign(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
 {
-  input = input / (abs(input) + 1);
-
+   for (int i = m-1; i>=0; i--){
+        input[i] = input[i] / (abs(input[i]) + 1);
+    }
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> hard_sigmoid(<%LAYER_DATATYPE_DELIMITER> input)
+<%LAYER_DATATYPE_DELIMITER> * hard_sigmoid(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
 {
+    for (int i = m - 1; i >= 0; i--){
+         input[i] = input[i] * 0.2 + 0.5;
+          if (input[i] < 0){
+              input[i] = 0.0;
+          } else if (input[i] > 1.0){
+              input[i] = 1.0;
+          }
+      }
 
-  input = 0.2*input + 0.5;
-  if (input <= 0.0){
-	input = 0.0;
-  }else{
-	if (input >= 1.){
-	    input = 1.0;
-	}
-  } 
   return input;
 }
 
 <%LAYER_DATATYPE_DELIMITER> exponential(<%LAYER_DATATYPE_DELIMITER> input)
 {
-  input = (<%LAYER_DATATYPE_DELIMITER>)expf((float)input);
-
+  // not an activation function
+  input = (<%LAYER_DATATYPE_DELIMITER>)expf((<%LAYER_DATATYPE_DELIMITER>)input);
   return input;
 }
 
-<%LAYER_DATATYPE_DELIMITER> elu(<%LAYER_DATATYPE_DELIMITER> input, <%LAYER_DATATYPE_DELIMITER> alpha)
+<%LAYER_DATATYPE_DELIMITER> * relu(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
 {
-  if (input > 0){
-    input = 0.0;
+  for (int i = m - 1; i>=0; i--){
+        input[i] = max(input[i], 0.0);
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * elu(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m, <%INDEX_DATATYPE_DELIMITER> a)
+{
+  for (int i = m - 1; i>=0; i--){
+        if (input[i] < 0)
+            input[i] = a*(exp(input[i]) - 1);
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * selu(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
+{
+  <%LAYER_DATATYPE_DELIMITER> scale = 1.05070098;
+  <%LAYER_DATATYPE_DELIMITER> * input1;
+  input1 = elu(input, m, 1.67326324);
+
+  for (int i = m - 1; i>=0; i--){
+        if (input[i] > 0){
+            input[i] *= scale;
+        } else{
+            input[i] = scale * input1[i];
+        }
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * exp_activation(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
+{
+  for (int i = m - 1; i>=0; i--){
+        input[i] = exponential(input[i]);
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * hyper_tan(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
+{
+  for (int i = m - 1; i>= 0; i--){
+        input[i] = tanh(input[i]);
+  }
+  return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * softmax(<%LAYER_DATATYPE_DELIMITER> * input, <%INDEX_DATATYPE_DELIMITER> m)
+{
+  <%LAYER_DATATYPE_DELIMITER> e[m];
+  <%LAYER_DATATYPE_DELIMITER> sum = 0.0;
+  <%LAYER_DATATYPE_DELIMITER> max = input[0];
+  <%LAYER_DATATYPE_DELIMITER> sum_e = 0.0;
+
+  // finding max
+  for (int i = m-1; i > 0; i--){
+    if (input[i] > max){
+        max = input[i];
+    }
+  }
+  // finding e
+  for (int i = m-1; i>= 0; i--){
+      e[i] = exp(input[i] - max);
+      sum_e += e[i];
+  }
+  if (sum_e > 0){
+      for (int i = m-1; i>= 0; i--){
+            input[i] = e[i] / sum_e;
+      }
   } else{
-	input = alpha * (exp(input) - 1.);
-  }
-  return input;
-}
-
-<%LAYER_DATATYPE_DELIMITER> selu(<%LAYER_DATATYPE_DELIMITER> input)
-{
-  int scale = 1.0507009873554804934193349852946;
-  int alpha = 1.6732632423543772848170429916717; 
-  if (input > 0.0) {
-      input *= scale; 
-  } else{
- 	input = exp(input) - 1.) * scale * alpha;
-	}
-  return input;
-}
-
-<%LAYER_DATATYPE_DELIMITER> relu(<%LAYER_DATATYPE_DELIMITER> input)
-{
-  input = max(input, 0.0);
-
-  return input;
-}
-
-<%LAYER_DATATYPE_DELIMITER> tanh(<%LAYER_DATATYPE_DELIMITER> input)
-{
-  return tanh(input);
-}
-
-<%LAYER_DATATYPE_DELIMITER> softmax(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape)
-{
-  float sum_exp = 0.0;
-  for (int i=0; i<output_shape; i++){
-      sum_exp+= expf(input);
-  }
-  for (int i=0; i<output_shape;i++){
-      float calc = expf(input) / sum_exp;
-      if (isnan(calc)){
-          input = 1.0;
-      } else input = (<%LAYER_DATATYPE_DELIMITER>)(expf(input) / sum_exp);
+   for (int i = m-1; i>= 0; i--){
+            input[i] = e[i] / max;
+      }
   }
 
   return input;
 }
 
-//NOTE: This is deprecated and need to be changed to be more streamlined
 <%LAYER_DATATYPE_DELIMITER> activate(<%LAYER_DATATYPE_DELIMITER> input, <%INDEX_DATATYPE_DELIMITER> output_shape, char type)
 {
   if (type == 0x00)
     return softmax(input, output_shape);
 
-   else if (type == 0x02)
-    return elu(input, 0.5);
-	
-   else if (type == 0x03)
-    return selu(input); 
+  else if (type == 0x02)
+    return elu(input, output_shape, 1.0);
+
+  else if (type == 0x03)
+    return selu(input, output_shape);
 
   else if (type == 0x04)
-    return softplus(input);
+    return softplus(input, output_shape);
 
   else if (type == 0x05)
-    return softsign(input);
+    return softsign(input, output_shape);
 
   else if (type == 0x06)
-    return relu(input);
+    return relu(input, output_shape);
 
   else if (type == 0x07)
-    return tanh(input);
+    return hyper_tan(input, output_shape);
 
   else if (type == 0x08)
-    return sigmoid(input);
+    return sigmoid(input, output_shape);
 
   else if (type == 0x09)
-    return hard_sigmoid(input);
+    return hard_sigmoid(input, output_shape);
 
   else if (type == 0xA)
-    return exponential(input);
+    return exp_activation(input, output_shape);
 
   return input;
 }
