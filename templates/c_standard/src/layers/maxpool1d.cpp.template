@@ -8,49 +8,69 @@
 
 */
 
-#include "maxpool1d.h"
-#include "activations.h"
-#include <math.h>
-#include <stdlib.h>
+#include "maxpooling1d.h"
 
 #define max(a, b) (((a)>(b) ? (a) : (b)))
 #define min(a, b) (((a)<(b) ? (a) : (b)))
 
-struct MaxPooling1D buildMaxPooling1D(<%INDEX_DATATYPE_DELIMITER> pool_size, <%INDEX_DATATYPE_DELIMITER> strides,<%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1)
+struct MaxPooling1D build_layer_maxpooling1d(<%INDEX_DATATYPE_DELIMITER> pool_size, <%INDEX_DATATYPE_DELIMITER> strides,<%INDEX_DATATYPE_DELIMITER> input_sh0, <%INDEX_DATATYPE_DELIMITER> input_sh1, <%ACTIVATION_DATATYPE_DELIMITER> padding)
 {
 	struct MaxPooling1D layer;
 
 	layer.strides = strides;
     layer.pool_size = pool_size;
+
     layer.input_shape[0] = input_sh0;
     layer.input_shape[1] = input_sh1;
 
-	layer.output_shape[0] = floor(input_sh0 / pool_size);
-	layer.output_shape[1] = pool_size;
+    layer.padding = padding;
+
+	layer.output_shape[0] = (<%INDEX_DATATYPE_DELIMITER>)(ceil((input_sh0 - pool_size + 1) / strides)) + 1;
+	layer.output_shape[1] = (<%INDEX_DATATYPE_DELIMITER>)input_sh1;
 
 	return layer;
 }
 
+<%LAYER_DATATYPE_DELIMITER> * padding_1d(struct MaxPooling1D L, <%LAYER_DATATYPE_DELIMITER> * input){
 
-<%LAYER_DATATYPE_DELIMITER> * fwdMaxPooling1D(struct MaxPooling1D L, <%LAYER_DATATYPE_DELIMITER> * input)
+        if (L.padding == 0x03) { // padding is same
+              <%INDEX_DATATYPE_DELIMITER> input_size = (<%INDEX_DATATYPE_DELIMITER>)(L.input_shape[0] * L.input_shape[1]);
+              <%INDEX_DATATYPE_DELIMITER> pad = (<%INDEX_DATATYPE_DELIMITER>)(L.pool_size / 2);
+              input_size += (<%INDEX_DATATYPE_DELIMITER>)(L.input_shape[0] * pad);
+              <%LAYER_DATATYPE_DELIMITER> new_input[input_size];
+              <%INDEX_DATATYPE_DELIMITER> left_pad = floor(pad / 2);
+              <%INDEX_DATATYPE_DELIMITER> right_pad = abs(pad - left_pad);
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) new_input[i] = 0.0;
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.input_shape[0]; i++){
+                  for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.input_shape[1]; j++){
+                      new_input[(L.input_shape[1]) * i + j] = input[L.input_shape[1] * i + j];
+                  }
+              }
+
+              input = (<%LAYER_DATATYPE_DELIMITER>*)realloc(input, input_size * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+              for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < input_size; i++) input[i] = new_input[i];
+        }
+
+    return input;
+}
+
+<%LAYER_DATATYPE_DELIMITER> * fwd_maxpooling1d(struct MaxPooling1D L, <%LAYER_DATATYPE_DELIMITER> * input)
 {
+    input = padding_1d(L, input);
 
-    // Data array:
-     <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc((int)L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
+    <%LAYER_DATATYPE_DELIMITER> * h = (<%LAYER_DATATYPE_DELIMITER>*)malloc(L.output_shape[0]*L.output_shape[1] * sizeof(<%LAYER_DATATYPE_DELIMITER>));
 
-	// Loop through to calculate the output at each point
-	for(<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[1]; i++)
-	{
-		for(<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[0]; j++)
-		{
-      <%INDEX_DATATYPE_DELIMITER> idx = i*L.output_shape[1] + j;
+    for (<%INDEX_DATATYPE_DELIMITER> j = 0; j < L.output_shape[1]; j++)
+    {
+        for (<%INDEX_DATATYPE_DELIMITER> i = 0; i < L.output_shape[0]; i++)
+        {
+            <%INDEX_DATATYPE_DELIMITER> idx = i * L.output_shape[1] + j;
 
-      <%LAYER_DATATYPE_DELIMITER> x1 = input[(2*i)*L.input_shape[1] + j];
-      <%LAYER_DATATYPE_DELIMITER> x2 = input[(2*i+1)*L.input_shape[1] + j];
-      h[idx] = max(x1, x2);
-
-			if(L.activation != 0xB)
-				h[i] = activate(h[i],L.output_shape[0],L.activation);
+            h[idx] = -INFINITY;
+            for (<%INDEX_DATATYPE_DELIMITER> s = 0; s < L.pool_size; s++){
+                <%LAYER_DATATYPE_DELIMITER> x = input[(L.strides*i + s)*L.input_shape[1] + j];
+                h[idx] = max(x, h[idx]);
+            }
 		}
 	}
 
