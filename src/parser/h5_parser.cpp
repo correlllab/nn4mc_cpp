@@ -67,7 +67,7 @@ NeuralNetwork* HDF5Parser::get_neural_network(){
 
 void HDF5Parser::build_layer_shapes(){
 
-    if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){ // for the neural networks that have input somewhere else
+    if (nn_input_shape.size()>0 && this->layerMap.begin()->second->input_shape.size() == 0){         
         this->layerMap[this->layer_ids[0]]->input_shape = nn_input_shape;
     }
     
@@ -78,20 +78,17 @@ void HDF5Parser::build_layer_shapes(){
         int rank = this->layerMap[it->first]->output_shape.size();
         
         int actual_output = 1;
-        for (int i=0; i<rank; i++) {
+        for (int i=0; i < rank; i++) {
             actual_output *= this->layerMap[it->first]->output_shape[i];
         }            
         
         this->layerMap[it->second]->input_shape.push_back(actual_output);
         this->layerMap[it->second]->compute_output_shapes();
     }
-
 }
 
 void HDF5Parser::call_layer_builders(){
-        
-        
-        int i=0;
+        int i = 0;
         int model_build_size = this->model_config["config"]["build_input_shape"].size();
         int model_build_size1 = this->model_config["config"]["layers"][0]["config"]["batch_input_shape"].size();
 
@@ -120,11 +117,9 @@ void HDF5Parser::call_layer_builders(){
 }
 
 void HDF5Parser::build_edges(){
-    // Vector of factories is layerBuilderVector. Not tested yet for non-sequential model
     for (int i=0; i< this->layerBuilderVector.size()-1; ++i){
        this->layer_edges.push_back(std::make_pair(this->layer_ids[i], this->layer_ids[i+1])); 
     }
-
 }
 
 json HDF5Parser::parse_model_config(){

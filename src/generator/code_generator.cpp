@@ -27,15 +27,16 @@ std::string CodeGenerator::ACTIVATION_DATATYPE = "char";
 */
 CodeGenerator::CodeGenerator(NeuralNetwork* neural_network, std::string template_directory, std::string output_directory)
 {
+    
 	// Store the template and output folders, and the neural network to process
 	template_folder = template_directory;
 	output_folder = output_directory;
-
+        
     // Creating folder tree necessary for nn4mc:
     FileCreator file_creator(output_directory);
     file_creator.create_codegen_file_tree();
-
-	// Store the neural network
+    
+    // Store the neural network
 	neural_net = neural_network;
 
 	// Construct the paths for needed files
@@ -68,6 +69,7 @@ CodeGenerator::~CodeGenerator()
 
 void CodeGenerator::generate()
 {
+    
 	NeuralNetwork::iterator it;
     
       for(it=neural_net->begin(); it != neural_net->end(); it++)
@@ -82,8 +84,7 @@ void CodeGenerator::generate()
                 }
             }
 	}
-
-	neural_net->reset();
+   	neural_net->reset();
 
 	for(it=neural_net->begin(); it != neural_net->end(); it++)
 	{
@@ -92,7 +93,6 @@ void CodeGenerator::generate()
 			layer_generator->addLayer(it->layer);
 		}
 	}
-
     neural_net->reset();
 
 	for(it=neural_net->begin(); it!=neural_net->end(); it++)
@@ -105,9 +105,8 @@ void CodeGenerator::generate()
 		}
 	}
 
-	neural_net->reset();
-
-	nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
+    neural_net->reset();
+	//nn_generator->addActivation(); //NOTE: Should change this to only add neccessary functions
 }
 
 void CodeGenerator::dump()
