@@ -6,7 +6,7 @@
 #include <vector>
 #include "weights.h"
 #include <map>
-
+#include "math.h"
 
 class Layer{
 

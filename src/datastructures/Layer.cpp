@@ -47,7 +47,7 @@ Conv1D::Conv1D(std::string id) : Layer(id)
 }
 
 void Conv1D::compute_output_shapes(){
-        this->output_shape.push_back(this->input_shape[0] - this->kernel_size[0] + 1); 
+        this->output_shape.push_back((this->input_shape[0] - this->kernel_size[0]) / this->strides + 1); 
         this->output_shape.push_back(this->filters);
 }
  
@@ -58,8 +58,8 @@ Conv2D::Conv2D(std::string id) : Layer(id)
 }
 
 void Conv2D::compute_output_shapes(){
-    this->output_shape.push_back(this->input_shape[0] - this->kernel_size[0] + 1);
-    this->output_shape.push_back(this->input_shape[1] - this->kernel_size[1] + 1);
+    this->output_shape.push_back((this->input_shape[0] - this->kernel_size[0]) / this->strides[0] + 1);
+    this->output_shape.push_back((this->input_shape[1] - this->kernel_size[1]) / this->strides[1] + 1);
     this->output_shape.push_back(this->filters);
 }
 
@@ -86,8 +86,8 @@ MaxPooling1D::MaxPooling1D(std::string id) : Layer(id)
 }
 
 void MaxPooling1D::compute_output_shapes(){
-    this->output_shape.push_back(this->pool_size);
-    this->output_shape.push_back(this->input_shape[0]);
+    this->output_shape.push_back(ceil((this->input_shape[0] - this->pool_size + 1) / this->strides + 1));
+    this->output_shape.push_back(this->input_shape[1]);
                
 }
 
@@ -97,10 +97,16 @@ MaxPooling2D::MaxPooling2D(std::string id) : Layer(id)
 }
 
 void MaxPooling2D::compute_output_shapes(){
-    //TODO
-    this->output_shape.push_back(this->pool_size[0]/2);
-    this->output_shape.push_back(this->pool_size[1]/2);
-    this->output_shape.push_back(this->input_shape[0]);
+    
+    if (this->padding.compare("same") > 0){
+        this->output_shape.push_back(ceil(this->input_shape[0] / this->strides[0]));
+        this->output_shape.push_back(ceil(this->input_shape[1] / this->strides[1]));
+        this->output_shape.push_back(this->input_shape[2]);
+    } else{
+        this->output_shape.push_back(floor((this->input_shape[0]  - this->pool_size[0]) / this->strides[0]) + 1);
+        this->output_shape.push_back(floor((this->input_shape[1]  - this->pool_size[1]) / this->strides[1]) + 1);
+        this->output_shape.push_back(this->input_shape[2]);
+    }
 }
 
 SimpleRNN::SimpleRNN(std::string id) : Layer(id)
